@@ -2069,3 +2069,43 @@ body.light-theme .result-tip-box {
     border-color: rgba(26, 115, 232, 0.15);
 }
 
+/* Chat Action Link Styling inside messages */
+.chat-action-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--primary-glow);
+    border: 1px solid rgba(138, 180, 248, 0.2);
+    color: var(--primary) !important;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-decoration: none;
+    margin-top: 8px;
+    transition: var(--transition-smooth);
+    cursor: pointer;
+    width: fit-content;
+}
+
+.chat-action-link:hover {
+    background: var(--primary);
+    color: var(--bg-base) !important;
+    border-color: var(--primary);
+}
+
+body.light-theme .chat-action-link {
+    background: rgba(26, 115, 232, 0.06);
+    border-color: rgba(26, 115, 232, 0.12);
+}
+
+/* Interactive Card Highlighter */
+.glow-highlight {
+    animation: glowPulse 2s ease;
+}
+
+@keyframes glowPulse {
+    0% { box-shadow: 0 0 0 0px var(--primary); }
+    50% { box-shadow: 0 0 20px 6px var(--primary); }
+    100% { box-shadow: 0 0 0 0px var(--primary); }
+}

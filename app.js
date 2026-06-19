@@ -798,6 +798,43 @@ function handleUserMessageSubmit() {
     triggerBotReply(text);
 }
 
+function normalizeText(text) {
+    return text.toLowerCase()
+        .replace(/[أإآ]/g, "ا")
+        .replace(/ة/g, "ه")
+        .replace(/ى/g, "ي")
+        .trim();
+}
+
+function triggerAltSearch(query) {
+    const searchInput = document.getElementById("finderSearchInput");
+    const finderCard = document.getElementById("altFinderCard");
+    
+    if (searchInput) {
+        searchInput.value = query;
+        performAlternativeLookup();
+        if (finderCard) {
+            finderCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            finderCard.classList.add("glow-highlight");
+            setTimeout(() => finderCard.classList.remove("glow-highlight"), 2000);
+        }
+    }
+}
+
+function scrollToSection(id) {
+    const el = document.getElementById(id);
+    if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        el.classList.add("glow-highlight");
+        setTimeout(() => el.classList.remove("glow-highlight"), 2000);
+    }
+}
+
+// Publish to window context for onclick inline triggers
+window.openAppModal = openAppModal;
+window.triggerAltSearch = triggerAltSearch;
+window.scrollToSection = scrollToSection;
+
 function triggerBotReply(userMsg) {
     // Show typing loader message
     const loaderId = "loader-" + Date.now();
@@ -813,18 +850,83 @@ function triggerBotReply(userMsg) {
         const loader = document.getElementById(loaderId);
         if (loader) loader.remove();
         
-        // Find match response
-        let matchedResponse = DEFAULT_BOT_RESPONSE;
-        const cleanMsg = userMsg.toLowerCase();
+        const normMsg = normalizeText(userMsg);
+        let botResponse = "";
         
-        for (const key in CHATBOT_RESPONSES) {
-            if (cleanMsg.includes(key)) {
-                matchedResponse = CHATBOT_RESPONSES[key];
-                break;
+        // 1. Check if user is asking for photoshop/canva/netflix alternatives
+        let foundAltKey = Object.keys(ALTERNATIVES_DATABASE).find(key => {
+            return normMsg.includes(key) || normMsg.includes(normalizeText(ALTERNATIVES_DATABASE[key].name));
+        });
+        
+        if (foundAltKey) {
+            const entry = ALTERNATIVES_DATABASE[foundAltKey];
+            let listStr = entry.options.map(o => `• <strong>${o.name}</strong>: ${o.desc}`).join("<br>");
+            botResponse = `لدينا بدائل ممتازة لبرنامج <strong>${entry.name}</strong> الذي يكلف ${entry.price}:<br>${listStr}<br>يمكنك تجربة البحث بنفسك في مستكشف البدائل:<br><a href="javascript:triggerAltSearch('${foundAltKey}')" class="chat-action-link"><i class="fas fa-arrows-spin"></i> تشغيل البحث التلقائي عن البديل</a>`;
+        }
+        
+        // 2. Check if user is asking about a specific app in our database
+        if (!botResponse) {
+            let matchedApp = APPS_DATABASE.find(app => {
+                const normTitle = normalizeText(app.title);
+                const normDesc = normalizeText(app.desc);
+                const normId = normalizeText(app.id);
+                return normMsg.includes(normId) || normTitle.includes(normMsg) || normMsg.includes(normId.replace("-", " ")) || (app.alternative && normMsg.includes(normalizeText(app.alternative)));
+            });
+            
+            if (matchedApp) {
+                botResponse = `لقد وجدت تطبيقاً يطابق سؤالك في موقعنا:<br><strong>${matchedApp.title}</strong> (${matchedApp.size})<br>${matchedApp.desc}<br><a href="javascript:openAppModal('${matchedApp.id}')" class="chat-action-link"><i class="fas fa-download"></i> فتح نافذة التحميل والخصائص</a>`;
             }
         }
         
-        appendChatMessage("bot", matchedResponse);
+        // 3. Check for general keywords like "لعبة" or "ألعاب"
+        if (!botResponse && (normMsg.includes("لعب") || normMsg.includes("العاب") || normMsg.includes("جيم"))) {
+            const games = APPS_DATABASE.filter(app => app.category === "games");
+            if (games.length > 0) {
+                let gamesList = games.map(g => `• <a href="javascript:openAppModal('${g.id}')" style="color:var(--primary); font-weight:700;">${g.title}</a>`).join("<br>");
+                botResponse = `إليك الألعاب المتوفرة للتحميل المباشر والآمن على موقعنا:<br>${gamesList}<br>اضغط على اسم اللعبة لفتح صفحة التحميل فوراً!`;
+            }
+        }
+
+        // 4. Check for general keywords like "برنامج" or "تطبيقات"
+        if (!botResponse && (normMsg.includes("برنامج") || normMsg.includes("تطبيق") || normMsg.includes("تطبيقات"))) {
+            const apps = APPS_DATABASE.filter(app => app.category === "apps");
+            if (apps.length > 0) {
+                let appsList = apps.map(a => `• <a href="javascript:openAppModal('${a.id}')" style="color:var(--primary); font-weight:700;">${a.title}</a>`).join("<br>");
+                botResponse = `إليك التطبيقات المميزة المتوفرة على موقعنا:<br>${appsList}<br>اضغط على اسم التطبيق لفتح تفاصيله وتحميله.`;
+            }
+        }
+
+        // 5. Check if asking for security / lock / protection
+        if (!botResponse && (normMsg.includes("حماي") || normMsg.includes("امان") || normMsg.includes("تجسس") || normMsg.includes("اختراق") || normMsg.includes("مخترق") || normMsg.includes("فحص"))) {
+            botResponse = `لحماية جوالك وكشف التجسس، يمكنك استخدام أداتنا التفاعلية <strong>مستشار الأمان</strong> لفحص جهازك الآن:<br><a href="javascript:scrollToSection('securityCard')" class="chat-action-link"><i class="fas fa-shield-halved"></i> بدء الفحص الأمني للجوال</a><br>كما ننصحك بتحميل تطبيق كشف التجسس المتوفر لدينا:<br><a href="javascript:openAppModal('anti-spy')" class="chat-action-link"><i class="fas fa-download"></i> تحميل تطبيق كاشف التجسس</a>`;
+        }
+
+        // 6. Check if asking about AI prompts, ChatGPT, Midjourney
+        if (!botResponse && (normMsg.includes("برومت") || normMsg.includes("ذكاء اصطناعي") || normMsg.includes("اوامر") || normMsg.includes("مطالب") || normMsg.includes("تصميم") || normMsg.includes("رسم") || normMsg.includes("midjourney") || normMsg.includes("chatgpt"))) {
+            botResponse = `لدينا مكتبة أوامر ذكاء اصطناعي جاهزة للنسخ والاستخدام!<br>إليك نموذجاً لأمر تصميم صور سايبربانك:<br><pre class="prompt-code" id="chatCyberPrompt" style="margin: 8px 0; max-height: 80px;">A futuristic cyberpunk hacker sitting in front of multi-monitors showing glowing tech codes, hologram interface, cybernetic enhancements, hyper realistic 8k, neon cyan and purple glowing colors, cinematic lighting, shot on 85mm lens --ar 16:9</pre><button onclick="copyTextDirectly('chatCyberPrompt', 'تم نسخ أمر السايبربانك!')" class="copy-prompt-btn" style="padding: 2px 8px; font-size:0.7rem;"><i class="fas fa-copy"></i> نسخ الأمر</button><br>يمكنك الانتقال لصفحة البرومبتات الكاملة لتعديل وتوليد آلاف المطالبات المشروحة بالعربي:<br><a href="prompts.html" class="chat-action-link"><i class="fas fa-arrow-up-right-from-square"></i> دخول مكتبة الـ +1000 برومت</a>`;
+        }
+
+        // 7. Check if asking about making money / profit / calculator
+        if (!botResponse && (normMsg.includes("ربح") || normMsg.includes("فلوس") || normMsg.includes("دولار") || normMsg.includes("تسعير") || normMsg.includes("بيع") || normMsg.includes("عملاء") || normMsg.includes("اقناع"))) {
+            botResponse = `لقد أضفنا <strong>بوابة الربح من تصميمات السوشيال ميديا</strong> لمساعدة المتابعين على كسب المال عبر تقديم خدمات التصميم للعيادات والمصانع!<br>تشمل البوابة:<br>1. حاسبة الأرباح والتسعير التفاعلية.<br>2. مولد رسائل الإقناع وجلب العملاء.<br><a href="javascript:scrollToSection('profitHubSection')" class="chat-action-link"><i class="fas fa-hand-holding-dollar"></i> الذهاب لبوابة الربح والتسعير</a>`;
+        }
+        
+        // 8. Default responses mapping fallback
+        if (!botResponse) {
+            for (const key in CHATBOT_RESPONSES) {
+                if (normMsg.includes(normalizeText(key))) {
+                    botResponse = CHATBOT_RESPONSES[key];
+                    break;
+                }
+            }
+        }
+        
+        // Fallback default
+        if (!botResponse) {
+            botResponse = `سؤال تقني رائع! لمناقشة هذا الشأن بالتفصيل والحصول على أفضل الحلول والشروحات المصورة، يرجى متابعة قناتنا على يوتيوب وتليجرام حيث ننشر دروساً يومية تغطي كافة الثغرات والبدائل، أو تصفح الأقسام والأدوات المتاحة في الصفحة الرئيسية.`;
+        }
+        
+        appendChatMessage("bot", botResponse);
     }, 1200);
 }
 
