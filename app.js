@@ -896,9 +896,247 @@ function initTheme() {
     });
 }
 
+// ==========================================
+// DESIGN MONETIZATION HUB (PITCH & CALCULATOR)
+// ==========================================
+
+// Global clipboard text copier helper
+function copyTextDirectly(elementId, successMsg) {
+    const textEl = document.getElementById(elementId);
+    let textToCopy = "";
+    if (textEl.tagName === "TEXTAREA" || textEl.tagName === "INPUT") {
+        textToCopy = textEl.value;
+    } else {
+        textToCopy = textEl.textContent;
+    }
+    
+    navigator.clipboard.writeText(textToCopy).then(() => {
+        showToast(successMsg || "تم نسخ النص بنجاح!");
+    }).catch(err => {
+        showToast("فشل في نسخ النص، يرجى نسخه يدوياً.");
+    });
+}
+
+// Lightbox controller functions
+function openGalleryLightbox(imgSrc, title) {
+    const lightbox = document.getElementById("galleryLightbox");
+    const lightboxImg = document.getElementById("lightboxImg");
+    const lightboxTitle = document.getElementById("lightboxTitle");
+    const lightboxDownloadBtn = document.getElementById("lightboxDownloadBtn");
+    
+    lightboxImg.src = imgSrc;
+    lightboxTitle.textContent = title;
+    lightboxDownloadBtn.href = imgSrc;
+    
+    lightbox.style.display = "flex";
+    document.body.style.overflow = "hidden"; // Prevent background scroll
+}
+
+function closeGalleryLightbox() {
+    const lightbox = document.getElementById("galleryLightbox");
+    lightbox.style.display = "none";
+    document.body.style.overflow = "auto";
+}
+
+// Profit Calculator logic
+const PRICING_DATABASE = {
+    dental: {
+        basePricePerDesign: { beginner: 20, intermediate: 35, pro: 60 },
+        tip: "المجال الطبي مربح جداً. العيادات تبحث عن مظهر فخم وموثوق. اعرض باقة شهرية كاملة واقترح زيادة الزيارات عبر إبراز شهادات المرضى ومقارنات قبل وبعد."
+    },
+    food: {
+        basePricePerDesign: { beginner: 15, intermediate: 25, pro: 45 },
+        tip: "مجال الأغذية يعتمد 100% على فتح الشهية والألوان النضرة الجذابة. اعرض عليهم عروض نهاية الأسبوع ووجبات التجميع، وقم بالتصوير بالتعاون مع مصور محلي."
+    },
+    corporate: {
+        basePricePerDesign: { beginner: 25, intermediate: 40, pro: 70 },
+        tip: "الشركات تبحث عن الهوية المؤسساتية والالتزام بالألوان الرسمية. ركز على تصميم الإنفوجرافيك وبطاقات التهنئة بالأعياد والمناسبات الرسمية."
+    },
+    stores: {
+        basePricePerDesign: { beginner: 12, intermediate: 20, pro: 35 },
+        tip: "المتاجر تحتاج إلى تصميمات عروض الخصومات وتصاميم المنتجات المنعزلة (PNG). اعرض عليهم باقات كبيرة وسعر أقل للتصميم الواحد لزيادة إنتاجيتهم."
+    }
+};
+
+function calculateProjectProfit() {
+    const field = document.getElementById("calcField").value;
+    const count = parseInt(document.getElementById("calcDesignsCount").value);
+    const exp = document.getElementById("calcExpLevel").value;
+    
+    const pricing = PRICING_DATABASE[field];
+    const pricePerDesign = pricing.basePricePerDesign[exp];
+    const totalPrice = pricePerDesign * count;
+    
+    // Monthly estimated (assuming 4 active clients/projects per month)
+    const monthlyTotal = totalPrice * 4;
+    
+    document.getElementById("calcPriceResult").textContent = `${totalPrice} دولار`;
+    document.getElementById("calcMonthlyProfit").textContent = `${monthlyTotal} دولار`;
+    document.getElementById("calcTipText").textContent = pricing.tip;
+}
+
+// Pitch message generator database
+const PITCH_TEMPLATES = {
+    dentist: {
+        professional: `السلام عليكم ورحمة الله وبركاته دكتور/ة،
+أتمنى أن تكون بأفضل حال.
+
+معك [اسمك]، مصمم سوشيال ميديا متخصص في الهوية البصرية للعيادات الطبية وتجميل الأسنان. لقد كنت أتابع صفحة عيادتكم الموقرة على منصات التواصل، ولاحظت أنه يمكننا الارتقاء بجمالية التصاميم وزيادة تفاعل المرضى عبر اعتماد أسلوب بصري نيون ثلاثي الأبعاد وعالي التباين (مثل حملة: "خلي اسنانك تنور" الفاخرة).
+
+لقد قمت بإعداد باقة تصاميم متكاملة (6 تصاميم أولية) مخصصة لطب وتجميل الفم، تشمل عروض تبييض الأسنان والمتابعة الدورية، مجهزة بهوية عصرية وإضاءة سينمائية تجذب الانتباه.
+
+هل يمكنني مشاركة النماذج معك للاطلاع عليها ومناقشة كيف يمكن لهذه التصاميم جذب المزيد من المراجعين للعيادة هذا الشهر؟
+
+أطيب التحيات،
+[اسمك]
+هاتف: [رقم جوالك]`,
+        friendly: `أهلاً دكتور/ة، عساك بخير وصحة يا رب!
+
+أنا [اسمك]، مصمم وصانع محتوى بصري. من خلال متابعتي لصفحتكم الجميلة، حبيت أساعدكم في جعل شكل الحساب أرقى وأكثر حيوية ليناسب جودة الخدمات الطبية الرائعة اللي تقدموها لمرضاكم.
+
+جهّزت باقة تصاميم مميزة جداً ومبهجة تحت شعار "خلي اسنانك تنور" بألوان تفتح النفس وتخلي المراجعين يحبوا يتواصلوا معكم ويحجزوا استشاراتهم فوراً.
+
+حبيت أعرض عليك نموذج مجاني تماماً باللوجو الخاص بكم لتشوف النتيجة بنفسك. إذا كنت مهتم، يسعدني جداً ننسق سوا!
+
+يومك سعيد،
+[اسمك]`,
+        direct: `مرحباً دكتور،
+هل ترغب في زيادة حجوزات عيادتك هذا الشهر عبر تصاميم سوشيال ميديا احترافية؟
+
+أنا [اسمك]، مصمم تسويقي. قمت بإنشاء باقة تصاميم إعلانية مبتكرة (6 تصاميم متنوعة) لطب وزراعة وتجميل الأسنان، تركز مباشرة على إبراز نظافة العيادة وجمال الابتسامة وعروض الحجز المباشر تحت عنوان "خلي اسنانك تنور".
+
+التصاميم مصممة لتصنع هوية موحدة وذات تباين عالي تجعل المستخدم يقف عندها أثناء تصفح حسابه.
+
+إذا كنت ترغب في الحصول على عينات مخصصة لعيادتك مجاناً لمعاينتها، يرجى الرد على هذه الرسالة.
+
+شكرًا لوقتك،
+[اسمك]
+واتساب: [رقم جوالك]`
+    },
+    restaurant: {
+        professional: `السلام عليكم ورحمة الله وبركاته،
+إلى إدارة التسويق الموقرة في مصنع النور / إدارة منتجات الأغذية،
+
+معكم المصمم [اسمك] المتخصص في التصميم التجاري والإعلاني للمنتجات الاستهلاكية. لقد قمت بتطوير نموذج حملة إعلانية مبتكرة لمنتج التونة المفرومة والكاملة تحت شعار "طعم التونه الاصلي" و"معاك بكل تشكيلة".
+
+تركز الحملة على إبراز المنتج كبطل للتصميم (Hero Shot) في بيئة بحرية نضرة بالكامل مع مياه متطايرة وإضاءة سينمائية واقعية تبرز جودة التغليف والمكونات. الباقة تتكون من 6 تصاميم متنوعة وجاهزة للنشر المباشر.
+
+يسعدني مشاركة تفاصيل هذا المشروع التسويقي معكم وبحث إمكانية التعاون لتطوير الهوية البصرية لحساباتكم.
+
+مع فائق الاحترام والتقدير،
+[اسمك]
+اتصال: [رقم جوالك]`,
+        friendly: `أهلاً بالشباب في مصنع النور / إدارة المطعم والمنتجات،
+
+أنا [اسمك]، مصمم سوشيال ميديا ومحب لمنتجاتكم اللذيذة! حبيت أشارككم فكرة تصميم مبتكرة لمنتج التونة تحت عنوان "طعم التونة الأصلي" - "معاك بكل تشكيلة".
+
+الفكرة قائمة على وضع العلبة في بيئة بحرية منعشة مليئة بقطرات المياه والليمون والأعشاب الطازجة اللي تفتح نفس الزبائن وتخليهم يطلبوا المنتج فوراً من المتجر أو الهايبر ماركت القريب.
+
+شغلكم يستاهل واجهة بصرية تليق بجودته. حابب أرسل لكم التصاميم مفتوحة المصدر باللوجو الخاص بكم للتجربة. إيش رأيكم؟
+
+كل التوفيق،
+[اسمك]`,
+        direct: `مرحباً أصحاب المشاريع،
+تصميم المنتج الجذاب هو نصف عملية البيع!
+
+أنا [اسمك]، مصمم إعلانات تجارية. قمت بتصميم حملة سوشيال ميديا مبتكرة (6 تصاميم ممتازة في لوحة واحدة) لعلب التونة والأغذية البحرية تحت شعار "طعم التونه الاصلي".
+
+الحملة تركز بالكامل على إبراز علبة المنتج وإظهارها بشكل ثلاثي الأبعاد سينمائي مع خلفية معزولة لضمان لفت انتباه العميل على فيسبوك وإنستغرام وزيادة الطلبات المباشرة.
+
+إذا كنت تبحث عن تنشيط مبيعاتك وتصميم باقة احترافية لمنتجاتك، تواصل معي الآن لرؤية النماذج.
+
+تحياتي،
+[اسمك]
+واتساب: [رقم جوالك]`
+    },
+    store: {
+        professional: `السلام عليكم ورحمة الله،
+أخي الفاضل مدير متجر [اسم المتجر]،
+
+أتمنى لك تجارة رابحة وموفقة. معكم المصمم [اسمك]. لقد قمت بإعداد باقة تصاميم عروض وتخفيضات تجارية لمتجركم تهدف لزيادة النقر والتحويل (CTR) لمنتجاتكم الأكثر مبيعاً.
+
+الباقة تتضمن تصاميم إعلانية جذابة وموزعة بدقة بصرية تمنع التداخل وتبرز المنتج بلمسات نيونية زجاجية تتماشى مع اتجاهات التصميم العالمية لعام 2026.
+
+يسعدني تقديم هذه الباقة لمتجركم لمساعدتكم في تعزيز مبيعات الحملات الإعلانية القادمة.
+
+خالص الود،
+[اسمك]`,
+        friendly: `أهلاً يا صديقي، عساك بخير وتجارتك في ازدهار!
+
+أنا [اسمك]، مصمم ومسوق رقمي. كنت أتصفح متجركم الرائع وحبيت شكل المنتجات جداً، لكن شعرت أن تصاميم السوشيال ميديا الحالية تحتاج لمسة إبداعية تبرز قيمتها الحقيقية وتنافس المتاجر الكبرى.
+
+لذلك قمت بتجهيز عينات مميزة لإعلانات التخفيضات والمنتجات البطلة بشكل زجاجي فخم مع إضاءة نيون ملفتة.
+
+يسعدني أن أرسل لك نموذجاً مخصصاً لواحد من منتجاتك بالكامل مجاناً لترى كيف سيغير من شكل حسابك ويزيد اهتمام زبائنك. بانتظار ردك!
+
+صديقك،
+[اسمك]`,
+        direct: `مرحباً مدير المتجر،
+هل تعلم أن 80% من قرارات الشراء أونلاين تتم بناءً على جاذبية صورة المنتج؟
+
+أنا [اسمك]، مصمم سوشيال ميديا إعلاني. صممت باقة إعلانية مخصصة للمتاجر تركز على عرض المنتجات كبطل للتصميم مع توضيح سعر العرض وصافي التوفير بوضوح تام، وخلفية معزولة باحترافية.
+
+هذه الباقة ستضمن لك تكلفة نقرة أقل وعائد إعلاني أعلى لحملاتك الممولة.
+
+راسلني الآن للحصول على عينات مجانية لمتجرك والبدء بالتعاون فوراً.
+
+تحياتي،
+[اسمك]
+رقم الهاتف:`
+    }
+};
+
+function generatePitchText() {
+    const client = document.getElementById("pitchClient").value;
+    const tone = document.getElementById("pitchTone").value;
+    
+    const template = PITCH_TEMPLATES[client][tone];
+    document.getElementById("pitchOutput").value = template;
+}
+
+function initProfitHub() {
+    const calcField = document.getElementById("calcField");
+    const calcDesignsCount = document.getElementById("calcDesignsCount");
+    const calcExpLevel = document.getElementById("calcExpLevel");
+    const pitchClient = document.getElementById("pitchClient");
+    const pitchTone = document.getElementById("pitchTone");
+    const copyPitchTextBtn = document.getElementById("copyPitchTextBtn");
+    const closeLightboxBtn = document.getElementById("closeLightboxBtn");
+    const galleryLightbox = document.getElementById("galleryLightbox");
+
+    if (calcField) calcField.addEventListener("change", calculateProjectProfit);
+    if (calcDesignsCount) calcDesignsCount.addEventListener("change", calculateProjectProfit);
+    if (calcExpLevel) calcExpLevel.addEventListener("change", calculateProjectProfit);
+    
+    if (pitchClient) pitchClient.addEventListener("change", generatePitchText);
+    if (pitchTone) pitchTone.addEventListener("change", generatePitchText);
+    
+    if (copyPitchTextBtn) {
+        copyPitchTextBtn.addEventListener("click", () => {
+            copyTextDirectly("pitchOutput", "تم نسخ الرسالة التسويقية بنجاح!");
+        });
+    }
+
+    if (closeLightboxBtn) {
+        closeLightboxBtn.addEventListener("click", closeGalleryLightbox);
+    }
+
+    if (galleryLightbox) {
+        galleryLightbox.addEventListener("click", (e) => {
+            if (e.target === galleryLightbox) closeGalleryLightbox();
+        });
+    }
+
+    // Initial calculations
+    calculateProjectProfit();
+    generatePitchText();
+}
+
 // STARTUP TASKS
 window.addEventListener("DOMContentLoaded", () => {
     renderApps();
     loadPrompts("images"); // Default active AI tab
     initTheme();
+    initProfitHub();
 });
+
