@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    
+    <!-- SEO Optimization -->
+    <title>مكتبة الـ +1000 أمر ذكاء اصطناعي | عبد الله تيك</title>
+    <meta name="description" content="أقوى وأكبر مكتبة تفاعلية لأوامر ومطالبات الذكاء الاصطناعي (Prompts) لتصميم الصور، صناعة المحتوى، والبرمجة مع الشرح باللغة العربية.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS Stylesheets -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Specific Styles for Prompts Hub Page */
+        .prompts-header {
+            text-align: center;
+            padding: 32px 16px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--card-radius);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            margin-bottom: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .back-home-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: var(--btn-radius);
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition-smooth);
+        }
+
+        .back-home-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .prompts-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .prompts-subtitle {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        /* CUSTOMIZER / DYNAMIC GENERATOR CARD */
+        .customizer-card {
+            background: linear-gradient(135deg, rgba(26, 20, 48, 0.7), rgba(18, 20, 32, 0.7));
+            border: 1px solid rgba(168, 85, 247, 0.25);
+            border-radius: var(--card-radius);
+            padding: 24px;
+            margin-bottom: 28px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 8px 24px rgba(168, 85, 247, 0.08);
+        }
+
+        .customizer-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 6px;
+        }
+
+        .customizer-title i {
+            color: var(--primary);
+        }
+
+        .customizer-desc {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .customizer-form {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        @media(min-width: 768px) {
+            .customizer-form {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .customizer-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            text-align: right;
+        }
+
+        .customizer-group label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .customizer-group select,
+        .customizer-group input {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            border-radius: var(--btn-radius);
+            padding: 10px 14px;
+            color: white;
+            font-size: 0.85rem;
+            outline: none;
+            font-family: var(--font-ar);
+            transition: var(--transition-smooth);
+        }
+
+        .customizer-group select:focus,
+        .customizer-group input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        .customizer-output-box {
+            background: rgba(0,0,0,0.4);
+            border: 1px dashed var(--border-color);
+            border-radius: var(--btn-radius);
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .output-text-block {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            font-family: var(--font-en);
+            line-height: 1.5;
+            background: rgba(255,255,255,0.02);
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.05);
+            max-height: 120px;
+            overflow-y: auto;
+        }
+
+        .output-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .output-badge {
+            background: rgba(168, 85, 247, 0.15);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            font-size: 0.72rem;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-weight: 700;
+        }
+
+        /* PROMPT CARDS GRID */
+        .prompts-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        @media(min-width: 768px) {
+            .prompts-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .prompt-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--card-radius);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 16px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+            transition: var(--transition-smooth);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .prompt-card:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 25px rgba(6, 182, 212, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .prompt-card-top {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .prompt-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .prompt-card-title {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: white;
+        }
+
+        .prompt-card-tag {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 20px;
+        }
+
+        .prompt-card-tag.images {
+            background: rgba(168, 85, 247, 0.12);
+            color: var(--primary);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+        }
+        .prompt-card-tag.content {
+            background: rgba(6, 182, 212, 0.12);
+            color: var(--secondary);
+            border: 1px solid rgba(6, 182, 212, 0.2);
+        }
+        .prompt-card-tag.coding {
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--green-success);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .prompt-explanation {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            background: rgba(0,0,0,0.15);
+            padding: 10px 12px;
+            border-radius: 10px;
+            border-right: 3px solid var(--secondary);
+        }
+
+        .prompt-card-text {
+            font-family: var(--font-en);
+            font-size: 0.8rem;
+            color: var(--text-primary);
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px;
+            max-height: 100px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            line-height: 1.4;
+        }
+
+        .prompt-card-bottom {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        /* PAGINATION ELEMENTS */
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 32px;
+            padding: 16px 0;
+        }
+
+        .page-btn {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border-color);
+            color: white;
+            padding: 8px 16px;
+            border-radius: var(--btn-radius);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .page-btn:hover:not(:disabled) {
+            background: var(--primary);
+            border-color: var(--primary);
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        .page-btn:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
+
+        .page-numbers {
+            display: flex;
+            gap: 6px;
+        }
+
+        .num-btn {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            width: 36px;
+            height: 36px;
+            border-radius: var(--btn-radius);
+            cursor: pointer;
+            font-family: var(--font-en);
+            font-weight: 700;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-smooth);
+        }
+
+        .num-btn:hover:not(.active) {
+            background: rgba(255,255,255,0.08);
+            color: white;
+        }
+
+        .num-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        /* Responsive spacing backbtn */
+        @media(max-width: 600px) {
+            .back-home-btn {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin-bottom: 16px;
+                justify-content: center;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Cyber Elements -->
+    <div class="cyber-bg">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="app-container">
+
+        <!-- PROMPTS HEADER -->
+        <header class="prompts-header fade-in">
+            <a href="index.html" class="back-home-btn">
+                <i class="fas fa-arrow-right"></i> العودة للرئيسية
+            </a>
+            <h1 class="prompts-title">مكتبة أوامر الذكاء الاصطناعي الشاملة</h1>
+            <p class="prompts-subtitle">أكثر من 1000 أمر ذكاء اصطناعي مهيأ لتصميم الصور وصناعة المحتوى والبرمجة الفعالة، مع شروحات استخدام مفصلة باللغة العربية.</p>
+        </header>
+
+        <!-- DYNAMIC PROMPT CUSTOMIZER / MATH GENERATOR -->
+        <section class="customizer-card fade-in-delayed">
+            <div class="customizer-title">
+                <i class="fas fa-cubes"></i>
+                <h3>مخصّص الأوامر الذكي (+1000 احتمال)</h3>
+            </div>
+            <p class="customizer-desc">قم بتخصيص خياراتك بالأسفل لتوليد مئات الأوامر الفريدة والمخصصة لأعمالك فوراً بضغطة زر واحدة.</p>
+            
+            <div class="customizer-form">
+                <div class="customizer-group">
+                    <label for="custCategory">مجال العمل الأساسي</label>
+                    <select id="custCategory">
+                        <option value="midjourney">تصميم صور (Midjourney / DALL-E)</option>
+                        <option value="script">صناعة محتوى (سكريبت يوتيوب/تيك توك)</option>
+                        <option value="code">برمجة (توليد وتطوير كود برمجى)</option>
+                    </select>
+                </div>
+                
+                <div class="customizer-group">
+                    <label for="custTopic" id="topicLabel">الموضوع / النمط</label>
+                    <select id="custTopic">
+                        <!-- Options loaded dynamically -->
+                    </select>
+                </div>
+
+                <div class="customizer-group">
+                    <label for="custStyle" id="styleLabel">الأسلوب / النغمة / التقنية</label>
+                    <select id="custStyle">
+                        <!-- Options loaded dynamically -->
+                    </select>
+                </div>
+            </div>
+
+            <div class="customizer-output-box" id="customizerOutputBox">
+                <div class="output-actions">
+                    <span class="output-badge" id="outputBadge">MIDJOURNEY PROMPT</span>
+                    <button class="prompt-copy-btn" id="custCopyBtn">
+                        <i class="fa-regular fa-copy"></i> نسخ الأمر المولد
+                    </button>
+                </div>
+                <div class="output-text-block" id="custOutputText">
+                    Loading custom prompt...
+                </div>
+            </div>
+        </section>
+
+        <!-- MAIN SEARCH & FILTER HUB -->
+        <section class="content-hub-section fade-in-delayed">
+            
+            <!-- Search & Filtering -->
+            <div class="search-filter-wrapper">
+                <div class="search-box-container">
+                    <i class="fas fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="promptSearchInput" placeholder="ابحث في أوامر الصور، المحتوى، أو البرمجة..." dir="rtl">
+                    <button id="clearPromptSearchBtn" class="clear-search-btn" style="display:none;"><i class="fas fa-xmark"></i></button>
+                </div>
+                
+                <div class="category-filters-container" id="promptFilters">
+                    <button class="filter-pill active" data-category="all">الكل</button>
+                    <button class="filter-pill" data-category="images"><i class="fas fa-image"></i> أوامر الصور</button>
+                    <button class="filter-pill" data-category="content"><i class="fas fa-pen-nib"></i> صناعة المحتوى</button>
+                    <button class="filter-pill" data-category="coding"><i class="fas fa-code"></i> البرمجة والتطوير</button>
+                </div>
+            </div>
+
+            <!-- Prompts Card Grid -->
+            <div class="prompts-grid" id="promptsGrid">
+                <!-- Prompt cards loaded dynamically -->
+            </div>
+
+            <!-- Pagination Controls -->
+            <div class="pagination-container">
+                <button class="page-btn" id="prevPageBtn">
+                    <i class="fas fa-angle-right"></i> السابق
+                </button>
+                <div class="page-numbers" id="pageNumbers">
+                    <!-- Numbers will load here -->
+                </div>
+                <button class="page-btn" id="nextPageBtn">
+                    التالي <i class="fas fa-angle-left"></i>
+                </button>
+            </div>
+
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="app-footer">
+            <div class="footer-divider"></div>
+            <div class="footer-info">
+                <p class="copyright">© 2026 عبد الله تيك. جميع الحقوق محفوظة.</p>
+                <div class="footer-links">
+                    <a href="index.html" class="footer-link">الرئيسية</a>
+                    <a href="#" class="footer-link">سياسة الخصوصية</a>
+                    <a href="#" class="footer-link">اتصل بنا</a>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Notification Toast System -->
+    <div class="toast-notification" id="toastNotification">
+        <i class="fas fa-circle-check toast-icon"></i>
+        <span class="toast-message" id="toastMessage">تم نسخ الرابط بنجاح!</span>
+    </div>
+
+    <!-- Script assets -->
+    <script src="prompts.js" defer></script>
+</body>
+</html>

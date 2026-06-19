@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    
+    <!-- SEO Optimization -->
+    <title>عبد الله تيك | منصة البرامج والبدائل والحلول الذكية</title>
+    <meta name="description" content="منصة تفاعلية متكاملة تقدم أفضل بدائل البرامج المدفوعة، شروحات حماية الهواتف وثغراتها، وأحدث أدوات الذكاء الاصطناعي بصناعة صانع المحتوى عبد الله تيك.">
+    <meta name="keywords" content="عبد الله تيك, بدائل البرامج, برامج مجانية, ثغرات الهاتف, حماية الهاتف, ذكاء اصطناعي, تطبيقات أندرويد, ألعاب مهكرة">
+    
+    <!-- Open Graph Metadata -->
+    <meta property="og:title" content="عبد الله تيك | منصة البرامج والبدائل والحلول الذكية">
+    <meta property="og:description" content="أقوى بدائل التطبيقات والبرامج المدفوعة، أدوات ذكاء اصطناعي مجانية، وشروحات أمان وحماية الهواتف في مكان واحد.">
+    <meta property="og:image" content="assets/avatar.png">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://techs4arab.com/public/">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Background Cyber Elements -->
+    <div class="cyber-bg">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="app-container">
+
+        <!-- PROFILE HEADER (Linkfly Concept) -->
+        <header class="profile-card fade-in">
+            <div class="profile-header-glow"></div>
+            <div class="profile-avatar-container">
+                <img src="assets/avatar.png" alt="عبد الله تيك" class="profile-avatar" id="profileAvatar">
+                <div class="verification-badge" title="حساب موثق">
+                    <i class="fas fa-check"></i>
+                </div>
+            </div>
+            
+            <h1 class="profile-name">عبد الله تيك <span class="badge-tech">Tech Creator</span></h1>
+            <p class="profile-bio">شروحات الهاتف والثغرات 📱 • بدائل البرامج المدفوعة مجاناً 💻 • أدوات وعوالم الذكاء الاصطناعي 🤖 • تطبيقات تسهل حياتك اليومية.</p>
+
+            <!-- Social Media Icon Ribbon -->
+            <div class="social-ribbon" id="socialRibbon">
+                <a href="https://facebook.com/abdallah_tech" target="_blank" class="social-icon facebook" id="fbLink" title="صفحة الفيسبوك">
+                    <i class="fab fa-facebook-f"></i>
+                    <span class="icon-label">فيسبوك</span>
+                </a>
+                <a href="https://t.me/abdallah_tech" target="_blank" class="social-icon telegram" id="tgLink" title="قناة التليجرام">
+                    <i class="fab fa-telegram-plane"></i>
+                    <span class="icon-label">تليجرام</span>
+                </a>
+                <a href="https://youtube.com/@abdallah_tech" target="_blank" class="social-icon youtube" id="ytLink" title="قناة اليوتيوب">
+                    <i class="fab fa-youtube"></i>
+                    <span class="icon-label">يوتيوب</span>
+                </a>
+                <a href="https://tiktok.com/@abdallah_tech" target="_blank" class="social-icon tiktok" id="ttLink" title="حساب التيك توك">
+                    <i class="fab fa-tiktok"></i>
+                    <span class="icon-label">تيك توك</span>
+                </a>
+                <a href="https://instagram.com/@abdallah_tech" target="_blank" class="social-icon instagram" id="igLink" title="حساب الإنستغرام">
+                    <i class="fab fa-instagram"></i>
+                    <span class="icon-label">إنستغرام</span>
+                </a>
+            </div>
+        </header>
+
+        <!-- DYNAMIC TOOLS SECTION -->
+        <section class="interactive-tools-grid">
+            
+            <!-- TOOL 1: Alternative Finder (مستكشف البدائل) -->
+            <div class="tool-card fade-in-delayed" id="altFinderCard">
+                <div class="tool-header">
+                    <div class="tool-icon-wrapper">
+                        <i class="fas fa-arrows-spin"></i>
+                    </div>
+                    <h3>مستكشف البدائل المجانية</h3>
+                </div>
+                <p class="tool-desc">اكتب اسم أي برنامج أو تطبيق مدفوع واعرف البديل المجاني ومفتوح المصدر له فوراً!</p>
+                
+                <div class="finder-input-container">
+                    <input type="text" id="finderSearchInput" placeholder="مثال: Photoshop, Canva, Office..." dir="ltr">
+                    <button id="finderBtn" class="primary-btn"><i class="fas fa-search"></i></button>
+                </div>
+                
+                <!-- Finder Results Container -->
+                <div class="finder-results" id="finderResults">
+                    <div class="no-result-placeholder">
+                        <i class="fas fa-lightbulb"></i>
+                        <span>ابحث مثل: Photoshop, IDM, Netflix...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TOOL 2: Phone Security Checker (مساعد حماية الهاتف) -->
+            <div class="tool-card fade-in-delayed" id="securityCard">
+                <div class="tool-header">
+                    <div class="tool-icon-wrapper security-glow">
+                        <i class="fas fa-shield-halved"></i>
+                    </div>
+                    <h3>مستشار أمان وحماية الهاتف</h3>
+                </div>
+                
+                <div class="security-flow-container" id="securityFlow">
+                    <!-- Dynamic Questions will load here via JS -->
+                    <div class="security-start-screen" id="securityStartScreen">
+                        <p class="tool-desc">اختبر مستوى أمان هاتفك ضد الثغرات وتطبيقات التجسس الآن عبر 4 أسئلة تفاعلية سريعة.</p>
+                        <button class="primary-btn wide-btn" id="startSecurityCheck">ابدأ الفحص الأمني المطور</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TOOL 3: AI Prompts Hub (مساعد الذكاء الاصطناعي) -->
+            <div class="tool-card fade-in-delayed" id="promptHubCard">
+                <div class="tool-header">
+                    <div class="tool-icon-wrapper ai-glow">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>مكتبة أوامر الذكاء الاصطناعي (Prompts)</h3>
+                </div>
+                <p class="tool-desc">أوامر ومطالبات جاهزة للنسخ والاستخدام في ChatGPT و Midjourney للحصول على أفضل نتائج.</p>
+                
+                <div class="prompt-tabs">
+                    <button class="prompt-tab-btn active" data-tab="images">تصميم صور</button>
+                    <button class="prompt-tab-btn" data-tab="content">صناعة محتوى</button>
+                    <button class="prompt-tab-btn" data-tab="coding">البرمجة والتطوير</button>
+                </div>
+                
+                <div class="prompt-content-box" id="promptContentBox">
+                    <!-- Prompts are loaded dynamically here -->
+                </div>
+                
+                <div class="prompt-hub-redirect" style="margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 12px;">
+                    <a href="prompts.html" class="primary-btn wide-btn" style="background: linear-gradient(135deg, var(--primary), var(--accent)); text-decoration: none;">
+                        <i class="fas fa-arrow-up-right-from-square"></i> دخول مكتبة الـ +1000 برومت الكاملة
+                    </a>
+                </div>
+            </div>
+
+            <!-- TOOL 4: AI Tech Assistant (المساعد التقني الذكي) -->
+            <div class="tool-card fade-in-delayed" id="aiAssistantCard">
+                <div class="tool-header">
+                    <div class="tool-icon-wrapper chat-glow">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>المساعد التقني الذكي (AI Tech Bot)</h3>
+                </div>
+                <p class="tool-desc">لديك سؤال تقني؟ اسأل المساعد الذكي للحصول على نصائح فورية لمشاكل الهاتف والبرامج.</p>
+                
+                <div class="chat-container">
+                    <div class="chat-box" id="chatBox">
+                        <div class="chat-message bot-msg">
+                            <span>مرحباً بك! أنا مساعدك التقني الذكي. اضغط على أحد الأسئلة الشائعة بالأسفل أو اكتب سؤالك.</span>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-quick-hints" id="chatQuickHints">
+                        <button class="hint-btn">كيف أحمي الواتساب؟</button>
+                        <button class="hint-btn">هل جوالي مخترق؟</button>
+                        <button class="hint-btn">استرجاع الصور المحذوفة؟</button>
+                    </div>
+
+                    <div class="chat-input-wrapper">
+                        <input type="text" id="chatInput" placeholder="اكتب سؤالك التقني هنا..." dir="rtl">
+                        <button id="sendChatBtn" class="primary-btn"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- APP HUBS / BLOG (Techs4Arab Concept) -->
+        <main class="content-hub-section fade-in-delayed">
+            
+            <div class="hub-header">
+                <h2>دليل التطبيقات والألعاب والحلول الموصى بها</h2>
+                <p class="section-subtitle">شروحات حصرية، روابط تحميل مباشرة وآمنة 100% تم فحصها شخصياً.</p>
+            </div>
+
+            <!-- Search and Filter Bar -->
+            <div class="search-filter-wrapper">
+                <div class="search-box-container">
+                    <i class="fas fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="appSearchInput" placeholder="ابحث عن تطبيق، لعبة، أو شرح ثغرة..." dir="rtl">
+                    <button id="clearSearchBtn" class="clear-search-btn" style="display:none;"><i class="fas fa-xmark"></i></button>
+                </div>
+                
+                <div class="category-filters-container" id="categoryFilters">
+                    <button class="filter-pill active" data-category="all">الكل</button>
+                    <button class="filter-pill" data-category="apps"><i class="fas fa-mobile-screen"></i> تطبيقات مميزة</button>
+                    <button class="filter-pill" data-category="games"><i class="fas fa-gamepad"></i> ألعاب وتسلية</button>
+                    <button class="filter-pill" data-category="ai"><i class="fas fa-robot"></i> ذكاء اصطناعي</button>
+                    <button class="filter-pill" data-category="tricks"><i class="fas fa-unlock-keyhole"></i> شروحات وثغرات</button>
+                </div>
+            </div>
+
+            <!-- Apps Grid -->
+            <div class="apps-grid" id="appsGrid">
+                <!-- App cards loaded dynamically via JS -->
+            </div>
+            
+        </main>
+
+        <!-- CONTACT US SECTION -->
+        <section class="contact-section fade-in-delayed" id="contactSection">
+            <div class="contact-card">
+                <div class="contact-header">
+                    <h2><i class="fas fa-envelope-open-text"></i> تواصل معنا / اقترح تطبيقاً</h2>
+                    <p>تبحث عن بديل لبرنامج معين؟ أو تود اقتراح شرح تقني جديد؟ أرسل لنا رسالة وسنرد عليك فوراً.</p>
+                </div>
+                <form id="contactForm" onsubmit="event.preventDefault();">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="contactName">الاسم الكامل</label>
+                            <input type="text" id="contactName" placeholder="اسمك الكريم" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactEmail">البريد الإلكتروني</label>
+                            <input type="email" id="contactEmail" placeholder="name@example.com" dir="ltr" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactSubject">الموضوع</label>
+                        <select id="contactSubject">
+                            <option value="suggest">اقتراح تطبيق أو بديل مجاني جديد</option>
+                            <option value="report">الإبلاغ عن رابط تحميل لا يعمل</option>
+                            <option value="question">سؤال أو استفسار تقني شخصي</option>
+                            <option value="business">فرصة تعاون مشترك أو إعلان</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactMessage">تفاصيل الرسالة</label>
+                        <textarea id="contactMessage" rows="4" placeholder="اكتب تفاصيل طلبك أو استفسارك هنا..." required></textarea>
+                    </div>
+                    <button type="submit" class="primary-btn wide-btn" id="submitContactBtn">
+                        <i class="fas fa-paper-plane"></i> إرسال الرسالة الآن
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="app-footer">
+            <div class="footer-divider"></div>
+            <div class="footer-info">
+                <p class="copyright">© 2026 عبد الله تيك. جميع الحقوق محفوظة.</p>
+                <div class="footer-links">
+                    <a href="#" class="footer-link">عن القناة</a>
+                    <a href="#" class="footer-link">سياسة الخصوصية</a>
+                    <a href="#" class="footer-link">اتصل بنا</a>
+                </div>
+            </div>
+            <div class="credit">تم التطوير بلمسات إبداعية فائقة الدقة ✨</div>
+        </footer>
+
+    </div>
+
+    <!-- APP DETAILS MODAL -->
+    <div class="modal-backdrop" id="detailsModal">
+        <div class="modal-card">
+            <button class="modal-close-btn" id="closeModalBtn"><i class="fas fa-times"></i></button>
+            
+            <div class="modal-scroll-content">
+                <div class="modal-item-header">
+                    <div class="modal-item-icon" id="modalItemIcon"></div>
+                    <div class="modal-item-title-wrapper">
+                        <h2 id="modalItemTitle">اسم التطبيق</h2>
+                        <span class="modal-item-badge" id="modalItemBadge">تطبيق</span>
+                    </div>
+                </div>
+
+                <!-- Comparison block (Paid vs Alternative) -->
+                <div class="comparison-card" id="modalComparisonCard">
+                    <div class="comparison-header">مقارنة التوفير المالي</div>
+                    <div class="comparison-row">
+                        <div class="compare-col compare-paid">
+                            <span class="label">البرنامج الأصلي (مدفوع)</span>
+                            <span class="val" id="modalPaidOrig">Photoshop ($22/شهرياً)</span>
+                        </div>
+                        <div class="compare-divider"><i class="fas fa-right-left"></i></div>
+                        <div class="compare-col compare-free">
+                            <span class="label">البديل الموصى به</span>
+                            <span class="val text-glow-green" id="modalFreeAlt">GIMP (مجاني بالكامل)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-details-body">
+                    <h3>تفاصيل ومميزات إضافية:</h3>
+                    <p id="modalItemDescription">وصف تفصيلي للتطبيق والمميزات التي يقدمها للمستخدمين...</p>
+                    
+                    <ul class="features-checklist" id="modalFeaturesList">
+                        <!-- Check list items -->
+                    </ul>
+
+                    <div class="metadata-grid">
+                        <div class="meta-box">
+                            <span class="meta-label">حجم الملف</span>
+                            <span class="meta-value" id="modalItemSize">45 MB</span>
+                        </div>
+                        <div class="meta-box">
+                            <span class="meta-label">التوافق</span>
+                            <span class="meta-value" id="modalItemCompat">Android / iOS</span>
+                        </div>
+                        <div class="meta-box">
+                            <span class="meta-label">فحص الأمان</span>
+                            <span class="meta-value text-green"><i class="fas fa-shield"></i> آمن 100%</span>
+                        </div>
+                    </div>
+
+                    <!-- Countdown & Download Section -->
+                    <div class="download-section">
+                        <button class="download-trigger-btn" id="startDownloadBtn">
+                            <i class="fas fa-download"></i> تجهيز رابط التحميل الآمن
+                        </button>
+                        
+                        <div class="download-timer-container" id="timerContainer" style="display:none;">
+                            <div class="circular-timer-wrapper">
+                                <svg class="progress-ring" width="60" height="60">
+                                    <circle class="progress-ring__circle-bg" stroke="rgba(255,255,255,0.1)" stroke-width="4" fill="transparent" r="26" cx="30" cy="30" />
+                                    <circle class="progress-ring__circle" id="timerCircle" stroke="#a855f7" stroke-width="4" fill="transparent" r="26" cx="30" cy="30" />
+                                </svg>
+                                <span class="timer-countdown-text" id="countdownNumber">10</span>
+                            </div>
+                            <span class="timer-status-msg">جاري تشفير وفحص الرابط لحمايتك...</span>
+                        </div>
+                        
+                        <a href="#" target="_blank" class="download-final-btn" id="finalDownloadBtn" style="display:none;">
+                            <i class="fas fa-circle-arrow-down"></i> اضغط هنا للتحميل المباشر الآمن
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast System -->
+    <div class="toast-notification" id="toastNotification">
+        <i class="fas fa-circle-check toast-icon"></i>
+        <span class="toast-message" id="toastMessage">تم نسخ الرابط بنجاح!</span>
+    </div>
+
+    <!-- Core Logic JS -->
+    <script src="app.js" defer></script>
+</body>
+</html>
