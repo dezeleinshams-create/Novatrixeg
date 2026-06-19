@@ -2109,3 +2109,83 @@ body.light-theme .chat-action-link {
     50% { box-shadow: 0 0 20px 6px var(--primary); }
     100% { box-shadow: 0 0 0 0px var(--primary); }
 }
+
+/* ==========================================
+   GOOGLE ADSENSE CONTAINER LAYOUT STYLES
+   ========================================== */
+.ad-container {
+    width: 100%;
+    background: var(--bg-surface);
+    border: 1px dashed var(--border-color);
+    border-radius: var(--card-radius);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 24px;
+}
+
+.ad-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(to bottom, var(--primary), var(--accent));
+}
+
+.ad-label {
+    position: absolute;
+    top: 4px;
+    left: 10px;
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.ad-leaderboard {
+    min-height: 90px;
+}
+
+.ad-footer {
+    min-height: 120px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* In-grid Ad Card styling */
+.ad-card-item {
+    background: var(--bg-surface);
+    border: 1px dashed var(--border-color);
+    border-radius: var(--card-radius);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 150px;
+    position: relative;
+}
+
+.ad-card-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(to right, var(--primary), var(--accent));
+}
+
+body.light-theme .ad-container,
+body.light-theme .ad-card-item {
+    background: #ffffff;
+    border-color: #dadce0;
+}
+

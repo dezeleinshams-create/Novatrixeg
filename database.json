@@ -1,0 +1,442 @@
+{
+  "apps": [
+    {
+      "id": "screen-share",
+      "title": "تطبيق مشاركة الهاتف مع أي هاتف آخر والتحكم الكامل",
+      "category": "apps",
+      "icon": "fa-solid fa-mobile-screen-button",
+      "desc": "يتيح لك مشاركة شاشة هاتفك مع هاتف آخر والتحكم به عن بعد لتقديم الدعم الفني لأصدقائك أو نقل الملفات بسرعة فائقة.",
+      "size": "18 MB",
+      "compat": "Android 8.0+",
+      "link": "https://example.com/download/screen-share",
+      "alternative": "TeamViewer (المدفوع باشتراك)",
+      "saves": "$15/شهرياً",
+      "features": [
+        "مشاركة شاشة الهاتف بصورة مباشرة ودقة عالية",
+        "إمكانية التحكم الكامل باللمس في الهاتف البعيد بعد إعطاء الصلاحية",
+        "دردشة صوتية مدمجة للتوجيه أثناء الشرح",
+        "آمن بالكامل ويتطلب رقماً سرياً للاتصال في كل مرة"
+      ]
+    },
+    {
+      "id": "secret-camera",
+      "title": "تطبيق تصوير فيديو وشاشة الهاتف مغلقة تماماً",
+      "category": "tricks",
+      "icon": "fa-solid fa-camera-rotate",
+      "desc": "سجل لقطات الفيديو والتوثيقات الهامة في الخلفية لحمايتك الشخصية دون أن تضيء الشاشة أو يعرف أحد أن الهاتف يسجل.",
+      "size": "8.5 MB",
+      "compat": "Android 9.0+",
+      "link": "https://example.com/download/secret-camera",
+      "alternative": "برامج كاميرات المراقبة الخاصة",
+      "saves": "$9/مرة واحدة",
+      "features": [
+        "التسجيل في الخلفية أثناء تصفح تطبيقات أخرى أو إيقاف الشاشة",
+        "جدولة وقت التسجيل ليبدأ في ساعة معينة تلقائياً",
+        "إمكانية كتم صوت التقاط الصورة أو بدء التسجيل نهائياً",
+        "حفظ الفيديوهات في استوديو خاص مشفر بكلمة سر"
+      ]
+    },
+    {
+      "id": "game-boost",
+      "title": "أداة Game Boost Pro لتحسين أداء الألعاب وزيادة الفريمات",
+      "category": "games",
+      "icon": "fa-solid fa-gauge-high",
+      "desc": "احصل على أعلى أداء لهاتفك في الألعاب! تقوم الأداة بتنظيف الذاكرة العشوائية وإيقاف التطبيقات التي تبطئ المعالج أثناء اللعب.",
+      "size": "12 MB",
+      "compat": "Android 7.0+",
+      "link": "https://example.com/download/game-boost",
+      "alternative": "برامج تحسين الألعاب المدفوعة",
+      "saves": "$5/شهرياً",
+      "features": [
+        "زيادة استقرار الفريمات وتخفيض البينج (Ping) في الألعاب أونلاين",
+        "تنظيف تلقائي للرام قبل بدء اللعبة بضغطة زر واحدة",
+        "وضع عدم الإزعاج لمنع المكالمات والإشعارات أثناء اللعب",
+        "مراقبة حرارة الهاتف وسرعة المعالج في الوقت الفعلي"
+      ]
+    },
+    {
+      "id": "fake-number",
+      "title": "الحصول على رقم أمريكي وهمي لتفعيل واتساب مجاناً",
+      "category": "tricks",
+      "icon": "fa-solid fa-square-phone",
+      "desc": "تفعيل واتساب وتليجرام وحساباتك برقم ثانٍ لحماية خصوصيتك ورقمك الحقيقي من التسريب. دليل متكامل ومجرب.",
+      "size": "14 MB",
+      "compat": "متصفح الويب / تطبيق",
+      "link": "https://example.com/download/fake-number",
+      "alternative": "شراء شريحة SIM ثانية أو خدمات التحقق",
+      "saves": "$10/سنوياً",
+      "features": [
+        "استقبال رسائل التفعيل وأكواد OTP فوراً وبشكل مجاني",
+        "أرقام أمريكية وكندية صالحة للاستخدام الدائم",
+        "طريقة حماية الرقم من السحب عبر تفعيل التحقق بخطوتين",
+        "واجهة بسيطة لا تحتاج إلى خبرة لاستخراج الأرقام"
+      ]
+    },
+    {
+      "id": "ai-video-creator",
+      "title": "منصة إنشاء فيديوهات احترافية بالذكاء الاصطناعي من النص",
+      "category": "ai",
+      "icon": "fa-solid fa-video",
+      "desc": "اكتب قصتك أو فكرتك ودع الذكاء الاصطناعي يقوم بتوليد المشاهد الحركية، دمج الأصوات الطبيعية وتصدير فيديو جاهز للنشر.",
+      "size": "أداة ويب",
+      "compat": "جميع المتصفحات (أندرويد/آيفون/كمبيوتر)",
+      "link": "https://example.com/download/ai-video",
+      "alternative": "Runway Gen-2 & Sora (مدفوع باشتراكات مكلفة)",
+      "saves": "$30/شهرياً",
+      "features": [
+        "توليد مشاهد فيديو واقعية وثلاثية الأبعاد بدقة ممتازة",
+        "دعم توليد تعليق صوتي باللغة العربية بلكنات طبيعية متعددة",
+        "مكتبة موسيقى ومؤثرات صوتية مرخصة مجانية للاستخدام",
+        "تعديل المقاطع والترجمة التلقائية بنقرة زر"
+      ]
+    },
+    {
+      "id": "ps2-emulator",
+      "title": "محاكي بلاي ستيشن 2 (PS2) لتشغيل ألعاب الطفولة بدقة عالية",
+      "category": "games",
+      "icon": "fa-solid fa-gamepad",
+      "desc": "استرجع ذكرياتك وشغل ألعاب PlayStation 2 الشهيرة على هاتفك مباشرة مع دعم توصيل يد التحكم وسلاسة لعب فائقة.",
+      "size": "38 MB",
+      "compat": "Android 8.0+ (معالج متوسط فما فوق)",
+      "link": "https://example.com/download/ps2-emulator",
+      "alternative": "DamonPS2 Pro (النسخة المدفوعة المليئة بالإعلانات)",
+      "saves": "$12/مرة واحدة",
+      "features": [
+        "تشغيل 99% من ألعاب PS2 بصيغة ISO بسلاسة كاملة",
+        "دعم حفظ مرحلة اللعب في أي وقت واستعادتها فوراً (Save States)",
+        "إمكانية مضاعفة جودة الرسوميات الأصلية حتى 4K لشاشات الهواتف",
+        "توافق تام مع أذرع التحكم الخارجية عبر البلوتوث"
+      ]
+    },
+    {
+      "id": "anti-spy",
+      "title": "تطبيق كشف برامج التجسس وحماية خصوصية الكاميرا والميكروفون",
+      "category": "tricks",
+      "icon": "fa-solid fa-user-shield",
+      "desc": "أداة أمنية قوية تفحص هاتفك بالكامل وتكشف التطبيقات التي تتجسس عليك وتستخدم الأذونات الحساسة في الخلفية دون علمك.",
+      "size": "9 MB",
+      "compat": "Android 6.0+",
+      "link": "https://example.com/download/anti-spy",
+      "alternative": "برامج الحماية السنوية المكلفة",
+      "saves": "$25/سنوياً",
+      "features": [
+        "تنبيه فوري بنقطة ملونة عند استخدام الكاميرا أو الميكروفون من أي تطبيق",
+        "فحص شامل لملفات الهاتف لكشف برمجيات التجسس وأحصنة طروادة",
+        "لوحة تحكم توضح أوقات استخدام التطبيقات للموقع الجغرافي والأذونات",
+        "حظر استخدام الكاميرا والميكروفون بنقرة واحدة لحماية الخصوصية المطلقة"
+      ]
+    },
+    {
+      "id": "ai-prompt-app",
+      "title": "أداة الذكاء الاصطناعي الشاملة (4000+ نموذج مجاني)",
+      "category": "ai",
+      "icon": "fa-solid fa-brain",
+      "desc": "أداة خرافية تدمج أقوى نماذج الذكاء الاصطناعي للرسم والكتابة والبرمجة في مكان واحد مجاني بالكامل وبدون قيود استخدام.",
+      "size": "أداة ويب",
+      "compat": "جميع الأجهزة والمنصات",
+      "link": "https://example.com/download/ai-tools",
+      "alternative": "اشتراكات ChatGPT Plus & Claude Pro المجمعة",
+      "saves": "$40/شهرياً",
+      "features": [
+        "تضمين نماذج متطورة مثل GPT-4o و Claude 3.5 Sonnet مجاناً",
+        "توليد صور احترافية وتصميمات تريند بجودة فائقة بنقرة زر",
+        "بدون الحاجة لإنشاء حساب أو امتلاك رقم أجنبي للتفعيل",
+        "أدوات مساعدة لبرمجة الأكواد وتصحيح الأخطاء البرمجية تلقائياً"
+      ]
+    },
+    {
+      "id": "magic-eraser",
+      "title": "تطبيق إزالة الأشخاص والخلفيات من الصور بالذكاء الاصطناعي",
+      "category": "apps",
+      "icon": "fa-solid fa-wand-magic-sparkles",
+      "desc": "امسح أي عنصر غير مرغوب فيه من صورك (أشخاص، كتابة، سيارات) في ثانية واحدة. يقوم الذكاء الاصطناعي بإعادة بناء الخلفية بدقة مذهلة.",
+      "size": "15 MB",
+      "compat": "Android 8.0+ / iOS",
+      "link": "https://example.com/download/magic-eraser",
+      "alternative": "Photoshop Elements / Canva Pro (أدوات مدفوعة)",
+      "saves": "$10/شهرياً",
+      "features": [
+        "تحديد ذكي وتلقائي للعناصر بمجرد تمرير الإصبع فوقها",
+        "تصدير الصور بجودتها الأصلية الكاملة HD دون تقليل الدقة",
+        "أدوات تجميل الوجوه وإزالة الشوائب وتعديل إضاءة بورتريه تلقائياً",
+        "يعمل بالكامل على الهاتف دون الحاجة لرفع صورك لخوادم خارجية"
+      ]
+    }
+  ],
+  "alternatives": {
+    "photoshop": {
+      "name": "Photoshop (فوتوشوب)",
+      "price": "$22/شهرياً",
+      "options": [
+        { "name": "GIMP", "desc": "بديل برمجيات مفتوحة المصدر، قوي جداً ومناسب للكمبيوتر.", "link": "https://www.gimp.org/" },
+        { "name": "Photopea", "desc": "موقع ويب يطابق واجهة فوتوشوب بالكامل ويعمل بدون تحميل على الهاتف والكمبيوتر.", "link": "https://www.photopea.com/" }
+      ]
+    },
+    "canva": {
+      "name": "Canva Pro (كانفا برو)",
+      "price": "$13/شهرياً",
+      "options": [
+        { "name": "Microsoft Designer", "desc": "أداة تصميم مجانية بالكامل مدعومة بالذكاء الاصطناعي لتصميم البوسترات.", "link": "https://designer.microsoft.com/" },
+        { "name": "Polotno Studio", "desc": "أداة ويب مجانية رائعة شبيهة بـ Canva بدون إعلانات أو قيود.", "link": "https://studio.polotno.com/" }
+      ]
+    },
+    "idm": {
+      "name": "Internet Download Manager (IDM)",
+      "price": "$25/رخصة دائمية",
+      "options": [
+        { "name": "FDM (Free Download Manager)", "desc": "بديل مجاني تماماً وسريع، يدعم التحميل العادي والتورنت ومتوفر للهاتف والكمبيوتر.", "link": "https://www.freedownloadmanager.org/" },
+        { "name": "Xtreme Download Manager", "desc": "أداة قوية تزيد سرعة التحميل إلى 500% وتلتقط الفيديوهات من المتصفح تلقائياً.", "link": "https://subhra74.github.io/xdm/" }
+      ]
+    },
+    "office": {
+      "name": "Microsoft Office (أوفيس وورد وبوربوينت)",
+      "price": "$70/سنوياً",
+      "options": [
+        { "name": "LibreOffice", "desc": "الحزمة المكتبية الأقوى مفتوحة المصدر، مجانية بالكامل وتدعم ملفات وورد وإكسل.", "link": "https://www.libreoffice.org/" },
+        { "name": "Google Docs / Slides", "desc": "أدوات جوجل السحابية، تتيح لك الكتابة والتصميم أونلاين ومشاركة الملفات بسهولة.", "link": "https://docs.google.com/" }
+      ]
+    },
+    "premiere": {
+      "name": "Adobe Premiere Pro (بريمير للمونتاج)",
+      "price": "$22/شهرياً",
+      "options": [
+        { "name": "DaVinci Resolve", "desc": "برنامج مونتاج وتعديل ألوان سينمائي مجاني للمحترفين على أجهزة الكمبيوتر.", "link": "https://www.blackmagicdesign.com/products/davinciresolve" },
+        { "name": "CapCut", "desc": "أقوى تطبيق مونتاج وتعديل فيديو للهاتف والكمبيوتر، مجاني وسهل الاستخدام جداً.", "link": "https://www.capcut.com/" }
+      ]
+    },
+    "windows": {
+      "name": "Windows License (تفعيل ويندوز)",
+      "price": "$130+",
+      "options": [
+        { "name": "Linux Mint", "desc": "نظام تشغيل مجاني خفيف وآمن تماماً، يعيد الحياة للأجهزة القديمة ويشبه واجهة ويندوز.", "link": "https://linuxmint.com/" },
+        { "name": "MAS Github script", "desc": "تفعيل ويندوز وأوفيس عبر كود أداة مفتوح المصدر وآمن 100% دون برامج خبيثة.", "link": "https://massgrave.dev/" }
+      ]
+    },
+    "spotify": {
+      "name": "Spotify Premium (سبوتيفاي)",
+      "price": "$10/شهرياً",
+      "options": [
+        { "name": "ViMusic", "desc": "تطبيق أندرويد مفتوح المصدر لتشغيل كل أغاني يوتيوب ميوزك مجاناً وبدون إعلانات وفي الخلفية.", "link": "https://github.com/vireyt/vimusic" },
+        { "name": "BlackHole Music", "desc": "تطبيق موسيقى رائع مفتوح المصدر يتيح تحميل وتنزيل الأغاني بجودة عالية مجاناً.", "link": "https://github.com/Sangwan5688/BlackHole" }
+      ]
+    },
+    "netflix": {
+      "name": "Netflix (نتفليكس)",
+      "price": "$15/شهرياً",
+      "options": [
+        { "name": "Stremio", "desc": "برنامج مشغل وسائط مجاني للكمبيوتر والهاتف يجمع كل الأفلام والمسلسلات بترجمة عربية عبر إضافات التورنت.", "link": "https://www.stremio.com/" },
+        { "name": "Kodi", "desc": "مركز ترفيهي مفتوح المصدر لبث وتصفح القنوات ومقاطع الفيديو مجاناً.", "link": "https://kodi.tv/" }
+      ]
+    }
+  },
+  "prompts": [
+    {
+      "title": "تصميم غلاف يوتيوب تقني متطور",
+      "category": "images",
+      "explanation": "يولد خلفية مخصصة لسطح مكتب أو غلاف قناة تقنية تركز على الدوائر والنيون.",
+      "promptText": "Futuristic technology YouTube banner background, floating neon glowing circuit board layers, hyper detailed 8k, cyber blue and magenta colors, dark premium obsidian steel background, octane render --ar 16:9",
+      "tags": ["banner", "youtube", "neon"]
+    },
+    {
+      "title": "لوحة ألعاب فيديو خيالية (Fantasy Gaming Landscape)",
+      "category": "images",
+      "explanation": "تصميم بيئة خيالية ومثيرة تناسب خلفيات الألعاب أو القصص.",
+      "promptText": "Epic mythical landscape, giant ancient tree glowing with ethereal blue light, towering waterfalls flowing into a mystical river beneath, starry night sky, hyper-detailed, fantasy art style, cinematic lighting --ar 16:9",
+      "tags": ["fantasy", "landscape", "gaming"]
+    },
+    {
+      "title": "صورة بورتريه واقعية للغاية لشخصية سايبربانك",
+      "category": "images",
+      "explanation": "توليد صورة وجه قريبة لشخصية سايبربانك بتفاصيل رهيبة وإضاءة استوديو.",
+      "promptText": "Close-up portrait of a futuristic cybernetic hacker, glowing cybernetic implants on face, neon lights reflection in eyes, cyberpunk theme, shot on 85mm lens, hyper-realistic, photorealistic 8k --ar 4:5",
+      "tags": ["cyberpunk", "portrait", "realistic"]
+    },
+    {
+      "title": "تصميم أيقونة تطبيق موبايل ثلاثية الأبعاد (3D Icon)",
+      "category": "images",
+      "explanation": "توليد أيقونة تطبيق (مثل حماية أو موسيقى) بتأثيرات الزجاج والمعدن.",
+      "promptText": "3D icon for a mobile security app, shield shape glowing with neon cyan lines, frosted glass texture, metallic borders, solid dark grey background, isometric, high detail, rendering in Blender --ar 1:1",
+      "tags": ["icon", "3d", "blender"]
+    },
+    {
+      "title": "رسم توضيحي مسطح لرواد الفضاء (Flat Vector Art)",
+      "category": "images",
+      "explanation": "تصميم رسمة فيكتور مسطحة وعصرية تصلح لتصاميم واجهات المستخدم والبوسترات.",
+      "promptText": "Minimalist flat vector illustration of an astronaut floating in deep space next to a tiny planet, warm cosmic color palette, clean paths, vector art style, aesthetic background --ar 16:9",
+      "tags": ["vector", "flat", "space"]
+    },
+    {
+      "title": "تصميم داخلي لغرفة ألعاب تقنية (Gaming Setup)",
+      "category": "images",
+      "explanation": "غرفة ألعاب أحلام مجهزة بأحدث الشاشات وإضاءة RGB متناسقة.",
+      "promptText": "Ultra modern gaming room setup, triple monitor curves showing neon wallpapers, custom mechanical keyboard glowing, cozy RGB LED strip lights, dark aesthetics, warm cinematic atmosphere, hyper-detailed --ar 16:9",
+      "tags": ["setup", "gaming", "rgb"]
+    },
+    {
+      "title": "شعار بخطوط بسيطة (Minimalist Line Art Logo)",
+      "category": "images",
+      "explanation": "لتوليد شعارات تجارية راقية وبأقل عدد خطوط ممكن.",
+      "promptText": "Minimal line art logo of a flying phoenix, geometric lines, vector style, white background, extremely simple, elegant branding --ar 1:1",
+      "tags": ["logo", "minimalist", "vector"]
+    },
+    {
+      "title": "تصميم سيارة رياضية مستقبلية (Concept Car)",
+      "category": "images",
+      "explanation": "سيارة اختبارية مستقبلية بتصميم جذاب يعكس القوة والتطور التقني.",
+      "promptText": "Futuristic concept hypercar driving through a wet cyber city street at night, neon lights reflections on the car body, volumetric fog, Unreal Engine 5 render style, cinematic shot --ar 16:9",
+      "tags": ["car", "futuristic", "neon"]
+    },
+    {
+      "title": "سكريبت كامل لفيديو قصير (TikTok/Reels) عن تطبيقات أندرويد",
+      "category": "content",
+      "explanation": "يولد نص فيديو سريع ومثير يجذب انتباه المشاهد ليعرف 3 تطبيقات سرية لهاتفه.",
+      "promptText": "اكتب لي سكريبت فيديو تيك توك مدته 45 ثانية بلهجة عربية عامية ومحفزة. الفكرة: '3 تطبيقات أندرويد سرية وغريبة ستغير طريقة استخدامك للهاتف'. يجب أن يبدأ بخطاف (Hook) يجذب المشاهد في أول ثانيتين، ويتضمن شرحاً سريعاً لكل تطبيق، وينتهي بطلب التعليق والاشتراك.",
+      "tags": ["script", "tiktok", "reels"]
+    },
+    {
+      "title": "مقالة حصرية متوافقة مع السيو (SEO) لمقارنة الهواتف",
+      "category": "content",
+      "explanation": "كتابة مقارنة عميقة بين هاتفين رائدين مع مراعاة شروط السيو وكتابة جداول المقارنة.",
+      "promptText": "اكتب مقالة تقنية حصرية بطول 1000 كلمة تقارن فيها بين هاتفي iPhone 15 Pro Max و Samsung Galaxy S24 Ultra باللغة العربية. ركّز على مقارنة الكاميرات والبطارية والسعر مع إضافة جدول للمواصفات. استخدم عناوين رئيسية H2 و H3 واجعل المقال متوافقاً مع قواعد السيو (SEO).",
+      "tags": ["seo", "article", "iphone", "samsung"]
+    },
+    {
+      "title": "منشور فيسبوك تسويقي وتفاعلي لزيادة التعليقات",
+      "category": "content",
+      "explanation": "لصياغة منشور فيسبوك يثير حماس المتابعين ويدفعهم للمشاركة والإجابة.",
+      "promptText": "اكتب منشوراً تفاعلياً لصفحة فيسبوك تقنية تسأل فيها الجمهور: 'لو معاك 500 دولار تشتري هاتف أندرويد ولا آيفون ولماذا؟'. اجعل الأسلوب ودياً وتفاعلياً واستخدم الرموز التعبيرية لزيادة الوصول والمشاركة والتعليقات.",
+      "tags": ["facebook", "marketing", "post"]
+    },
+    {
+      "title": "سيناريو فيديو يوتيوب كامل (شرح حماية الهاتف من التجسس)",
+      "category": "content",
+      "explanation": "توليد هيكل سيناريو كامل مع الإرشادات البصرية والمؤثرات الصوتية للشرح.",
+      "promptText": "قم بصياغة سيناريو فيديو يوتيوب مدته 8 دقائق حول موضوع 'كيف تحمي هاتفك من الاختراق وتطبيقات التجسس المخفية'. قم بتقسيم الفيديو إلى: مقدمة جذابة، 5 نصائح وتدابير عملية، شرح تطبيقي، وخاتمة. اذكر توجيهات للمونتاج (مثل: لقطة مقربة، مؤثر صوتي، إظهار نص على الشاشة).",
+      "tags": ["youtube", "script", "security"]
+    },
+    {
+      "title": "توليد أفكار عناوين جذابة لليوتيوب (Clickbait-free hooks)",
+      "category": "content",
+      "explanation": "يقترح عناوين ملفتة للنظر ولكن دون تضليل المشاهد لزيادة نسبة النقر CTR.",
+      "promptText": "اقترح لي 10 عناوين جذابة ومثيرة لفيديو يوتيوب يشرح طريقة 'تشغيل ألعاب البلاي ستيشن على الأندرويد'. يجب أن تثير العناوين الفضول وتكون قصيرة ومثيرة للاهتمام وتخاطب رغبة المتابع دون كذب أو خداع.",
+      "tags": ["youtube", "titles", "hook"]
+    },
+    {
+      "title": "صياغة بريد إلكتروني ترويجي للمنتجات الرقمية",
+      "category": "content",
+      "explanation": "رسالة بريد إلكتروني مقنعة لجذب المشتركين لشراء دورة تدريبية أو كتاب تقني.",
+      "promptText": "اكتب بريداً إلكترونياً تسويقياً جذاباً ومقنعاً باللغة العربية للإعلان عن إطلاق كتاب إلكتروني جديد بعنوان 'دليلك للربح من الذكاء الاصطناعي'. ركز على القيمة التي سيحصل عليها المشتري، وقدم كود خصم 30% لفترة محدودة، وضع دعوة واضحة ومغرية للشراء (Call to Action).",
+      "tags": ["email", "marketing", "sales"]
+    },
+    {
+      "title": "بناء دالة جافاسكريبت لفلترة البيانات والبحث الفوري",
+      "category": "coding",
+      "explanation": "كتابة دالة JavaScript نظيفة تبحث في مصفوفة كائنات وتدعم البحث غير الحساس لحالة الأحرف.",
+      "promptText": "Write a clean and optimized ES6 JavaScript function to filter an array of objects representing apps. The function should take the array and a search term string as inputs, performing case-insensitive search on 'title' and 'tags' fields, and return the filtered list.",
+      "tags": ["javascript", "es6", "filter"]
+    },
+    {
+      "title": "تصميم واجهة بطاقة Glassmorphism فاخرة بالـ CSS",
+      "category": "coding",
+      "explanation": "توليد كود CSS متكامل لتأثير الزجاج المشوش للمواقع الحديثة والبطاقات.",
+      "promptText": "Create a modern CSS-only stylesheet for a Glassmorphism card container. It must feature a semi-transparent dark background, blur effect (backdrop-filter), glowing borders with custom variables, responsive padding, border-radius, and smooth transition hover scale effect.",
+      "tags": ["css", "glassmorphism", "card"]
+    },
+    {
+      "title": "نموذج قاعدة بيانات لخدمة تسجيل المستخدمين (MongoDB/Mongoose Schema)",
+      "category": "coding",
+      "explanation": "إنشاء مخطط بيانات لتسجيل المستخدمين يتضمن التحقق من صحة المدخلات وتشفير الباسورد.",
+      "promptText": "Create a Mongoose schema for a User model in Node.js. It should include fields for username, email (validated & unique), hashed password, profile image URL, and verification status. Implement a pre-save hook to automatically hash the password using bcrypt before saving.",
+      "tags": ["mongoose", "mongodb", "nodejs"]
+    },
+    {
+      "title": "كتابة سيناريو فحص أمان المدخلات في لغة Python",
+      "category": "coding",
+      "explanation": "دالة بايثون لتنظيف وتأمين البيانات المدخلة من هجمات حقن الأكواد SQL / XSS.",
+      "promptText": "Write a Python helper function to sanitize user text input. The function should escape HTML tags to prevent Cross-Site Scripting (XSS) attacks and remove potential SQL injection patterns, returning the safe text. Comment the code thoroughly.",
+      "tags": ["python", "security", "sanitizer"]
+    },
+    {
+      "title": "دالة API لإرسال رسائل بريد إلكتروني (Node.js/Nodemailer)",
+      "category": "coding",
+      "explanation": "كتابة مسار API في Node/Express يقوم بإرسال بريد إلكتروني عبر خدمة SMTP.",
+      "promptText": "Write an Express.js POST API route endpoint in Node.js that uses Nodemailer to send a contact form email. The endpoint should receive name, email, and message from the request body, validate inputs, send the email using configured SMTP settings, and return a JSON status response.",
+      "tags": ["express", "nodejs", "nodemailer"]
+    },
+    {
+      "title": "كود التحقق من قوة كلمة المرور بالـ Regex",
+      "category": "coding",
+      "explanation": "كود Regex ودالة JavaScript للتحقق من أن الباسورد يحتوي على حروف وأرقام ورموز.",
+      "promptText": "Write a JavaScript function that uses a Regular Expression (Regex) to validate password strength. The password must contain at least 8 characters, including one uppercase letter, one lowercase letter, one number, and one special character. Return boolean and feedback messages.",
+      "tags": ["regex", "validation", "javascript"]
+    },
+    {
+      "title": "تصميم مخطط متجاوب (Flexbox Layout) للمنتجات",
+      "category": "coding",
+      "explanation": "كود HTML/CSS لعرض كروت المنتجات بشكل مرن ومتجاوب دون استخدام bootstrap.",
+      "promptText": "Create a responsive pure CSS Flexbox layout for a products catalog grid. Each product card should align content vertically, support automatic wrapping, center items on small mobile screens, and transition dynamically on hover. Avoid external CSS frameworks.",
+      "tags": ["css", "flexbox", "responsive"]
+    }
+  ],
+  "customizer": {
+    "midjourney": {
+      "badge": "MIDJOURNEY PROMPT",
+      "labelTopic": "نمط الصورة وموضوعها",
+      "labelStyle": "نوع الإضاءة والتصيير (Render)",
+      "topics": [
+        { "id": "cyber_hack", "name": "هاكر في غرفة سايبربانك مستقبلي", "text": "A futuristic hacker in a dark room full of holographic terminal screens showing glowing code and cybernetic graphics" },
+        { "id": "gamer_setup", "name": "غرفة قيمنق أحلام RGB متكاملة", "text": "Cozy gaming setup setup with triple monitors glowing, custom mechanical keyboard, RGB light strips, dark theme room" },
+        { "id": "space_explore", "name": "رائد فضاء يطفو قرب كوكب عملاق", "text": "An astronaut floating in deep cosmos space next to a giant glowing neon planet, majestic stars background" },
+        { "id": "cyber_car", "name": "سيارة سوبر كار في شوارع طوكيو ممطرة", "text": "Concept futuristic supercar speeding down a rainy neon-lit street in Tokyo at night, water reflections" },
+        { "id": "phoenix_logo", "name": "شعار طائر الفينيق بخطوط هندسية", "text": "Geometric line art logo of a flying phoenix, clean paths, vector style branding, isolated on white background" },
+        { "id": "avatar_3d", "name": "أيقونة مجسمة ثلاثية الأبعاد لدرع حماية", "text": "3D icon of a cyber security shield glowing, matte metal and frosted glass textures, dark clean background" }
+      ],
+      "styles": [
+        { "id": "cinematic", "name": "إضاءة سينمائية واقعية (Cinematic 8K)", "text": "shot on 85mm lens, hyper-realistic, volumetric studio lighting, photorealistic 8k render, depth of field" },
+        { "id": "octane", "name": "تصيير ثلاثي الأبعاد مجسم (Octane Render)", "text": "3D stylized render in Blender, octane rendering engine, smooth textures, vibrant colorful light glow" },
+        { "id": "anime", "name": "رسم أنمي عصري (Modern Anime Art)", "text": "Japanese anime art style, key visual, hand-drawn textures, highly detailed character design, cell shaded" },
+        { "id": "minimalist", "name": "رسم فيكتور مسطح (Minimal Vector)", "text": "minimalist flat vector illustration, clean lines, restricted aesthetic color palette, isolated background" },
+        { "id": "cyber_neon", "name": "توهج نيون ناصع (Vibrant Neon Glow)", "text": "cyberpunk aesthetics, intense neon cyan and hot pink glowing accents, retro futuristic vibe, rich contrast" }
+      ],
+      "template": "[TOPIC], [STYLE] --ar 16:9"
+    },
+    "script": {
+      "badge": "VIDEO SCRIPT PROMPT",
+      "labelTopic": "فكرة وموضوع الفيديو",
+      "labelStyle": "نبرة الصوت وأسلوب التقديم",
+      "topics": [
+        { "id": "hidden_apps", "name": "3 تطبيقات سرية للهواتف", "text": "سكريبت فيديو قصير يشرح 3 تطبيقات سرية وغريبة تسهل حياة المستخدم على هواتف الأندرويد والآيفون" },
+        { "id": "phone_hack", "name": "علامات تدل أن جوالك مخترق", "text": "سكريبت فيديو تقني يشرح للناس 4 علامات واضحة وبسيطة تكشف لهم إذا كانت هواتفهم مخترقة أو بها تجسس" },
+        { "id": "saves_money", "name": "بديل مجاني لبرامج فوتوشوب وكانفا", "text": "سكريبت إرشادي يوضح للمتابعين كيف يستغنون عن برامج فوتوشوب وكانفا ويستخدمون بدائل مجانية توفر لهم مئات الدولارات" },
+        { "id": "ai_tricks", "name": "أداة ذكاء اصطناعي تفعل أشياء لا تصدق", "text": "سكريبت تفاعلي يعرف الجمهور بأداة ذكاء اصطناعي جديدة تصنع فيديوهات كاملة من النصوص مجاناً وبسهولة" },
+        { "id": "speed_wifi", "name": "تسريع الإنترنت وتخفيض البينج للالعاب", "text": "سكريبت فيديو قصير يقدم خطوات سريعة ومجربة لتسريع الإنترنت وتخبيت البينج داخل الألعاب على الهاتف" }
+      ],
+      "styles": [
+        { "id": "hyper", "name": "حماسي وسريع جداً (TikTok/Reels)", "text": "الأسلوب: حماسي وسريع، بلغة عربية عامية بسيطة ومفهومة، يبدأ بخطاف قوي جداً (Hook) لجذب الانتباه في أول ثانيتين، ويتضمن تقطيعاً سريعاً للمشاهد ودعوة صريحة للتفاعل في النهاية." },
+        { "id": "expert", "name": "خبير تقني هادئ وموثوق (YouTube)", "text": "الأسلوب: هادئ ومقنع، بلغة عربية فصحى مبسطة، يركز على شرح الفكرة بدقة علمية وتقديم الدلائل وتوجيه المشاهد لحماية نفسه بخطوات مرتبة." },
+        { "id": "funny", "name": "كوميدي وتفاعلي خفيف للشباب", "text": "الأسلوب: كوميدي خفيف وساخر، يناسب فئة الشباب، يطرح المشكلة التقنية بشكل طريف ويقدم الحل بلمسات فكاهية لضمان تفاعل ومشاركة واسعة." },
+        { "id": "brief", "name": "مباشر ودقيق بدون مقدمات طويلة", "text": "الأسلوب: مباشر وعملي جداً، خالي من الثرثرة، يستعرض الحل فوراً ويوضح الخطوات في نقاط 1، 2، 3 بشكل موجز." }
+      ],
+      "template": "اكتب لي: [TOPIC]. متماشياً مع شروط التقديم التالية:\n[STYLE]"
+    },
+    "code": {
+      "badge": "CODING / API PROMPT",
+      "labelTopic": "الوظيفة البرمجية المطلوبة",
+      "labelStyle": "لغة البرمجة أو الإطار المستخدم",
+      "topics": [
+        { "id": "filter_js", "name": "دالة فلترة وبحث غير حساسة للمخازن", "text": "an optimized function to search and filter an array of objects based on multiple fields, handling case-insensitive queries and returning matching elements" },
+        { "id": "glass_css", "name": "واجهة بطاقة زجاجية كاملة التأثيرات", "text": "a beautiful stylesheet code for a Glassmorphism card container featuring backdrop blur, glowing neon borders, drop shadow, and clean responsive layout properties" },
+        { "id": "hash_pw", "name": "مخطط نموذج مستخدم وتشفير الباسورد", "text": "a database Schema model for users registration that includes fields validation (email, password, status) and automatically hashes passwords using bcrypt pre-save" },
+        { "id": "secure_input", "name": "تنظيف المدخلات ضد XSS و SQL Injection", "text": "a backend helper function to sanitize user text inputs, escaping HTML special characters to prevent scripts execution and filter malicious commands" },
+        { "id": "smtp_mail", "name": "إرسال رسائل بريد إلكتروني API route", "text": "a POST API route function endpoint that receives contact form data, validates the inputs, and sends an email via SMTP client" }
+      ],
+      "styles": [
+        { "id": "js", "name": "JavaScript / ES6 Modern", "text": "using clean JavaScript ES6+ syntax, modern array methods, promise handling, and exporting the modules properly" },
+        { "id": "python", "name": "Python 3 Standard", "text": "written in Python 3, using standard library modules, type hinting, secure libraries, and clean PEP8 style guidelines" },
+        { "id": "react", "name": "React Components (JSX)", "text": "as a reusable React functional component utilizing Hooks (useState, useEffect), inline styled Tailwind tags or CSS Modules, and handling states cleanly" },
+        { "id": "css", "name": "Pure CSS3 Variables", "text": "written in pure CSS3, utilizing CSS variables (custom properties) for theming, responsive media queries, and flexbox/grid layout systems" }
+      ],
+      "template": "Write [TOPIC] in [STYLE]. The code must be well-optimized, secure against vulnerabilities, and thoroughly commented to explain the logic of each line."
+    }
+  }
+}

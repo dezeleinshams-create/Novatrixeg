@@ -1,236 +1,7 @@
-// DATABASE FOR APPS & TUTORIALS (Techs4Arab Theme)
-const APPS_DATABASE = [
-    {
-        id: "screen-share",
-        title: "تطبيق مشاركة الهاتف مع أي هاتف آخر والتحكم الكامل",
-        category: "apps",
-        icon: "fa-solid fa-mobile-screen-button",
-        desc: "يتيح لك مشاركة شاشة هاتفك مع هاتف آخر والتحكم به عن بعد لتقديم الدعم الفني لأصدقائك أو نقل الملفات بسرعة فائقة.",
-        size: "18 MB",
-        compat: "Android 8.0+",
-        link: "https://example.com/download/screen-share",
-        alternative: "TeamViewer (المدفوع باشتراك)",
-        saves: "$15/شهرياً",
-        features: [
-            "مشاركة شاشة الهاتف بصورة مباشرة ودقة عالية",
-            "إمكانية التحكم الكامل باللمس في الهاتف البعيد بعد إعطاء الصلاحية",
-            "دردشة صوتية مدمجة للتوجيه أثناء الشرح",
-            "آمن بالكامل ويتطلب رقماً سرياً للاتصال في كل مرة"
-        ]
-    },
-    {
-        id: "secret-camera",
-        title: "تطبيق تصوير فيديو وشاشة الهاتف مغلقة تماماً",
-        category: "tricks",
-        icon: "fa-solid fa-camera-rotate",
-        desc: "سجل لقطات الفيديو والتوثيقات الهامة في الخلفية لحمايتك الشخصية دون أن تضيء الشاشة أو يعرف أحد أن الهاتف يسجل.",
-        size: "8.5 MB",
-        compat: "Android 9.0+",
-        link: "https://example.com/download/secret-camera",
-        alternative: "برامج كاميرات المراقبة الخاصة",
-        saves: "$9/مرة واحدة",
-        features: [
-            "التسجيل في الخلفية أثناء تصفح تطبيقات أخرى أو إيقاف الشاشة",
-            "جدولة وقت التسجيل ليبدأ في ساعة معينة تلقائياً",
-            "إمكانية كتم صوت التقاط الصورة أو بدء التسجيل نهائياً",
-            "حفظ الفيديوهات في استوديو خاص مشفر بكلمة سر"
-        ]
-    },
-    {
-        id: "game-boost",
-        title: "أداة Game Boost Pro لتحسين أداء الألعاب وزيادة الفريمات",
-        category: "games",
-        icon: "fa-solid fa-gauge-high",
-        desc: "احصل على أعلى أداء لهاتفك في الألعاب! تقوم الأداة بتنظيف الذاكرة العشوائية وإيقاف التطبيقات التي تبطئ المعالج أثناء اللعب.",
-        size: "12 MB",
-        compat: "Android 7.0+",
-        link: "https://example.com/download/game-boost",
-        alternative: "برامج تحسين الألعاب المدفوعة",
-        saves: "$5/شهرياً",
-        features: [
-            "زيادة استقرار الفريمات وتخفيض البينج (Ping) في الألعاب أونلاين",
-            "تنظيف تلقائي للرام قبل بدء اللعبة بضغطة زر واحدة",
-            "وضع عدم الإزعاج لمنع المكالمات والإشعارات أثناء اللعب",
-            "مراقبة حرارة الهاتف وسرعة المعالج في الوقت الفعلي"
-        ]
-    },
-    {
-        id: "fake-number",
-        title: "الحصول على رقم أمريكي وهمي لتفعيل واتساب مجاناً",
-        category: "tricks",
-        icon: "fa-solid fa-square-phone",
-        desc: "تفعيل واتساب وتليجرام وحساباتك برقم ثانٍ لحماية خصوصيتك ورقمك الحقيقي من التسريب. دليل متكامل ومجرب.",
-        size: "14 MB",
-        compat: "متصفح الويب / تطبيق",
-        link: "https://example.com/download/fake-number",
-        alternative: "شراء شريحة SIM ثانية أو خدمات التحقق",
-        saves: "$10/سنوياً",
-        features: [
-            "استقبال رسائل التفعيل وأكواد OTP فوراً وبشكل مجاني",
-            "أرقام أمريكية وكندية صالحة للاستخدام الدائم",
-            "طريقة حماية الرقم من السحب عبر تفعيل التحقق بخطوتين",
-            "واجهة بسيطة لا تحتاج إلى خبرة لاستخراج الأرقام"
-        ]
-    },
-    {
-        id: "ai-video-creator",
-        title: "منصة إنشاء فيديوهات احترافية بالذكاء الاصطناعي من النص",
-        category: "ai",
-        icon: "fa-solid fa-video",
-        desc: "اكتب قصتك أو فكرتك ودع الذكاء الاصطناعي يقوم بتوليد المشاهد الحركية، دمج الأصوات الطبيعية وتصدير فيديو جاهز للنشر.",
-        size: "أداة ويب",
-        compat: "جميع المتصفحات (أندرويد/آيفون/كمبيوتر)",
-        link: "https://example.com/download/ai-video",
-        alternative: "Runway Gen-2 & Sora (مدفوع باشتراكات مكلفة)",
-        saves: "$30/شهرياً",
-        features: [
-            "توليد مشاهد فيديو واقعية وثلاثية الأبعاد بدقة ممتازة",
-            "دعم توليد تعليق صوتي باللغة العربية بلكنات طبيعية متعددة",
-            "مكتبة موسيقى ومؤثرات صوتية مرخصة مجانية للاستخدام",
-            "تعديل المقاطع والترجمة التلقائية بنقرة زر"
-        ]
-    },
-    {
-        id: "ps2-emulator",
-        title: "محاكي بلاي ستيشن 2 (PS2) لتشغيل ألعاب الطفولة بدقة عالية",
-        category: "games",
-        icon: "fa-solid fa-gamepad",
-        desc: "استرجع ذكرياتك وشغل ألعاب PlayStation 2 الشهيرة على هاتفك مباشرة مع دعم توصيل يد التحكم وسلاسة لعب فائقة.",
-        size: "38 MB",
-        compat: "Android 8.0+ (معالج متوسط فما فوق)",
-        link: "https://example.com/download/ps2-emulator",
-        alternative: "DamonPS2 Pro (النسخة المدفوعة المليئة بالإعلانات)",
-        saves: "$12/مرة واحدة",
-        features: [
-            "تشغيل 99% من ألعاب PS2 بصيغة ISO بسلاسة كاملة",
-            "دعم حفظ مرحلة اللعب في أي وقت واستعادتها فوراً (Save States)",
-            "إمكانية مضاعفة جودة الرسوميات الأصلية حتى 4K لشاشات الهواتف",
-            "توافق تام مع أذرع التحكم الخارجية عبر البلوتوث"
-        ]
-    },
-    {
-        id: "anti-spy",
-        title: "تطبيق كشف برامج التجسس وحماية خصوصية الكاميرا والميكروفون",
-        category: "tricks",
-        icon: "fa-solid fa-user-shield",
-        desc: "أداة أمنية قوية تفحص هاتفك بالكامل وتكشف التطبيقات التي تتجسس عليك وتستخدم الأذونات الحساسة في الخلفية دون علمك.",
-        size: "9 MB",
-        compat: "Android 6.0+",
-        link: "https://example.com/download/anti-spy",
-        alternative: "برامج الحماية السنوية المكلفة",
-        saves: "$25/سنوياً",
-        features: [
-            "تنبيه فوري بنقطة ملونة عند استخدام الكاميرا أو الميكروفون من أي تطبيق",
-            "فحص شامل لملفات الهاتف لكشف برمجيات التجسس وأحصنة طروادة",
-            "لوحة تحكم توضح أوقات استخدام التطبيقات للموقع الجغرافي والأذونات",
-            "حظر استخدام الكاميرا والميكروفون بنقرة واحدة لحماية الخصوصية المطلقة"
-        ]
-    },
-    {
-        id: "ai-prompt-app",
-        title: "أداة الذكاء الاصطناعي الشاملة (4000+ نموذج مجاني)",
-        category: "ai",
-        icon: "fa-solid fa-brain",
-        desc: "أداة خرافية تدمج أقوى نماذج الذكاء الاصطناعي للرسم والكتابة والبرمجة في مكان واحد مجاني بالكامل وبدون قيود استخدام.",
-        size: "أداة ويب",
-        compat: "جميع الأجهزة والمنصات",
-        link: "https://example.com/download/ai-tools",
-        alternative: "اشتراكات ChatGPT Plus و Claude Pro المجمعة",
-        saves: "$40/شهرياً",
-        features: [
-            "تضمين نماذج متطورة مثل GPT-4o و Claude 3.5 Sonnet مجاناً",
-            "توليد صور احترافية وتصميمات تريند بجودة فائقة بنقرة زر",
-            "بدون الحاجة لإنشاء حساب أو امتلاك رقم أجنبي للتفعيل",
-            "أدوات مساعدة لبرمجة الأكواد وتصحيح الأخطاء البرمجية تلقائياً"
-        ]
-    },
-    {
-        id: "magic-eraser",
-        title: "تطبيق إزالة الأشخاص والخلفيات من الصور بالذكاء الاصطناعي",
-        category: "apps",
-        icon: "fa-solid fa-wand-magic-sparkles",
-        desc: "امسح أي عنصر غير مرغوب فيه من صورك (أشخاص، كتابة، سيارات) في ثانية واحدة. يقوم الذكاء الاصطناعي بإعادة بناء الخلفية بدقة مذهلة.",
-        size: "15 MB",
-        compat: "Android 8.0+ / iOS",
-        link: "https://example.com/download/magic-eraser",
-        alternative: "Photoshop Elements / Canva Pro (أدوات مدفوعة)",
-        saves: "$10/شهرياً",
-        features: [
-            "تحديد ذكي وتلقائي للعناصر بمجرد تمرير الإصبع فوقها",
-            "تصدير الصور بجودتها الأصلية الكاملة HD دون تقليل الدقة",
-            "أدوات تجميل الوجوه وإزالة الشوائب وتعديل إضاءة بورتريه تلقائياً",
-            "يعمل بالكامل على الهاتف دون الحاجة لرفع صورك لخوادم خارجية"
-        ]
-    }
-];
-
-// ALTERNATIVES DATABASE (Alternative Finder Tool)
-const ALTERNATIVES_DATABASE = {
-    "photoshop": {
-        name: "Photoshop (فوتوشوب)",
-        price: "$22/شهرياً",
-        options: [
-            { name: "GIMP", desc: "بديل برمجيات مفتوحة المصدر، قوي جداً ومناسب للكمبيوتر.", link: "https://www.gimp.org/" },
-            { name: "Photopea", desc: "موقع ويب يطابق واجهة فوتوشوب بالكامل ويعمل بدون تحميل على الهاتف والكمبيوتر.", link: "https://www.photopea.com/" }
-        ]
-    },
-    "canva": {
-        name: "Canva Pro (كانفا برو)",
-        price: "$13/شهرياً",
-        options: [
-            { name: "Microsoft Designer", desc: "أداة تصميم مجانية بالكامل مدعومة بالذكاء الاصطناعي لتصميم البوسترات.", link: "https://designer.microsoft.com/" },
-            { name: "Polotno Studio", desc: "أداة ويب مجانية رائعة شبيهة بـ Canva بدون إعلانات أو قيود.", link: "https://studio.polotno.com/" }
-        ]
-    },
-    "idm": {
-        name: "Internet Download Manager (IDM)",
-        price: "$25/رخصة دائمية",
-        options: [
-            { name: "FDM (Free Download Manager)", desc: "بديل مجاني تماماً وسريع، يدعم التحميل العادي والتورنت ومتوفر للهاتف والكمبيوتر.", link: "https://www.freedownloadmanager.org/" },
-            { name: "Xtreme Download Manager", desc: "أداة قوية تزيد سرعة التحميل إلى 500% وتلتقط الفيديوهات من المتصفح تلقائياً.", link: "https://subhra74.github.io/xdm/" }
-        ]
-    },
-    "office": {
-        name: "Microsoft Office (أوفيس وورد وبوربوينت)",
-        price: "$70/سنوياً",
-        options: [
-            { name: "LibreOffice", desc: "الحزمة المكتبية الأقوى مفتوحة المصدر، مجانية بالكامل وتدعم ملفات وورد وإكسل.", link: "https://www.libreoffice.org/" },
-            { name: "Google Docs / Slides", desc: "أدوات جوجل السحابية، تتيح لك الكتابة والتصميم أونلاين ومشاركة الملفات بسهولة.", link: "https://docs.google.com/" }
-        ]
-    },
-    "premiere": {
-        name: "Adobe Premiere Pro (بريمير للمونتاج)",
-        price: "$22/شهرياً",
-        options: [
-            { name: "DaVinci Resolve", desc: "برنامج مونتاج وتعديل ألوان سينمائي مجاني للمحترفين على أجهزة الكمبيوتر.", link: "https://www.blackmagicdesign.com/products/davinciresolve" },
-            { name: "CapCut", desc: "أقوى تطبيق مونتاج وتعديل فيديو للهاتف والكمبيوتر، مجاني وسهل الاستخدام جداً.", link: "https://www.capcut.com/" }
-        ]
-    },
-    "windows": {
-        name: "Windows License (تفعيل ويندوز)",
-        price: "$130+",
-        options: [
-            { name: "Linux Mint", desc: "نظام تشغيل مجاني خفيف وآمن تماماً، يعيد الحياة للأجهزة القديمة ويشبه واجهة ويندوز.", link: "https://linuxmint.com/" },
-            { name: "MAS Github script", desc: "تفعيل ويندوز وأوفيس عبر كود أداة مفتوح المصدر وآمن 100% دون برامج خبيثة.", link: "https://massgrave.dev/" }
-        ]
-    },
-    "spotify": {
-        name: "Spotify Premium (سبوتيفاي)",
-        price: "$10/شهرياً",
-        options: [
-            { name: "ViMusic", desc: "تطبيق أندرويد مفتوح المصدر لتشغيل كل أغاني يوتيوب ميوزك مجاناً وبدون إعلانات وفي الخلفية.", link: "https://github.com/vireyt/vimusic" },
-            { name: "BlackHole Music", desc: "تطبيق موسيقى رائع مفتوح المصدر يتيح تحميل وتنزيل الأغاني بجودة عالية مجاناً.", link: "https://github.com/Sangwan5688/BlackHole" }
-        ]
-    },
-    "netflix": {
-        name: "Netflix (نتفليكس)",
-        price: "$15/شهرياً",
-        options: [
-            { name: "Stremio", desc: "برنامج مشغل وسائط مجاني للكمبيوتر والهاتف يجمع كل الأفلام والمسلسلات بترجمة عربية عبر إضافات التورنت.", link: "https://www.stremio.com/" },
-            { name: "Kodi", desc: "مركز ترفيهي مفتوح المصدر لبث وتصفح القنوات ومقاطع الفيديو مجاناً.", link: "https://kodi.tv/" }
-        ]
-    }
-};
+// DATABASE FOR APPS & TUTORIALS (Dynamic Fetch)
+let APPS_DATABASE = [];
+let ALTERNATIVES_DATABASE = {};
+let AI_PROMPTS = {};
 
 // SECURITY ADVISOR QUESTIONS
 const SECURITY_QUESTIONS = [
@@ -376,7 +147,26 @@ function renderApps() {
         return;
     }
 
-    filteredApps.forEach(app => {
+    filteredApps.forEach((app, idx) => {
+        // Insert Ad unit card after the 3rd item
+        if (idx === 3) {
+            const adCard = document.createElement("div");
+            adCard.className = "ad-card-item";
+            adCard.innerHTML = `
+                <span class="ad-label">مساحة إعلانية</span>
+                <ins class="adsbygoogle"
+                     style="display:block; width:100%;"
+                     data-ad-format="fluid"
+                     data-ad-layout-key="-fb+5w+4e-db+86"
+                     data-ad-client="ca-pub-0000000000000000"
+                     data-ad-slot="2222222222"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            `;
+            appsGrid.appendChild(adCard);
+        }
+
         const card = document.createElement("div");
         card.className = "app-card";
         
@@ -1234,11 +1024,38 @@ function initProfitHub() {
     generatePitchText();
 }
 
+// Dynamic database fetch loader
+function loadDatabase(callback) {
+    fetch("database.json")
+        .then(res => res.json())
+        .then(data => {
+            APPS_DATABASE = data.apps || [];
+            ALTERNATIVES_DATABASE = data.alternatives || {};
+            AI_PROMPTS = data.prompts || {};
+            if (callback) callback();
+        })
+        .catch(err => {
+            console.error("Failed to load database.json:", err);
+            // Local fallbacks
+            APPS_DATABASE = [];
+            ALTERNATIVES_DATABASE = {};
+            AI_PROMPTS = {};
+            if (callback) callback();
+        });
+}
+
 // STARTUP TASKS
 window.addEventListener("DOMContentLoaded", () => {
-    renderApps();
-    loadPrompts("images"); // Default active AI tab
-    initTheme();
-    initProfitHub();
+    loadDatabase(() => {
+        renderApps();
+        
+        // Find active AI tab
+        const activeTab = document.querySelector(".prompt-tab-btn.active");
+        const category = activeTab ? activeTab.getAttribute("data-tab") : "images";
+        loadPrompts(category);
+        
+        initTheme();
+        initProfitHub();
+    });
 });
 
