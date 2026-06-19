@@ -1115,35 +1115,11 @@ function initPreloader() {
     }
 }
 
-// Glowing Custom Cursor Handler
-function initCustomCursor() {
-    const cursor = document.getElementById("customCursor");
-    if (!cursor) return;
 
-    if (window.matchMedia("(pointer: fine)").matches) {
-        document.addEventListener("mousemove", (e) => {
-            cursor.style.left = `${e.clientX}px`;
-            cursor.style.top = `${e.clientY}px`;
-        });
-
-        // Hover effect for links and buttons
-        const hoverables = "a, button, .filter-pill, .social-icon, .card-btn, .hint-btn, .prompt-tab-btn, .copy-prompt-btn, .theme-toggle-btn";
-        document.addEventListener("mouseover", (e) => {
-            if (e.target.closest(hoverables)) {
-                cursor.classList.add("hover");
-            } else {
-                cursor.classList.remove("hover");
-            }
-        });
-    } else {
-        cursor.remove();
-    }
-}
 
 // STARTUP TASKS
 window.addEventListener("DOMContentLoaded", () => {
     initPreloader();
-    initCustomCursor();
     
     loadDatabase(() => {
         renderApps();
