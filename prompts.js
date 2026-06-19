@@ -486,8 +486,39 @@ function generateCustomPrompt() {
     custOutputText.textContent = outputPrompt;
 }
 
+// THEME SWITCHER LOGIC
+const themeToggleBtn = document.getElementById("themeToggleBtn");
+
+function updateThemeIcon(theme) {
+    const icon = themeToggleBtn.querySelector("i");
+    if (theme === "light") {
+        icon.className = "fas fa-moon";
+    } else {
+        icon.className = "fas fa-sun";
+    }
+}
+
+function initTheme() {
+    const savedTheme = localStorage.getItem("theme") || "dark";
+    if (savedTheme === "light") {
+        document.body.classList.add("light-theme");
+        updateThemeIcon("light");
+    } else {
+        updateThemeIcon("dark");
+    }
+    
+    themeToggleBtn.addEventListener("click", () => {
+        document.body.classList.toggle("light-theme");
+        const theme = document.body.classList.contains("light-theme") ? "light" : "dark";
+        localStorage.setItem("theme", theme);
+        updateThemeIcon(theme);
+        showToast(theme === "light" ? "تم تفعيل الوضع المضيء ☀️" : "تم تفعيل الوضع الداكن 🌙");
+    });
+}
+
 // ONLOAD LIFECYCLE
 window.addEventListener("DOMContentLoaded", () => {
     renderPromptCards();
     initCustomizer();
+    initTheme();
 });
