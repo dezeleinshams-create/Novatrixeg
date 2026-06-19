@@ -40,7 +40,7 @@ const SECURITY_QUESTIONS = [
 ];
 
 // AI PROMPTS HUB DATA
-const AI_PROMPTS = {
+AI_PROMPTS = {
     images: [
         {
             title: "توليد صورة سايبربانك (Midjourney/DALL-E)",
@@ -1031,21 +1031,120 @@ function loadDatabase(callback) {
         .then(data => {
             APPS_DATABASE = data.apps || [];
             ALTERNATIVES_DATABASE = data.alternatives || {};
-            AI_PROMPTS = data.prompts || {};
+            
+            // Re-group and map database prompts correctly into categories
+            const promptsArray = data.prompts || [];
+            AI_PROMPTS = { images: [], content: [], coding: [] };
+            promptsArray.forEach(p => {
+                if (AI_PROMPTS[p.category]) {
+                    AI_PROMPTS[p.category].push({
+                        title: p.title,
+                        text: p.promptText
+                    });
+                }
+            });
+            
             if (callback) callback();
         })
         .catch(err => {
             console.error("Failed to load database.json:", err);
-            // Local fallbacks
-            APPS_DATABASE = [];
-            ALTERNATIVES_DATABASE = {};
-            AI_PROMPTS = {};
+            // Local fallbacks are already in AI_PROMPTS from the initialization block
             if (callback) callback();
         });
 }
 
+// HIDDEN ADMIN ENTRANCE CONTROLLER
+function initHiddenEntrance() {
+    // 1. Avatar Click Listener (5 clicks in 3 seconds)
+    const avatar = document.querySelector(".profile-avatar-container");
+    if (avatar) {
+        let clickCount = 0;
+        let lastClickTime = 0;
+        
+        avatar.addEventListener("click", () => {
+            const currentTime = Date.now();
+            if (currentTime - lastClickTime < 3000) {
+                clickCount++;
+            } else {
+                clickCount = 1;
+            }
+            lastClickTime = currentTime;
+            
+            if (clickCount === 5) {
+                clickCount = 0; // reset
+                showToast("جاري الانتقال لبوابة الإدارة... 🔒");
+                setTimeout(() => {
+                    window.location.href = "dashboard.html";
+                }, 1000);
+            }
+        });
+    }
+
+    // 2. Keyboard shortcut Listener (Ctrl + Shift + D)
+    window.addEventListener("keydown", (e) => {
+        if (e.ctrlKey && e.shiftKey && (e.key === "D" || e.key === "d")) {
+            e.preventDefault();
+            showToast("جاري الانتقال لبوابة الإدارة... 🔒");
+            setTimeout(() => {
+                window.location.href = "dashboard.html";
+            }, 1000);
+        }
+    });
+}
+
+// World-Class Preloader Handler
+function initPreloader() {
+    const preloader = document.getElementById("preloader");
+    const progressFill = document.getElementById("preloaderProgress");
+    
+    if (preloader) {
+        let progress = 0;
+        const interval = setInterval(() => {
+            progress += 10;
+            if (progressFill) progressFill.style.width = `${progress}%`;
+            
+            if (progress >= 100) {
+                clearInterval(interval);
+                preloader.style.opacity = "0";
+                preloader.style.visibility = "hidden";
+                setTimeout(() => {
+                    preloader.remove();
+                }, 500);
+            }
+        }, 80);
+    }
+}
+
+// Glowing Custom Cursor Handler
+function initCustomCursor() {
+    const cursor = document.getElementById("customCursor");
+    if (!cursor) return;
+
+    if (window.matchMedia("(pointer: fine)").matches) {
+        document.addEventListener("mousemove", (e) => {
+            cursor.style.left = `${e.clientX}px`;
+            cursor.style.top = `${e.clientY}px`;
+        });
+
+        // Hover effect for links and buttons
+        const hoverables = "a, button, .filter-pill, .social-icon, .card-btn, .hint-btn, .prompt-tab-btn, .copy-prompt-btn, .theme-toggle-btn";
+        document.addEventListener("mouseover", (e) => {
+            if (e.target.closest(hoverables)) {
+                cursor.classList.add("hover");
+            } else {
+                cursor.classList.remove("hover");
+            }
+        });
+    } else {
+        cursor.remove();
+    }
+}
+
 // STARTUP TASKS
 window.addEventListener("DOMContentLoaded", () => {
+    initPreloader();
+    initCustomCursor();
+    
     loadDatabase(() => {
         renderApps();
         
@@ -1056,6 +1155,7 @@ window.addEventListener("DOMContentLoaded", () => {
         
         initTheme();
         initProfitHub();
+        initHiddenEntrance();
     });
 });
 

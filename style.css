@@ -2189,3 +2189,171 @@ body.light-theme .ad-card-item {
     border-color: #dadce0;
 }
 
+/* ==========================================
+   NEXURA EG PREMIUM DESIGN EXTENSIONS
+   ========================================== */
+
+/* 1. Cyber Grid Background Overlay */
+.cyber-bg::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(to right, rgba(138, 180, 248, 0.015) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(138, 180, 248, 0.015) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* 2. Custom Glowing Mouse Cursor */
+.custom-cursor {
+    width: 20px;
+    height: 20px;
+    background: rgba(138, 180, 248, 0.25);
+    border: 1.5px solid var(--primary);
+    border-radius: 50%;
+    position: fixed;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: screen;
+    transition: width 0.2s ease, height 0.2s ease, background-color 0.2s ease;
+    box-shadow: 0 0 10px var(--primary-glow);
+}
+
+/* When cursor hovers over clickable elements */
+.custom-cursor.hover {
+    width: 35px;
+    height: 35px;
+    background: rgba(255, 139, 203, 0.15);
+    border-color: var(--accent);
+    box-shadow: 0 0 15px rgba(255, 139, 203, 0.5);
+}
+
+/* Hide default cursor only if custom cursor is enabled */
+@media (pointer: fine) {
+    body {
+        cursor: none;
+    }
+    a, button, select, input, textarea, .filter-pill, .social-icon, .card-btn, .hint-btn {
+        cursor: none !important;
+    }
+}
+
+/* 3. World-Class Preloader Overlay */
+.preloader-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000000;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.preloader-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    max-width: 320px;
+    width: 100%;
+    text-align: center;
+}
+
+.preloader-logo-container {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border-radius: 16px;
+    padding: 2px;
+    border: 1px solid var(--border-color);
+    background: rgba(11, 12, 16, 0.8);
+    box-shadow: 0 0 30px rgba(138, 180, 248, 0.1);
+    overflow: hidden;
+}
+
+.preloader-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 14px;
+}
+
+/* Scan line effect */
+.preloader-scan-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(to right, transparent, var(--primary), transparent);
+    animation: scan 2.5s linear infinite;
+    box-shadow: 0 0 8px var(--primary);
+}
+
+@keyframes scan {
+    0% { top: 0%; }
+    50% { top: 100%; }
+    100% { top: 0%; }
+}
+
+.preloader-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    font-family: var(--font-en);
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 20px rgba(138, 180, 248, 0.2);
+}
+
+.preloader-progress-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.02);
+}
+
+.preloader-progress-fill {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(to right, var(--primary), var(--accent));
+    border-radius: 10px;
+    transition: width 0.12s linear;
+}
+
+.preloader-status {
+    font-family: var(--font-en);
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    letter-spacing: 1.5px;
+    animation: pulse 1.5s infinite alternate;
+}
+
+@keyframes pulse {
+    from { opacity: 0.4; }
+    to { opacity: 0.9; }
+}
+
+/* Add custom animations to card entries */
+.app-card {
+    transition: var(--transition-smooth);
+}
+.app-card:hover {
+    border-color: var(--primary);
+    box-shadow: 0 10px 25px rgba(138, 180, 248, 0.15);
+    transform: translateY(-4px);
+}
+

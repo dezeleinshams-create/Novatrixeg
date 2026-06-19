@@ -7,6 +7,9 @@ let localDatabase = { apps: [], alternatives: {}, prompts: [], customizer: {} };
 let isModified = false;
 let gitConfig = { token: "", owner: "", repo: "", branch: "" };
 
+// Credentials Hash (SHA-256 for admin:bn918912bn918912bn)
+const CREDENTIALS_HASH = "d2a7453f9a3e08f14a1277a8e4068e844d53c693408cc823662f2a72476b14bf";
+
 // DOM Selectors
 const githubTokenInput = document.getElementById("githubToken");
 const githubOwnerInput = document.getElementById("githubOwner");
@@ -27,12 +30,94 @@ const publishBtn = document.getElementById("publishBtn");
 const toastNotification = document.getElementById("toastNotification");
 const toastMessage = document.getElementById("toastMessage");
 
+// Login Gateway DOM Selectors
+const loginOverlay = document.getElementById("loginOverlay");
+const dashboardContainer = document.getElementById("dashboardContainer");
+const loginForm = document.getElementById("loginForm");
+const loginUser = document.getElementById("loginUser");
+const loginPassword = document.getElementById("loginPassword");
+const loginErrorMsg = document.getElementById("loginErrorMsg");
+const logoutBtn = document.getElementById("logoutBtn");
+
 // On Load initialization
 document.addEventListener("DOMContentLoaded", () => {
-    initTabs();
-    initAuthConfig();
-    fetchLocalDatabase();
+    checkAdminAuthentication();
 });
+
+// SHA-256 Hashing helper using native Web Crypto API
+async function hashCredentials(username, password) {
+    const msgBuffer = new TextEncoder().encode(`${username}:${password}`);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+// Check if user is logged in
+function checkAdminAuthentication() {
+    const isAuthenticated = sessionStorage.getItem("admin_authenticated") === "true";
+    
+    if (isAuthenticated) {
+        // Hide login gate and show dashboard
+        loginOverlay.classList.add("hidden");
+        dashboardContainer.style.display = "block";
+        
+        // Initialize dashboard controllers
+        initTabs();
+        initAuthConfig();
+        fetchLocalDatabase();
+        initLogout();
+    } else {
+        // Show login gate and keep dashboard hidden
+        loginOverlay.classList.remove("hidden");
+        dashboardContainer.style.display = "none";
+        initLoginGate();
+    }
+}
+
+// Initialize Login form triggers
+function initLoginGate() {
+    loginForm.addEventListener("submit", async () => {
+        const username = loginUser.value.trim();
+        const password = loginPassword.value.trim();
+        
+        const computedHash = await hashCredentials(username, password);
+        
+        if (computedHash === CREDENTIALS_HASH) {
+            // Save state to session
+            sessionStorage.setItem("admin_authenticated", "true");
+            loginErrorMsg.style.display = "none";
+            
+            // Clean fields
+            loginUser.value = "";
+            loginPassword.value = "";
+            
+            // Animate transition and boot dashboard
+            loginOverlay.classList.add("hidden");
+            setTimeout(() => {
+                checkAdminAuthentication();
+            }, 300);
+        } else {
+            // Display error and shake card
+            loginErrorMsg.style.display = "flex";
+            const card = document.querySelector(".login-card");
+            card.style.animation = 'none';
+            card.offsetHeight; /* trigger reflow */
+            card.style.animation = null;
+        }
+    });
+}
+
+// Initialize Logout button trigger
+function initLogout() {
+    if (logoutBtn) {
+        logoutBtn.addEventListener("click", () => {
+            if (confirm("هل أنت متأكد من رغبتك في تسجيل الخروج؟")) {
+                sessionStorage.removeItem("admin_authenticated");
+                window.location.reload();
+            }
+        });
+    }
+}
 
 // 1. Tab Switching Controller
 function initTabs() {
@@ -113,7 +198,8 @@ function updateModificationState(state) {
 }
 
 function checkPublishAbility() {
-    publishBtn.disabled = !isModified || !gitConfig.token;
+    const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+    publishBtn.disabled = !isModified || (!gitConfig.token && !isLocalhost);
 }
 
 // ==========================================
@@ -473,20 +559,75 @@ function showToast(message) {
 // ==========================================
 // COMMIT DEPLOYMENT TO GITHUB (GITHUB API)
 // ==========================================
+const downloadDbBtn = document.getElementById("downloadDbBtn");
+if (downloadDbBtn) {
+    downloadDbBtn.addEventListener("click", () => {
+        const jsonString = JSON.stringify(localDatabase, null, 2);
+        const blob = new Blob([jsonString], { type: "application/json;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "database.json";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast("تم تحميل database.json المعدّل! استبدله في مجلد المشروع.");
+    });
+}
+
 publishBtn.addEventListener("click", publishToGitHub);
 
 function publishToGitHub() {
-    if (!gitConfig.token) {
-        showToast("يرجى إدخال Access Token لحفظ التعديلات!");
-        return;
-    }
-
+    const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+    
     // Update status UI
     const dot = publishStatus.querySelector(".indicator-dot");
     const text = publishStatus.querySelector(".status-text");
     dot.className = "indicator-dot loading";
-    text.textContent = "جاري الاتصال بـ GitHub وجلب الـ SHA...";
     publishBtn.disabled = true;
+
+    if (isLocalhost) {
+        text.textContent = "جاري الحفظ المحلي والمزامنة تلقائياً مع GitHub...";
+        
+        fetch("/api/save", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8"
+            },
+            body: JSON.stringify(localDatabase)
+        })
+        .then(res => {
+            if (!res.ok) throw new Error("فشل الحفظ عبر خادم الأتمتة المحلي.");
+            return res.json();
+        })
+        .then(data => {
+            if (data.status === "success") {
+                updateModificationState(false);
+                showToast("تم الحفظ محلياً وبدء المزامنة التلقائية مع GitHub! 🎉");
+            } else {
+                throw new Error(data.message);
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            dot.className = "indicator-dot idle";
+            text.textContent = "فشل الحفظ التلقائي";
+            alert(`حدث خطأ أثناء المزامنة المحلية:\n${err.message}`);
+            checkPublishAbility();
+        });
+        return;
+    }
+
+    if (!gitConfig.token) {
+        showToast("يرجى إدخال Access Token لحفظ التعديلات!");
+        dot.className = "indicator-dot idle";
+        text.textContent = "تعديلات غير محفوظة محلياً";
+        checkPublishAbility();
+        return;
+    }
+
+    text.textContent = "جاري الاتصال بـ GitHub وجلب الـ SHA...";
 
     const path = "database.json";
     const url = `https://api.github.com/repos/${gitConfig.owner}/${gitConfig.repo}/contents/${path}`;
