@@ -160,11 +160,15 @@ function renderApps() {
                      data-ad-layout-key="-fb+5w+4e-db+86"
                      data-ad-client="ca-pub-0000000000000000"
                      data-ad-slot="2222222222"></ins>
-                <script>
-                     (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
             `;
             appsGrid.appendChild(adCard);
+            
+            // Programmatically trigger AdSense push
+            try {
+                (window.adsbygoogle = window.adsbygoogle || []).push({});
+            } catch (e) {
+                console.warn("Dynamic grid ad push failed:", e);
+            }
         }
 
         const card = document.createElement("div");
@@ -314,6 +318,13 @@ function resetDownloadSection() {
 function triggerSecureDownloadTimer() {
     startDownloadBtn.style.display = "none";
     timerContainer.style.display = "flex";
+    
+    // Dynamically push AdSense ad when the container is displayed
+    try {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch (e) {
+        console.warn("AdSense push failed or already pushed:", e);
+    }
     
     let countdown = 10;
     countdownNumber.textContent = countdown;
@@ -771,13 +782,9 @@ function updateThemeIcon(theme) {
 }
 
 function initTheme() {
-    const savedTheme = localStorage.getItem("theme") || "dark";
-    if (savedTheme === "light") {
-        document.body.classList.add("light-theme");
-        updateThemeIcon("light");
-    } else {
-        updateThemeIcon("dark");
-    }
+    // Always default to light theme on initial page load
+    document.body.classList.add("light-theme");
+    updateThemeIcon("light");
     
     themeToggleBtn.addEventListener("click", () => {
         document.body.classList.toggle("light-theme");

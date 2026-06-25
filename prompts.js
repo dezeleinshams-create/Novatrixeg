@@ -296,13 +296,9 @@ function updateThemeIcon(theme) {
 }
 
 function initTheme() {
-    const savedTheme = localStorage.getItem("theme") || "dark";
-    if (savedTheme === "light") {
-        document.body.classList.add("light-theme");
-        updateThemeIcon("light");
-    } else {
-        updateThemeIcon("dark");
-    }
+    // Always default to light theme on initial page load
+    document.body.classList.add("light-theme");
+    updateThemeIcon("light");
     
     themeToggleBtn.addEventListener("click", () => {
         document.body.classList.toggle("light-theme");

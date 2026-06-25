@@ -376,9 +376,130 @@
                 width: 100%;
             }
         }
+
+        /* === LIGHT THEME OVERRIDES for Prompts Hub === */
+        body.light-theme .prompts-header {
+            background: #ffffff;
+            border-color: #e2e8f0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+        }
+
+        body.light-theme .back-home-btn {
+            background: #f1f5f9;
+            border-color: #e2e8f0;
+            color: #0f172a;
+        }
+
+        body.light-theme .back-home-btn:hover {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
+        }
+
+        body.light-theme .prompts-subtitle {
+            color: #64748b;
+        }
+
+        body.light-theme .customizer-card {
+            background: #ffffff;
+            border-color: #e2e8f0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        body.light-theme .customizer-title {
+            color: #0f172a;
+        }
+
+        body.light-theme .customizer-desc {
+            color: #64748b;
+        }
+
+        body.light-theme .customizer-group label {
+            color: #0f172a;
+        }
+
+        body.light-theme .customizer-group select,
+        body.light-theme .customizer-group input {
+            background: #f8fafc;
+            border-color: #e2e8f0;
+            color: #0f172a;
+        }
+
+        body.light-theme .customizer-group select:focus,
+        body.light-theme .customizer-group input:focus {
+            border-color: var(--primary);
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        body.light-theme .customizer-output-box {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+        }
+
+        body.light-theme .output-text-block {
+            color: #1e293b;
+            background: #ffffff;
+            border-color: #e2e8f0;
+        }
+
+        body.light-theme .prompt-card {
+            background: #ffffff;
+            border-color: #e2e8f0;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+        }
+
+        body.light-theme .prompt-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.08);
+        }
+
+        body.light-theme .prompt-card-title {
+            color: #0f172a;
+        }
+
+        body.light-theme .prompt-explanation {
+            color: #475569;
+            background: #f1f5f9;
+        }
+
+        body.light-theme .prompt-card-text {
+            color: #1e293b;
+            background: #f8fafc;
+            border-color: #e2e8f0;
+        }
+
+        body.light-theme .page-btn {
+            background: #ffffff;
+            border-color: #e2e8f0;
+            color: #0f172a;
+        }
+
+        body.light-theme .page-btn:hover:not(:disabled) {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
+        }
+
+        body.light-theme .num-btn {
+            background: #ffffff;
+            border-color: #e2e8f0;
+            color: #475569;
+        }
+
+        body.light-theme .num-btn:hover:not(.active) {
+            background: #f1f5f9;
+            color: #0f172a;
+        }
+
+        body.light-theme .num-btn.active {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
+        }
     </style>
 </head>
-<body>
+<body class="light-theme">
 
     <!-- Background Cyber Elements -->
     <div class="cyber-bg">
