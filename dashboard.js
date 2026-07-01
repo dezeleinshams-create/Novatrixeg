@@ -66,6 +66,7 @@ function checkAdminAuthentication() {
         initAuthConfig();
         fetchLocalDatabase();
         initLogout();
+        initAnalyticsControls(); // Initialize analytics controls
     } else {
         // Show login gate and keep dashboard hidden
         loginOverlay.classList.remove("hidden");
@@ -129,6 +130,10 @@ function initTabs() {
             btn.classList.add("active");
             const targetTab = btn.getAttribute("data-tab");
             document.getElementById(`pane-${targetTab}`).classList.add("active");
+            
+            if (targetTab === "analytics") {
+                fetchAnalyticsData();
+            }
         });
     });
 }
@@ -687,4 +692,223 @@ function publishToGitHub() {
         alert(`حدث خطأ أثناء عملية النشر:\n${err.message}`);
         checkPublishAbility();
     });
+}
+
+// ==========================================
+// ANALYTICS PANEL LOGIC (COUNTAPI INTEGRATION)
+// ==========================================
+
+async function fetchAnalyticsData() {
+    const refreshBtn = document.getElementById("refreshAnalyticsBtn");
+    const refreshIcon = refreshBtn ? refreshBtn.querySelector("i") : null;
+    
+    // Add spinning loader class and disable button
+    if (refreshBtn) refreshBtn.disabled = true;
+    if (refreshIcon) refreshIcon.classList.add("spin-anim");
+    
+    // Select elements
+    const statVisits = document.getElementById("statVisits");
+    const statDownloads = document.getElementById("statDownloads");
+    const statChatbot = document.getElementById("statChatbot");
+    const statAlternatives = document.getElementById("statAlternatives");
+    const statSecurity = document.getElementById("statSecurity");
+    const topAppsListContainer = document.getElementById("topAppsListContainer");
+
+    // Show loading text
+    if (statVisits) statVisits.textContent = "...";
+    if (statDownloads) statDownloads.textContent = "...";
+    if (statChatbot) statChatbot.textContent = "...";
+    if (statAlternatives) statAlternatives.textContent = "...";
+    if (statSecurity) statSecurity.textContent = "...";
+    
+    const baseApiUrl = "https://countapi.mileshilliard.com/api/v1/get";
+    const keys = ["nexuraeg_visits", "nexuraeg_downloads", "nexuraeg_chatbot", "nexuraeg_alternatives", "nexuraeg_security"];
+    
+    // 1. Fetch main stats
+    const statsPromises = keys.map(key => 
+        fetch(`${baseApiUrl}/${key}`)
+            .then(res => {
+                if (!res.ok) return { value: 0 };
+                return res.json();
+            })
+            .catch(() => ({ value: 0 }))
+    );
+    
+    try {
+        const results = await Promise.all(statsPromises);
+        
+        // Update main stats UI with animation effect
+        animateCountValue("statVisits", 0, results[0].value, 800);
+        animateCountValue("statDownloads", 0, results[1].value, 800);
+        animateCountValue("statChatbot", 0, results[2].value, 800);
+        animateCountValue("statAlternatives", 0, results[3].value, 800);
+        animateCountValue("statSecurity", 0, results[4].value, 800);
+    } catch (err) {
+        console.error("Failed to load analytics counters:", err);
+    }
+    
+    // 2. Fetch specific app downloads
+    if (localDatabase.apps && localDatabase.apps.length > 0) {
+        const appPromises = localDatabase.apps.map(app => 
+            fetch(`${baseApiUrl}/nexuraeg_app_${app.id}`)
+                .then(res => {
+                    if (!res.ok) return { value: 0 };
+                    return res.json();
+                })
+                .then(data => ({
+                    id: app.id,
+                    title: app.title,
+                    icon: app.icon,
+                    category: app.category,
+                    count: data.value || 0
+                }))
+                .catch(() => ({
+                    id: app.id,
+                    title: app.title,
+                    icon: app.icon,
+                    category: app.category,
+                    count: 0
+                }))
+        );
+        
+        try {
+            const appsStats = await Promise.all(appPromises);
+            
+            // Sort by count descending
+            appsStats.sort((a, b) => b.count - a.count);
+            
+            // Render list
+            topAppsListContainer.innerHTML = "";
+            const maxDownloads = Math.max(...appsStats.map(a => a.count), 0);
+            
+            appsStats.forEach(app => {
+                const percentage = maxDownloads > 0 ? (app.count / maxDownloads) * 100 : 0;
+                
+                const row = document.createElement("div");
+                row.className = "top-app-row";
+                row.innerHTML = `
+                    <div class="app-row-meta">
+                        <div class="app-row-title">
+                            <div class="app-row-icon"><i class="${app.icon}"></i></div>
+                            <span class="app-row-name">${app.title}</span>
+                        </div>
+                        <span class="app-row-count">${app.count} تحميل</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-fill" style="width: 0%"></div>
+                    </div>
+                `;
+                topAppsListContainer.appendChild(row);
+                
+                // Animate progress bar fill in next tick
+                setTimeout(() => {
+                    const fill = row.querySelector(".progress-bar-fill");
+                    if (fill) fill.style.width = `${percentage}%`;
+                }, 100);
+            });
+        } catch (err) {
+            console.error("Failed to render top apps downloads:", err);
+            topAppsListContainer.innerHTML = `<p class="text-muted text-center py-4">فشل جلب إحصائيات التنزيلات للتطبيقات.</p>`;
+        }
+    } else {
+        topAppsListContainer.innerHTML = `<p class="text-muted text-center py-4">لا توجد تطبيقات لعرض إحصائياتها.</p>`;
+    }
+    
+    // Remove spinner and enable button
+    if (refreshBtn) refreshBtn.disabled = false;
+    if (refreshIcon) refreshIcon.classList.remove("spin-anim");
+}
+
+// Stats number counter animation helper
+function animateCountValue(elementId, start, end, duration) {
+    const obj = document.getElementById(elementId);
+    if (!obj) return;
+    
+    if (end === 0) {
+        obj.textContent = "0";
+        return;
+    }
+    
+    let startTimestamp = null;
+    const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        obj.textContent = Math.floor(progress * (end - start) + start).toLocaleString("ar-EG");
+        if (progress < 1) {
+            window.requestAnimationFrame(step);
+        } else {
+            obj.textContent = end.toLocaleString("ar-EG");
+        }
+    };
+    window.requestAnimationFrame(step);
+}
+
+// Initialize reset buttons
+function initAnalyticsControls() {
+    const refreshBtn = document.getElementById("refreshAnalyticsBtn");
+    const resetVisitsBtn = document.getElementById("resetVisitsBtn");
+    const resetDownloadsBtn = document.getElementById("resetDownloadsBtn");
+    
+    if (refreshBtn) {
+        refreshBtn.addEventListener("click", fetchAnalyticsData);
+    }
+    
+    const setApiUrl = "https://countapi.mileshilliard.com/api/v1/set";
+    
+    if (resetVisitsBtn) {
+        resetVisitsBtn.addEventListener("click", async () => {
+            if (!confirm("هل أنت متأكد من رغبتك في تصفير عداد زيارات الموقع؟")) return;
+            if (!confirm("تنبيه أخير: سيتم مسح جميع الزيارات السابقة والبدء من الصفر. هل تريد الاستمرار؟")) return;
+            
+            resetVisitsBtn.disabled = true;
+            try {
+                const res = await fetch(`${setApiUrl}/nexuraeg_visits?value=0`);
+                if (res.ok) {
+                    showToast("تم تصفير عداد الزيارات بنجاح!");
+                    fetchAnalyticsData();
+                } else {
+                    throw new Error("API error");
+                }
+            } catch (err) {
+                alert("حدث خطأ أثناء محاولة تصفير عداد الزيارات.");
+            }
+            resetVisitsBtn.disabled = false;
+        });
+    }
+    
+    if (resetDownloadsBtn) {
+        resetDownloadsBtn.addEventListener("click", async () => {
+            if (!confirm("هل أنت متأكد من تصفير العدادات التفاعلية (تحميلات، بوت، بدائل، أمان)؟")) return;
+            if (!confirm("سيتم تصفير كافة العدادات التفاعلية باستثناء الزيارات الإجمالية. هل أنت متأكد؟")) return;
+            
+            resetDownloadsBtn.disabled = true;
+            
+            const keysToReset = [
+                "nexuraeg_downloads",
+                "nexuraeg_chatbot",
+                "nexuraeg_alternatives",
+                "nexuraeg_security"
+            ];
+            
+            // Also reset app download stats in localDatabase.apps
+            if (localDatabase.apps) {
+                localDatabase.apps.forEach(app => {
+                    keysToReset.push(`nexuraeg_app_${app.id}`);
+                });
+            }
+            
+            const resetPromises = keysToReset.map(key => 
+                fetch(`${setApiUrl}/${key}?value=0`).catch(() => null)
+            );
+            
+            try {
+                await Promise.all(resetPromises);
+                showToast("تم تصفير جميع العدادات التفاعلية بنجاح!");
+                fetchAnalyticsData();
+            } catch (err) {
+                alert("حدث خطأ أثناء محاولة تصفير العدادات.");
+            }
+            resetDownloadsBtn.disabled = false;
+        });
+    }
 }

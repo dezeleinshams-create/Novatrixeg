@@ -79,6 +79,7 @@ let searchTerms = "";
 let currentSecurityQuestion = 0;
 let securityScore = 0;
 let downloadTimerInterval = null;
+let currentModalAppId = null; // Track current app in details modal
 
 // DOM ELEMENTS SELECTORS
 const appsGrid = document.getElementById("appsGrid");
@@ -247,6 +248,8 @@ function openAppModal(id) {
     const app = APPS_DATABASE.find(item => item.id === id);
     if (!app) return;
 
+    currentModalAppId = id; // Track for download analytics
+
     // Reset Modal elements
     resetDownloadSection();
 
@@ -380,6 +383,9 @@ function performAlternativeLookup() {
         return;
     }
 
+    // Increment alternative finder searches counter
+    fetch("https://countapi.mileshilliard.com/api/v1/hit/nexuraeg_alternatives").catch(err => console.warn(err));
+
     // Try finding direct matches in database keys
     let foundKey = Object.keys(ALTERNATIVES_DATABASE).find(key => {
         return key === query || query.includes(key) || key.includes(query);
@@ -463,6 +469,9 @@ function loadSecurityQuestion() {
 }
 
 function showSecurityResults() {
+    // Increment security check completions counter
+    fetch("https://countapi.mileshilliard.com/api/v1/hit/nexuraeg_security").catch(err => console.warn(err));
+
     let healthClass = "gauge-glow-green";
     let statusText = "درع أمان ممتاز 🔒";
     let descriptionText = "جوالك محمي ومحصن بشكل رائع! اتبع دائماً تحديثات صانع المحتوى لتظل في أمان.";
@@ -592,6 +601,9 @@ function appendChatMessage(sender, text) {
 function handleUserMessageSubmit() {
     const text = chatInput.value.trim();
     if (text.length === 0) return;
+    
+    // Increment chatbot interactions counter
+    fetch("https://countapi.mileshilliard.com/api/v1/hit/nexuraeg_chatbot").catch(err => console.warn(err));
     
     appendChatMessage("user", text);
     chatInput.value = "";
@@ -1139,6 +1151,22 @@ window.addEventListener("DOMContentLoaded", () => {
         initTheme();
         initProfitHub();
         initHiddenEntrance();
+
+        // Track Visits Analytics (if not localhost)
+        if (window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1") {
+            fetch("https://countapi.mileshilliard.com/api/v1/hit/nexuraeg_visits").catch(err => console.warn(err));
+        }
+
+        // Track App Download Analytics when final download button is clicked
+        const finalDownloadBtn = document.getElementById("finalDownloadBtn");
+        if (finalDownloadBtn) {
+            finalDownloadBtn.addEventListener("click", () => {
+                fetch("https://countapi.mileshilliard.com/api/v1/hit/nexuraeg_downloads").catch(err => console.warn(err));
+                if (currentModalAppId) {
+                    fetch(`https://countapi.mileshilliard.com/api/v1/hit/nexuraeg_app_${currentModalAppId}`).catch(err => console.warn(err));
+                }
+            });
+        }
     });
 });
 

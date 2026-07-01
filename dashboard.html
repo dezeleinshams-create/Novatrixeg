@@ -98,6 +98,7 @@
             <button class="tab-btn active" data-tab="apps"><i class="fas fa-mobile-screen"></i> إدارة التطبيقات</button>
             <button class="tab-btn" data-tab="alternatives"><i class="fas fa-arrows-spin"></i> إدارة البدائل</button>
             <button class="tab-btn" data-tab="prompts"><i class="fas fa-brain"></i> إدارة البرومبتات</button>
+            <button class="tab-btn" data-tab="analytics"><i class="fas fa-chart-line"></i> التحليلات والزيارات</button>
         </nav>
 
         <!-- Content Area -->
@@ -136,6 +137,75 @@
                 
                 <div class="items-list" id="promptsListContainer">
                     <!-- Prompts loaded dynamically -->
+                </div>
+            </div>
+
+            <!-- TAB 4: Analytics Dashboard -->
+            <div class="tab-pane" id="pane-analytics">
+                <div class="pane-header">
+                    <h2>إحصائيات وتحليلات المنصة</h2>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="primary-btn" id="refreshAnalyticsBtn"><i class="fas fa-arrows-rotate"></i> تحديث البيانات</button>
+                    </div>
+                </div>
+                
+                <!-- Main Stats Cards Grid -->
+                <div class="analytics-stats-grid">
+                    <div class="stat-card visit-card">
+                        <div class="stat-icon-wrapper"><i class="fas fa-eye"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">زيارات الموقع الإجمالية</span>
+                            <h3 class="stat-value" id="statVisits">---</h3>
+                        </div>
+                    </div>
+                    <div class="stat-card download-card">
+                        <div class="stat-icon-wrapper"><i class="fas fa-circle-down"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">نقرات تحميل التطبيقات</span>
+                            <h3 class="stat-value" id="statDownloads">---</h3>
+                        </div>
+                    </div>
+                    <div class="stat-card chatbot-card">
+                        <div class="stat-icon-wrapper"><i class="fas fa-robot"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">استشارات البوت الذكي</span>
+                            <h3 class="stat-value" id="statChatbot">---</h3>
+                        </div>
+                    </div>
+                    <div class="stat-card alt-card">
+                        <div class="stat-icon-wrapper"><i class="fas fa-magnifying-glass"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">البحث عن بدائل البرامج</span>
+                            <h3 class="stat-value" id="statAlternatives">---</h3>
+                        </div>
+                    </div>
+                    <div class="stat-card security-card">
+                        <div class="stat-icon-wrapper"><i class="fas fa-shield-halved"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">فحوصات الأمان المنجزة</span>
+                            <h3 class="stat-value" id="statSecurity">---</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Top Apps Downloads Section -->
+                <div class="dash-card analytics-details-card" style="margin-top: 24px;">
+                    <h3><i class="fas fa-star text-glow-purple"></i> ترتيب التطبيقات الأكثر تحميلاً</h3>
+                    <p class="section-desc text-muted">يعرض عدد نقرات التحميل لكل تطبيق مرتبة تنازلياً مع مؤشر نسبي للتنزيلات.</p>
+                    <div class="top-apps-list" id="topAppsListContainer">
+                        <!-- Loaded dynamically -->
+                        <p class="text-muted text-center" style="padding: 24px 0;">جاري جلب إحصائيات التطبيقات...</p>
+                    </div>
+                </div>
+
+                <!-- Controls & Reset panel -->
+                <div class="dash-card analytics-controls-card" style="margin-top: 24px;">
+                    <h3><i class="fas fa-gears"></i> أدوات وإجراءات التحليلات</h3>
+                    <p class="section-desc text-muted">إدارة وتصفير عدادات التحليلات للموقع. تنبيه: هذا الإجراء لا يمكن التراجع عنه.</p>
+                    <div class="control-actions-grid" style="display: flex; gap: 12px; flex-wrap: wrap;">
+                        <button class="primary-btn danger-btn" id="resetVisitsBtn"><i class="fas fa-trash-can"></i> تصفير الزيارات</button>
+                        <button class="primary-btn danger-btn" id="resetDownloadsBtn"><i class="fas fa-trash-can"></i> تصفير العدادات التفاعلية</button>
+                    </div>
                 </div>
             </div>
 

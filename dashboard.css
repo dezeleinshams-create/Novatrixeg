@@ -713,3 +713,198 @@ body {
     box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
 }
 
+/* ==========================================
+   ANALYTICS DASHBOARD PANEL STYLES
+   ========================================== */
+.analytics-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-top: 10px;
+}
+
+.stat-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--card-radius);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    backdrop-filter: blur(12px);
+    transition: var(--transition-smooth);
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--border-color-hover);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+.stat-icon-wrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+}
+
+.visit-card .stat-icon-wrapper {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+}
+.visit-card:hover {
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
+}
+
+.download-card .stat-icon-wrapper {
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+.download-card:hover {
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.15);
+}
+
+.chatbot-card .stat-icon-wrapper {
+    background: rgba(168, 85, 247, 0.1);
+    color: #a855f7;
+    border: 1px solid rgba(168, 85, 247, 0.2);
+}
+.chatbot-card:hover {
+    box-shadow: 0 8px 25px rgba(168, 85, 247, 0.15);
+}
+
+.alt-card .stat-icon-wrapper {
+    background: rgba(245, 158, 11, 0.1);
+    color: #f59e0b;
+    border: 1px solid rgba(245, 158, 11, 0.2);
+}
+.alt-card:hover {
+    box-shadow: 0 8px 25px rgba(245, 158, 11, 0.15);
+}
+
+.security-card .stat-icon-wrapper {
+    background: rgba(6, 182, 212, 0.1);
+    color: #06b6d4;
+    border: 1px solid rgba(6, 182, 212, 0.2);
+}
+.security-card:hover {
+    box-shadow: 0 8px 25px rgba(6, 182, 212, 0.15);
+}
+
+.stat-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stat-label {
+    font-size: 0.76rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: white;
+    font-family: var(--font-en);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+/* Top Apps List Styling */
+.top-apps-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 12px;
+}
+
+.top-app-row {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 8px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: var(--transition-smooth);
+}
+
+.top-app-row:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.app-row-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.app-row-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.app-row-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: rgba(168, 85, 247, 0.15);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+}
+
+.app-row-name {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: white;
+}
+
+.app-row-count {
+    font-family: var(--font-en);
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--accent);
+    background: rgba(6, 182, 212, 0.1);
+    border: 1px solid rgba(6, 182, 212, 0.2);
+    padding: 2px 10px;
+    border-radius: 20px;
+}
+
+/* Progress bar */
+.progress-bar-container {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    border-radius: 3px;
+    width: 0;
+    transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+}
+
+/* Rotate loading animation for refresh */
+.spin-anim {
+    animation: fa-spin 1s linear infinite;
+}
+
+
