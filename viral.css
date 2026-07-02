@@ -1,0 +1,1087 @@
+/* ==========================================================================
+   NEXURA EG - VIRAL GROWTH SYSTEM STYLES
+   Inspired by Temu's viral mechanics
+   ========================================================================== */
+
+/* ============================================
+   1. POINTS BAR (Top Header Strip)
+   ============================================ */
+.viral-points-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9000;
+    background: linear-gradient(135deg, #090e1a 0%, #0f172a 100%);
+    border-bottom: 1px solid rgba(37, 99, 235, 0.2);
+    padding: 6px 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    font-family: 'Cairo', sans-serif;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    transition: transform 0.3s ease;
+}
+
+.viral-points-bar.hidden {
+    transform: translateY(-100%);
+}
+
+.points-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #f8fafc;
+    cursor: default;
+}
+
+.points-item i {
+    font-size: 0.85rem;
+}
+
+.points-item .pts-value {
+    color: #fbbf24;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+}
+
+.points-item .streak-value {
+    color: #f97316;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+}
+
+.points-item .level-badge {
+    background: linear-gradient(135deg, #2563eb, #0ea5e9);
+    color: white;
+    padding: 1px 8px;
+    border-radius: 12px;
+    font-size: 0.68rem;
+    font-weight: 700;
+}
+
+.points-bar-cta {
+    background: linear-gradient(135deg, #f59e0b, #f97316);
+    color: #0f172a;
+    border: none;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    font-family: 'Cairo', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.points-bar-cta:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+}
+
+/* Push body content down when points bar is visible */
+body.has-viral-bar {
+    padding-top: 36px;
+}
+
+/* ============================================
+   2. FAB BUTTON (Floating Gift Button)
+   ============================================ */
+.viral-fab {
+    position: fixed;
+    bottom: 90px;
+    left: 20px;
+    z-index: 8000;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #f59e0b, #ef4444);
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 25px rgba(245, 158, 11, 0.5);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: fab-pulse 2s infinite;
+}
+
+.viral-fab:hover {
+    transform: scale(1.15) rotate(10deg);
+    box-shadow: 0 10px 35px rgba(245, 158, 11, 0.6);
+}
+
+.viral-fab .fab-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #ef4444;
+    color: white;
+    font-size: 0.6rem;
+    font-weight: 800;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #090e1a;
+    font-family: 'Outfit', sans-serif;
+}
+
+@keyframes fab-pulse {
+    0%, 100% { box-shadow: 0 6px 25px rgba(245, 158, 11, 0.5); }
+    50% { box-shadow: 0 6px 35px rgba(245, 158, 11, 0.8), 0 0 0 8px rgba(245, 158, 11, 0.1); }
+}
+
+/* ============================================
+   3. SPIN WHEEL MODAL
+   ============================================ */
+.spin-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease;
+}
+
+.spin-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.spin-modal {
+    background: linear-gradient(145deg, #0f172a, #1e293b);
+    border: 1px solid rgba(37, 99, 235, 0.3);
+    border-radius: 24px;
+    padding: 32px 24px;
+    width: 90%;
+    max-width: 420px;
+    text-align: center;
+    position: relative;
+    transform: scale(0.8);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 80px rgba(37, 99, 235, 0.08);
+}
+
+.spin-overlay.active .spin-modal {
+    transform: scale(1);
+}
+
+.spin-close-btn {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #94a3b8;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.spin-close-btn:hover {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+    border-color: #ef4444;
+}
+
+.spin-modal h2 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #f8fafc;
+    margin-bottom: 4px;
+    font-family: 'Cairo', sans-serif;
+}
+
+.spin-modal .spin-subtitle {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    margin-bottom: 20px;
+}
+
+/* The Wheel */
+.wheel-container {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    margin: 0 auto 20px;
+}
+
+.wheel-pointer {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    font-size: 2rem;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+    animation: pointer-bounce 1s infinite;
+}
+
+@keyframes pointer-bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(4px); }
+}
+
+.wheel-canvas {
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    border: 4px solid rgba(37, 99, 235, 0.5);
+    box-shadow: 0 0 30px rgba(37, 99, 235, 0.2), inset 0 0 20px rgba(0, 0, 0, 0.3);
+    transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+}
+
+.wheel-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2563eb, #0ea5e9);
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: white;
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.5);
+    z-index: 5;
+}
+
+.spin-action-btn {
+    background: linear-gradient(135deg, #f59e0b, #f97316);
+    color: #0f172a;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: 800;
+    font-family: 'Cairo', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 200px;
+    justify-content: center;
+}
+
+.spin-action-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(245, 158, 11, 0.5);
+}
+
+.spin-action-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.spin-action-btn.spinning {
+    pointer-events: none;
+}
+
+.spin-share-note {
+    font-size: 0.75rem;
+    color: #64748b;
+    margin-top: 8px;
+}
+
+/* Spin Result */
+.spin-result {
+    display: none;
+    padding: 16px;
+    border-radius: 16px;
+    background: rgba(37, 99, 235, 0.1);
+    border: 1px solid rgba(37, 99, 235, 0.2);
+    margin-top: 16px;
+}
+
+.spin-result.show {
+    display: block;
+    animation: result-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.spin-result .result-emoji {
+    font-size: 2.5rem;
+    margin-bottom: 8px;
+}
+
+.spin-result .result-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #fbbf24;
+    margin-bottom: 4px;
+}
+
+.spin-result .result-desc {
+    font-size: 0.82rem;
+    color: #94a3b8;
+}
+
+@keyframes result-pop {
+    from { transform: scale(0.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* ============================================
+   4. SHARE MODAL
+   ============================================ */
+.share-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10001;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease;
+}
+
+.share-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.share-modal {
+    background: linear-gradient(145deg, #0f172a, #1e293b);
+    border: 1px solid rgba(37, 99, 235, 0.3);
+    border-radius: 24px;
+    padding: 28px 24px;
+    width: 90%;
+    max-width: 380px;
+    text-align: center;
+    transform: scale(0.8) translateY(20px);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+}
+
+.share-overlay.active .share-modal {
+    transform: scale(1) translateY(0);
+}
+
+.share-modal h3 {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #f8fafc;
+    margin-bottom: 4px;
+}
+
+.share-modal .share-subtitle {
+    font-size: 0.82rem;
+    color: #94a3b8;
+    margin-bottom: 20px;
+}
+
+.share-buttons-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.share-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 8px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 0.82rem;
+    font-weight: 700;
+    font-family: 'Cairo', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: white;
+}
+
+.share-btn:hover {
+    transform: translateY(-2px);
+}
+
+.share-btn i {
+    font-size: 1.1rem;
+}
+
+.share-btn.whatsapp {
+    background: linear-gradient(135deg, #25d366, #128c7e);
+}
+.share-btn.whatsapp:hover {
+    box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
+}
+
+.share-btn.facebook {
+    background: linear-gradient(135deg, #1877f2, #0d5bbf);
+}
+.share-btn.facebook:hover {
+    box-shadow: 0 8px 20px rgba(24, 119, 242, 0.4);
+}
+
+.share-btn.telegram {
+    background: linear-gradient(135deg, #0088cc, #005f8c);
+}
+.share-btn.telegram:hover {
+    box-shadow: 0 8px 20px rgba(0, 136, 204, 0.4);
+}
+
+.share-btn.twitter {
+    background: linear-gradient(135deg, #1da1f2, #0d7ecf);
+}
+.share-btn.twitter:hover {
+    box-shadow: 0 8px 20px rgba(29, 161, 242, 0.4);
+}
+
+.share-btn.copy-link {
+    background: linear-gradient(135deg, #64748b, #475569);
+    grid-column: 1 / -1;
+}
+.share-btn.copy-link:hover {
+    box-shadow: 0 8px 20px rgba(100, 116, 139, 0.4);
+}
+
+.share-close-btn {
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #94a3b8;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-family: 'Cairo', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.share-close-btn:hover {
+    border-color: #ef4444;
+    color: #ef4444;
+}
+
+/* ============================================
+   5. CONTENT LOCKS
+   ============================================ */
+.content-locked {
+    position: relative;
+    overflow: hidden;
+}
+
+.content-locked::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(9, 14, 26, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 10;
+    border-radius: inherit;
+    transition: all 0.5s ease;
+}
+
+.content-locked .lock-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 11;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: inherit;
+}
+
+.lock-overlay .lock-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #f59e0b, #f97316);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: #0f172a;
+    animation: lock-pulse 2s infinite;
+}
+
+@keyframes lock-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); }
+    50% { box-shadow: 0 0 0 12px rgba(245, 158, 11, 0); }
+}
+
+.lock-overlay .lock-text {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #f8fafc;
+}
+
+.lock-overlay .unlock-btn {
+    background: linear-gradient(135deg, #f59e0b, #f97316);
+    color: #0f172a;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    font-family: 'Cairo', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.lock-overlay .unlock-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+}
+
+/* Unlocked state animation */
+.content-unlocking::before {
+    opacity: 0;
+    backdrop-filter: blur(0);
+}
+
+.content-unlocking .lock-overlay {
+    opacity: 0;
+    transform: scale(0.5);
+}
+
+.content-unlocked::before,
+.content-unlocked .lock-overlay {
+    display: none;
+}
+
+/* ============================================
+   6. FLASH DEAL BANNER
+   ============================================ */
+.flash-deal-banner {
+    position: fixed;
+    top: 36px;
+    left: 0;
+    right: 0;
+    z-index: 8999;
+    background: linear-gradient(90deg, #f59e0b, #ef4444, #f59e0b);
+    background-size: 200% 100%;
+    animation: flash-gradient 3s linear infinite;
+    padding: 6px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-family: 'Cairo', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.flash-deal-banner:hover {
+    filter: brightness(1.1);
+}
+
+.flash-deal-banner.hidden {
+    transform: translateY(-100%);
+    opacity: 0;
+}
+
+@keyframes flash-gradient {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+
+.flash-deal-text {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.flash-deal-timer {
+    background: #0f172a;
+    color: #fbbf24;
+    padding: 2px 10px;
+    border-radius: 8px;
+    font-family: 'Outfit', monospace;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.flash-deal-close {
+    background: none;
+    border: none;
+    color: #0f172a;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0 4px;
+    opacity: 0.6;
+    transition: opacity 0.3s;
+}
+
+.flash-deal-close:hover {
+    opacity: 1;
+}
+
+body.has-flash-deal {
+    padding-top: 68px;
+}
+
+body.has-flash-deal .viral-points-bar + .flash-deal-banner {
+    top: 36px;
+}
+
+/* ============================================
+   7. REFERRAL CARD
+   ============================================ */
+.referral-card {
+    background: linear-gradient(145deg, rgba(15, 23, 42, 0.8), rgba(30, 41, 59, 0.8));
+    border: 1px solid rgba(37, 99, 235, 0.2);
+    border-radius: 20px;
+    padding: 24px;
+    text-align: center;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+.referral-card h3 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #f8fafc;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.referral-card .referral-desc {
+    font-size: 0.82rem;
+    color: #94a3b8;
+    margin-bottom: 16px;
+}
+
+.referral-stats {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 16px;
+}
+
+.referral-stat {
+    text-align: center;
+}
+
+.referral-stat .stat-num {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #fbbf24, #f97316);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.referral-stat .stat-label {
+    font-size: 0.72rem;
+    color: #64748b;
+    font-weight: 600;
+}
+
+.referral-link-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 8px 12px;
+    direction: ltr;
+}
+
+.referral-link-box input {
+    flex: 1;
+    background: none;
+    border: none;
+    color: #94a3b8;
+    font-size: 0.78rem;
+    font-family: 'Outfit', sans-serif;
+    outline: none;
+}
+
+.referral-copy-btn {
+    background: linear-gradient(135deg, #2563eb, #0ea5e9);
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    font-family: 'Cairo', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.referral-copy-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+}
+
+/* ============================================
+   8. CONFETTI ANIMATION
+   ============================================ */
+.confetti-container {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.confetti-piece {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    top: -10px;
+    opacity: 0;
+    animation: confetti-fall 3s ease-in forwards;
+}
+
+@keyframes confetti-fall {
+    0% {
+        transform: translateY(0) rotate(0deg) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg) scale(0.3);
+        opacity: 0;
+    }
+}
+
+/* ============================================
+   9. POINTS TOAST (Floating Points Notification)
+   ============================================ */
+.points-toast {
+    position: fixed;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+    z-index: 11000;
+    background: linear-gradient(135deg, #fbbf24, #f97316);
+    color: #0f172a;
+    padding: 8px 20px;
+    border-radius: 30px;
+    font-size: 0.88rem;
+    font-weight: 800;
+    font-family: 'Cairo', sans-serif;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 8px 25px rgba(245, 158, 11, 0.5);
+    white-space: nowrap;
+}
+
+.points-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.points-toast i {
+    font-size: 1rem;
+}
+
+/* ============================================
+   10. WELCOME POPUP (First Visit)
+   ============================================ */
+.welcome-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10002;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s ease;
+}
+
+.welcome-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.welcome-modal {
+    background: linear-gradient(145deg, #0f172a, #1e293b);
+    border: 1px solid rgba(37, 99, 235, 0.3);
+    border-radius: 24px;
+    padding: 36px 28px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    transform: scale(0.8);
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.7), 0 0 100px rgba(37, 99, 235, 0.1);
+}
+
+.welcome-overlay.active .welcome-modal {
+    transform: scale(1);
+}
+
+.welcome-modal .welcome-emoji {
+    font-size: 3rem;
+    margin-bottom: 12px;
+    animation: welcome-bounce 1s ease infinite;
+}
+
+@keyframes welcome-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+.welcome-modal h2 {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #f8fafc;
+    margin-bottom: 8px;
+}
+
+.welcome-modal p {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.welcome-modal .welcome-rewards {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.welcome-reward-item {
+    text-align: center;
+    padding: 12px;
+    border-radius: 14px;
+    background: rgba(37, 99, 235, 0.08);
+    border: 1px solid rgba(37, 99, 235, 0.15);
+    flex: 1;
+}
+
+.welcome-reward-item .reward-icon {
+    font-size: 1.5rem;
+    margin-bottom: 4px;
+}
+
+.welcome-reward-item .reward-label {
+    font-size: 0.68rem;
+    color: #94a3b8;
+    font-weight: 600;
+}
+
+.welcome-start-btn {
+    background: linear-gradient(135deg, #2563eb, #0ea5e9);
+    color: white;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: 800;
+    font-family: 'Cairo', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.welcome-start-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.5);
+}
+
+/* ============================================
+   11. VIP BADGE ON PROFILE
+   ============================================ */
+.vip-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: linear-gradient(135deg, #fbbf24, #f97316);
+    color: #0f172a;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.65rem;
+    font-weight: 800;
+    font-family: 'Outfit', sans-serif;
+    margin-right: 6px;
+}
+
+/* ============================================
+   12. LIGHT THEME OVERRIDES
+   ============================================ */
+body.light-theme .viral-points-bar {
+    background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+    border-bottom: 1px solid #e2e8f0;
+}
+
+body.light-theme .points-item {
+    color: #0f172a;
+}
+
+body.light-theme .spin-modal,
+body.light-theme .share-modal,
+body.light-theme .welcome-modal {
+    background: linear-gradient(145deg, #ffffff, #f8fafc);
+    border-color: #e2e8f0;
+}
+
+body.light-theme .spin-modal h2,
+body.light-theme .share-modal h3,
+body.light-theme .welcome-modal h2 {
+    color: #0f172a;
+}
+
+body.light-theme .spin-modal .spin-subtitle,
+body.light-theme .share-modal .share-subtitle,
+body.light-theme .welcome-modal p {
+    color: #475569;
+}
+
+body.light-theme .spin-result {
+    background: rgba(37, 99, 235, 0.05);
+    border-color: rgba(37, 99, 235, 0.15);
+}
+
+body.light-theme .spin-result .result-desc {
+    color: #475569;
+}
+
+body.light-theme .spin-close-btn {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: #e2e8f0;
+    color: #64748b;
+}
+
+body.light-theme .content-locked::before {
+    background: rgba(255, 255, 255, 0.8);
+}
+
+body.light-theme .lock-overlay .lock-text {
+    color: #0f172a;
+}
+
+body.light-theme .referral-card {
+    background: rgba(255, 255, 255, 0.8);
+    border-color: #e2e8f0;
+}
+
+body.light-theme .referral-card h3 {
+    color: #0f172a;
+}
+
+body.light-theme .referral-card .referral-desc {
+    color: #475569;
+}
+
+body.light-theme .referral-link-box {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: #e2e8f0;
+}
+
+body.light-theme .referral-link-box input {
+    color: #475569;
+}
+
+body.light-theme .viral-fab {
+    border: 2px solid #ffffff;
+}
+
+body.light-theme .flash-deal-banner {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ============================================
+   13. RESPONSIVE
+   ============================================ */
+@media (max-width: 480px) {
+    .viral-points-bar {
+        gap: 10px;
+        padding: 5px 10px;
+        font-size: 0.7rem;
+    }
+
+    .points-item {
+        font-size: 0.7rem;
+    }
+
+    .wheel-container {
+        width: 240px;
+        height: 240px;
+    }
+
+    .wheel-canvas {
+        width: 240px;
+        height: 240px;
+    }
+
+    .spin-modal {
+        padding: 24px 16px;
+    }
+
+    .share-buttons-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    .share-btn {
+        font-size: 0.75rem;
+        padding: 10px 6px;
+    }
+
+    .viral-fab {
+        width: 48px;
+        height: 48px;
+        font-size: 1.2rem;
+        bottom: 80px;
+    }
+
+    .flash-deal-text {
+        font-size: 0.7rem;
+    }
+
+    .referral-stats {
+        gap: 16px;
+    }
+
+    .referral-stat .stat-num {
+        font-size: 1.4rem;
+    }
+}

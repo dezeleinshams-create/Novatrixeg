@@ -385,6 +385,7 @@ function performAlternativeLookup() {
 
     // Increment alternative finder searches counter
     fetch("https://countapi.mileshilliard.com/api/v1/hit/nexuraeg_alternatives").catch(err => console.warn(err));
+    if (window.ViralEngine) window.ViralEngine.onToolUsed();
 
     // Try finding direct matches in database keys
     let foundKey = Object.keys(ALTERNATIVES_DATABASE).find(key => {
@@ -471,6 +472,7 @@ function loadSecurityQuestion() {
 function showSecurityResults() {
     // Increment security check completions counter
     fetch("https://countapi.mileshilliard.com/api/v1/hit/nexuraeg_security").catch(err => console.warn(err));
+    if (window.ViralEngine) window.ViralEngine.onToolUsed();
 
     let healthClass = "gauge-glow-green";
     let statusText = "درع أمان ممتاز 🔒";
@@ -548,6 +550,7 @@ function loadPrompts(tabId) {
             
             navigator.clipboard.writeText(textContent).then(() => {
                 showToast("تم نسخ أمر الذكاء الاصطناعي بنجاح! جاهز للصق.");
+                if (window.ViralEngine) window.ViralEngine.onPromptCopied();
             }).catch(err => {
                 showToast("فشل في نسخ النص، يرجى المحاولة يدوياً.");
             });
@@ -604,6 +607,7 @@ function handleUserMessageSubmit() {
     
     // Increment chatbot interactions counter
     fetch("https://countapi.mileshilliard.com/api/v1/hit/nexuraeg_chatbot").catch(err => console.warn(err));
+    if (window.ViralEngine) window.ViralEngine.onToolUsed();
     
     appendChatMessage("user", text);
     chatInput.value = "";
@@ -751,6 +755,7 @@ chatQuickHints.addEventListener("click", (e) => {
     const queryText = hintBtn.textContent.trim();
     appendChatMessage("user", queryText);
     triggerBotReply(queryText);
+    if (window.ViralEngine) window.ViralEngine.onToolUsed();
 });
 
 sendChatBtn.addEventListener("click", handleUserMessageSubmit);
@@ -823,6 +828,7 @@ function copyTextDirectly(elementId, successMsg) {
     
     navigator.clipboard.writeText(textToCopy).then(() => {
         showToast(successMsg || "تم نسخ النص بنجاح!");
+        if (window.ViralEngine) window.ViralEngine.onPromptCopied();
     }).catch(err => {
         showToast("فشل في نسخ النص، يرجى نسخه يدوياً.");
     });

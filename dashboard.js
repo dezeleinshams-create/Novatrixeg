@@ -39,8 +39,45 @@ const loginPassword = document.getElementById("loginPassword");
 const loginErrorMsg = document.getElementById("loginErrorMsg");
 const logoutBtn = document.getElementById("logoutBtn");
 
+// Theme Manager
+const themeToggleBtn = document.getElementById("themeToggleBtn");
+
+function updateThemeIcon(theme) {
+    if (!themeToggleBtn) return;
+    const icon = themeToggleBtn.querySelector("i");
+    if (!icon) return;
+    if (theme === "light") {
+        icon.className = "fas fa-moon";
+    } else {
+        icon.className = "fas fa-sun";
+    }
+}
+
+function initTheme() {
+    if (!themeToggleBtn) return;
+    
+    // Read from localStorage to persist theme, default to light
+    const savedTheme = localStorage.getItem("theme") || "light";
+    if (savedTheme === "light") {
+        document.body.classList.add("light-theme");
+        updateThemeIcon("light");
+    } else {
+        document.body.classList.remove("light-theme");
+        updateThemeIcon("dark");
+    }
+    
+    themeToggleBtn.addEventListener("click", () => {
+        document.body.classList.toggle("light-theme");
+        const theme = document.body.classList.contains("light-theme") ? "light" : "dark";
+        localStorage.setItem("theme", theme);
+        updateThemeIcon(theme);
+        showToast(theme === "light" ? "تم تفعيل الوضع المضيء ☀️" : "تم تفعيل الوضع الداكن 🌙");
+    });
+}
+
 // On Load initialization
 document.addEventListener("DOMContentLoaded", () => {
+    initTheme();
     checkAdminAuthentication();
 });
 

@@ -93,12 +93,19 @@ function renderPromptCards() {
             coding: "برمجة وتطوير"
         };
 
+        const isLocked = (startIndex + idx) % 3 === 0;
         const card = document.createElement("div");
         card.className = "prompt-card";
+        if (isLocked) {
+            card.setAttribute("data-viral-lock", "true");
+        }
         card.innerHTML = `
             <div class="prompt-card-top">
                 <div class="prompt-card-header">
-                    <h3 class="prompt-card-title">${prompt.title}</h3>
+                    <h3 class="prompt-card-title">
+                        ${isLocked ? '<span class="vip-badge"><i class="fas fa-crown"></i> VIP</span> ' : ''}
+                        ${prompt.title}
+                    </h3>
                     <span class="prompt-card-tag ${prompt.category}">${categoryLabels[prompt.category]}</span>
                 </div>
                 <div class="prompt-explanation">
@@ -123,6 +130,11 @@ function renderPromptCards() {
             copyTextToClipboard(text);
         });
     });
+
+    // Lock elements via ViralEngine
+    if (window.ViralEngine) {
+        window.ViralEngine.lockContent('[data-viral-lock]');
+    }
 
     updatePaginationUI(currentPage, totalPages);
 }
@@ -199,6 +211,7 @@ promptFilters.addEventListener("click", (e) => {
 function copyTextToClipboard(text) {
     navigator.clipboard.writeText(text).then(() => {
         showToast("تم نسخ أمر الذكاء الاصطناعي بنجاح! جاهز للصق والاستخدام.");
+        if (window.ViralEngine) window.ViralEngine.onPromptCopied();
     }).catch(err => {
         showToast("فشل النسخ التلقائي، يرجى نسخه يدوياً.");
     });

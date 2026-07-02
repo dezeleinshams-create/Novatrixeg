@@ -1,0 +1,899 @@
+/* ==========================================================================
+   NEXURA EG - VIRAL GROWTH ENGINE
+   Temu-Inspired Viral Mechanics System
+   ========================================================================== */
+
+(function() {
+    'use strict';
+
+    // ==========================================
+    // CONFIGURATION
+    // ==========================================
+    const CONFIG = {
+        SITE_URL: 'https://techs4arab.com/public/',
+        SITE_NAME: 'NEXURA EG',
+        SITE_DESC: 'أقوى منصة عربية للبدائل المجانية وأدوات الذكاء الاصطناعي 🚀',
+        STORAGE_PREFIX: 'nexura_viral_',
+        POINTS: {
+            DAILY_VISIT: 5,
+            SHARE: 20,
+            COPY_PROMPT: 2,
+            USE_TOOL: 10,
+            STREAK_BONUS_7: 50,
+            REFERRAL: 30
+        },
+        LEVELS: [
+            { name: 'مبتدئ', min: 0, icon: '⭐' },
+            { name: 'نشيط', min: 50, icon: '🔥' },
+            { name: 'ذهبي', min: 100, icon: '🏅' },
+            { name: 'ماسي', min: 200, icon: '💎' },
+            { name: 'أسطوري', min: 500, icon: '👑' }
+        ],
+        WHEEL_SEGMENTS: [
+            { label: 'برومبت VIP', emoji: '🎁', color: '#2563eb', reward: 'vip_prompt', points: 0 },
+            { label: '50 نقطة', emoji: '💎', color: '#7c3aed', reward: 'points', points: 50 },
+            { label: 'أدوات مخفية', emoji: '🔓', color: '#059669', reward: 'hidden_tools', points: 0 },
+            { label: 'شارة محظوظ', emoji: '🏅', color: '#d97706', reward: 'badge', points: 0 },
+            { label: '20 نقطة', emoji: '⭐', color: '#0ea5e9', reward: 'points', points: 20 },
+            { label: 'حظ أوفر!', emoji: '😢', color: '#64748b', reward: 'nothing', points: 0 },
+            { label: '100 نقطة', emoji: '🎊', color: '#dc2626', reward: 'points', points: 100 },
+            { label: 'نقاط مضاعفة', emoji: '🔥', color: '#ea580c', reward: 'double_points', points: 0 }
+        ],
+        FLASH_DEAL_DURATION_MS: 30 * 60 * 1000, // 30 minutes
+        FLASH_DEAL_COOLDOWN_MS: 3 * 60 * 60 * 1000 // 3 hours
+    };
+
+    // ==========================================
+    // STORAGE MANAGER
+    // ==========================================
+    const Storage = {
+        get(key, defaultValue) {
+            try {
+                const val = localStorage.getItem(CONFIG.STORAGE_PREFIX + key);
+                return val !== null ? JSON.parse(val) : defaultValue;
+            } catch { return defaultValue; }
+        },
+        set(key, value) {
+            try { localStorage.setItem(CONFIG.STORAGE_PREFIX + key, JSON.stringify(value)); }
+            catch {}
+        }
+    };
+
+    // ==========================================
+    // POINTS SYSTEM
+    // ==========================================
+    const PointsSystem = {
+        getPoints() { return Storage.get('points', 0); },
+        addPoints(amount, reason) {
+            if (Storage.get('double_points_until', 0) > Date.now()) {
+                amount *= 2;
+            }
+            const current = this.getPoints();
+            Storage.set('points', current + amount);
+            this.updateUI();
+            showPointsToast(`+${amount} نقطة${amount > 20 ? ' 🎉' : ''}`, reason);
+            return current + amount;
+        },
+        getLevel() {
+            const pts = this.getPoints();
+            let level = CONFIG.LEVELS[0];
+            for (const l of CONFIG.LEVELS) {
+                if (pts >= l.min) level = l;
+            }
+            return level;
+        },
+        getStreak() { return Storage.get('streak', 0); },
+        checkDailyVisit() {
+            const today = new Date().toDateString();
+            const lastVisit = Storage.get('last_visit_date', '');
+            if (lastVisit === today) return;
+
+            const yesterday = new Date(Date.now() - 86400000).toDateString();
+            let streak = this.getStreak();
+
+            if (lastVisit === yesterday) {
+                streak++;
+            } else if (lastVisit !== today) {
+                streak = 1;
+            }
+
+            Storage.set('streak', streak);
+            Storage.set('last_visit_date', today);
+            this.addPoints(CONFIG.POINTS.DAILY_VISIT, 'زيارة يومية');
+
+            if (streak === 7) {
+                this.addPoints(CONFIG.POINTS.STREAK_BONUS_7, 'مكافأة 7 أيام متتالية! 🔥');
+                Storage.set('streak', 0); // Reset streak after bonus
+            }
+        },
+        getShareCount() { return Storage.get('share_count', 0); },
+        recordShare() {
+            const count = this.getShareCount() + 1;
+            Storage.set('share_count', count);
+            Storage.set('has_shared', true);
+            this.addPoints(CONFIG.POINTS.SHARE, 'مشاركة الموقع');
+            this.updateUI();
+        },
+        hasShared() { return Storage.get('has_shared', false); },
+        getReferralCount() { return Storage.get('referral_count', 0); },
+        addReferral() {
+            const count = this.getReferralCount() + 1;
+            Storage.set('referral_count', count);
+            this.addPoints(CONFIG.POINTS.REFERRAL, 'إحالة صديق جديد!');
+        },
+        getReferralCode() {
+            let code = Storage.get('referral_code', null);
+            if (!code) {
+                code = 'NX' + Math.random().toString(36).substring(2, 8).toUpperCase();
+                Storage.set('referral_code', code);
+            }
+            return code;
+        },
+        updateUI() {
+            const ptsEl = document.getElementById('viralPointsValue');
+            const streakEl = document.getElementById('viralStreakValue');
+            const levelEl = document.getElementById('viralLevelBadge');
+            if (ptsEl) ptsEl.textContent = this.getPoints();
+            if (streakEl) streakEl.textContent = this.getStreak();
+            if (levelEl) {
+                const level = this.getLevel();
+                levelEl.textContent = level.icon + ' ' + level.name;
+            }
+        }
+    };
+
+    // ==========================================
+    // SPIN WHEEL
+    // ==========================================
+    const SpinWheel = {
+        canvas: null,
+        ctx: null,
+        currentRotation: 0,
+        isSpinning: false,
+
+        init() {
+            this.canvas = document.getElementById('wheelCanvas');
+            if (!this.canvas) return;
+            this.ctx = this.canvas.getContext('2d');
+            this.canvas.width = 280;
+            this.canvas.height = 280;
+            this.draw();
+        },
+
+        draw() {
+            if (!this.ctx) return;
+            const ctx = this.ctx;
+            const cx = 140, cy = 140, r = 130;
+            const segments = CONFIG.WHEEL_SEGMENTS;
+            const segAngle = (2 * Math.PI) / segments.length;
+
+            ctx.clearRect(0, 0, 280, 280);
+
+            segments.forEach((seg, i) => {
+                const startAngle = i * segAngle - Math.PI / 2;
+                const endAngle = startAngle + segAngle;
+
+                // Draw segment
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.arc(cx, cy, r, startAngle, endAngle);
+                ctx.closePath();
+                ctx.fillStyle = seg.color;
+                ctx.fill();
+                ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+
+                // Draw text
+                ctx.save();
+                ctx.translate(cx, cy);
+                ctx.rotate(startAngle + segAngle / 2);
+                ctx.textAlign = 'center';
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 20px sans-serif';
+                ctx.fillText(seg.emoji, r * 0.62, 6);
+                ctx.font = '600 10px Cairo, sans-serif';
+                ctx.fillText(seg.label, r * 0.62, 22);
+                ctx.restore();
+            });
+        },
+
+        spin() {
+            if (this.isSpinning) return;
+
+            // Check if user has shared
+            if (!PointsSystem.hasShared()) {
+                ShareManager.open('spin');
+                return;
+            }
+
+            // Check daily spin limit
+            const today = new Date().toDateString();
+            const lastSpinDate = Storage.get('last_spin_date', '');
+            const spinsToday = lastSpinDate === today ? Storage.get('spins_today', 0) : 0;
+
+            if (spinsToday >= 2) {
+                showPointsToast('⏰ استنفذت محاولاتك اليوم!', 'ارجع بكرة لدورة جديدة');
+                return;
+            }
+
+            this.isSpinning = true;
+            const btn = document.getElementById('spinActionBtn');
+            if (btn) {
+                btn.disabled = true;
+                btn.classList.add('spinning');
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الدوران...';
+            }
+
+            // Determine winning segment
+            const segmentIndex = Math.floor(Math.random() * CONFIG.WHEEL_SEGMENTS.length);
+            const segAngle = 360 / CONFIG.WHEEL_SEGMENTS.length;
+            const targetAngle = 360 - (segmentIndex * segAngle + segAngle / 2);
+            const totalRotation = 360 * 5 + targetAngle; // 5 full rotations + target
+
+            // Animate wheel
+            const canvasEl = document.querySelector('.wheel-canvas');
+            if (canvasEl) {
+                this.currentRotation += totalRotation;
+                canvasEl.style.transform = `rotate(${this.currentRotation}deg)`;
+            }
+
+            // Record spin
+            Storage.set('last_spin_date', today);
+            Storage.set('spins_today', spinsToday + 1);
+
+            // Show result after animation
+            setTimeout(() => {
+                this.isSpinning = false;
+                const segment = CONFIG.WHEEL_SEGMENTS[segmentIndex];
+                this.showResult(segment);
+
+                if (btn) {
+                    btn.disabled = false;
+                    btn.classList.remove('spinning');
+                    btn.innerHTML = '<i class="fas fa-rotate"></i> لف مرة تانية!';
+                }
+            }, 4200);
+        },
+
+        showResult(segment) {
+            const resultEl = document.getElementById('spinResult');
+            if (!resultEl) return;
+
+            const emojiEl = resultEl.querySelector('.result-emoji');
+            const titleEl = resultEl.querySelector('.result-title');
+            const descEl = resultEl.querySelector('.result-desc');
+
+            let title = '', desc = '';
+
+            switch (segment.reward) {
+                case 'vip_prompt':
+                    title = 'مبروك! فتحت برومبت VIP حصري! 🎉';
+                    desc = 'تم فتح برومبت مميز في مكتبة البرومبتات. روح شوفه دلوقتي!';
+                    Storage.set('vip_unlocked', true);
+                    ContentLocker.unlockAll();
+                    break;
+                case 'points':
+                    title = `مبروك! كسبت ${segment.points} نقطة!`;
+                    desc = 'تم إضافة النقاط لرصيدك';
+                    PointsSystem.addPoints(segment.points, 'جائزة عجلة الحظ');
+                    break;
+                case 'hidden_tools':
+                    title = 'مبروك! فتحت أدوات مخفية لمدة 24 ساعة!';
+                    desc = 'استمتع بالأدوات الحصرية المتاحة الآن';
+                    Storage.set('hidden_tools_until', Date.now() + 86400000);
+                    break;
+                case 'badge':
+                    title = 'مبروك! حصلت على شارة "مستخدم محظوظ"! 🏅';
+                    desc = 'الشارة ظاهرة الآن في بروفايلك';
+                    Storage.set('lucky_badge', true);
+                    break;
+                case 'nothing':
+                    title = 'حظ أوفر المرة الجاية! 😅';
+                    desc = 'جرب تاني أو شارك الموقع لمحاولة إضافية';
+                    break;
+                case 'double_points':
+                    title = 'مبروك! نقاط مضاعفة لمدة 3 ساعات! 🔥';
+                    desc = 'كل النقاط اللي هتكسبها خلال 3 ساعات هتتضاعف!';
+                    Storage.set('double_points_until', Date.now() + 10800000);
+                    break;
+            }
+
+            if (emojiEl) emojiEl.textContent = segment.emoji;
+            if (titleEl) titleEl.textContent = title;
+            if (descEl) descEl.textContent = desc;
+
+            resultEl.classList.add('show');
+
+            // Confetti on win
+            if (segment.reward !== 'nothing') {
+                ConfettiEffect.launch();
+            }
+        },
+
+        open() {
+            const overlay = document.getElementById('spinOverlay');
+            if (overlay) {
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        },
+
+        close() {
+            const overlay = document.getElementById('spinOverlay');
+            if (overlay) {
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+                const resultEl = document.getElementById('spinResult');
+                if (resultEl) resultEl.classList.remove('show');
+            }
+        }
+    };
+
+    // ==========================================
+    // SHARE MANAGER
+    // ==========================================
+    const ShareManager = {
+        pendingAction: null,
+
+        open(action) {
+            this.pendingAction = action || null;
+            const overlay = document.getElementById('shareOverlay');
+            if (overlay) {
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        },
+
+        close() {
+            const overlay = document.getElementById('shareOverlay');
+            if (overlay) {
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        },
+
+        getShareURL() {
+            const refCode = PointsSystem.getReferralCode();
+            return CONFIG.SITE_URL + '?ref=' + refCode;
+        },
+
+        getShareText() {
+            return `${CONFIG.SITE_DESC}\n🔗 جربها الآن: ${this.getShareURL()}`;
+        },
+
+        shareWhatsApp() {
+            const text = encodeURIComponent(this.getShareText());
+            window.open(`https://wa.me/?text=${text}`, '_blank');
+            this._onShared();
+        },
+
+        shareFacebook() {
+            const url = encodeURIComponent(this.getShareURL());
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+            this._onShared();
+        },
+
+        shareTelegram() {
+            const url = encodeURIComponent(this.getShareURL());
+            const text = encodeURIComponent(CONFIG.SITE_DESC);
+            window.open(`https://t.me/share/url?url=${url}&text=${text}`, '_blank');
+            this._onShared();
+        },
+
+        shareTwitter() {
+            const text = encodeURIComponent(CONFIG.SITE_DESC);
+            const url = encodeURIComponent(this.getShareURL());
+            window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+            this._onShared();
+        },
+
+        copyLink() {
+            const url = this.getShareURL();
+            navigator.clipboard.writeText(url).then(() => {
+                showPointsToast('✅ تم نسخ الرابط!', '');
+                this._onShared();
+            }).catch(() => {
+                // Fallback
+                const input = document.createElement('input');
+                input.value = url;
+                document.body.appendChild(input);
+                input.select();
+                document.execCommand('copy');
+                document.body.removeChild(input);
+                showPointsToast('✅ تم نسخ الرابط!', '');
+                this._onShared();
+            });
+        },
+
+        _onShared() {
+            PointsSystem.recordShare();
+            this.close();
+
+            if (this.pendingAction === 'spin') {
+                setTimeout(() => SpinWheel.open(), 500);
+            } else if (this.pendingAction === 'unlock') {
+                ContentLocker.unlockAll();
+            }
+            this.pendingAction = null;
+        }
+    };
+
+    // ==========================================
+    // REFERRAL TRACKER
+    // ==========================================
+    const ReferralTracker = {
+        init() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const refCode = urlParams.get('ref');
+            if (refCode && refCode !== PointsSystem.getReferralCode()) {
+                const processed = Storage.get('processed_refs', []);
+                if (!processed.includes(refCode)) {
+                    processed.push(refCode);
+                    Storage.set('processed_refs', processed);
+                    // The referrer gets points (simulated since no backend)
+                    showPointsToast('🎉 أهلاً بيك!', 'تم دعوتك من صديق');
+                }
+            }
+            this.updateUI();
+        },
+
+        updateUI() {
+            const linkInput = document.getElementById('referralLinkInput');
+            const countEl = document.getElementById('referralCountValue');
+            const ptsEl = document.getElementById('referralPointsValue');
+
+            if (linkInput) linkInput.value = ShareManager.getShareURL();
+            if (countEl) countEl.textContent = PointsSystem.getReferralCount();
+            if (ptsEl) ptsEl.textContent = PointsSystem.getPoints();
+        }
+    };
+
+    // ==========================================
+    // COUNTDOWN DEALS
+    // ==========================================
+    const CountdownDeals = {
+        timer: null,
+
+        init() {
+            const banner = document.getElementById('flashDealBanner');
+            if (!banner) return;
+
+            const lastDeal = Storage.get('last_deal_time', 0);
+            const now = Date.now();
+
+            // Check cooldown
+            if (now - lastDeal < CONFIG.FLASH_DEAL_COOLDOWN_MS) {
+                const remaining = CONFIG.FLASH_DEAL_COOLDOWN_MS - (now - lastDeal);
+                banner.classList.add('hidden');
+                setTimeout(() => this.startDeal(), remaining);
+                return;
+            }
+
+            this.startDeal();
+        },
+
+        startDeal() {
+            const banner = document.getElementById('flashDealBanner');
+            if (!banner) return;
+
+            Storage.set('last_deal_time', Date.now());
+            const endTime = Date.now() + CONFIG.FLASH_DEAL_DURATION_MS;
+            Storage.set('deal_end_time', endTime);
+
+            banner.classList.remove('hidden');
+            document.body.classList.add('has-flash-deal');
+
+            this.updateTimer();
+            this.timer = setInterval(() => this.updateTimer(), 1000);
+        },
+
+        updateTimer() {
+            const endTime = Storage.get('deal_end_time', 0);
+            const remaining = endTime - Date.now();
+
+            if (remaining <= 0) {
+                this.endDeal();
+                return;
+            }
+
+            const minutes = Math.floor(remaining / 60000);
+            const seconds = Math.floor((remaining % 60000) / 1000);
+            const timerEl = document.getElementById('flashDealTimer');
+            if (timerEl) {
+                timerEl.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }
+        },
+
+        endDeal() {
+            clearInterval(this.timer);
+            const banner = document.getElementById('flashDealBanner');
+            if (banner) banner.classList.add('hidden');
+            document.body.classList.remove('has-flash-deal');
+        },
+
+        closeBanner() {
+            this.endDeal();
+        }
+    };
+
+    // ==========================================
+    // CONTENT LOCKER
+    // ==========================================
+    const ContentLocker = {
+        init() {
+            if (PointsSystem.hasShared() || Storage.get('vip_unlocked', false)) {
+                this.unlockAll();
+                return;
+            }
+            // Lock specific elements
+            document.querySelectorAll('[data-viral-lock]').forEach(el => {
+                if (!el.classList.contains('content-unlocked')) {
+                    this.lockElement(el);
+                }
+            });
+        },
+
+        lockElement(el) {
+            el.classList.add('content-locked');
+            // Check if lock overlay already exists
+            if (el.querySelector('.lock-overlay')) return;
+
+            const overlay = document.createElement('div');
+            overlay.className = 'lock-overlay';
+            overlay.innerHTML = `
+                <div class="lock-icon"><i class="fas fa-lock"></i></div>
+                <span class="lock-text">محتوى حصري 🔒</span>
+                <button class="unlock-btn" onclick="window.ViralEngine.share('unlock')">
+                    <i class="fas fa-share-nodes"></i> شارك لفتح المحتوى
+                </button>
+            `;
+            el.appendChild(overlay);
+        },
+
+        unlockAll() {
+            document.querySelectorAll('.content-locked').forEach(el => {
+                el.classList.add('content-unlocking');
+                setTimeout(() => {
+                    el.classList.remove('content-locked', 'content-unlocking');
+                    el.classList.add('content-unlocked');
+                    const overlay = el.querySelector('.lock-overlay');
+                    if (overlay) overlay.remove();
+                }, 600);
+            });
+        }
+    };
+
+    // ==========================================
+    // CONFETTI EFFECT
+    // ==========================================
+    const ConfettiEffect = {
+        colors: ['#fbbf24', '#ef4444', '#2563eb', '#10b981', '#f97316', '#8b5cf6', '#ec4899', '#0ea5e9'],
+
+        launch() {
+            const container = document.createElement('div');
+            container.className = 'confetti-container';
+            document.body.appendChild(container);
+
+            for (let i = 0; i < 60; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti-piece';
+                piece.style.left = Math.random() * 100 + '%';
+                piece.style.backgroundColor = this.colors[Math.floor(Math.random() * this.colors.length)];
+                piece.style.animationDelay = Math.random() * 1.5 + 's';
+                piece.style.animationDuration = (2 + Math.random() * 2) + 's';
+                const shapes = ['50%', '0', '2px'];
+                piece.style.borderRadius = shapes[Math.floor(Math.random() * shapes.length)];
+                piece.style.width = (6 + Math.random() * 8) + 'px';
+                piece.style.height = (6 + Math.random() * 8) + 'px';
+                container.appendChild(piece);
+            }
+
+            setTimeout(() => container.remove(), 4000);
+        }
+    };
+
+    // ==========================================
+    // WELCOME POPUP
+    // ==========================================
+    const WelcomePopup = {
+        show() {
+            if (Storage.get('welcomed', false)) return;
+            Storage.set('welcomed', true);
+
+            // Delay the welcome popup to let page load
+            setTimeout(() => {
+                const overlay = document.getElementById('welcomeOverlay');
+                if (overlay) {
+                    overlay.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+            }, 2000);
+        },
+
+        close() {
+            const overlay = document.getElementById('welcomeOverlay');
+            if (overlay) {
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+    };
+
+    // ==========================================
+    // POINTS TOAST
+    // ==========================================
+    let toastTimeout;
+    function showPointsToast(message, subtitle) {
+        let toast = document.getElementById('viralPointsToast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'viralPointsToast';
+            toast.className = 'points-toast';
+            document.body.appendChild(toast);
+        }
+
+        toast.innerHTML = `<i class="fas fa-coins"></i> ${message}`;
+        toast.classList.add('show');
+
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => {
+            toast.classList.remove('show');
+        }, 2500);
+    }
+
+    // ==========================================
+    // HTML INJECTOR (Builds all viral HTML)
+    // ==========================================
+    function injectViralHTML() {
+        const body = document.body;
+
+        // 1. Points Bar
+        const pointsBar = document.createElement('div');
+        pointsBar.className = 'viral-points-bar';
+        pointsBar.id = 'viralPointsBar';
+        pointsBar.innerHTML = `
+            <div class="points-item">
+                <i class="fas fa-coins" style="color: #fbbf24;"></i>
+                <span>النقاط:</span>
+                <span class="pts-value" id="viralPointsValue">${PointsSystem.getPoints()}</span>
+            </div>
+            <div class="points-item">
+                <i class="fas fa-fire" style="color: #f97316;"></i>
+                <span>Streak:</span>
+                <span class="streak-value" id="viralStreakValue">${PointsSystem.getStreak()}</span>
+            </div>
+            <div class="points-item">
+                <span class="level-badge" id="viralLevelBadge">${PointsSystem.getLevel().icon} ${PointsSystem.getLevel().name}</span>
+            </div>
+            <button class="points-bar-cta" onclick="window.ViralEngine.openSpin()">
+                <i class="fas fa-gift"></i> اربح هدية!
+            </button>
+        `;
+        body.prepend(pointsBar);
+        body.classList.add('has-viral-bar');
+
+        // 2. Flash Deal Banner
+        const flashBanner = document.createElement('div');
+        flashBanner.className = 'flash-deal-banner hidden';
+        flashBanner.id = 'flashDealBanner';
+        flashBanner.innerHTML = `
+            <span class="flash-deal-text">
+                <i class="fas fa-bolt"></i>
+                🔥 عرض محدود! شارك الموقع الآن واحصل على نقاط مضاعفة!
+            </span>
+            <span class="flash-deal-timer" id="flashDealTimer">30:00</span>
+            <button class="flash-deal-close" onclick="window.ViralEngine.closeFlashDeal()" title="إغلاق">
+                <i class="fas fa-times"></i>
+            </button>
+        `;
+        pointsBar.after(flashBanner);
+
+        // 3. FAB Button
+        const fab = document.createElement('button');
+        fab.className = 'viral-fab';
+        fab.id = 'viralFab';
+        fab.title = 'اربح هدية!';
+        fab.onclick = () => window.ViralEngine.openSpin();
+        fab.innerHTML = `🎁<span class="fab-badge">!</span>`;
+        body.appendChild(fab);
+
+        // 4. Spin Wheel Modal
+        const spinHTML = `
+            <div class="spin-overlay" id="spinOverlay">
+                <div class="spin-modal">
+                    <button class="spin-close-btn" onclick="window.ViralEngine.closeSpin()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <h2>🎡 عجلة الحظ</h2>
+                    <p class="spin-subtitle">لف العجلة واكسب جوائز حصرية!</p>
+
+                    <div class="wheel-container">
+                        <div class="wheel-pointer">📍</div>
+                        <canvas class="wheel-canvas" id="wheelCanvas"></canvas>
+                        <div class="wheel-center"><i class="fas fa-star"></i></div>
+                    </div>
+
+                    <button class="spin-action-btn" id="spinActionBtn" onclick="window.ViralEngine.spin()">
+                        <i class="fas fa-rotate"></i> لف العجلة!
+                    </button>
+                    <p class="spin-share-note">💡 شارك الموقع مرة واحدة لتفعيل الدوران</p>
+
+                    <div class="spin-result" id="spinResult">
+                        <div class="result-emoji"></div>
+                        <div class="result-title"></div>
+                        <div class="result-desc"></div>
+                    </div>
+                </div>
+            </div>
+        `;
+        body.insertAdjacentHTML('beforeend', spinHTML);
+
+        // 5. Share Modal
+        const shareHTML = `
+            <div class="share-overlay" id="shareOverlay">
+                <div class="share-modal">
+                    <h3><i class="fas fa-share-nodes"></i> شارك NEXURA EG</h3>
+                    <p class="share-subtitle">شارك الموقع مع أصحابك واكسب 20 نقطة لكل مشاركة!</p>
+                    <div class="share-buttons-grid">
+                        <button class="share-btn whatsapp" onclick="window.ViralEngine.shareWhatsApp()">
+                            <i class="fab fa-whatsapp"></i> واتساب
+                        </button>
+                        <button class="share-btn facebook" onclick="window.ViralEngine.shareFacebook()">
+                            <i class="fab fa-facebook-f"></i> فيسبوك
+                        </button>
+                        <button class="share-btn telegram" onclick="window.ViralEngine.shareTelegram()">
+                            <i class="fab fa-telegram-plane"></i> تليجرام
+                        </button>
+                        <button class="share-btn twitter" onclick="window.ViralEngine.shareTwitter()">
+                            <i class="fab fa-x-twitter"></i> تويتر
+                        </button>
+                        <button class="share-btn copy-link" onclick="window.ViralEngine.copyLink()">
+                            <i class="fas fa-link"></i> نسخ الرابط
+                        </button>
+                    </div>
+                    <button class="share-close-btn" onclick="window.ViralEngine.closeShare()">
+                        إغلاق
+                    </button>
+                </div>
+            </div>
+        `;
+        body.insertAdjacentHTML('beforeend', shareHTML);
+
+        // 6. Welcome Popup
+        const welcomeHTML = `
+            <div class="welcome-overlay" id="welcomeOverlay">
+                <div class="welcome-modal">
+                    <div class="welcome-emoji">🎉</div>
+                    <h2>أهلاً بيك في NEXURA EG!</h2>
+                    <p>أقوى منصة عربية للبدائل المجانية وأدوات الذكاء الاصطناعي. اكسب نقاط ومكافآت مع كل تفاعل!</p>
+                    <div class="welcome-rewards">
+                        <div class="welcome-reward-item">
+                            <div class="reward-icon">🎡</div>
+                            <div class="reward-label">عجلة حظ</div>
+                        </div>
+                        <div class="welcome-reward-item">
+                            <div class="reward-icon">💰</div>
+                            <div class="reward-label">نقاط يومية</div>
+                        </div>
+                        <div class="welcome-reward-item">
+                            <div class="reward-icon">🎁</div>
+                            <div class="reward-label">هدايا حصرية</div>
+                        </div>
+                    </div>
+                    <button class="welcome-start-btn" onclick="window.ViralEngine.closeWelcome()">
+                        <i class="fas fa-rocket"></i> يلا نبدأ!
+                    </button>
+                </div>
+            </div>
+        `;
+        body.insertAdjacentHTML('beforeend', welcomeHTML);
+
+        // 7. Inject referral card into page (if section exists)
+        const refSection = document.getElementById('profitHubSection');
+        if (refSection) {
+            const refCard = document.createElement('div');
+            refCard.className = 'referral-card';
+            refCard.style.marginTop = '24px';
+            refCard.innerHTML = `
+                <h3><i class="fas fa-user-plus"></i> ادعي أصحابك واكسب!</h3>
+                <p class="referral-desc">شارك رابطك الخاص مع أصحابك. كل ما حد يفتح الموقع من رابطك، هتكسب 30 نقطة!</p>
+                <div class="referral-stats">
+                    <div class="referral-stat">
+                        <div class="stat-num" id="referralCountValue">${PointsSystem.getReferralCount()}</div>
+                        <div class="stat-label">دعوات ناجحة</div>
+                    </div>
+                    <div class="referral-stat">
+                        <div class="stat-num" id="referralPointsValue">${PointsSystem.getPoints()}</div>
+                        <div class="stat-label">إجمالي النقاط</div>
+                    </div>
+                </div>
+                <div class="referral-link-box">
+                    <input type="text" id="referralLinkInput" value="${ShareManager.getShareURL()}" readonly>
+                    <button class="referral-copy-btn" onclick="window.ViralEngine.copyReferralLink()">
+                        <i class="fas fa-copy"></i> نسخ
+                    </button>
+                </div>
+            `;
+            refSection.after(refCard);
+        }
+    }
+
+    // ==========================================
+    // VIRAL ENGINE (Main Controller)
+    // ==========================================
+    window.ViralEngine = {
+        init() {
+            // Inject HTML components
+            injectViralHTML();
+
+            // Initialize all systems
+            SpinWheel.init();
+            PointsSystem.checkDailyVisit();
+            ReferralTracker.init();
+            CountdownDeals.init();
+            ContentLocker.init();
+            WelcomePopup.show();
+
+            // Update UI
+            PointsSystem.updateUI();
+
+            console.log('🚀 NEXURA EG Viral Engine initialized!');
+        },
+
+        // Public API
+        openSpin() { SpinWheel.open(); },
+        closeSpin() { SpinWheel.close(); },
+        spin() { SpinWheel.spin(); },
+
+        share(action) { ShareManager.open(action); },
+        closeShare() { ShareManager.close(); },
+        shareWhatsApp() { ShareManager.shareWhatsApp(); },
+        shareFacebook() { ShareManager.shareFacebook(); },
+        shareTelegram() { ShareManager.shareTelegram(); },
+        shareTwitter() { ShareManager.shareTwitter(); },
+        copyLink() { ShareManager.copyLink(); },
+
+        closeWelcome() { WelcomePopup.close(); },
+        closeFlashDeal() { CountdownDeals.closeBanner(); },
+
+        copyReferralLink() {
+            const input = document.getElementById('referralLinkInput');
+            if (input) {
+                navigator.clipboard.writeText(input.value).then(() => {
+                    showPointsToast('✅ تم نسخ رابط الإحالة!', '');
+                }).catch(() => {
+                    input.select();
+                    document.execCommand('copy');
+                    showPointsToast('✅ تم نسخ رابط الإحالة!', '');
+                });
+            }
+        },
+
+        // Called by app.js when user copies a prompt
+        onPromptCopied() {
+            PointsSystem.addPoints(CONFIG.POINTS.COPY_PROMPT, 'نسخ برومبت');
+        },
+
+        // Called by app.js when user uses a tool
+        onToolUsed() {
+            PointsSystem.addPoints(CONFIG.POINTS.USE_TOOL, 'استخدام أداة');
+        },
+
+        // Called by app.js to lock specific elements
+        lockContent(selector) {
+            document.querySelectorAll(selector).forEach(el => {
+                el.setAttribute('data-viral-lock', 'true');
+                ContentLocker.lockElement(el);
+            });
+        }
+    };
+
+    // Auto-initialize when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => window.ViralEngine.init());
+    } else {
+        window.ViralEngine.init();
+    }
+
+})();

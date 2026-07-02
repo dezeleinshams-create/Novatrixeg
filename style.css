@@ -110,10 +110,10 @@ body {
 
 /* APP MAIN CONTAINER */
 .app-container {
-    width: 100%;
-    max-width: 1000px;
+    width: 96%;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 24px 20px;
+    padding: 24px 16px;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -140,9 +140,9 @@ body {
 }
 
 .section-inner {
-    max-width: 1000px;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 0 24px;
+    padding: 0 16px;
     box-sizing: border-box;
 }
 
