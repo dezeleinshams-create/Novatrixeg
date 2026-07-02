@@ -74,6 +74,15 @@
             showPointsToast(`+${amount} نقطة${amount > 20 ? ' 🎉' : ''}`, reason);
             return current + amount;
         },
+        subtractPoints(amount) {
+            const current = this.getPoints();
+            if (current >= amount) {
+                Storage.set('points', current - amount);
+                this.updateUI();
+                return true;
+            }
+            return false;
+        },
         getLevel() {
             const pts = this.getPoints();
             let level = CONFIG.LEVELS[0];
@@ -1027,6 +1036,11 @@
         openSpin() { SpinWheel.open(); },
         closeSpin() { SpinWheel.close(); },
         spin() { SpinWheel.spin(); },
+        addPoints(amount, reason) { PointsSystem.addPoints(amount, reason); },
+        subtractPoints(amount) { return PointsSystem.subtractPoints(amount); },
+        getPoints() { return PointsSystem.getPoints(); },
+        getLevel() { return PointsSystem.getLevel(); },
+        getStreak() { return PointsSystem.getStreak(); },
 
         share(action) { ShareManager.open(action); },
         closeShare() { ShareManager.close(); },

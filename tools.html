@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    
+    <!-- SEO Optimization -->
+    <title>أدوات تقنية مجانية وتفاعلية | بوابة خدمات NEXURA EG</title>
+    <meta name="description" content="استخدم مولد أكواد QR المطور، فاحص وحامي كلمات المرور الحيوية، واستوديو تصميم برومبتات الصور بالذكاء الاصطناعي مجاناً بالكامل.">
+    
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="viral.css">
+    <link rel="icon" type="image/jpeg" href="assets/avatar.jpg">
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0000000000000000" crossorigin="anonymous"></script>
+</head>
+<body class="light-theme">
+
+    <!-- Background Cyber Elements -->
+    <div class="cyber-bg">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+    </div>
+
+    <div class="app-container">
+
+        <!-- Sticky Main Navbar -->
+        <nav class="main-navbar fade-in">
+            <div class="nav-logo" onclick="window.location.href='index.html'">
+                <img src="assets/avatar.jpg" alt="NEXURA Logo">
+                <span>NEXURA EG</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link"><i class="fas fa-home"></i> الرئيسية</a>
+                <a href="tools.html" class="nav-link active"><i class="fas fa-cubes"></i> الأدوات</a>
+                <a href="blog.html" class="nav-link"><i class="fas fa-book-open"></i> الشروحات</a>
+                <a href="rewards.html" class="nav-link"><i class="fas fa-gift"></i> الجوائز</a>
+            </div>
+        </nav>
+
+        <!-- Theme Switcher Wrapper -->
+        <div class="theme-toggle-wrapper fade-in">
+            <button id="themeToggleBtn" class="theme-toggle-btn" title="تغيير المظهر">
+                <i class="fas fa-sun"></i>
+            </button>
+        </div>
+
+        <!-- TOOLS HEADER -->
+        <header class="prompts-header fade-in" style="background: var(--bg-surface); padding: 32px 16px; margin-bottom: 24px;">
+            <h1 class="prompts-title" style="background: linear-gradient(90deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">بوابة الأدوات والخدمات التقنية</h1>
+            <p class="prompts-subtitle">باقة من الأدوات الخدمية التفاعلية التي تعمل مباشرة في متصفحك بشكل آمن وسريع، لمساعدتك في مهامك اليومية.</p>
+        </header>
+
+        <!-- Google AdSense Leaderboard -->
+        <div class="ad-container ad-leaderboard fade-in-delayed">
+            <span class="ad-label">مساحة إعلانية</span>
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-0000000000000000"
+                 data-ad-slot="1000000013"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+
+        <!-- MAIN TOOLS GRID WORKSPACE -->
+        <div class="tools-grid fade-in-delayed">
+            
+            <!-- Sidebar Selection Menu -->
+            <div class="tools-sidebar">
+                
+                <button class="tool-menu-btn active" data-tool="qr">
+                    <div class="tool-menu-icon"><i class="fas fa-qrcode"></i></div>
+                    <div class="tool-menu-info">
+                        <h4>مولد الـ QR المطور</h4>
+                        <p>توليد وتحميل رموز الاستجابة السريعة</p>
+                    </div>
+                </button>
+
+                <button class="tool-menu-btn" data-tool="password">
+                    <div class="tool-menu-icon"><i class="fas fa-key"></i></div>
+                    <div class="tool-menu-info">
+                        <h4>حامي كلمات المرور</h4>
+                        <p>قياس قوة الأمان وتوليد كلمات معقدة</p>
+                    </div>
+                </button>
+
+                <button class="tool-menu-btn" data-tool="prompt">
+                    <div class="tool-menu-icon"><i class="fas fa-wand-magic-sparkles"></i></div>
+                    <div class="tool-menu-info">
+                        <h4>استوديو برومبتات الصور</h4>
+                        <p>صناعة أوامر صور الذكاء الاصطناعي بدقة</p>
+                    </div>
+                </button>
+
+            </div>
+
+            <!-- Tool Content Display Workspace -->
+            <div class="tool-workspace">
+                
+                <!-- 1. TOOL: QR GENERATOR -->
+                <div class="tool-view active" id="view-qr">
+                    <div class="tool-header-row">
+                        <h3><i class="fas fa-qrcode text-primary"></i> مولد أكواد الـ QR السريع</h3>
+                        <p>أدخل الرابط أو النص الذي ترغب في توليد كود الاستجابة السريعة له.</p>
+                    </div>
+
+                    <div class="qr-layout">
+                        <div class="qr-inputs-pane" style="display: flex; flex-direction: column; gap: 14px;">
+                            <label class="form-label" style="font-weight: 700; font-size: 0.85rem; color: var(--text-secondary);">الرابط أو النص:</label>
+                            <textarea id="qrInputText" class="form-textarea" placeholder="مثال: https://nexuraeg.com" style="height: 100px; resize: none;"></textarea>
+                            
+                            <button id="generateQrBtn" class="primary-btn wide-btn" style="background: linear-gradient(135deg, var(--primary), var(--accent));">
+                                <i class="fas fa-arrows-rotate"></i> توليد رمز الـ QR
+                            </button>
+                        </div>
+                        
+                        <div class="qr-output-pane">
+                            <div id="qrCanvasContainer">
+                                <img id="qrGeneratedImg" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=NEXURAEG" alt="QR Code">
+                            </div>
+                            <button id="downloadQrBtn" class="secondary-btn" style="padding: 8px 16px; font-size: 0.8rem;">
+                                <i class="fas fa-download"></i> تحميل الرمز (PNG)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. TOOL: PASSWORD SAFETY CHECKER -->
+                <div class="tool-view" id="view-password">
+                    <div class="tool-header-row">
+                        <h3><i class="fas fa-key text-primary"></i> فاحص ومولد كلمات المرور الآمنة</h3>
+                        <p>قيم أمان كلمات مرورك واحصل على كلمة مرور مشفرة يستحيل اختراقها.</p>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 16px;">
+                        <!-- Safety Checker -->
+                        <div>
+                            <label class="form-label" style="font-weight: 700; font-size: 0.85rem; color: var(--text-secondary);">اختبر كلمة المرور الخاصة بك:</label>
+                            <div class="search-box-container" style="margin-top: 6px;">
+                                <i class="fas fa-lock search-icon" style="right: 14px;"></i>
+                                <input type="password" id="passCheckerInput" placeholder="اكتب كلمة مرور هنا للتقييم..." style="padding-right: 42px;">
+                            </div>
+                            
+                            <div class="strength-indicator-bar">
+                                <div class="strength-bar-fill" id="strengthBarFill"></div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.72rem; margin-top: 4px; color: var(--text-muted);">
+                                <span>قوة الأمان: <span id="strengthTextVal" style="font-weight: 800;">غير مدخلة</span></span>
+                                <span>الوقت المتوقع للتخمين: <span id="crackTimeVal" style="font-weight: 800; color: white;">ثوانٍ</span></span>
+                            </div>
+                        </div>
+
+                        <!-- Generator -->
+                        <div class="pass-generator-card">
+                            <h4 style="font-size: 0.85rem; font-weight: 700; color: white; margin-bottom: 10px;"><i class="fas fa-shield-halved text-success"></i> توليد كلمة مرور مشفرة قوية</h4>
+                            <p style="font-size: 0.72rem; color: var(--text-secondary); line-height: 1.4; margin-bottom: 12px;">انقر لتوليد كلمة مرور عشوائية معقدة (16 حرفاً تحتوي على رموز وأرقام وحروف كبيرة وصغيرة):</p>
+                            
+                            <div class="gen-actions">
+                                <div class="gen-box-display">
+                                    <span id="generatedPassOutput">انقر على توليد بالأسفل</span>
+                                    <i class="far fa-copy" id="copyGeneratedPassBtn" style="cursor: pointer;" title="نسخ كلمة المرور"></i>
+                                </div>
+                            </div>
+                            
+                            <button id="generateSecurePassBtn" class="primary-btn wide-btn" style="margin-top: 12px; background: rgba(16, 185, 129, 0.15); border: 1px solid var(--green-success); color: var(--green-success);">
+                                <i class="fas fa-circle-plus"></i> توليد كلمة مرور معقدة
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. TOOL: AI PROMPT STUDIO -->
+                <div class="tool-view" id="view-prompt">
+                    <div class="tool-header-row">
+                        <h3><i class="fas fa-wand-magic-sparkles text-primary"></i> استوديو صياغة أوامر الذكاء الاصطناعي</h3>
+                        <p>امزج خيارات الاستوديو لتصنيع برومبتات صور مذهلة لـ Midjourney و ChatGPT وكسب نقاط مكافآت.</p>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 16px;">
+                        
+                        <div class="studio-form-grid">
+                            
+                            <div style="display: flex; flex-direction: column; gap: 6px;">
+                                <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-secondary);">عنصر الصورة الأساسي (الموضوع):</label>
+                                <input type="text" id="promptSubject" class="form-input" placeholder="مثال: رائد فضاء يركب خيلاً على المريخ" style="background: rgba(0,0,0,0.15); border: 1px solid var(--border-color); border-radius: 20px; padding: 10px 14px; color: white;">
+                            </div>
+
+                            <div style="display: flex; flex-direction: column; gap: 6px;">
+                                <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-secondary);">النمط الفني (Art Style):</label>
+                                <select id="promptStyle" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 20px; padding: 10px 14px; color: white; outline: none; cursor: pointer;">
+                                    <option value="Cinematic, photography-style realistic">تصوير واقعي سينمائي</option>
+                                    <option value="3D cartoon render, Unreal Engine 5 style">رسم مجسم ثلاثي الأبعاد (3D)</option>
+                                    <option value="Cyberpunk glow, futuristic neon lighting theme">نمط خيال علمي نيون (Cyberpunk)</option>
+                                    <option value="Japanese Anime style, detailed sketch lines">أنمي ياباني (Anime)</option>
+                                    <option value="Oil painting, textured brush strokes art">لوحة زيتية كلاسيكية</option>
+                                    <option value="Futuristic synthwave theme, vector minimal design">تصميم فيكتور مسطح (Minimal Vector)</option>
+                                </select>
+                            </div>
+
+                            <div style="display: flex; flex-direction: column; gap: 6px;">
+                                <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-secondary);">نمط الإضاءة (Lighting Style):</label>
+                                <select id="promptLighting" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 20px; padding: 10px 14px; color: white; outline: none; cursor: pointer;">
+                                    <option value="warm golden hour sun rays">أشعة الشمس الدافئة (الذهبية)</option>
+                                    <option value="neon ambient lighting with strong rim highlights">إضاءة نيون محيطية مع تحديد الأطراف</option>
+                                    <option value="soft professional studio portrait setup">إضاءة استوديو ناعمة واحترافية</option>
+                                    <option value="dark moody shadows, dramatic high-contrast">إضاءة داكنة عالية التباين (Moody)</option>
+                                </select>
+                            </div>
+
+                            <div style="display: flex; flex-direction: column; gap: 6px;">
+                                <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-secondary);">زاوية الكاميرا والعدسة (Perspective):</label>
+                                <select id="promptLens" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 20px; padding: 10px 14px; color: white; outline: none; cursor: pointer;">
+                                    <option value="shot with 85mm portrait lens, shallow depth of field">عدسة بورتريه 85mm مع عزل الخلفية</option>
+                                    <option value="captured via drone aerial wide-angle camera shot">لقطة جوية واسعة من طائرة درون</option>
+                                    <option value="extreme macro close-up focus showing intricate details">لقطة ماكرو مقربة جداً لإظهار التفاصيل</option>
+                                    <option value="low-angle dramatic cinematic view aspect">لقطة سينمائية من زاوية منخفضة</option>
+                                </select>
+                            </div>
+
+                            <div style="display: flex; flex-direction: column; gap: 6px;">
+                                <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-secondary);">أبعاد الصورة (Aspect Ratio):</label>
+                                <select id="promptRatio" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 20px; padding: 10px 14px; color: white; outline: none; cursor: pointer;">
+                                    <option value="--ar 16:9">عرض عريض (16:9) - لليوتيوب والحواسب</option>
+                                    <option value="--ar 9:16">طولي ذكي (9:16) - للتيك توك والستوري</option>
+                                    <option value="--ar 1:1">مربع متساوي (1:1) - لانستجرام</option>
+                                    <option value="--ar 4:3">أبعاد فوتوغرافية (4:3)</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <!-- Compiled Result Output -->
+                        <div style="background: #121319; border: 1px solid var(--border-color); border-radius: 16px; padding: 16px; margin-top: 8px;">
+                            <h4 style="font-size: 0.85rem; font-weight: 700; color: white; margin-bottom: 10px;">البرومبت الناتج بالإنجليزية (جاهز للذكاء الاصطناعي):</h4>
+                            
+                            <div class="gen-actions" style="margin-top: 0;">
+                                <div class="gen-box-display" style="min-height: 52px; padding: 10px; font-family: monospace; font-size: 0.78rem;">
+                                    <span id="promptOutputResult" style="color: var(--primary);">أدخل بيانات في الاستوديو بالأعلى</span>
+                                    <i class="far fa-copy" id="copyPromptBtn" style="cursor: pointer;" title="نسخ الكود"></i>
+                                </div>
+                            </div>
+                            
+                            <div style="font-size: 0.65rem; color: var(--text-muted); margin-top: 6px; text-align: left;">
+                                <i class="fas fa-gift text-warning"></i> انسخ البرومبت واكسب +15 نقطة فوراً!
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Google AdSense Footer Billboard -->
+        <div class="ad-container ad-footer fade-in-delayed" style="margin-top: 30px;">
+            <span class="ad-label">مساحة إعلانية</span>
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-0000000000000000"
+                 data-ad-slot="1000000014"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="app-footer">
+            <div class="footer-divider"></div>
+            <div class="footer-info">
+                <p class="copyright">© 2026 NEXURA EG. جميع الحقوق محفوظة.</p>
+                <div class="footer-links">
+                    <a href="index.html" class="footer-link">الرئيسية</a>
+                    <a href="#" class="footer-link">سياسة الخصوصية</a>
+                    <a href="#" class="footer-link">اتصل بنا</a>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Notification Toast System -->
+    <div class="toast-notification" id="toastNotification">
+        <i class="fas fa-circle-check toast-icon"></i>
+        <span class="toast-message" id="toastMessage">تم نسخ الكود بنجاح!</span>
+    </div>
+
+    <!-- Core logic JS assets -->
+    <script src="viral.js" defer></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // 1. Sidebar tab switcher
+            const menuBtns = document.querySelectorAll(".tool-menu-btn");
+            const toolViews = document.querySelectorAll(".tool-view");
+
+            menuBtns.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    menuBtns.forEach(b => b.classList.remove("active"));
+                    toolViews.forEach(v => v.classList.remove("active"));
+
+                    btn.classList.add("active");
+                    const tool = btn.getAttribute("data-tool");
+                    const targetView = document.getElementById(`view-${tool}`);
+                    if (targetView) targetView.classList.add("active");
+                });
+            });
+
+            // Theme toggle listener integration
+            const themeToggleBtn = document.getElementById("themeToggleBtn");
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener("click", () => {
+                    document.body.classList.toggle("light-theme");
+                    const isLight = document.body.classList.contains("light-theme");
+                    themeToggleBtn.querySelector("i").className = isLight ? "fas fa-moon" : "fas fa-sun";
+                });
+            }
+
+            // 2. QR Generator Logic
+            const generateQrBtn = document.getElementById("generateQrBtn");
+            const qrInputText = document.getElementById("qrInputText");
+            const qrGeneratedImg = document.getElementById("qrGeneratedImg");
+            const downloadQrBtn = document.getElementById("downloadQrBtn");
+
+            if (generateQrBtn && qrInputText && qrGeneratedImg) {
+                generateQrBtn.addEventListener("click", () => {
+                    const text = qrInputText.value.trim();
+                    if (!text) {
+                        alert("يرجى إدخال رابط أو نص أولاً!");
+                        return;
+                    }
+                    // Generate using QRServer API
+                    const encodedUrl = encodeURIComponent(text);
+                    const size = "200x200";
+                    qrGeneratedImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=${size}&data=${encodedUrl}`;
+                    
+                    // Award points once
+                    if (window.ViralEngine) {
+                        window.ViralEngine.share("tool_qr_generated"); // Use share framework to record or award points
+                    }
+                });
+            }
+
+            if (downloadQrBtn && qrGeneratedImg) {
+                downloadQrBtn.addEventListener("click", () => {
+                    const src = qrGeneratedImg.src;
+                    // Trigger download by opening in new tab or fetching
+                    window.open(src, "_blank");
+                });
+            }
+
+            // 3. Password Strength Checker & Generator Logic
+            const passInput = document.getElementById("passCheckerInput");
+            const strengthBar = document.getElementById("strengthBarFill");
+            const strengthText = document.getElementById("strengthTextVal");
+            const crackTimeVal = document.getElementById("crackTimeVal");
+
+            if (passInput) {
+                passInput.addEventListener("input", (e) => {
+                    const pass = e.target.value;
+                    let strength = 0;
+                    let timeText = "أجزاء من الثانية";
+
+                    if (pass.length === 0) {
+                        strengthBar.className = "strength-bar-fill";
+                        strengthBar.style.width = "0%";
+                        strengthText.textContent = "غير مدخلة";
+                        crackTimeVal.textContent = "ثوانٍ";
+                        return;
+                    }
+
+                    if (pass.length > 5) strength += 1;
+                    if (/[A-Z]/.test(pass)) strength += 1;
+                    if (/[a-z]/.test(pass)) strength += 1;
+                    if (/[0-9]/.test(pass)) strength += 1;
+                    if (/[^A-Za-z0-9]/.test(pass)) strength += 1;
+
+                    if (strength <= 2) {
+                        strengthBar.className = "strength-bar-fill weak";
+                        strengthText.textContent = "ضعيفة جداً 🔴";
+                        timeText = pass.length < 5 ? "أجزاء من الثانية" : "ساعتين";
+                    } else if (strength <= 4) {
+                        strengthBar.className = "strength-bar-fill medium";
+                        strengthText.textContent = "متوسطة 🟠";
+                        timeText = pass.length < 9 ? "شهرين" : "٣ سنوات";
+                    } else {
+                        strengthBar.className = "strength-bar-fill strong";
+                        strengthText.textContent = "قوية جداً ومحمية 🟢";
+                        timeText = pass.length < 11 ? "١٨٠ سنة" : "مليار سنة 🛡️";
+                    }
+                    crackTimeVal.textContent = timeText;
+                });
+            }
+
+            const generateSecurePassBtn = document.getElementById("generateSecurePassBtn");
+            const generatedPassOutput = document.getElementById("generatedPassOutput");
+            const copyGeneratedPassBtn = document.getElementById("copyGeneratedPassBtn");
+
+            if (generateSecurePassBtn) {
+                generateSecurePassBtn.addEventListener("click", () => {
+                    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+~`|}{[]:;?><,./-=";
+                    let pass = "";
+                    for (let i = 0; i < 16; i++) {
+                        const idx = Math.floor(Math.random() * chars.length);
+                        pass += chars.charAt(idx);
+                    }
+                    if (generatedPassOutput) {
+                        generatedPassOutput.textContent = pass;
+                    }
+                });
+            }
+
+            if (copyGeneratedPassBtn) {
+                copyGeneratedPassBtn.addEventListener("click", () => {
+                    const passText = generatedPassOutput.textContent;
+                    if (passText === "انقر على توليد بالأسفل" || !passText) return;
+                    navigator.clipboard.writeText(passText).then(() => {
+                        const toast = document.getElementById("toastNotification");
+                        const toastMsg = document.getElementById("toastMessage");
+                        if (toast && toastMsg) {
+                            toastMsg.textContent = "تم نسخ كلمة المرور بنجاح!";
+                            toast.classList.add("show");
+                            setTimeout(() => toast.classList.remove("show"), 2000);
+                        }
+                    });
+                });
+            }
+
+            // 4. AI Art Prompt Studio Logic
+            const subjectInput = document.getElementById("promptSubject");
+            const styleSelect = document.getElementById("promptStyle");
+            const lightingSelect = document.getElementById("promptLighting");
+            const lensSelect = document.getElementById("promptLens");
+            const ratioSelect = document.getElementById("promptRatio");
+            const outputResult = document.getElementById("promptOutputResult");
+            const copyPromptBtn = document.getElementById("copyPromptBtn");
+
+            function compilePrompt() {
+                const subject = subjectInput.value.trim() || "An astronaut riding a horse on Mars";
+                const style = styleSelect.value;
+                const lighting = lightingSelect.value;
+                const lens = lensSelect.value;
+                const ratio = ratioSelect.value;
+
+                const compiled = `${subject}, ${style}, aspect ratio ${ratio.replace('--ar ', '')}, ${lighting} lighting, ${lens} ${ratio}`;
+                outputResult.textContent = compiled;
+            }
+
+            [subjectInput, styleSelect, lightingSelect, lensSelect, ratioSelect].forEach(el => {
+                if (el) el.addEventListener("input", compilePrompt);
+            });
+
+            // Initial trigger
+            compilePrompt();
+
+            if (copyPromptBtn) {
+                copyPromptBtn.addEventListener("click", () => {
+                    const promptText = outputResult.textContent;
+                    if (promptText === "أدخل بيانات في الاستوديو بالأعلى" || !promptText) return;
+                    navigator.clipboard.writeText(promptText).then(() => {
+                        const toast = document.getElementById("toastNotification");
+                        const toastMsg = document.getElementById("toastMessage");
+                        if (toast && toastMsg) {
+                            toastMsg.textContent = "تم نسخ البرومبت بنجاح! (+15 نقطة)";
+                            toast.classList.add("show");
+                            setTimeout(() => toast.classList.remove("show"), 2000);
+                        }
+                        // Award 15 points
+                        if (window.ViralEngine && window.ViralEngine.addPoints) {
+                            window.ViralEngine.addPoints(15, "صياغة برومبت في استوديو الصور");
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>

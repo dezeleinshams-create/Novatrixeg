@@ -54,6 +54,20 @@
     <!-- Main Container -->
     <div class="app-container">
 
+        <!-- Sticky Main Navbar -->
+        <nav class="main-navbar fade-in">
+            <div class="nav-logo">
+                <img src="assets/avatar.jpg" alt="NEXURA Logo">
+                <span>NEXURA EG</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link active"><i class="fas fa-home"></i> الرئيسية</a>
+                <a href="tools.html" class="nav-link"><i class="fas fa-cubes"></i> الأدوات</a>
+                <a href="blog.html" class="nav-link"><i class="fas fa-book-open"></i> الشروحات</a>
+                <a href="rewards.html" class="nav-link"><i class="fas fa-gift"></i> الجوائز</a>
+            </div>
+        </nav>
+
         <!-- Theme Switcher Wrapper -->
         <div class="theme-toggle-wrapper fade-in">
             <button id="themeToggleBtn" class="theme-toggle-btn" title="تغيير المظهر">
@@ -229,6 +243,71 @@
                 </div>
             </div>
 
+        </section>
+
+        <!-- LATEST UPDATES & NEW SERVICES TEASER -->
+        <section class="latest-teaser-section fade-in-delayed" style="margin-bottom: 28px;">
+            <div class="profit-grid">
+                <!-- Blog Teaser Card -->
+                <div class="tool-card" style="display: flex; flex-direction: column; justify-content: space-between; gap: 16px; padding: 24px; margin-bottom: 0;">
+                    <div>
+                        <div class="tool-header" style="margin-bottom: 10px;">
+                            <div class="tool-icon-wrapper ai-glow">
+                                <i class="fas fa-book-open"></i>
+                            </div>
+                            <h3>أحدث الشروحات التقنية والأمنية</h3>
+                        </div>
+                        <p class="tool-desc" style="margin-bottom: 16px;">اقرأ أقوى المقالات والشروحات لحماية بياناتك، تأمين حساباتك من الاختراق، والتعرف على أفضل البدائل الحرة.</p>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px;">
+                            <a href="blog/protect-whatsapp.html" style="display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); padding: 12px; border-radius: 12px; text-decoration: none; color: white; transition: 0.2s;">
+                                <span style="font-size: 0.82rem; font-weight: 700;">طرق متطورة لحماية تطبيق الواتساب ومنع التجسس عليه</span>
+                                <i class="fas fa-arrow-left" style="color: var(--primary); font-size: 0.8rem;"></i>
+                            </a>
+                            <a href="blog/detect-spyware.html" style="display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); padding: 12px; border-radius: 12px; text-decoration: none; color: white; transition: 0.2s;">
+                                <span style="font-size: 0.82rem; font-weight: 700;">كيف تكتشف تطبيقات التجسس والملفات المخفية على هاتفك؟</span>
+                                <i class="fas fa-arrow-left" style="color: var(--primary); font-size: 0.8rem;"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <a href="blog.html" class="primary-btn wide-btn" style="text-decoration: none; text-align: center; background: linear-gradient(135deg, var(--primary), var(--accent));">
+                        <i class="fas fa-book-open"></i> تصفح كل شروحات الحماية والأمان
+                    </a>
+                </div>
+
+                <!-- Tools Teaser Card -->
+                <div class="tool-card" style="display: flex; flex-direction: column; justify-content: space-between; gap: 16px; padding: 24px; margin-bottom: 0;">
+                    <div>
+                        <div class="tool-header" style="margin-bottom: 10px;">
+                            <div class="tool-icon-wrapper chat-glow">
+                                <i class="fas fa-cubes"></i>
+                            </div>
+                            <h3>بوابة الأدوات الخدمية التفاعلية</h3>
+                        </div>
+                        <p class="tool-desc" style="margin-bottom: 16px;">مجموعتنا الحصرية من الأدوات التقنية التي تعمل برمجياً بالكامل في متصفحك للحفاظ على أمانك الشخصي ومساعدتك في أعمالك.</p>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px;">
+                            <div style="display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); padding: 12px; border-radius: 12px;">
+                                <i class="fas fa-qrcode" style="color: var(--primary); font-size: 1.1rem;"></i>
+                                <div style="text-align: right;">
+                                    <h5 style="font-size: 0.8rem; font-weight: 700; color: white; margin-bottom: 2px;">مولد أكواد الـ QR المطور</h5>
+                                    <p style="font-size: 0.68rem; color: var(--text-muted);">ولد كود QR لأي رابط وحمله بجودة عالية</p>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); padding: 12px; border-radius: 12px;">
+                                <i class="fas fa-key" style="color: var(--primary); font-size: 1.1rem;"></i>
+                                <div style="text-align: right;">
+                                    <h5 style="font-size: 0.8rem; font-weight: 700; color: white; margin-bottom: 2px;">حامي وفاحص كلمات المرور</h5>
+                                    <p style="font-size: 0.68rem; color: var(--text-muted);">احسب وقت التخمين وولد كلمات مرور مشفرة</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="tools.html" class="primary-btn wide-btn" style="text-decoration: none; text-align: center; background: linear-gradient(135deg, var(--primary), var(--accent));">
+                        <i class="fas fa-cubes"></i> تشغيل بوابة الأدوات المجانية
+                    </a>
+                </div>
+            </div>
         </section>
 
         <!-- APP HUBS / BLOG (Techs4Arab Concept) -->
