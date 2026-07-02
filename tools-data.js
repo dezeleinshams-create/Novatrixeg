@@ -1,4 +1,4 @@
-﻿/* ============================================================
+/* ============================================================
    NEXURA EG — 100 Tools Registry v2.0
    Complete tool definitions with render() and init()
    ============================================================ */
@@ -27,11 +27,12 @@ const NEXURA_TOOLS = [
   init(){ function compile(){const s=document.getElementById("ps_subj").value.trim()||"An astronaut riding a horse on Mars",st=document.getElementById("ps_style").value,l=document.getElementById("ps_light").value,le=document.getElementById("ps_lens").value,r=document.getElementById("ps_ratio").value;document.getElementById("ps_output").textContent=`${s}, ${st}, ${l} lighting, ${le} ${r}`;}
     ["ps_subj","ps_style","ps_light","ps_lens","ps_ratio"].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener("input",compile);});compile();
     document.getElementById("ps_cp").onclick=()=>{ToolsEngine.copyText(document.getElementById("ps_output").textContent,"تم نسخ البرومبت! +15 نقطة");ToolsEngine.awardPoints(15,"صياغة برومبت");}; }
-}
+},
 
 
 
 // ─── Social Media Downloaders ────────────────────────────────────
+
 
 { id:"social-tiktok-dl", cat:"social", name:"تحميل تيك توك", desc:"تنزيل فيديوهات تيك توك بدون علامة مائية", icon:"fab fa-tiktok", keywords:["tiktok","تيك توك","فيديو","تحميل","download","watermark"],
   render(){ return `
@@ -455,8 +456,7 @@ const NEXURA_TOOLS = [
     };
     urlIn.addEventListener("keydown",e=>{if(e.key==="Enter")go.click();});
   }
-}
-
+},
 
 { id:"img-convert", cat:"image", name:"محول صيغ الصور", desc:"تحويل صورك لـ WebP و PNG و JPG", icon:"fas fa-images", keywords:["تحويل","صيغة","webp","png","jpg"],
   render(){ return `
@@ -1211,7 +1211,6 @@ const NEXURA_TOOLS = [
     document.getElementById("bio_cp").onclick=()=>ToolsEngine.copyText(document.getElementById("bio_out").value,"تم نسخ البايو!"); }
 },
 
-},
 
 // ╔═══════════════════════════════════════════════════════════════╗
 // ║  CATEGORY: SECURITY — أدوات الأمان                            ║

@@ -136,13 +136,13 @@
         <span class="toast-message" id="toastMessage">تم نسخ الكود بنجاح!</span>
     </div>
 
-    <!-- Core logic JS assets -->
+    <!-- Core logic JS assets — placed at end of body so DOM is already built -->
     <script src="viral.js" defer></script>
-    <script src="tools-data.js" defer></script>
-    <script src="tools-engine.js" defer></script>
+    <script src="tools-data.js"></script>
+    <script src="tools-engine.js"></script>
     <script>
+        // Theme toggle
         document.addEventListener("DOMContentLoaded", () => {
-            // Theme toggle listener integration
             const themeToggleBtn = document.getElementById("themeToggleBtn");
             if (themeToggleBtn) {
                 themeToggleBtn.addEventListener("click", () => {
@@ -151,19 +151,23 @@
                     themeToggleBtn.querySelector("i").className = isLight ? "fas fa-moon" : "fas fa-sun";
                 });
             }
+        });
 
-            // Initialize Dynamic Tools Engine
+        // Initialize Tools Engine — runs immediately since scripts are sync + DOM is ready (end of body)
+        function startEngine() {
             if (typeof ToolsEngine !== "undefined" && typeof NEXURA_TOOLS !== "undefined") {
                 ToolsEngine.init(NEXURA_TOOLS);
+                console.log("[NEXURA] Tools engine loaded:", NEXURA_TOOLS.length, "tools");
             } else {
-                console.error("ToolsEngine or NEXURA_TOOLS is undefined. Retrying in 100ms...");
-                setTimeout(() => {
-                    if (typeof ToolsEngine !== "undefined" && typeof NEXURA_TOOLS !== "undefined") {
-                        ToolsEngine.init(NEXURA_TOOLS);
-                    }
-                }, 100);
+                console.error("[NEXURA] ToolsEngine or NEXURA_TOOLS not found!");
             }
-        });
+        }
+
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", startEngine);
+        } else {
+            startEngine();
+        }
     </script>
 </body>
 </html>
