@@ -703,5 +703,87 @@
       ],
       "template": "Write [TOPIC] in [STYLE]. The code must be well-optimized, secure against vulnerabilities, and thoroughly commented to explain the logic of each line."
     }
-  }
+  },
+  "web_tools": [
+    {
+      "id": "wt1",
+      "title": "Remove.bg",
+      "category": "design",
+      "desc": "أداة ذكاء اصطناعي تزيل خلفية أي صورة بدقة متناهية وفي ثانية واحدة مجاناً.",
+      "url": "https://www.remove.bg/",
+      "tags": ["AI", "Images", "Design"]
+    },
+    {
+      "id": "wt2",
+      "title": "TinyPNG",
+      "category": "design",
+      "desc": "ضغط حجم الصور (PNG و JPG) بنسبة تصل إلى 70% دون فقدان الجودة لتسريع المواقع.",
+      "url": "https://tinypng.com/",
+      "tags": ["Compress", "Optimization"]
+    },
+    {
+      "id": "wt3",
+      "title": "I Love PDF",
+      "category": "productivity",
+      "desc": "مجموعة أدوات مجانية شاملة لتعديل، دمج، قص، وتحويل ملفات الـ PDF.",
+      "url": "https://www.ilovepdf.com/",
+      "tags": ["PDF", "Office", "Tools"]
+    },
+    {
+      "id": "wt4",
+      "title": "Virustotal",
+      "category": "security",
+      "desc": "منصة لفحص الروابط والملفات ضد الفيروسات باستخدام أكثر من 70 برنامج حماية في وقت واحد.",
+      "url": "https://www.virustotal.com/",
+      "tags": ["Security", "Scan", "Antivirus"]
+    },
+    {
+      "id": "wt5",
+      "title": "123Apps",
+      "category": "media",
+      "desc": "ترسانة متكاملة من أدوات الويب لقص وتعديل الفيديوهات والصوتيات وتحويل الصيغ أونلاين.",
+      "url": "https://123apps.com/",
+      "tags": ["Video", "Audio", "Converter"]
+    },
+    {
+      "id": "wt6",
+      "title": "GTmetrix",
+      "category": "seo",
+      "desc": "فحص سرعة المواقع بدقة وتقديم تقارير مفصلة لحل مشاكل البطء والسيو.",
+      "url": "https://gtmetrix.com/",
+      "tags": ["SEO", "Speed", "Web"]
+    },
+    {
+      "id": "wt7",
+      "title": "Color Hunt",
+      "category": "design",
+      "desc": "مكتبة ضخمة لتدرجات الألوان المتناسقة (Palettes) الجاهزة للاستخدام في التصميم.",
+      "url": "https://colorhunt.co/",
+      "tags": ["Colors", "Design", "UI"]
+    },
+    {
+      "id": "wt8",
+      "title": "Carbon",
+      "category": "coding",
+      "desc": "توليد صور احترافية وتصميمات جذابة لأكوادك البرمجية لمشاركتها على السوشيال ميديا.",
+      "url": "https://carbon.now.sh/",
+      "tags": ["Code", "Developer", "Social"]
+    },
+    {
+      "id": "wt9",
+      "title": "Temp Mail",
+      "category": "productivity",
+      "desc": "بريد إلكتروني مؤقت ومجاني لحمايتك من السبام عند التسجيل في المواقع غير الموثوقة.",
+      "url": "https://temp-mail.org/",
+      "tags": ["Email", "Privacy", "Spam"]
+    },
+    {
+      "id": "wt10",
+      "title": "AlternativeTo",
+      "category": "search",
+      "desc": "محرك بحث رائع لإيجاد بدائل مجانية ومفتوحة المصدر لأي برنامج أو تطبيق مدفوع.",
+      "url": "https://alternativeto.net/",
+      "tags": ["Software", "Alternatives", "Search"]
+    }
+  ]
 }

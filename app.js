@@ -181,7 +181,8 @@ function renderApps() {
             apps: "تطبيق مميز",
             games: "ألعاب وتسلية",
             ai: "ذكاء اصطناعي",
-            tricks: "شرح ثغرة"
+            tricks: "شرح ثغرة",
+            webtools: "أداة ويب"
         };
         
         card.innerHTML = `
@@ -266,7 +267,8 @@ function openAppModal(id) {
         apps: "تطبيق",
         games: "لعبة",
         ai: "أداة ذكاء اصطناعي",
-        tricks: "شرح ثغرة"
+        tricks: "شرح ثغرة",
+        webtools: "أداة ويب"
     };
     modalItemBadge.textContent = categoryNames[app.category];
     modalItemBadge.className = `modal-item-badge ${app.category}`;
@@ -1057,6 +1059,23 @@ function loadDatabase(callback) {
         .then(data => {
             APPS_DATABASE = data.apps || [];
             ALTERNATIVES_DATABASE = data.alternatives || {};
+            
+            // Map web tools to fit APPS_DATABASE structure
+            const webTools = data.web_tools || [];
+            webTools.forEach(wt => {
+                APPS_DATABASE.push({
+                    id: wt.id,
+                    title: wt.title,
+                    category: "webtools",
+                    desc: wt.desc,
+                    icon: "fas fa-globe",
+                    size: "أونلاين (ويب)",
+                    compat: "جميع الأجهزة (متصفح)",
+                    link: wt.url,
+                    features: wt.tags.map(t => "دعم: " + t),
+                    alternative: null
+                });
+            });
             
             // Re-group and map database prompts correctly into categories
             const promptsArray = data.prompts || [];

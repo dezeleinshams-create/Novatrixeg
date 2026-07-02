@@ -3336,6 +3336,23 @@ body.light-theme .callout-box h4 {
     gap: 12px;
 }
 
+@media(min-width: 900px) {
+    .tools-sidebar {
+        position: sticky;
+        top: 100px;
+        max-height: calc(100vh - 140px);
+        overflow-y: auto;
+        padding-left: 6px;
+    }
+    .tools-sidebar::-webkit-scrollbar {
+        width: 4px;
+    }
+    .tools-sidebar::-webkit-scrollbar-thumb {
+        background: var(--border-color);
+        border-radius: 4px;
+    }
+}
+
 .tool-menu-btn {
     background: var(--bg-surface);
     border: 1px solid var(--border-color);
@@ -3829,4 +3846,140 @@ body.light-theme .task-text-side h4 {
     margin-top: 4px;
 }
 
+/* ==========================================================================
+   DYNAMIC TOOLS SYSTEM EXTENSIONS
+   ========================================================================== */
+.tools-filter-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 24px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 20px;
+}
+body.light-theme .tools-filter-section {
+    background: #ffffff;
+    border-color: #e2e8f0;
+}
+.tools-search-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+.tools-search-input-box {
+    flex: 1;
+    min-width: 250px;
+}
+.tools-counter-badge {
+    background: var(--primary-glow);
+    border: 1px solid rgba(37, 99, 235, 0.2);
+    color: var(--primary);
+    padding: 6px 14px;
+    border-radius: var(--btn-radius);
+    font-size: 0.8rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+body.light-theme .tools-counter-badge {
+    background: rgba(37, 99, 235, 0.08);
+}
+.tools-category-tabs {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+}
+.tools-category-tabs::-webkit-scrollbar {
+    height: 4px;
+}
+.tools-category-tabs::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+.cat-tab {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 8px 16px;
+    border-radius: 16px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition-smooth);
+}
+body.light-theme .cat-tab {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+}
+.cat-tab:hover {
+    border-color: var(--primary);
+    color: white;
+}
+body.light-theme .cat-tab:hover {
+    color: var(--primary);
+}
+.cat-tab.active {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 4px 15px var(--primary-glow);
+}
+.form-input, .form-textarea {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 10px 14px;
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    transition: var(--transition-smooth);
+}
+body.light-theme .form-input, body.light-theme .form-textarea {
+    background: #ffffff;
+    border-color: #dadce0;
+    color: #202124;
+}
+.form-input:focus, .form-textarea:focus {
+    border-color: var(--primary);
+    outline: none;
+}
+.pill-btn {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+body.light-theme .pill-btn {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+}
+.pill-btn:hover {
+    border-color: var(--primary);
+    color: white;
+}
+body.light-theme .pill-btn:hover {
+    color: var(--primary);
+}
+.pill-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: transparent;
+}
 
+/* ── Downloader Animations ─────────────────────────── */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
