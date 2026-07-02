@@ -121,7 +121,7 @@ const NEXURA_TOOLS = [
           <p style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:14px;line-height:1.6;">يمكنك استخدام أحد المواقع الرديفة الموثوقة مجاناً:</p>
           <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
             <a id="yt_fb1" href="#" target="_blank" class="primary-btn" style="background:linear-gradient(135deg,#ff0000,#cc0000);color:white;text-decoration:none;text-align:center;font-size:0.75rem;padding:8px;"><i class="fas fa-external-link-alt"></i> Y2Mate</a>
-            <a id="yt_fb2" href="#" target="_blank" class="secondary-btn" style="text-decoration:none;text-align:center;font-size:0.75px;padding:8px 4px;"><i class="fas fa-external-link-alt"></i> SaveFrom</a>
+            <a id="yt_fb2" href="#" target="_blank" class="secondary-btn" style="text-decoration:none;text-align:center;font-size:0.75rem;padding:8px 4px;"><i class="fas fa-external-link-alt"></i> SaveFrom</a>
             <a id="yt_fb3" href="#" target="_blank" class="secondary-btn" style="text-decoration:none;text-align:center;font-size:0.75rem;padding:8px 4px;"><i class="fas fa-external-link-alt"></i> YT5s</a>
           </div>
         </div>
