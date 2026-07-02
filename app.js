@@ -149,10 +149,11 @@ function renderApps() {
     }
 
     filteredApps.forEach((app, idx) => {
-        // Insert Ad unit card after the 3rd item
-        if (idx === 3) {
+        // Insert Ad unit card after the 3rd and 7th items
+        if (idx === 3 || idx === 7) {
             const adCard = document.createElement("div");
             adCard.className = "ad-card-item";
+            const slotId = idx === 3 ? "2222222222" : "4444444444";
             adCard.innerHTML = `
                 <span class="ad-label">مساحة إعلانية</span>
                 <ins class="adsbygoogle"
@@ -160,7 +161,7 @@ function renderApps() {
                      data-ad-format="fluid"
                      data-ad-layout-key="-fb+5w+4e-db+86"
                      data-ad-client="ca-pub-0000000000000000"
-                     data-ad-slot="2222222222"></ins>
+                     data-ad-slot="${slotId}"></ins>
             `;
             appsGrid.appendChild(adCard);
             
@@ -1157,6 +1158,20 @@ window.addEventListener("DOMContentLoaded", () => {
         initTheme();
         initProfitHub();
         initHiddenEntrance();
+
+        // Intercept prompts library entrance button to require 3 shares
+        const promptsBtn = document.getElementById("promptsLibraryBtn");
+        if (promptsBtn) {
+            promptsBtn.addEventListener("click", (e) => {
+                const requiredShares = 3;
+                const currentShares = window.ViralEngine.getShareCount();
+                
+                if (currentShares < requiredShares) {
+                    e.preventDefault(); // Stop navigation
+                    window.ViralEngine.share("prompts_unlock");
+                }
+            });
+        }
 
         // Track Visits Analytics (if not localhost)
         if (window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1") {

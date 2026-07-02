@@ -340,6 +340,16 @@
             this.pendingAction = action || null;
             const overlay = document.getElementById('shareOverlay');
             if (overlay) {
+                const title = overlay.querySelector('h3');
+                const subtitle = overlay.querySelector('.share-subtitle');
+                if (action === 'prompts_unlock') {
+                    const currentShares = PointsSystem.getShareCount();
+                    if (title) title.innerHTML = `<i class="fas fa-lock"></i> افتح مكتبة الـ +1000 برومت`;
+                    if (subtitle) subtitle.innerHTML = `متبقي لك ${Math.max(0, 3 - currentShares)} مشاركات لفتح المكتبة بالكامل! (تمت المشاركة ${currentShares} من 3)`;
+                } else {
+                    if (title) title.innerHTML = `<i class="fas fa-share-nodes"></i> شارك NEXURA EG`;
+                    if (subtitle) subtitle.innerHTML = `شارك الموقع مع أصحابك واكسب 20 نقطة لكل مشاركة!`;
+                }
                 overlay.classList.add('active');
                 document.body.style.overflow = 'hidden';
             }
@@ -406,6 +416,48 @@
             });
         },
 
+        shareMessenger() {
+            const url = encodeURIComponent(this.getShareURL());
+            window.open(`https://www.facebook.com/dialog/send?link=${url}&app_id=184484190795&redirect_uri=${url}`, '_blank');
+            this._onShared();
+        },
+
+        shareLinkedIn() {
+            const url = encodeURIComponent(this.getShareURL());
+            window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank');
+            this._onShared();
+        },
+
+        shareReddit() {
+            const url = encodeURIComponent(this.getShareURL());
+            const title = encodeURIComponent(this.getShareText());
+            window.open(`https://reddit.com/submit?url=${url}&title=${title}`, '_blank');
+            this._onShared();
+        },
+
+        sharePinterest() {
+            const url = encodeURIComponent(this.getShareURL());
+            const desc = encodeURIComponent(this.getShareText());
+            window.open(`https://pinterest.com/pin/create/button/?url=${url}&description=${desc}`, '_blank');
+            this._onShared();
+        },
+
+        nativeShare() {
+            if (navigator.share) {
+                navigator.share({
+                    title: CONFIG.SITE_NAME,
+                    text: this.getShareText(),
+                    url: this.getShareURL()
+                }).then(() => {
+                    this._onShared();
+                }).catch(err => {
+                    console.log('Share failed or cancelled', err);
+                });
+            } else {
+                this.copyLink();
+            }
+        },
+
         _onShared() {
             PointsSystem.recordShare();
             this.close();
@@ -414,6 +466,18 @@
                 setTimeout(() => SpinWheel.open(), 500);
             } else if (this.pendingAction === 'unlock') {
                 ContentLocker.unlockAll();
+            } else if (this.pendingAction === 'prompts_unlock') {
+                const currentShares = PointsSystem.getShareCount();
+                if (currentShares >= 3) {
+                    showPointsToast('🎉 مبروك! تم فتح مكتبة البرومتات بالكامل!', 'جاري تحويلك الآن...');
+                    setTimeout(() => {
+                        window.location.href = 'prompts.html';
+                    }, 1500);
+                } else {
+                    setTimeout(() => {
+                        this.open('prompts_unlock');
+                    }, 800);
+                }
             }
             this.pendingAction = null;
         }
@@ -717,7 +781,12 @@
                     <button class="spin-action-btn" id="spinActionBtn" onclick="window.ViralEngine.spin()">
                         <i class="fas fa-rotate"></i> لف العجلة!
                     </button>
-                    <p class="spin-share-note">💡 شارك الموقع مرة واحدة لتفعيل الدوران</p>
+                    <div class="spin-ad-btn-wrapper" style="margin-top: 8px; width: 100%;">
+                        <button class="spin-ad-btn" onclick="window.ViralEngine.watchRewardedAd()" style="background: linear-gradient(135deg, #a855f7, #7c3aed); color: white; border: none; padding: 10px 20px; border-radius: 20px; font-weight: 700; font-size: 0.8rem; font-family: 'Cairo'; cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 6px; width: 100%; justify-content: center; box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3);">
+                            <i class="fas fa-video"></i> شاهد إعلان لتفعيل الدوران فورا (+50 نقطة)
+                        </button>
+                    </div>
+                    <p class="spin-share-note">💡 شارك الموقع أو شاهد إعلاناً مرة واحدة لتفعيل الدوران</p>
 
                     <div class="spin-result" id="spinResult">
                         <div class="result-emoji"></div>
@@ -745,8 +814,23 @@
                         <button class="share-btn telegram" onclick="window.ViralEngine.shareTelegram()">
                             <i class="fab fa-telegram-plane"></i> تليجرام
                         </button>
+                        <button class="share-btn messenger" onclick="window.ViralEngine.shareMessenger()">
+                            <i class="fab fa-facebook-messenger"></i> ماسنجر
+                        </button>
                         <button class="share-btn twitter" onclick="window.ViralEngine.shareTwitter()">
                             <i class="fab fa-x-twitter"></i> تويتر
+                        </button>
+                        <button class="share-btn linkedin" onclick="window.ViralEngine.shareLinkedIn()">
+                            <i class="fab fa-linkedin-in"></i> لينكد إن
+                        </button>
+                        <button class="share-btn reddit" onclick="window.ViralEngine.shareReddit()">
+                            <i class="fab fa-reddit-alien"></i> ريديت
+                        </button>
+                        <button class="share-btn pinterest" onclick="window.ViralEngine.sharePinterest()">
+                            <i class="fab fa-pinterest-p"></i> بنترست
+                        </button>
+                        <button class="share-btn native-share" onclick="window.ViralEngine.nativeShare()">
+                            <i class="fas fa-share-nodes"></i> مشاركة سريعة
                         </button>
                         <button class="share-btn copy-link" onclick="window.ViralEngine.copyLink()">
                             <i class="fas fa-link"></i> نسخ الرابط
@@ -820,6 +904,104 @@
     }
 
     // ==========================================
+    // REWARDED AD MANAGER
+    // ==========================================
+    const RewardedAdManager = {
+        overlay: null,
+        timer: null,
+        secondsLeft: 5,
+
+        init() {
+            if (document.getElementById('rewardedAdOverlay')) return;
+            const overlayHTML = `
+                <div class="rewarded-ad-overlay" id="rewardedAdOverlay">
+                    <div class="rewarded-ad-modal">
+                        <div class="ad-header-row">
+                            <span class="ad-tag"><i class="fas fa-video"></i> إعلان ممول (AdMob Sponsored)</span>
+                            <span class="ad-timer-countdown" id="adTimerCountdown">5 ثوانٍ متبقية</span>
+                        </div>
+                        <div class="ad-video-container">
+                            <div class="simulated-video">
+                                <div class="video-loader">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                    <span>جاري تحميل الإعلان الممول...</span>
+                                </div>
+                                <div class="video-ui">
+                                    <div class="progress-bar-fill" id="adProgressFill"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ad-footer-row">
+                            <button class="ad-close-btn" id="adCloseBtn" disabled onclick="window.ViralEngine.closeRewardedAd()">
+                                <i class="fas fa-lock"></i> انتظر للحصول على الجائزة
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', overlayHTML);
+        },
+
+        show() {
+            this.init();
+            this.overlay = document.getElementById('rewardedAdOverlay');
+            if (!this.overlay) return;
+
+            this.overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+
+            this.secondsLeft = 5;
+            const countdownEl = document.getElementById('adTimerCountdown');
+            const progressFill = document.getElementById('adProgressFill');
+            const closeBtn = document.getElementById('adCloseBtn');
+
+            if (countdownEl) countdownEl.textContent = `${this.secondsLeft} ثوانٍ متبقية`;
+            if (progressFill) progressFill.style.width = '0%';
+            if (closeBtn) {
+                closeBtn.disabled = true;
+                closeBtn.innerHTML = '<i class="fas fa-lock"></i> انتظر للحصول على الجائزة';
+            }
+
+            let currentProgress = 0;
+            this.timer = setInterval(() => {
+                this.secondsLeft--;
+                currentProgress += 20;
+                if (progressFill) progressFill.style.width = `${currentProgress}%`;
+
+                if (this.secondsLeft <= 0) {
+                    clearInterval(this.timer);
+                    if (countdownEl) countdownEl.textContent = 'تم اكتمال الإعلان! 🎉';
+                    if (closeBtn) {
+                        closeBtn.disabled = false;
+                        closeBtn.innerHTML = '<i class="fas fa-check-circle"></i> الحصول على المكافأة وإغلاق';
+                    }
+                } else {
+                    if (countdownEl) countdownEl.textContent = `${this.secondsLeft} ثوانٍ متبقية`;
+                }
+            }, 1000);
+        },
+
+        closeAndReward() {
+            if (this.secondsLeft > 0) return;
+
+            if (this.overlay) {
+                this.overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            // Reward
+            PointsSystem.addPoints(50, 'مشاهدة إعلان فيديو ممول');
+            PointsSystem.recordShare(); // Automatically unlock wheel/content
+
+            // Close result if shown
+            const spinResult = document.getElementById('spinResult');
+            if (spinResult) spinResult.classList.remove('show');
+
+            showPointsToast('✅ تم تفعيل عجلة الحظ!', 'يمكنك دوران العجلة الآن');
+        }
+    };
+
+    // ==========================================
     // VIRAL ENGINE (Main Controller)
     // ==========================================
     window.ViralEngine = {
@@ -852,7 +1034,16 @@
         shareFacebook() { ShareManager.shareFacebook(); },
         shareTelegram() { ShareManager.shareTelegram(); },
         shareTwitter() { ShareManager.shareTwitter(); },
+        shareMessenger() { ShareManager.shareMessenger(); },
+        shareLinkedIn() { ShareManager.shareLinkedIn(); },
+        shareReddit() { ShareManager.shareReddit(); },
+        sharePinterest() { ShareManager.sharePinterest(); },
+        nativeShare() { ShareManager.nativeShare(); },
         copyLink() { ShareManager.copyLink(); },
+
+        watchRewardedAd() { RewardedAdManager.show(); },
+        closeRewardedAd() { RewardedAdManager.closeAndReward(); },
+        getShareCount() { return PointsSystem.getShareCount(); },
 
         closeWelcome() { WelcomePopup.close(); },
         closeFlashDeal() { CountdownDeals.closeBanner(); },

@@ -120,6 +120,31 @@ function renderPromptCards() {
             </div>
         `;
         promptsGrid.appendChild(card);
+
+        // Insert Ad unit card after the 3rd item
+        if (idx === 2) {
+            const adCard = document.createElement("div");
+            adCard.className = "prompt-card ad-card-item";
+            adCard.style.minHeight = "150px";
+            adCard.style.display = "flex";
+            adCard.style.alignItems = "center";
+            adCard.style.justifyContent = "center";
+            adCard.innerHTML = `
+                <span class="ad-label" style="position: absolute; top: 4px; left: 10px; font-size: 0.62rem; font-weight: 700; color: var(--text-muted);">إعلان ممول / Sponsored Ad</span>
+                <ins class="adsbygoogle"
+                     style="display:block; width:100%; height:90px;"
+                     data-ad-client="ca-pub-0000000000000000"
+                     data-ad-slot="8888888888"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+            `;
+            promptsGrid.appendChild(adCard);
+            try {
+                (window.adsbygoogle = window.adsbygoogle || []).push({});
+            } catch (e) {
+                console.warn("Dynamic prompts ad push failed:", e);
+            }
+        }
     });
 
     // Attach clipboard click triggers to cards

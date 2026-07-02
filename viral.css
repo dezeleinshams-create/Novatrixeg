@@ -460,9 +460,43 @@ body.has-viral-bar {
     box-shadow: 0 8px 20px rgba(29, 161, 242, 0.4);
 }
 
+.share-btn.messenger {
+    background: linear-gradient(135deg, #00B2FF, #006AFF);
+}
+.share-btn.messenger:hover {
+    box-shadow: 0 8px 20px rgba(0, 178, 255, 0.4);
+}
+
+.share-btn.linkedin {
+    background: linear-gradient(135deg, #0077B5, #005983);
+}
+.share-btn.linkedin:hover {
+    box-shadow: 0 8px 20px rgba(0, 119, 181, 0.4);
+}
+
+.share-btn.reddit {
+    background: linear-gradient(135deg, #FF4500, #b83100);
+}
+.share-btn.reddit:hover {
+    box-shadow: 0 8px 20px rgba(255, 69, 0, 0.4);
+}
+
+.share-btn.pinterest {
+    background: linear-gradient(135deg, #BD081C, #8b0614);
+}
+.share-btn.pinterest:hover {
+    box-shadow: 0 8px 20px rgba(189, 8, 28, 0.4);
+}
+
+.share-btn.native-share {
+    background: linear-gradient(135deg, #0ea5e9, #0d9488);
+}
+.share-btn.native-share:hover {
+    box-shadow: 0 8px 20px rgba(14, 165, 233, 0.4);
+}
+
 .share-btn.copy-link {
     background: linear-gradient(135deg, #64748b, #475569);
-    grid-column: 1 / -1;
 }
 .share-btn.copy-link:hover {
     box-shadow: 0 8px 20px rgba(100, 116, 139, 0.4);
@@ -1084,4 +1118,163 @@ body.light-theme .flash-deal-banner {
     .referral-stat .stat-num {
         font-size: 1.4rem;
     }
+}
+
+/* ============================================
+   Rewarded Ad Simulator Overlay Styles
+   ============================================ */
+.rewarded-ad-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10500;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease;
+}
+
+.rewarded-ad-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.rewarded-ad-modal {
+    background: linear-gradient(145deg, #090e1a, #111827);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    box-shadow: 0 20px 60px rgba(168, 85, 247, 0.15), 0 0 100px rgba(0, 0, 0, 0.8);
+    border-radius: 24px;
+    padding: 24px;
+    width: 90%;
+    max-width: 440px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transform: scale(0.9);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.rewarded-ad-overlay.active .rewarded-ad-modal {
+    transform: scale(1);
+}
+
+.ad-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ad-tag {
+    font-size: 0.72rem;
+    font-weight: 700;
+    background: rgba(168, 85, 247, 0.15);
+    color: #a855f7;
+    padding: 4px 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(168, 85, 247, 0.2);
+}
+
+.ad-timer-countdown {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #f8fafc;
+}
+
+.ad-video-container {
+    background: #000;
+    border-radius: 16px;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.simulated-video {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: linear-gradient(45deg, #111827 0%, #1e1b4b 100%);
+}
+
+.video-loader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    color: #94a3b8;
+    font-size: 0.85rem;
+}
+
+.video-loader i {
+    font-size: 2rem;
+    color: #a855f7;
+}
+
+.video-ui {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(to right, #a855f7, #6366f1);
+    transition: width 1s linear;
+}
+
+.ad-footer-row {
+    display: flex;
+    justify-content: center;
+}
+
+.ad-close-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #2563eb, #0ea5e9);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: var(--btn-radius);
+    font-weight: 700;
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.ad-close-btn:disabled {
+    background: #1e293b;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: #64748b;
+    cursor: not-allowed;
+}
+
+.ad-close-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+}
+
+body.light-theme .rewarded-ad-modal {
+    background: linear-gradient(145deg, #ffffff, #f8fafc);
+    border-color: rgba(168, 85, 247, 0.2);
+}
+
+body.light-theme .ad-timer-countdown {
+    color: #0f172a;
 }
