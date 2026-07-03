@@ -7,7 +7,7 @@ let localDatabase = { apps: [], alternatives: {}, prompts: [], customizer: {} };
 let isModified = false;
 let gitConfig = { token: "", owner: "", repo: "", branch: "" };
 
-// Credentials Hash (SHA-256 for admin:bn918912bn918912bn)
+// Credentials Hash (SHA-256)
 const CREDENTIALS_HASH = "d2a7453f9a3e08f14a1277a8e4068e844d53c693408cc823662f2a72476b14bf";
 
 // DOM Selectors
