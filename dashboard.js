@@ -10,6 +10,15 @@ let gitConfig = { token: "", owner: "", repo: "", branch: "" };
 // Credentials Hash (SHA-256)
 const CREDENTIALS_HASH = "d2a7453f9a3e08f14a1277a8e4068e844d53c693408cc823662f2a72476b14bf";
 
+// === Security: Block access from outside localhost ===
+(function() {
+    const host = window.location.hostname;
+    if (host !== 'localhost' && host !== '127.0.0.1' && host !== '') {
+        document.body.innerHTML = '<div style="display:flex;height:100vh;align-items:center;justify-content:center;background:#0a0a0f;color:#ff4757;font-family:Cairo,sans-serif;font-size:1.5rem;text-align:center"><div><i class="fas fa-ban" style="font-size:4rem;margin-bottom:1rem;display:block"></i>⛔ الوصول محظور<br><small style="color:#888;font-size:0.9rem">لوحة التحكم متاحة من الجهاز المحلي فقط</small></div></div>';
+        throw new Error('Access denied: dashboard only accessible from localhost');
+    }
+})();
+
 // DOM Selectors
 const githubTokenInput = document.getElementById("githubToken");
 const githubOwnerInput = document.getElementById("githubOwner");
@@ -112,35 +121,95 @@ function checkAdminAuthentication() {
     }
 }
 
+// === Security: Failed attempts lockout ===
+const MAX_ATTEMPTS = 3;
+const LOCKOUT_MS = 5 * 60 * 1000; // 5 minutes
+
+function isLockedOut() {
+    const lockUntil = parseInt(localStorage.getItem('login_lock_until') || '0');
+    return Date.now() < lockUntil;
+}
+
+function getLockTimeLeft() {
+    const lockUntil = parseInt(localStorage.getItem('login_lock_until') || '0');
+    return Math.ceil((lockUntil - Date.now()) / 1000);
+}
+
+function recordFailedAttempt() {
+    let attempts = parseInt(localStorage.getItem('login_attempts') || '0') + 1;
+    localStorage.setItem('login_attempts', attempts);
+    if (attempts >= MAX_ATTEMPTS) {
+        localStorage.setItem('login_lock_until', Date.now() + LOCKOUT_MS);
+        localStorage.setItem('login_attempts', '0');
+    }
+    return attempts;
+}
+
+function clearAttempts() {
+    localStorage.removeItem('login_attempts');
+    localStorage.removeItem('login_lock_until');
+}
+
 // Initialize Login form triggers
 function initLoginGate() {
-    loginForm.addEventListener("submit", async () => {
+    // Security: clear any stale session auth to prevent bypass
+    sessionStorage.removeItem('admin_authenticated');
+
+    // Check lockout on load
+    if (isLockedOut()) {
+        const secs = getLockTimeLeft();
+        loginErrorMsg.innerHTML = `<i class="fas fa-lock"></i> تم تجاوز عدد المحاولات — المحاولة مرة أخرى بعد ${Math.ceil(secs/60)} دقيقة`;
+        loginErrorMsg.style.display = 'flex';
+        document.getElementById('loginSubmitBtn').disabled = true;
+        const interval = setInterval(() => {
+            if (!isLockedOut()) {
+                clearInterval(interval);
+                loginErrorMsg.style.display = 'none';
+                document.getElementById('loginSubmitBtn').disabled = false;
+            } else {
+                const s = getLockTimeLeft();
+                loginErrorMsg.innerHTML = `<i class="fas fa-lock"></i> تم تجاوز عدد المحاولات — المحاولة مرة أخرى بعد ${Math.ceil(s/60)} دقيقة`;
+            }
+        }, 5000);
+    }
+
+    loginForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        if (isLockedOut()) return;
+
         const username = loginUser.value.trim();
         const password = loginPassword.value.trim();
-        
+
+        if (!username || !password) return;
+
         const computedHash = await hashCredentials(username, password);
-        
+
         if (computedHash === CREDENTIALS_HASH) {
-            // Save state to session
+            // Success
+            clearAttempts();
             sessionStorage.setItem("admin_authenticated", "true");
             loginErrorMsg.style.display = "none";
-            
-            // Clean fields
             loginUser.value = "";
             loginPassword.value = "";
-            
-            // Animate transition and boot dashboard
             loginOverlay.classList.add("hidden");
-            setTimeout(() => {
-                checkAdminAuthentication();
-            }, 300);
+            setTimeout(() => { checkAdminAuthentication(); }, 300);
         } else {
-            // Display error and shake card
-            loginErrorMsg.style.display = "flex";
+            // Failure
+            const attempts = recordFailedAttempt();
             const card = document.querySelector(".login-card");
             card.style.animation = 'none';
-            card.offsetHeight; /* trigger reflow */
+            card.offsetHeight;
             card.style.animation = null;
+
+            if (isLockedOut()) {
+                loginErrorMsg.innerHTML = `<i class="fas fa-ban"></i> تم قفل الحساب لمدة 5 دقائق بسبب المحاولات المتكررة`;
+                document.getElementById('loginSubmitBtn').disabled = true;
+            } else {
+                const remaining = MAX_ATTEMPTS - attempts;
+                loginErrorMsg.innerHTML = `<i class="fas fa-circle-exclamation"></i> خطأ في البيانات — تبقى ${remaining} محاولة`;
+            }
+            loginErrorMsg.style.display = "flex";
         }
     });
 }
