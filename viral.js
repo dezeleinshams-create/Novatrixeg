@@ -1,5 +1,5 @@
 /* ==========================================================================
-   NEXURA EG - VIRAL GROWTH ENGINE
+   Novatrix EG - VIRAL GROWTH ENGINE
    Temu-Inspired Viral Mechanics System
    ========================================================================== */
 
@@ -11,9 +11,9 @@
     // ==========================================
     const CONFIG = {
         SITE_URL: 'https://techs4arab.com/public/',
-        SITE_NAME: 'NEXURA EG',
+        SITE_NAME: 'Novatrix EG',
         SITE_DESC: 'أقوى منصة عربية للبدائل المجانية وأدوات الذكاء الاصطناعي 🚀',
-        STORAGE_PREFIX: 'nexura_viral_',
+        STORAGE_PREFIX: 'novatrix_viral_',
         POINTS: {
             DAILY_VISIT: 5,
             SHARE: 20,
@@ -356,7 +356,7 @@
                     if (title) title.innerHTML = `<i class="fas fa-lock"></i> افتح مكتبة الـ +1000 برومت`;
                     if (subtitle) subtitle.innerHTML = `متبقي لك ${Math.max(0, 3 - currentShares)} مشاركات لفتح المكتبة بالكامل! (تمت المشاركة ${currentShares} من 3)`;
                 } else {
-                    if (title) title.innerHTML = `<i class="fas fa-share-nodes"></i> شارك NEXURA EG`;
+                    if (title) title.innerHTML = `<i class="fas fa-share-nodes"></i> شارك Novatrix EG`;
                     if (subtitle) subtitle.innerHTML = `شارك الموقع مع أصحابك واكسب 20 نقطة لكل مشاركة!`;
                 }
                 overlay.classList.add('active');
@@ -811,7 +811,7 @@
         const shareHTML = `
             <div class="share-overlay" id="shareOverlay">
                 <div class="share-modal">
-                    <h3><i class="fas fa-share-nodes"></i> شارك NEXURA EG</h3>
+                    <h3><i class="fas fa-share-nodes"></i> شارك Novatrix EG</h3>
                     <p class="share-subtitle">شارك الموقع مع أصحابك واكسب 20 نقطة لكل مشاركة!</p>
                     <div class="share-buttons-grid">
                         <button class="share-btn whatsapp" onclick="window.ViralEngine.shareWhatsApp()">
@@ -858,7 +858,7 @@
             <div class="welcome-overlay" id="welcomeOverlay">
                 <div class="welcome-modal">
                     <div class="welcome-emoji">🎉</div>
-                    <h2>أهلاً بيك في NEXURA EG!</h2>
+                    <h2>أهلاً بيك في Novatrix EG!</h2>
                     <p>أقوى منصة عربية للبدائل المجانية وأدوات الذكاء الاصطناعي. اكسب نقاط ومكافآت مع كل تفاعل!</p>
                     <div class="welcome-rewards">
                         <div class="welcome-reward-item">
@@ -1010,6 +1010,63 @@
         }
     };
 
+    function initGlobalTheme() {
+        const themeToggleBtn = document.getElementById("themeToggleBtn");
+        
+        function updateLogoTheme(theme) {
+            const isSubfolder = window.location.pathname.includes('/blog/');
+            const basePath = isSubfolder ? '../' : '';
+            const darkSrc  = basePath + "assets/logo-dark.svg";
+            const lightSrc = basePath + "assets/logo-light.svg";
+
+            document.querySelectorAll("img.logo-svg").forEach(img => {
+                img.src = theme === "light" ? lightSrc : darkSrc;
+            });
+        }
+
+        function updateThemeIcon(theme) {
+            if (!themeToggleBtn) return;
+            const icon = themeToggleBtn.querySelector("i");
+            if (icon) {
+                icon.className = theme === "light" ? "fas fa-sun" : "fas fa-moon";
+            }
+        }
+
+        // Apply theme from localStorage on page load (default to light)
+        const savedTheme = localStorage.getItem("theme") || "light";
+        if (savedTheme === "light") {
+            document.body.classList.add("light-theme");
+        } else {
+            document.body.classList.remove("light-theme");
+        }
+        
+        // Wait briefly for DOM to fully settle before updating images
+        setTimeout(() => {
+            updateThemeIcon(savedTheme);
+            updateLogoTheme(savedTheme);
+        }, 50);
+
+        if (themeToggleBtn) {
+            const newBtn = themeToggleBtn.cloneNode(true);
+            themeToggleBtn.parentNode.replaceChild(newBtn, themeToggleBtn);
+            
+            newBtn.addEventListener("click", () => {
+                document.body.classList.toggle("light-theme");
+                const currentTheme = document.body.classList.contains("light-theme") ? "light" : "dark";
+                localStorage.setItem("theme", currentTheme);
+                updateThemeIcon(currentTheme);
+                updateLogoTheme(currentTheme);
+                
+                const toastMsg = currentTheme === "light" ? "تم تفعيل الوضع المضيء ☀️" : "تم تفعيل الوضع الداكن 🌙";
+                if (typeof window.showToast === "function") {
+                    window.showToast(toastMsg);
+                } else if (typeof showPointsToast === "function") {
+                    showPointsToast(toastMsg, "");
+                }
+            });
+        }
+    }
+
     // ==========================================
     // VIRAL ENGINE (Main Controller)
     // ==========================================
@@ -1017,6 +1074,9 @@
         init() {
             // Inject HTML components
             injectViralHTML();
+
+            // Initialize global theme settings
+            initGlobalTheme();
 
             // Initialize all systems
             SpinWheel.init();
@@ -1029,8 +1089,9 @@
             // Update UI
             PointsSystem.updateUI();
 
-            console.log('🚀 NEXURA EG Viral Engine initialized!');
+            console.log('🚀 Novatrix EG Viral Engine initialized!');
         },
+
 
         // Public API
         openSpin() { SpinWheel.open(); },

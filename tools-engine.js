@@ -1,5 +1,5 @@
 /* ============================================================
-   NEXURA EG — Tools Engine v2.0
+   Novatrix EG — Tools Engine v2.0
    Dynamic Tool Loader, Category Filter, Search
    ============================================================ */
 

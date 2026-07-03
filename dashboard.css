@@ -1,5 +1,5 @@
 /* ==========================================================================
-   DASHBOARD GLOBAL DESIGN SYSTEM & THEMES (NEXURA EG ALIGNED)
+   DASHBOARD GLOBAL DESIGN SYSTEM & THEMES (Novatrix EG ALIGNED)
    ========================================================================== */
 :root {
     --bg-base: #090e1a;
@@ -945,7 +945,7 @@ body {
 }
 
 /* ==========================================================================
-   LIGHT THEME STYLING OVERRIDES (NEXURA EG ALIGNED)
+   LIGHT THEME STYLING OVERRIDES (NOVATRIX EG ALIGNED)
    ========================================================================== */
 body.light-theme {
     --bg-base: #f8fafc;

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://nexuraeg.com/sitemap.xml
+Sitemap: https://novatrixeg.com/sitemap.xml

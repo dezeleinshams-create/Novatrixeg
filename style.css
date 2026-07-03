@@ -1,4 +1,4 @@
-/* NEXURA EG PREMIUM HYBRID ZEBRA AESTHETICS */
+/* Novatrix EG PREMIUM HYBRID ZEBRA AESTHETICS */
 :root {
     /* Global Base Variables */
     --bg-base: #090e1a;
@@ -219,39 +219,63 @@ body {
     border-color: var(--primary);
 }
 
-.profile-avatar-container {
+/* ─── Hero Logo Banner (replaces circular avatar) ─── */
+.hero-logo-banner {
+    width: calc(100% + 48px);
+    margin: -40px -24px 28px -24px;
+    padding: 24px 0;                  /* zero horizontal padding = full bleed */
+    background: linear-gradient(135deg,
+        rgba(37,99,235,0.06) 0%,
+        rgba(124,58,237,0.04) 50%,
+        rgba(37,99,235,0.06) 100%);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: relative;
-    width: 100%;
-    max-width: 300px;
-    height: 100px;
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    overflow: hidden;
 }
 
-.profile-avatar {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-
-.profile-avatar-container .verification-badge {
+/* Subtle grid pattern overlay */
+.hero-logo-banner::before {
+    content: '';
     position: absolute;
-    bottom: 2px;
-    left: -8px;
-    background: var(--primary);
-    color: white;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 10px;
-    border: 2px solid var(--bg-surface);
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(37,99,235,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(37,99,235,0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+    pointer-events: none;
 }
+
+.hero-logo-img {
+    width: 100%;          /* fills full banner width */
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    filter: drop-shadow(0 4px 24px rgba(37,99,235,0.15));
+    transition: filter 0.4s ease;
+}
+
+body:not(.light-theme) .hero-logo-img {
+    filter: drop-shadow(0 4px 32px rgba(59,130,246,0.35));
+}
+
+.hero-logo-img:hover {
+    filter: drop-shadow(0 6px 36px rgba(37,99,235,0.35));
+}
+
+/* Light-theme banner adjustments */
+body.light-theme .hero-logo-banner {
+    background: linear-gradient(135deg,
+        rgba(37,99,235,0.04) 0%,
+        rgba(124,58,237,0.02) 50%,
+        rgba(37,99,235,0.04) 100%);
+}
+
 
 .profile-name {
     font-size: 2rem;
@@ -2851,7 +2875,7 @@ body.light-theme .ad-card-item {
 }
 
 /* ==========================================
-   NEXURA EG PREMIUM DESIGN EXTENSIONS
+   Novatrix EG PREMIUM DESIGN EXTENSIONS
    ========================================== */
 
 /* 1. Cyber Grid Background Overlay */
@@ -2896,21 +2920,18 @@ body.light-theme .ad-card-item {
 
 .preloader-logo-container {
     position: relative;
-    width: 120px;
-    height: 120px;
-    border-radius: 50%; /* Rounded circle loader is more standard and premium */
-    padding: 3px;
-    border: 2px solid var(--border-dark-stripe);
-    background: #111827;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-    overflow: hidden;
+    width: 320px;
+    height: 60px;
+    background: transparent;
+    box-shadow: none;
+    border: none;
+    overflow: visible;
 }
 
 .preloader-logo {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
+    object-fit: contain;
 }
 
 /* Hide Scan line effect for natural look */
@@ -3001,15 +3022,29 @@ body.light-theme .main-navbar {
 .nav-logo {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 0;
     cursor: pointer;
 }
 
-.nav-logo img {
+/* SVG logo — sized by height, width scales automatically with viewBox */
+.nav-logo .logo-svg {
+    height: 40px;
+    width: auto;
+    max-width: 230px;
+    display: block;
+}
+
+/* Keep old img rule for any page still using avatar.jpg fallback */
+.nav-logo img:not(.logo-svg) {
     width: 36px;
     height: 36px;
     border-radius: 50%;
     border: 2px solid var(--primary);
+}
+
+/* Hide text span when SVG logo is present */
+.nav-logo .logo-svg ~ span {
+    display: none;
 }
 
 .nav-logo span {

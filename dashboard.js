@@ -759,7 +759,7 @@ async function fetchAnalyticsData() {
     if (statSecurity) statSecurity.textContent = "...";
     
     const baseApiUrl = "https://countapi.mileshilliard.com/api/v1/get";
-    const keys = ["nexuraeg_visits", "nexuraeg_downloads", "nexuraeg_chatbot", "nexuraeg_alternatives", "nexuraeg_security"];
+    const keys = ["novatrixeg_visits", "novatrixeg_downloads", "novatrixeg_chatbot", "novatrixeg_alternatives", "novatrixeg_security"];
     
     // 1. Fetch main stats
     const statsPromises = keys.map(key => 
@@ -787,7 +787,7 @@ async function fetchAnalyticsData() {
     // 2. Fetch specific app downloads
     if (localDatabase.apps && localDatabase.apps.length > 0) {
         const appPromises = localDatabase.apps.map(app => 
-            fetch(`${baseApiUrl}/nexuraeg_app_${app.id}`)
+            fetch(`${baseApiUrl}/novatrixeg_app_${app.id}`)
                 .then(res => {
                     if (!res.ok) return { value: 0 };
                     return res.json();
@@ -899,7 +899,7 @@ function initAnalyticsControls() {
             
             resetVisitsBtn.disabled = true;
             try {
-                const res = await fetch(`${setApiUrl}/nexuraeg_visits?value=0`);
+                const res = await fetch(`${setApiUrl}/novatrixeg_visits?value=0`);
                 if (res.ok) {
                     showToast("تم تصفير عداد الزيارات بنجاح!");
                     fetchAnalyticsData();
@@ -921,16 +921,16 @@ function initAnalyticsControls() {
             resetDownloadsBtn.disabled = true;
             
             const keysToReset = [
-                "nexuraeg_downloads",
-                "nexuraeg_chatbot",
-                "nexuraeg_alternatives",
-                "nexuraeg_security"
+                "novatrixeg_downloads",
+                "novatrixeg_chatbot",
+                "novatrixeg_alternatives",
+                "novatrixeg_security"
             ];
             
             // Also reset app download stats in localDatabase.apps
             if (localDatabase.apps) {
                 localDatabase.apps.forEach(app => {
-                    keysToReset.push(`nexuraeg_app_${app.id}`);
+                    keysToReset.push(`novatrixeg_app_${app.id}`);
                 });
             }
             

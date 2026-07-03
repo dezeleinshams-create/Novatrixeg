@@ -1,12 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     
     <!-- SEO Optimization -->
-    <title>مركز الجوائز والمكافآت | بوابتك لكسب الهدايا من NEXURA EG</title>
-    <meta name="description" content="اكسب نقاط يومية مجاناً واستبدلها باشتراكات Canva Pro، وحزم خلفيات VIP، وبرومبتات خاصة بالذكاء الاصطناعي من NEXURA EG.">
+    <title>مركز الجوائز والمكافآت | بوابتك لكسب الهدايا من Novatrix EG</title>
+    <meta name="description" content="اكسب نقاط يومية مجاناً واستبدلها باشتراكات Canva Pro، وحزم خلفيات VIP، وبرومبتات خاصة بالذكاء الاصطناعي من Novatrix EG.">
     
     <!-- Google Fonts & FontAwesome -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,8 +35,7 @@
         <!-- Sticky Main Navbar -->
         <nav class="main-navbar fade-in">
             <div class="nav-logo" onclick="window.location.href='index.html'">
-                <img src="assets/avatar.jpg" alt="NEXURA Logo">
-                <span>NEXURA EG</span>
+                <img src="assets/logo-light.svg" alt="Novatrix EG Logo" class="logo-svg">
             </div>
             <div class="nav-links">
                 <a href="index.html" class="nav-link"><i class="fas fa-home"></i> الرئيسية</a>
@@ -60,7 +59,7 @@
                 <span class="pts-lbl">رصيد نقاطك الحالي</span>
             </div>
             <p style="font-size: 0.85rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto 16px auto;">
-                أهلاً بك في متجر هدايا NEXURA EG. اجمع النقاط من خلال إتمام المهام وتسجيل الدخول اليومي واستبدلها بأقوى الخدمات والاشتراكات المجانية.
+                أهلاً بك في متجر هدايا Novatrix EG. اجمع النقاط من خلال إتمام المهام وتسجيل الدخول اليومي واستبدلها بأقوى الخدمات والاشتراكات المجانية.
             </p>
             <div style="display: inline-flex; gap: 12px; justify-content: center; font-size: 0.8rem; font-weight: 700; color: white;">
                 <span>المستوى: <span id="rewardsLevelBadge" class="text-primary">مبتدئ</span></span>
@@ -233,7 +232,7 @@
         <footer class="app-footer">
             <div class="footer-divider"></div>
             <div class="footer-info">
-                <p class="copyright">© 2026 NEXURA EG. جميع الحقوق محفوظة.</p>
+                <p class="copyright">© 2026 Novatrix EG. جميع الحقوق محفوظة.</p>
                 <div class="footer-links">
                     <a href="index.html" class="footer-link">الرئيسية</a>
                     <a href="#" class="footer-link">سياسة الخصوصية</a>
@@ -316,7 +315,7 @@
             // Get claimed days array from storage
             let claimedDays = [];
             try {
-                claimedDays = JSON.parse(localStorage.getItem("nexura_claimed_streaks") || "[]");
+                claimedDays = JSON.parse(localStorage.getItem("novatrix_claimed_streaks") || "[]");
             } catch(e) { claimedDays = []; }
 
             // Get current active streak day from points system (1 to 7)
@@ -357,13 +356,13 @@
         function claimStreakDay(dayNum, pointsVal) {
             let claimedDays = [];
             try {
-                claimedDays = JSON.parse(localStorage.getItem("nexura_claimed_streaks") || "[]");
+                claimedDays = JSON.parse(localStorage.getItem("novatrix_claimed_streaks") || "[]");
             } catch(e) {}
 
             if (claimedDays.includes(dayNum)) return;
 
             claimedDays.push(dayNum);
-            localStorage.setItem("nexura_claimed_streaks", JSON.stringify(claimedDays));
+            localStorage.setItem("novatrix_claimed_streaks", JSON.stringify(claimedDays));
 
             if (window.ViralEngine) {
                 window.ViralEngine.addPoints(pointsVal, `مكافأة الحضور اليومي (اليوم ${dayNum})`);
@@ -392,15 +391,15 @@
                 if (itemKey === "wallpapers") {
                     title = "تم فك قفل الخلفيات الحصرية!";
                     desc = "تحتوي الحزمة على 15 خلفية بدقة 4K. رابط التحميل المباشر هو:";
-                    code = "https://bit.ly/nexura-vip-wallpapers-2026";
+                    code = "https://bit.ly/novatrix-vip-wallpapers-2026";
                 } else if (itemKey === "prompts_pack") {
                     title = "حقيبة البرومتات الذهبية!";
                     desc = "انسخ كود التفعيل التالي لفتح الحزمة في لوحة البرومتات الخاصة بك:";
-                    code = "PRM-GOLD-NEXURA-99FF";
+                    code = "PRM-GOLD-NOVATRIX-99FF";
                 } else if (itemKey === "canva_pro") {
                     title = "حساب Canva Pro المشترك!";
                     desc = "إليك تفاصيل الدخول للفريق المشترك. يرجى عدم تغيير كلمة المرور:";
-                    code = "canvapro@nexuraeg.com | كلمة المرور: NexuraCanva2026";
+                    code = "canvapro@novatrixeg.com | كلمة المرور: NovatrixCanva2026";
                 }
 
                 // Show modal

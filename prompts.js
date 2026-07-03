@@ -333,19 +333,30 @@ function updateThemeIcon(theme) {
     }
 }
 
+function updateLogoTheme(theme) {
+    document.querySelectorAll("img.logo-svg").forEach(img => {
+        img.src = theme === "light"
+            ? "assets/logo-light.svg"
+            : "assets/logo-dark.svg";
+    });
+}
+
 function initTheme() {
     // Always default to light theme on initial page load
     document.body.classList.add("light-theme");
     updateThemeIcon("light");
+    updateLogoTheme("light");
     
     themeToggleBtn.addEventListener("click", () => {
         document.body.classList.toggle("light-theme");
         const theme = document.body.classList.contains("light-theme") ? "light" : "dark";
         localStorage.setItem("theme", theme);
         updateThemeIcon(theme);
+        updateLogoTheme(theme);
         showToast(theme === "light" ? "تم تفعيل الوضع المضيء ☀️" : "تم تفعيل الوضع الداكن 🌙");
     });
 }
+
 
 // ONLOAD LIFECYCLE
 window.addEventListener("DOMContentLoaded", () => {

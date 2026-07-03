@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 160" width="100%" preserveAspectRatio="xMidYMid meet">
+<style>
+  .icon { animation: glowPulse 2.5s ease-in-out infinite; }
+  @keyframes glowPulse {
+    0%,100% { filter: drop-shadow(0 0 8px rgba(59,130,246,0.55)); }
+    50%      { filter: drop-shadow(0 0 24px rgba(59,130,246,0.95)) drop-shadow(0 0 42px rgba(124,58,237,0.45)); }
+  }
+  .sp1 { animation: spark 2s ease-in-out infinite; }
+  .sp2 { animation: spark 2s ease-in-out infinite 0.55s; }
+  @keyframes spark {
+    0%,100% { opacity:0.25; }
+    50%      { opacity:1; }
+  }
+  .eg-text { animation: egPulse 3s ease-in-out infinite; }
+  @keyframes egPulse {
+    0%,100% { fill:#3b82f6; }
+    50%      { fill:#60a5fa; }
+  }
+</style>
+<defs>
+  <clipPath id="dclip">
+    <polygon points="90,5 170,80 90,155 10,80"/>
+  </clipPath>
+  <linearGradient id="dShimmer" gradientUnits="userSpaceOnUse" x1="-200" y1="0" x2="700" y2="0">
+    <stop offset="0%"  stop-color="#e2e8f0"/>
+    <stop offset="42%" stop-color="#e2e8f0"/>
+    <stop offset="50%" stop-color="#bfdbfe"/>
+    <stop offset="58%" stop-color="#e2e8f0"/>
+    <stop offset="100%" stop-color="#e2e8f0"/>
+    <animateTransform attributeName="gradientTransform" type="translate"
+      values="-660,0;660,0;-660,0" dur="4s" repeatCount="indefinite"/>
+  </linearGradient>
+</defs>
+
+<!-- CRYSTAL ICON — centered at x=90 -->
+<g class="icon">
+  <ellipse cx="90" cy="80" rx="68" ry="68" fill="#1d4ed8" opacity="0.1">
+    <animate attributeName="rx" values="58;76;58" dur="2.5s" repeatCount="indefinite"/>
+    <animate attributeName="ry" values="58;76;58" dur="2.5s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.08;0.17;0.08" dur="2.5s" repeatCount="indefinite"/>
+  </ellipse>
+  <polygon points="90,5  45,35  90,80"   fill="#bfdbfe" opacity="0.95"/>
+  <polygon points="90,5  135,35 90,80"   fill="#93c5fd" opacity="0.90"/>
+  <polygon points="135,35 170,80 90,80"  fill="#60a5fa" opacity="0.90"/>
+  <polygon points="170,80 135,125 90,80" fill="#3b82f6" opacity="0.88"/>
+  <polygon points="135,125 90,155 90,80" fill="#2563eb" opacity="0.90"/>
+  <polygon points="90,155 45,125 90,80"  fill="#1d4ed8" opacity="0.92"/>
+  <polygon points="45,125 10,80  90,80"  fill="#1e40af" opacity="0.90"/>
+  <polygon points="10,80  45,35  90,80"  fill="#2563eb" opacity="0.88"/>
+  <polygon points="90,5 80,30 100,30" fill="white" opacity="0.38"/>
+  <polygon points="90,5 135,35 170,80 135,125 90,155 45,125 10,80 45,35"
+           fill="none" stroke="#93c5fd" stroke-width="0.8" opacity="0.4"/>
+  <path d="M52,115 L52,45 L128,115 L128,45"
+        clip-path="url(#dclip)"
+        fill="none" stroke="white" stroke-width="5.5"
+        stroke-linecap="round" stroke-linejoin="round" opacity="0.93"/>
+  <circle cx="90" cy="80" r="3.5" fill="white" opacity="0.96"/>
+  <circle cx="90" cy="80" r="5" fill="white" opacity="0.14">
+    <animate attributeName="r"       values="4;13;4"        dur="2.5s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.14;0.04;0.14" dur="2.5s" repeatCount="indefinite"/>
+  </circle>
+  <line x1="90" y1="0"  x2="90" y2="4"   stroke="white"   stroke-width="2"   class="sp1"/>
+  <line x1="176" y1="80" x2="183" y2="80" stroke="#60a5fa" stroke-width="1.5" class="sp2"/>
+  <line x1="90" y1="156" x2="90" y2="163" stroke="#3b82f6" stroke-width="1.5" class="sp1"/>
+  <line x1="1"  y1="80"  x2="8"  y2="80"  stroke="#3b82f6" stroke-width="1.5" class="sp2"/>
+</g>
+
+<!-- TEXT — starts at x=196 -->
+<text x="196" y="103"
+      font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif"
+      font-weight="800" font-size="70" letter-spacing="-1">
+  <tspan fill="url(#dShimmer)">Novatrix</tspan><tspan class="eg-text" fill="#3b82f6">EG</tspan>
+</text>
+
+<!-- Separator line -->
+<line x1="196" y1="112" x2="655" y2="112" stroke="#1e293b" stroke-width="0.8"/>
+
+<!-- URL -->
+<text x="197" y="134"
+      font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif"
+      font-weight="400" font-size="18" letter-spacing="0.5" fill="#475569">
+  www.novatrixeg.com
+</text>
+
+</svg>

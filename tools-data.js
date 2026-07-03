@@ -1,9 +1,9 @@
 /* ============================================================
-   NEXURA EG — 100 Tools Registry v2.0
+   Novatrix EG — 100 Tools Registry v2.0
    Complete tool definitions with render() and init()
    ============================================================ */
 
-const NEXURA_TOOLS = [
+const NOVATRIX_TOOLS = [
 
 { id:"orig-prompt", cat:"design", name:"استوديو برومبتات الصور", desc:"صناعة أوامر صور الذكاء الاصطناعي", icon:"fas fa-wand-magic-sparkles", keywords:["prompt","ai","برومبت","صور","midjourney"],
   render(){ return `
@@ -363,11 +363,11 @@ const NEXURA_TOOLS = [
     <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start;">
         <div style="flex:1;min-width:200px;display:flex;flex-direction:column;gap:12px;">
             <label style="font-size:0.8rem;font-weight:700;color:var(--text-secondary);">الرابط أو النص:</label>
-            <textarea id="qr_input" class="form-textarea" placeholder="مثال: https://nexuraeg.com" style="height:100px;resize:none;"></textarea>
+            <textarea id="qr_input" class="form-textarea" placeholder="مثال: https://novatrixeg.com" style="height:100px;resize:none;"></textarea>
             <button id="qr_gen" class="primary-btn wide-btn" style="background:linear-gradient(135deg,var(--primary),var(--accent));"><i class="fas fa-arrows-rotate"></i> توليد رمز الـ QR</button>
         </div>
         <div style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px;">
-            <img id="qr_img" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=NEXURAEG" alt="QR Code" style="border-radius:12px;">
+            <img id="qr_img" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=NOVATRIXEG" alt="QR Code" style="border-radius:12px;">
             <button id="qr_dl" class="secondary-btn" style="padding:8px 16px;font-size:0.8rem;"><i class="fas fa-download"></i> تحميل (PNG)</button>
         </div>
     </div>`; },
@@ -662,7 +662,7 @@ const NEXURA_TOOLS = [
 // ╚═══════════════════════════════════════════════════════════════╝
 
 { id:"dev-json", cat:"dev", name:"منسق JSON", desc:"تنسيق وفحص صحة بيانات JSON", icon:"fas fa-brackets-curly", keywords:["json","format","validate","تنسيق"],
-  render(){ return ToolsEngine.textToolUI("jf","منسق ومحقق JSON","الصق بيانات JSON لتنسيقها والتحقق من صحتها.","{ \"name\": \"NEXURA\", \"version\": 2 }","تنسيق JSON"); },
+  render(){ return ToolsEngine.textToolUI("jf","منسق ومحقق JSON","الصق بيانات JSON لتنسيقها والتحقق من صحتها.","{ \"name\": \"Novatrix\", \"version\": 2 }","تنسيق JSON"); },
   init(){ ToolsEngine.bindTextTool("jf",v=>{try{return JSON.stringify(JSON.parse(v),null,2);}catch(e){return"❌ خطأ في JSON: "+e.message;}}); }
 },
 
@@ -1079,10 +1079,10 @@ const NEXURA_TOOLS = [
   render(){ return `
     <div class="tool-header-row"><h3><i class="fas fa-tags text-primary"></i> مولد وسوم الميتا (Meta Tags)</h3><p>أنشئ وسوم HTML Meta Tags احترافية لتحسين ظهور موقعك في جوجل.</p></div>
     <div style="display:flex;flex-direction:column;gap:14px;">
-        ${ToolsEngine.inputField("mt_title","عنوان الصفحة (Title):","text","أدوات تقنية مجانية | NEXURA EG")}
+        ${ToolsEngine.inputField("mt_title","عنوان الصفحة (Title):","text","أدوات تقنية مجانية | Novatrix EG")}
         <div><label style="font-size:0.78rem;font-weight:700;color:var(--text-secondary);">وصف الصفحة (Description):</label><textarea id="mt_desc" class="form-textarea" style="height:80px;margin-top:4px;" placeholder="وصف مختصر للصفحة (150-160 حرف)"></textarea></div>
         ${ToolsEngine.inputField("mt_keys","الكلمات المفتاحية (Keywords):","text","أدوات, تقنية, مجانية, سيو")}
-        ${ToolsEngine.inputField("mt_author","اسم المؤلف:","text","NEXURA EG")}
+        ${ToolsEngine.inputField("mt_author","اسم المؤلف:","text","Novatrix EG")}
         <button id="mt_go" class="primary-btn" style="background:linear-gradient(135deg,var(--primary),var(--accent));"><i class="fas fa-code"></i> توليد الكود</button>
         <div id="mt_res" style="display:none;"><textarea id="mt_out" class="form-textarea" style="height:180px;font-family:monospace;font-size:0.75rem;direction:ltr;text-align:left;" readonly></textarea><button id="mt_cp" class="secondary-btn" style="margin-top:8px;"><i class="far fa-copy"></i> نسخ الكود</button></div>
     </div>`; },
@@ -1132,12 +1132,12 @@ const NEXURA_TOOLS = [
   render(){ return `
     <div class="tool-header-row"><h3><i class="fab fa-google text-primary"></i> معاينة نتائج جوجل (SERP Preview)</h3><p>شاهد كيف سيظهر رابط صفحتك في نتائج بحث جوجل.</p></div>
     <div style="display:flex;flex-direction:column;gap:14px;">
-        ${ToolsEngine.inputField("sp_title","عنوان الصفحة (Title):","text","أدوات تقنية مجانية | NEXURA EG")}
-        ${ToolsEngine.inputField("sp_url","رابط الصفحة:","text","https://nexuraeg.com/tools")}
+        ${ToolsEngine.inputField("sp_title","عنوان الصفحة (Title):","text","أدوات تقنية مجانية | Novatrix EG")}
+        ${ToolsEngine.inputField("sp_url","رابط الصفحة:","text","https://novatrixeg.com/tools")}
         <div><label style="font-size:0.78rem;font-weight:700;color:var(--text-secondary);">وصف الصفحة:</label><textarea id="sp_desc" class="form-textarea" style="height:70px;margin-top:4px;" placeholder="وصف مختصر (150-160 حرف)"></textarea></div>
         <div style="background:white;border-radius:12px;padding:20px;border:1px solid #dfe1e5;direction:ltr;text-align:left;">
-            <div id="sp_ptitle" style="font-size:1.1rem;color:#1a0dab;font-family:Arial;cursor:pointer;">أدوات تقنية مجانية | NEXURA EG</div>
-            <div id="sp_purl" style="font-size:0.82rem;color:#006621;margin-top:2px;font-family:Arial;">https://nexuraeg.com/tools</div>
+            <div id="sp_ptitle" style="font-size:1.1rem;color:#1a0dab;font-family:Arial;cursor:pointer;">أدوات تقنية مجانية | Novatrix EG</div>
+            <div id="sp_purl" style="font-size:0.82rem;color:#006621;margin-top:2px;font-family:Arial;">https://novatrixeg.com/tools</div>
             <div id="sp_pdesc" style="font-size:0.85rem;color:#545454;margin-top:4px;font-family:Arial;line-height:1.4;">وصف الصفحة سيظهر هنا...</div>
         </div>
         <div style="font-size:0.72rem;color:var(--text-muted);">عنوان: <span id="sp_tc" style="font-weight:700;">0</span>/60 حرف | وصف: <span id="sp_dc" style="font-weight:700;">0</span>/160 حرف</div>
@@ -1150,7 +1150,7 @@ const NEXURA_TOOLS = [
   render(){ return `
     <div class="tool-header-row"><h3><i class="fas fa-bullseye text-primary"></i> منشئ روابط UTM</h3><p>أضف معلمات تتبع UTM لروابطك لتتبع حملاتك التسويقية في Google Analytics.</p></div>
     <div style="display:flex;flex-direction:column;gap:14px;">
-        ${ToolsEngine.inputField("utm_url","رابط الصفحة:","text","https://nexuraeg.com")}
+        ${ToolsEngine.inputField("utm_url","رابط الصفحة:","text","https://novatrixeg.com")}
         ${ToolsEngine.inputField("utm_src","المصدر (utm_source):","text","facebook")}
         ${ToolsEngine.inputField("utm_med","الوسيط (utm_medium):","text","social")}
         ${ToolsEngine.inputField("utm_camp","الحملة (utm_campaign):","text","summer_sale")}
@@ -1200,7 +1200,7 @@ const NEXURA_TOOLS = [
   render(){ return `
     <div class="tool-header-row"><h3><i class="fas fa-user-pen text-primary"></i> مولد البايو الاحترافي</h3><p>أنشئ نص بايو جذاب لحساباتك على السوشيال ميديا.</p></div>
     <div style="display:flex;flex-direction:column;gap:14px;">
-        ${ToolsEngine.inputField("bio_name","اسمك أو اسم علامتك:","text","NEXURA EG")}
+        ${ToolsEngine.inputField("bio_name","اسمك أو اسم علامتك:","text","Novatrix EG")}
         ${ToolsEngine.inputField("bio_role","مجالك أو تخصصك:","text","تقنية وأمن معلومات")}
         ${ToolsEngine.selectField("bio_style","النمط:",[{val:"pro",label:"احترافي"},{val:"fun",label:"مرح وعفوي"},{val:"min",label:"مختصر"}])}
         <button id="bio_go" class="primary-btn" style="background:linear-gradient(135deg,var(--primary),var(--accent));"><i class="fas fa-wand-magic-sparkles"></i> توليد البايو</button>
@@ -1265,9 +1265,9 @@ const NEXURA_TOOLS = [
   render(){ return `
     <div class="tool-header-row"><h3><i class="fas fa-file-shield text-primary"></i> مولد سياسة الخصوصية</h3><p>أنشئ نص سياسة خصوصية مبسطة لموقعك.</p></div>
     <div style="display:flex;flex-direction:column;gap:14px;">
-        ${ToolsEngine.inputField("pp_name","اسم الموقع/الشركة:","text","NEXURA EG")}
-        ${ToolsEngine.inputField("pp_url","رابط الموقع:","text","https://nexuraeg.com")}
-        ${ToolsEngine.inputField("pp_email","بريد التواصل:","text","contact@nexuraeg.com")}
+        ${ToolsEngine.inputField("pp_name","اسم الموقع/الشركة:","text","Novatrix EG")}
+        ${ToolsEngine.inputField("pp_url","رابط الموقع:","text","https://novatrixeg.com")}
+        ${ToolsEngine.inputField("pp_email","بريد التواصل:","text","contact@novatrixeg.com")}
         <button id="pp_go" class="primary-btn" style="background:linear-gradient(135deg,var(--primary),var(--accent));"><i class="fas fa-file-lines"></i> توليد سياسة الخصوصية</button>
         <textarea id="pp_out" class="form-textarea" style="height:250px;font-size:0.8rem;" readonly></textarea>
         <button id="pp_cp" class="secondary-btn"><i class="far fa-copy"></i> نسخ</button>

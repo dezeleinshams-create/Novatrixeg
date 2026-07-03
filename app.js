@@ -387,7 +387,7 @@ function performAlternativeLookup() {
     }
 
     // Increment alternative finder searches counter
-    fetch("https://countapi.mileshilliard.com/api/v1/hit/nexuraeg_alternatives").catch(err => console.warn(err));
+    fetch("https://countapi.mileshilliard.com/api/v1/hit/novatrixeg_alternatives").catch(err => console.warn(err));
     if (window.ViralEngine) window.ViralEngine.onToolUsed();
 
     // Try finding direct matches in database keys
@@ -474,7 +474,7 @@ function loadSecurityQuestion() {
 
 function showSecurityResults() {
     // Increment security check completions counter
-    fetch("https://countapi.mileshilliard.com/api/v1/hit/nexuraeg_security").catch(err => console.warn(err));
+    fetch("https://countapi.mileshilliard.com/api/v1/hit/novatrixeg_security").catch(err => console.warn(err));
     if (window.ViralEngine) window.ViralEngine.onToolUsed();
 
     let healthClass = "gauge-glow-green";
@@ -609,7 +609,7 @@ function handleUserMessageSubmit() {
     if (text.length === 0) return;
     
     // Increment chatbot interactions counter
-    fetch("https://countapi.mileshilliard.com/api/v1/hit/nexuraeg_chatbot").catch(err => console.warn(err));
+    fetch("https://countapi.mileshilliard.com/api/v1/hit/novatrixeg_chatbot").catch(err => console.warn(err));
     if (window.ViralEngine) window.ViralEngine.onToolUsed();
     
     appendChatMessage("user", text);
@@ -801,19 +801,33 @@ function updateThemeIcon(theme) {
     }
 }
 
+function updateLogoTheme(theme) {
+    const darkSrc  = "assets/logo-dark.svg";
+    const lightSrc = "assets/logo-light.svg";
+
+    // Navbar + hero banner logos (all img.logo-svg)
+    document.querySelectorAll("img.logo-svg").forEach(img => {
+        // Hero logo banner always shows dark SVG for dark mode, light SVG for light mode
+        img.src = theme === "light" ? lightSrc : darkSrc;
+    });
+}
+
 function initTheme() {
     // Always default to light theme on initial page load
     document.body.classList.add("light-theme");
     updateThemeIcon("light");
+    updateLogoTheme("light");
     
     themeToggleBtn.addEventListener("click", () => {
         document.body.classList.toggle("light-theme");
         const theme = document.body.classList.contains("light-theme") ? "light" : "dark";
         localStorage.setItem("theme", theme);
         updateThemeIcon(theme);
+        updateLogoTheme(theme);
         showToast(theme === "light" ? "تم تفعيل الوضع المضيء ☀️" : "تم تفعيل الوضع الداكن 🌙");
     });
 }
+
 
 // ==========================================
 // DESIGN MONETIZATION HUB (PITCH & CALCULATOR)
@@ -1194,16 +1208,16 @@ window.addEventListener("DOMContentLoaded", () => {
 
         // Track Visits Analytics (if not localhost)
         if (window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1") {
-            fetch("https://countapi.mileshilliard.com/api/v1/hit/nexuraeg_visits").catch(err => console.warn(err));
+            fetch("https://countapi.mileshilliard.com/api/v1/hit/novatrixeg_visits").catch(err => console.warn(err));
         }
 
         // Track App Download Analytics when final download button is clicked
         const finalDownloadBtn = document.getElementById("finalDownloadBtn");
         if (finalDownloadBtn) {
             finalDownloadBtn.addEventListener("click", () => {
-                fetch("https://countapi.mileshilliard.com/api/v1/hit/nexuraeg_downloads").catch(err => console.warn(err));
+                fetch("https://countapi.mileshilliard.com/api/v1/hit/novatrixeg_downloads").catch(err => console.warn(err));
                 if (currentModalAppId) {
-                    fetch(`https://countapi.mileshilliard.com/api/v1/hit/nexuraeg_app_${currentModalAppId}`).catch(err => console.warn(err));
+                    fetch(`https://countapi.mileshilliard.com/api/v1/hit/novatrixeg_app_${currentModalAppId}`).catch(err => console.warn(err));
                 }
             });
         }
