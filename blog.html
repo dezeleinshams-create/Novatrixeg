@@ -1424,5 +1424,16 @@
             filterAndPaginateBlog();
         });
     </script>
+
+    <script>
+    // Track blog article click for daily missions
+    document.addEventListener('click', function(e) {
+        const link = e.target.closest('a[href*="blog/"]');
+        if (link) {
+            let count = parseInt(localStorage.getItem("novatrix_daily_blog_read") || "0");
+            localStorage.setItem("novatrix_daily_blog_read", String(count + 1));
+        }
+    });
+    </script>
 </body>
 </html>

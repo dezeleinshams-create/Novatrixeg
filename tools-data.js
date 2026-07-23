@@ -2311,4 +2311,148 @@ const NOVATRIX_TOOLS = [
   }
 },
 
+
+{ id:"dev-typing-speed", cat:"dev", name:"اختبار سرعة الكتابة بالعربية", desc:"قس سرعة ودقة كتابتك بالعربية خلال 60 ثانية واحصل على شارة تميز", icon:"fas fa-keyboard", keywords:["typing","speed","test","keyboard","كتابة","سرعة","اختبار"],
+  render(){ return `
+    <div class="tool-header-row"><h3><i class="fas fa-keyboard text-primary"></i> اختبار سرعة الكتابة بالعربية</h3><p>اكتب الجمل المعروضة بأسرع وقت ممكن خلال 60 ثانية. ستحصل على نقاط ومعدل كلمات/دقيقة (WPM).</p></div>
+    <div id="ts_area" style="display:flex;flex-direction:column;gap:14px;">
+      <div id="ts_start" style="text-align:center;padding:24px;background:rgba(255,255,255,0.01);border:1px dashed var(--border-color);border-radius:16px;">
+        <i class="fas fa-bolt" style="font-size:3rem;color:var(--primary);margin-bottom:12px;display:block;"></i>
+        <h4 style="font-size:1.1rem;font-weight:800;color:white;margin-bottom:8px;">جاهز لتحدي الكتابة؟</h4>
+        <p style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:18px;">60 ثانية لاختبار سرعتك ودقتك بالعربية.</p>
+        <button id="ts_go" class="primary-btn" style="background:linear-gradient(135deg,var(--primary),var(--accent));width:100%;max-width:240px;">ابدأ الاختبار</button>
+      </div>
+      <div id="ts_game" style="display:none;background:#121319;border:1px solid var(--border-color);border-radius:16px;padding:20px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:12px;">
+          <span id="ts_timer" style="font-size:0.85rem;font-weight:700;color:#ef4444;">⏱ 60 ثانية</span>
+          <span id="ts_wpm" style="font-size:0.85rem;font-weight:700;color:var(--primary);">0 WPM</span>
+        </div>
+        <div id="ts_target" style="background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:10px;padding:14px;font-size:0.88rem;line-height:1.8;color:var(--text-secondary);margin-bottom:12px;min-height:60px;direction:rtl;"></div>
+        <textarea id="ts_input" rows="3" placeholder="ابدأ الكتابة هنا..." style="width:100%;background:#181922;color:white;border:1px solid var(--border-color);border-radius:10px;padding:12px;font-family:'Cairo';font-size:0.85rem;resize:none;direction:rtl;"></textarea>
+      </div>
+      <div id="ts_result" style="display:none;text-align:center;padding:24px;background:#121319;border:1px solid var(--border-color);border-radius:16px;">
+        <div id="ts_r_icon" style="font-size:3rem;margin-bottom:12px;">⌨️</div>
+        <h4 id="ts_r_title" style="font-size:1.15rem;font-weight:800;color:white;margin-bottom:8px;">النتيجة</h4>
+        <p id="ts_r_desc" style="font-size:0.82rem;color:var(--text-secondary);margin-bottom:12px;"></p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
+          <div style="background:rgba(255,255,255,0.02);border-radius:10px;padding:12px;"><span style="font-size:0.7rem;color:var(--text-secondary);display:block;">السرعة</span><span id="ts_r_wpm" style="font-size:1.2rem;font-weight:800;color:var(--primary);">0</span><span style="font-size:0.65rem;color:var(--text-secondary);"> WPM</span></div>
+          <div style="background:rgba(255,255,255,0.02);border-radius:10px;padding:12px;"><span style="font-size:0.7rem;color:var(--text-secondary);display:block;">الدقة</span><span id="ts_r_acc" style="font-size:1.2rem;font-weight:800;color:#10b981;">0</span><span style="font-size:0.65rem;color:var(--text-secondary);">%</span></div>
+        </div>
+        <button id="ts_retry" class="secondary-btn" style="width:100%;max-width:200px;">إعادة المحاولة</button>
+      </div>
+    </div>`; },
+  init(){
+    const sentences=["الأمن السيبراني هو مجموعة من الممارسات والتقنيات المصممة لحماية الأجهزة والشبكات والبيانات","الذكاء الاصطناعي يغير طريقة تفاعلنا مع التكنولوجيا ويفتح آفاقاً جديدة للإبداع والابتكار","حماية كلمات المرور الخاصة بك تبدأ باستخدام مدير كلمات مرور موثوق وتفعيل التحقق بخطوتين","التطبيقات مفتوحة المصدر توفر بدائل مجانية وآمنة للبرامج المدفوعة مع شفافية كاملة في الكود","تحديث نظام التشغيل والتطبيقات بانتظام يسد الثغرات الأمنية ويحمي جهازك من الاختراق"];
+    const goBtn=document.getElementById("ts_go");
+    const retryBtn=document.getElementById("ts_retry");
+    const startScr=document.getElementById("ts_start");
+    const gameScr=document.getElementById("ts_game");
+    const resultScr=document.getElementById("ts_result");
+    const targetEl=document.getElementById("ts_target");
+    const inputEl=document.getElementById("ts_input");
+    const timerEl=document.getElementById("ts_timer");
+    const wpmEl=document.getElementById("ts_wpm");
+    if(!goBtn)return;
+    let timer,timeLeft,correctChars,totalChars,started;
+    function startGame(){
+      startScr.style.display="none";resultScr.style.display="none";gameScr.style.display="block";
+      const s=sentences[Math.floor(Math.random()*sentences.length)];
+      targetEl.textContent=s;inputEl.value="";inputEl.focus();
+      timeLeft=60;correctChars=0;totalChars=0;started=false;
+      timerEl.textContent="⏱ 60 ثانية";wpmEl.textContent="0 WPM";
+    }
+    inputEl&&inputEl.addEventListener("input",()=>{
+      if(!started){started=true;timer=setInterval(()=>{timeLeft--;timerEl.textContent=`⏱ ${timeLeft} ثانية`;if(timeLeft<=0){clearInterval(timer);endGame();}},1000);}
+      const typed=inputEl.value;const target=targetEl.textContent;
+      correctChars=0;totalChars=typed.length;
+      for(let i=0;i<typed.length;i++){if(typed[i]===target[i])correctChars++;}
+      const elapsed=60-timeLeft||1;const wpm=Math.round((correctChars/5)/(elapsed/60));
+      wpmEl.textContent=wpm+" WPM";
+    });
+    function endGame(){
+      gameScr.style.display="none";resultScr.style.display="block";
+      const acc=totalChars>0?Math.round((correctChars/totalChars)*100):0;
+      const wpm=Math.round((correctChars/5));
+      document.getElementById("ts_r_wpm").textContent=wpm;
+      document.getElementById("ts_r_acc").textContent=acc;
+      if(wpm>=30){document.getElementById("ts_r_icon").textContent="🏆";document.getElementById("ts_r_title").textContent="ممتاز! كاتب سريع 🎉";document.getElementById("ts_r_title").style.color="#10b981";document.getElementById("ts_r_desc").textContent="سرعة احترافية! تم منحك 20 نقطة وشارة الكاتب السريع.";ToolsEngine.awardPoints(20,"اختبار سرعة الكتابة");let b=JSON.parse(localStorage.getItem("novatrix_unlocked_badges")||"[]");if(!b.includes("fast_typer")){b.push("fast_typer");localStorage.setItem("novatrix_unlocked_badges",JSON.stringify(b));}}
+      else if(wpm>=15){document.getElementById("ts_r_icon").textContent="👍";document.getElementById("ts_r_title").textContent="جيد! سرعة مقبولة";document.getElementById("ts_r_title").style.color="#eab308";document.getElementById("ts_r_desc").textContent=`حققت ${wpm} WPM بدقة ${acc}%. حاول مجدداً للوصول لـ 30+ WPM.`;}
+      else{document.getElementById("ts_r_icon").textContent="💪";document.getElementById("ts_r_title").textContent="تحتاج تدريب أكثر!";document.getElementById("ts_r_title").style.color="#ef4444";document.getElementById("ts_r_desc").textContent=`حققت ${wpm} WPM فقط. تدرب أكثر وحاول مجدداً!`;}
+    }
+    goBtn.onclick=startGame;retryBtn.onclick=startGame;
+  }
+},
+
+
+{ id:"dev-typing-speed", cat:"dev", name:"اختبار سرعة الكتابة بالعربية", desc:"قس سرعة ودقة كتابتك بالعربية خلال 60 ثانية واحصل على شارة تميز", icon:"fas fa-keyboard", keywords:["typing","speed","test","keyboard","كتابة","سرعة","اختبار"],
+  render(){ return `
+    <div class="tool-header-row"><h3><i class="fas fa-keyboard text-primary"></i> اختبار سرعة الكتابة بالعربية</h3><p>اكتب الجمل المعروضة بأسرع وقت ممكن خلال 60 ثانية. ستحصل على نقاط ومعدل كلمات/دقيقة (WPM).</p></div>
+    <div id="ts_area" style="display:flex;flex-direction:column;gap:14px;">
+      <div id="ts_start" style="text-align:center;padding:24px;background:rgba(255,255,255,0.01);border:1px dashed var(--border-color);border-radius:16px;">
+        <i class="fas fa-bolt" style="font-size:3rem;color:var(--primary);margin-bottom:12px;display:block;"></i>
+        <h4 style="font-size:1.1rem;font-weight:800;color:white;margin-bottom:8px;">جاهز لتحدي الكتابة؟</h4>
+        <p style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:18px;">60 ثانية لاختبار سرعتك ودقتك بالعربية.</p>
+        <button id="ts_go" class="primary-btn" style="background:linear-gradient(135deg,var(--primary),var(--accent));width:100%;max-width:240px;">ابدأ الاختبار</button>
+      </div>
+      <div id="ts_game" style="display:none;background:#121319;border:1px solid var(--border-color);border-radius:16px;padding:20px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:12px;">
+          <span id="ts_timer" style="font-size:0.85rem;font-weight:700;color:#ef4444;">⏱ 60 ثانية</span>
+          <span id="ts_wpm" style="font-size:0.85rem;font-weight:700;color:var(--primary);">0 WPM</span>
+        </div>
+        <div id="ts_target" style="background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:10px;padding:14px;font-size:0.88rem;line-height:1.8;color:var(--text-secondary);margin-bottom:12px;min-height:60px;direction:rtl;"></div>
+        <textarea id="ts_input" rows="3" placeholder="ابدأ الكتابة هنا..." style="width:100%;background:#181922;color:white;border:1px solid var(--border-color);border-radius:10px;padding:12px;font-family:'Cairo';font-size:0.85rem;resize:none;direction:rtl;"></textarea>
+      </div>
+      <div id="ts_result" style="display:none;text-align:center;padding:24px;background:#121319;border:1px solid var(--border-color);border-radius:16px;">
+        <div id="ts_r_icon" style="font-size:3rem;margin-bottom:12px;">⌨️</div>
+        <h4 id="ts_r_title" style="font-size:1.15rem;font-weight:800;color:white;margin-bottom:8px;">النتيجة</h4>
+        <p id="ts_r_desc" style="font-size:0.82rem;color:var(--text-secondary);margin-bottom:12px;"></p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
+          <div style="background:rgba(255,255,255,0.02);border-radius:10px;padding:12px;"><span style="font-size:0.7rem;color:var(--text-secondary);display:block;">السرعة</span><span id="ts_r_wpm" style="font-size:1.2rem;font-weight:800;color:var(--primary);">0</span><span style="font-size:0.65rem;color:var(--text-secondary);"> WPM</span></div>
+          <div style="background:rgba(255,255,255,0.02);border-radius:10px;padding:12px;"><span style="font-size:0.7rem;color:var(--text-secondary);display:block;">الدقة</span><span id="ts_r_acc" style="font-size:1.2rem;font-weight:800;color:#10b981;">0</span><span style="font-size:0.65rem;color:var(--text-secondary);">%</span></div>
+        </div>
+        <button id="ts_retry" class="secondary-btn" style="width:100%;max-width:200px;">إعادة المحاولة</button>
+      </div>
+    </div>`; },
+  init(){
+    const sentences=["الأمن السيبراني هو مجموعة من الممارسات والتقنيات المصممة لحماية الأجهزة والشبكات والبيانات","الذكاء الاصطناعي يغير طريقة تفاعلنا مع التكنولوجيا ويفتح آفاقاً جديدة للإبداع والابتكار","حماية كلمات المرور الخاصة بك تبدأ باستخدام مدير كلمات مرور موثوق وتفعيل التحقق بخطوتين","التطبيقات مفتوحة المصدر توفر بدائل مجانية وآمنة للبرامج المدفوعة مع شفافية كاملة في الكود","تحديث نظام التشغيل والتطبيقات بانتظام يسد الثغرات الأمنية ويحمي جهازك من الاختراق"];
+    const goBtn=document.getElementById("ts_go");
+    const retryBtn=document.getElementById("ts_retry");
+    const startScr=document.getElementById("ts_start");
+    const gameScr=document.getElementById("ts_game");
+    const resultScr=document.getElementById("ts_result");
+    const targetEl=document.getElementById("ts_target");
+    const inputEl=document.getElementById("ts_input");
+    const timerEl=document.getElementById("ts_timer");
+    const wpmEl=document.getElementById("ts_wpm");
+    if(!goBtn)return;
+    let timer,timeLeft,correctChars,totalChars,started;
+    function startGame(){
+      startScr.style.display="none";resultScr.style.display="none";gameScr.style.display="block";
+      const s=sentences[Math.floor(Math.random()*sentences.length)];
+      targetEl.textContent=s;inputEl.value="";inputEl.focus();
+      timeLeft=60;correctChars=0;totalChars=0;started=false;
+      timerEl.textContent="⏱ 60 ثانية";wpmEl.textContent="0 WPM";
+    }
+    inputEl&&inputEl.addEventListener("input",()=>{
+      if(!started){started=true;timer=setInterval(()=>{timeLeft--;timerEl.textContent=`⏱ ${timeLeft} ثانية`;if(timeLeft<=0){clearInterval(timer);endGame();}},1000);}
+      const typed=inputEl.value;const target=targetEl.textContent;
+      correctChars=0;totalChars=typed.length;
+      for(let i=0;i<typed.length;i++){if(typed[i]===target[i])correctChars++;}
+      const elapsed=60-timeLeft||1;const wpm=Math.round((correctChars/5)/(elapsed/60));
+      wpmEl.textContent=wpm+" WPM";
+    });
+    function endGame(){
+      gameScr.style.display="none";resultScr.style.display="block";
+      const acc=totalChars>0?Math.round((correctChars/totalChars)*100):0;
+      const wpm=Math.round((correctChars/5));
+      document.getElementById("ts_r_wpm").textContent=wpm;
+      document.getElementById("ts_r_acc").textContent=acc;
+      if(wpm>=30){document.getElementById("ts_r_icon").textContent="🏆";document.getElementById("ts_r_title").textContent="ممتاز! كاتب سريع 🎉";document.getElementById("ts_r_title").style.color="#10b981";document.getElementById("ts_r_desc").textContent="سرعة احترافية! تم منحك 20 نقطة وشارة الكاتب السريع.";ToolsEngine.awardPoints(20,"اختبار سرعة الكتابة");let b=JSON.parse(localStorage.getItem("novatrix_unlocked_badges")||"[]");if(!b.includes("fast_typer")){b.push("fast_typer");localStorage.setItem("novatrix_unlocked_badges",JSON.stringify(b));}}
+      else if(wpm>=15){document.getElementById("ts_r_icon").textContent="👍";document.getElementById("ts_r_title").textContent="جيد! سرعة مقبولة";document.getElementById("ts_r_title").style.color="#eab308";document.getElementById("ts_r_desc").textContent=`حققت ${wpm} WPM بدقة ${acc}%. حاول مجدداً للوصول لـ 30+ WPM.`;}
+      else{document.getElementById("ts_r_icon").textContent="💪";document.getElementById("ts_r_title").textContent="تحتاج تدريب أكثر!";document.getElementById("ts_r_title").style.color="#ef4444";document.getElementById("ts_r_desc").textContent=`حققت ${wpm} WPM فقط. تدرب أكثر وحاول مجدداً!`;}
+    }
+    goBtn.onclick=startGame;retryBtn.onclick=startGame;
+  }
+},
+
 ]; // END OF TOOLS ARRAY

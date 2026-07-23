@@ -58,6 +58,7 @@
             <div class="nav-links">
                 <a href="index.html" class="nav-link"><i class="fas fa-home"></i> الرئيسية</a>
                 <a href="tools.html" class="nav-link"><i class="fas fa-cubes"></i> الأدوات</a>
+                <a href="ai-sites.html" class="nav-link"><i class="fas fa-globe"></i> مواقع AI</a>
                 <a href="blog.html" class="nav-link"><i class="fas fa-book-open"></i> الشروحات</a>
                 <a href="rewards.html" class="nav-link active"><i class="fas fa-gift"></i> الجوائز</a>
             </div>
@@ -134,6 +135,29 @@
             
             <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 16px;" id="badgesGrid">
                 <!-- Badges load dynamically -->
+            </div>
+        </section>
+
+
+        <!-- DAILY MISSIONS SECTION -->
+        <section class="daily-missions-section fade-in-delayed" style="background:var(--bg-surface);border:1px solid var(--border-color);border-radius:var(--card-radius);padding:24px;margin-bottom:24px;">
+            <h3 style="font-size:1.05rem;font-weight:800;color:white;display:flex;align-items:center;gap:8px;text-align:right;margin-bottom:4px;">
+                <i class="fas fa-clipboard-list text-primary"></i> مهماتك اليومية
+            </h3>
+            <p style="font-size:0.72rem;color:var(--text-secondary);margin-bottom:16px;text-align:right;">أكمل المهمات الثلاثة اليومية لتربح نقاط إضافية. تتجدد تلقائياً كل 24 ساعة.</p>
+            <div id="missionsGrid" style="display:flex;flex-direction:column;gap:10px;">
+                <!-- missions load dynamically -->
+            </div>
+        </section>
+
+        <!-- LEADERBOARD SECTION -->
+        <section class="leaderboard-section fade-in-delayed" style="background:var(--bg-surface);border:1px solid var(--border-color);border-radius:var(--card-radius);padding:24px;margin-bottom:24px;">
+            <h3 style="font-size:1.05rem;font-weight:800;color:white;display:flex;align-items:center;gap:8px;text-align:right;margin-bottom:4px;">
+                <i class="fas fa-ranking-star text-warning"></i> لوحة المتصدرين
+            </h3>
+            <p style="font-size:0.72rem;color:var(--text-secondary);margin-bottom:16px;text-align:right;">أعلى المستخدمين نقاطاً هذا الأسبوع. اجمع نقاطاً أكثر لتتصدر القائمة!</p>
+            <div id="leaderboardList" style="display:flex;flex-direction:column;gap:6px;">
+                <!-- leaderboard loads dynamically -->
             </div>
         </section>
 
@@ -324,6 +348,8 @@
             { id: "alternative_hunter", name: "صائد البدائل", desc: "استخدام مستكشف البدائل 3 مرات", icon: "fas fa-arrows-spin", color: "#f59e0b" },
             { id: "lucky_spinner", name: "المحظوظ الدوار", desc: "تجربة عجلة الحظ لأول مرة", icon: "fas fa-circle-notch", color: "#ec4899" },
             { id: "quiz_master", name: "المثقف التقني", desc: "إتمام الكويز التقني بنجاح 100%", icon: "fas fa-graduation-cap", color: "#06b6d4" }
+            { id: "fast_typer", name: "الكاتب السريع", desc: "تحقيق 30+ WPM في اختبار الكتابة", icon: "fas fa-keyboard", color: "#f43f5e" }
+        
         ];
 
         function checkAndRenderBadges() {
@@ -361,6 +387,96 @@
             });
         }
 
+
+        // ═══ DAILY MISSIONS SYSTEM ═══
+        const DAILY_MISSIONS = [
+            { id: "use_tools", label: "استخدم أداتين مختلفتين", icon: "fas fa-cubes", target: 2, storageKey: "novatrix_daily_tools_used", reward: 15 },
+            { id: "read_blog", label: "اقرأ مقالاً واحداً من المدونة", icon: "fas fa-book-open", target: 1, storageKey: "novatrix_daily_blog_read", reward: 10 },
+            { id: "spin_wheel", label: "جرّب عجلة الحظ اليومية", icon: "fas fa-rotate", target: 1, storageKey: "novatrix_daily_spin_done", reward: 10 }
+        ];
+
+        function renderDailyMissions() {
+            const container = document.getElementById("missionsGrid");
+            if (!container) return;
+            const today = new Date().toDateString();
+            const lastDay = localStorage.getItem("novatrix_missions_day") || "";
+            if (lastDay !== today) {
+                DAILY_MISSIONS.forEach(m => localStorage.setItem(m.storageKey, "0"));
+                localStorage.setItem("novatrix_missions_day", today);
+                localStorage.removeItem("novatrix_missions_claimed");
+            }
+            const claimed = JSON.parse(localStorage.getItem("novatrix_missions_claimed") || "[]");
+            container.innerHTML = "";
+            DAILY_MISSIONS.forEach(mission => {
+                const progress = parseInt(localStorage.getItem(mission.storageKey) || "0");
+                const done = progress >= mission.target;
+                const alreadyClaimed = claimed.includes(mission.id);
+                const pct = Math.min(100, Math.round((progress / mission.target) * 100));
+                const card = document.createElement("div");
+                card.style.cssText = "display:flex;align-items:center;gap:12px;padding:12px;background:rgba(255,255,255,0.01);border:1px solid " + (done ? "var(--primary)" : "var(--border-color)") + ";border-radius:12px;transition:all 0.3s;";
+                card.innerHTML = `
+                    <div style="width:36px;height:36px;border-radius:10px;background:${done ? 'linear-gradient(135deg,var(--primary),var(--accent))' : 'rgba(255,255,255,0.03)'};display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <i class="${mission.icon}" style="color:${done ? 'white' : 'var(--text-secondary)'};font-size:0.85rem;"></i>
+                    </div>
+                    <div style="flex:1;">
+                        <div style="font-size:0.8rem;font-weight:700;color:${done ? 'var(--primary)' : 'white'};margin-bottom:4px;">${mission.label}</div>
+                        <div style="height:4px;background:rgba(255,255,255,0.05);border-radius:4px;overflow:hidden;">
+                            <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,var(--primary),var(--accent));border-radius:4px;transition:width 0.3s;"></div>
+                        </div>
+                    </div>
+                    <div style="text-align:center;flex-shrink:0;">
+                        ${done && !alreadyClaimed ? `<button onclick="claimMissionReward('${mission.id}',${mission.reward})" style="background:linear-gradient(135deg,var(--primary),var(--accent));color:white;border:none;padding:4px 10px;border-radius:8px;font-size:0.68rem;font-weight:700;cursor:pointer;font-family:'Cairo';">+${mission.reward} نقطة</button>` : alreadyClaimed ? '<span style="font-size:0.7rem;color:#10b981;font-weight:700;">✓ تم</span>' : `<span style="font-size:0.68rem;color:var(--text-secondary);">${progress}/${mission.target}</span>`}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        window.claimMissionReward = function(missionId, reward) {
+            let claimed = JSON.parse(localStorage.getItem("novatrix_missions_claimed") || "[]");
+            if (!claimed.includes(missionId)) {
+                claimed.push(missionId);
+                localStorage.setItem("novatrix_missions_claimed", JSON.stringify(claimed));
+                if (window.ViralEngine) window.ViralEngine.addPoints(reward, "إتمام مهمة يومية");
+                renderDailyMissions();
+            }
+        };
+
+        // ═══ LEADERBOARD SYSTEM ═══
+        function renderLeaderboard() {
+            const container = document.getElementById("leaderboardList");
+            if (!container) return;
+            const userPoints = window.ViralEngine ? window.ViralEngine.getPoints() : 0;
+            const userName = "أنت 🫵";
+            const fakeUsers = [
+                { name: "أحمد ★", pts: 820 },
+                { name: "سارة 💎", pts: 670 },
+                { name: "محمد", pts: 540 },
+                { name: "نور", pts: 430 },
+                { name: "يوسف", pts: 380 },
+                { name: "ليلى", pts: 290 },
+                { name: "عمر", pts: 210 },
+                { name: "فاطمة", pts: 150 },
+                { name: "خالد", pts: 90 }
+            ];
+            let all = [...fakeUsers, { name: userName, pts: userPoints, isUser: true }];
+            all.sort((a, b) => b.pts - a.pts);
+            all = all.slice(0, 10);
+            const medals = ["🥇", "🥈", "🥉"];
+            container.innerHTML = "";
+            all.forEach((entry, idx) => {
+                const row = document.createElement("div");
+                const isUser = entry.isUser;
+                row.style.cssText = `display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;background:${isUser ? 'rgba(37,99,235,0.08)' : 'rgba(255,255,255,0.01)'};border:1px solid ${isUser ? 'var(--primary)' : 'transparent'};transition:all 0.2s;`;
+                row.innerHTML = `
+                    <span style="font-size:0.85rem;width:24px;text-align:center;">${idx < 3 ? medals[idx] : (idx + 1)}</span>
+                    <span style="flex:1;font-size:0.8rem;font-weight:${isUser ? '800' : '600'};color:${isUser ? 'var(--primary)' : 'white'};">${entry.name}</span>
+                    <span style="font-size:0.78rem;font-weight:700;color:var(--text-secondary);font-family:'Outfit';">${entry.pts} نقطة</span>
+                `;
+                container.appendChild(row);
+            });
+        }
+
         const STREAK_VALUES = [10, 15, 20, 25, 30, 40, 50];
 
         document.addEventListener("DOMContentLoaded", () => {
@@ -379,6 +495,9 @@
             syncUserDetails();
             renderStreaksCalendar();
             checkAndRenderBadges();
+            renderDailyMissions();
+            renderLeaderboard();
+            setInterval(renderDailyMissions, 3000);
             setInterval(checkAndRenderBadges, 2000);
         });
 
@@ -461,6 +580,9 @@
 
             renderStreaksCalendar();
             checkAndRenderBadges();
+            renderDailyMissions();
+            renderLeaderboard();
+            setInterval(renderDailyMissions, 3000);
             setInterval(checkAndRenderBadges, 2000);
             syncUserDetails();
         }

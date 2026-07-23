@@ -249,6 +249,7 @@
 
             // Record spin
             Storage.set('last_spin_date', today);
+            localStorage.setItem("novatrix_daily_spin_done", "1");
             let badges = JSON.parse(localStorage.getItem("novatrix_unlocked_badges") || "[]");
             if (!badges.includes("lucky_spinner")) {
                 badges.push("lucky_spinner");
@@ -1075,6 +1076,120 @@
     // ==========================================
     // VIRAL ENGINE (Main Controller)
     // ==========================================
+
+    // ═══ BOOKMARKS / FAVORITES SYSTEM ═══
+    const BookmarksSystem = {
+        getAll() {
+            return JSON.parse(localStorage.getItem('novatrix_bookmarks') || '[]');
+        },
+        toggle(itemId, itemName) {
+            let bm = this.getAll();
+            if (bm.find(b => b.id === itemId)) {
+                bm = bm.filter(b => b.id !== itemId);
+                showPointsToast('تم الإزالة من المفضلة', itemName);
+            } else {
+                bm.push({ id: itemId, name: itemName, date: Date.now() });
+                showPointsToast('⭐ تمت الإضافة للمفضلة!', itemName);
+            }
+            localStorage.setItem('novatrix_bookmarks', JSON.stringify(bm));
+            this.updateAllButtons();
+        },
+        isBookmarked(itemId) {
+            return this.getAll().some(b => b.id === itemId);
+        },
+        updateAllButtons() {
+            document.querySelectorAll('[data-bookmark-id]').forEach(btn => {
+                const id = btn.getAttribute('data-bookmark-id');
+                const active = this.isBookmarked(id);
+                btn.innerHTML = active ? '<i class="fas fa-star"></i>' : '<i class="far fa-star"></i>';
+                btn.style.color = active ? '#fbbf24' : 'var(--text-secondary)';
+            });
+        },
+        injectButtons() {
+            // Inject bookmark buttons into tool cards
+            document.querySelectorAll('.tool-card').forEach(card => {
+                const toolId = card.getAttribute('data-tool-id') || card.querySelector('[data-tool]')?.getAttribute('data-tool');
+                if (!toolId || card.querySelector('[data-bookmark-id]')) return;
+                const toolName = card.querySelector('.tool-card-title')?.textContent || toolId;
+                const btn = document.createElement('button');
+                btn.setAttribute('data-bookmark-id', toolId);
+                btn.title = 'إضافة للمفضلة';
+                btn.style.cssText = 'position:absolute;top:10px;left:10px;background:none;border:none;font-size:1.1rem;cursor:pointer;z-index:10;transition:all 0.2s;padding:4px;';
+                btn.onclick = (e) => { e.stopPropagation(); BookmarksSystem.toggle(toolId, toolName); };
+                card.style.position = 'relative';
+                card.appendChild(btn);
+            });
+            this.updateAllButtons();
+        }
+    };
+
+
+    // ═══ FAQ CHATBOT WIDGET ═══
+    const ChatbotWidget = {
+        isOpen: false,
+        faq: [
+            { q: ["كيف", "نقاط", "اربح", "احصل"], a: "تربح نقاط عبر: زيارة الموقع يومياً (+5)، استخدام الأدوات (+10)، نسخ البرومبتات (+2)، مشاركة الموقع (+20)، وعجلة الحظ اليومية!" },
+            { q: ["أداة", "أدوات", "كم", "عدد"], a: "لدينا أكثر من 100 أداة مجانية في مختلف الفئات: الأمان، التصميم، البرمجة، الذكاء الاصطناعي، والمزيد! زر صفحة الأدوات لاستكشافها." },
+            { q: ["شارة", "شارات", "إنجاز", "badge"], a: "تحصل على شارات بإتمام أنشطة معينة مثل: فحص الأمان، نسخ 3 برومبتات، إتمام الكويز بنجاح، واستخدام عجلة الحظ. تابع تقدمك في صفحة المكافآت!" },
+            { q: ["مكافأة", "مكافآت", "جوائز", "هدية"], a: "يمكنك استبدال نقاطك بمكافآت حقيقية مثل اشتراكات Canva Pro و ChatGPT Plus في صفحة المكافآت!" },
+            { q: ["مدونة", "مقال", "شرح", "شروحات"], a: "لدينا مدونة غنية بأكثر من 100 مقال عن الأمن السيبراني والبدائل المجانية والذكاء الاصطناعي. زر صفحة الشروحات!" },
+            { q: ["تواصل", "اتصل", "مشكلة", "دعم"], a: "يمكنك التواصل معنا عبر صفحة 'اتصل بنا' أو إرسال رسالة مباشرة. نسعد دائماً بمساعدتك!" }
+        ],
+        init() {
+            // Inject chatbot HTML
+            const html = `
+                <div id="chatbotWidget" style="position:fixed;bottom:90px;right:20px;z-index:7500;display:flex;flex-direction:column;align-items:flex-end;gap:8px;">
+                    <div id="chatbotPanel" style="display:none;width:320px;max-height:420px;background:#0f1219;border:1px solid rgba(37,99,235,0.3);border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,0.5);overflow:hidden;animation:fadeIn 0.2s;direction:rtl;font-family:'Cairo',sans-serif;">
+                        <div style="background:linear-gradient(135deg,var(--primary),var(--accent));padding:14px 16px;display:flex;align-items:center;justify-content:space-between;">
+                            <span style="font-size:0.85rem;font-weight:800;color:white;"><i class="fas fa-robot"></i> المساعد الذكي</span>
+                            <button onclick="window.ViralEngine.toggleChat()" style="background:none;border:none;color:white;font-size:1rem;cursor:pointer;"><i class="fas fa-xmark"></i></button>
+                        </div>
+                        <div id="chatMessages" style="padding:12px;max-height:280px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;">
+                            <div style="background:rgba(37,99,235,0.1);border-radius:12px;padding:10px 12px;font-size:0.75rem;color:var(--text-secondary);line-height:1.5;">أهلاً بك! 👋 أنا المساعد الذكي لمنصة Novatrix EG. اكتب سؤالك وسأساعدك فوراً.</div>
+                        </div>
+                        <div style="padding:8px 12px;border-top:1px solid var(--border-color);display:flex;gap:8px;">
+                            <input id="chatInput" type="text" placeholder="اكتب سؤالك هنا..." style="flex:1;background:#181922;border:1px solid var(--border-color);border-radius:10px;padding:8px 12px;color:white;font-family:'Cairo';font-size:0.75rem;outline:none;" onkeydown="if(event.key==='Enter')window.ViralEngine.sendChat()">
+                            <button onclick="window.ViralEngine.sendChat()" style="background:linear-gradient(135deg,var(--primary),var(--accent));border:none;border-radius:10px;width:36px;height:36px;color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;"><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                    <button id="chatbotFab" onclick="window.ViralEngine.toggleChat()" style="width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#8b5cf6);border:none;color:white;font-size:1.2rem;cursor:pointer;box-shadow:0 4px 20px rgba(99,102,241,0.4);transition:all 0.3s;display:flex;align-items:center;justify-content:center;">
+                        <i class="fas fa-headset"></i>
+                    </button>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', html);
+        },
+        toggle() {
+            const panel = document.getElementById('chatbotPanel');
+            if (!panel) return;
+            this.isOpen = !this.isOpen;
+            panel.style.display = this.isOpen ? 'block' : 'none';
+            if (this.isOpen) document.getElementById('chatInput')?.focus();
+        },
+        send() {
+            const input = document.getElementById('chatInput');
+            const container = document.getElementById('chatMessages');
+            if (!input || !container || !input.value.trim()) return;
+            const userMsg = input.value.trim();
+            input.value = '';
+            // User bubble
+            container.innerHTML += `<div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:8px 12px;font-size:0.75rem;color:white;align-self:flex-start;max-width:85%;">${userMsg}</div>`;
+            // Find answer
+            let answer = "عذراً، لم أفهم سؤالك تماماً. حاول السؤال عن: النقاط، الأدوات، الشارات، المكافآت، المدونة، أو التواصل معنا.";
+            const lower = userMsg.toLowerCase();
+            for (const item of this.faq) {
+                if (item.q.some(kw => lower.includes(kw))) {
+                    answer = item.a;
+                    break;
+                }
+            }
+            setTimeout(() => {
+                container.innerHTML += `<div style="background:rgba(37,99,235,0.1);border-radius:12px;padding:10px 12px;font-size:0.75rem;color:var(--text-secondary);line-height:1.5;max-width:85%;">${answer}</div>`;
+                container.scrollTop = container.scrollHeight;
+            }, 400);
+            container.scrollTop = container.scrollHeight;
+        }
+    };
     window.ViralEngine = {
         init() {
             // Inject HTML components
@@ -1093,6 +1208,12 @@
 
             // Update UI
             PointsSystem.updateUI();
+
+            // Bookmarks
+            setTimeout(() => BookmarksSystem.injectButtons(), 1500);
+
+            // Chatbot
+            ChatbotWidget.init();
 
             console.log('🚀 Novatrix EG Viral Engine initialized!');
         },
@@ -1140,6 +1261,15 @@
                 });
             }
         },
+
+        // Chatbot API
+        toggleChat() { ChatbotWidget.toggle(); },
+        sendChat() { ChatbotWidget.send(); },
+
+        // Bookmarks API
+        toggleBookmark(id, name) { BookmarksSystem.toggle(id, name); },
+        getBookmarks() { return BookmarksSystem.getAll(); },
+        refreshBookmarks() { BookmarksSystem.injectButtons(); },
 
         // Called by app.js when user copies a prompt
         onPromptCopied() {
