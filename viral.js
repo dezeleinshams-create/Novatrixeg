@@ -1124,41 +1124,20 @@
     };
 
 
-    // ═══ FAQ CHATBOT WIDGET ═══
+        // ═══ SMART CHATBOT WIDGET (Database-Aware) ═══
     const ChatbotWidget = {
         isOpen: false,
+        db: null,
         faq: [
-            { q: ["كيف", "نقاط", "اربح", "احصل"], a: "تربح نقاط عبر: زيارة الموقع يومياً (+5)، استخدام الأدوات (+10)، نسخ البرومبتات (+2)، مشاركة الموقع (+20)، وعجلة الحظ اليومية!" },
-            { q: ["أداة", "أدوات", "كم", "عدد"], a: "لدينا أكثر من 100 أداة مجانية في مختلف الفئات: الأمان، التصميم، البرمجة، الذكاء الاصطناعي، والمزيد! زر صفحة الأدوات لاستكشافها." },
-            { q: ["شارة", "شارات", "إنجاز", "badge"], a: "تحصل على شارات بإتمام أنشطة معينة مثل: فحص الأمان، نسخ 3 برومبتات، إتمام الكويز بنجاح، واستخدام عجلة الحظ. تابع تقدمك في صفحة المكافآت!" },
-            { q: ["مكافأة", "مكافآت", "جوائز", "هدية"], a: "يمكنك استبدال نقاطك بمكافآت حقيقية مثل اشتراكات Canva Pro و ChatGPT Plus في صفحة المكافآت!" },
-            { q: ["مدونة", "مقال", "شرح", "شروحات"], a: "لدينا مدونة غنية بأكثر من 100 مقال عن الأمن السيبراني والبدائل المجانية والذكاء الاصطناعي. زر صفحة الشروحات!" },
-            { q: ["تواصل", "اتصل", "مشكلة", "دعم"], a: "يمكنك التواصل معنا عبر صفحة 'اتصل بنا' أو إرسال رسالة مباشرة. نسعد دائماً بمساعدتك!" }
+            { q: ["كيف","نقاط","اربح","احصل","points"], a: "تربح نقاط عبر: زيارة الموقع يومياً (+5)، استخدام الأدوات (+10)، نسخ البرومبتات (+2)، مشاركة الموقع (+20)، وعجلة الحظ اليومية! 🎯" },
+            { q: ["شارة","شارات","إنجاز","badge","انجاز"], a: "تحصل على شارات بإتمام أنشطة معينة مثل: فحص الأمان، نسخ 3 برومبتات، إتمام الكويز بنجاح، واستخدام عجلة الحظ. تابع تقدمك في <a href='rewards.html' style='color:var(--primary)'>صفحة المكافآت</a>! 🏅" },
+            { q: ["مكافأة","مكافآت","جوائز","هدية","استبدل"], a: "يمكنك استبدال نقاطك بمكافآت حقيقية مثل اشتراكات Canva Pro و ChatGPT Plus! اذهب إلى <a href='rewards.html' style='color:var(--primary)'>صفحة المكافآت</a> الآن 🎁" },
+            { q: ["مدونة","مقال","شرح","شروحات","مقالات"], a: "لدينا مدونة غنية بأكثر من 100 مقال عن الأمن السيبراني والبدائل المجانية والذكاء الاصطناعي. <a href='blog.html' style='color:var(--primary)'>تصفح المدونة الآن</a> 📚" },
+            { q: ["تواصل","اتصل","مشكلة","دعم","contact"], a: "يمكنك التواصل معنا عبر <a href='contact.html' style='color:var(--primary)'>صفحة الاتصال</a>. نسعد دائماً بمساعدتك! 💬" },
+            { q: ["مواقع ai","مواقع ذكاء","ai sites","مواقع"], a: "لدينا دليل يضم أفضل 100 موقع ذكاء اصطناعي لصناع المحتوى! <a href='ai-sites.html' style='color:var(--primary)'>تصفح الدليل الآن</a> 🤖" },
+            { q: ["برومت","prompt","اوامر","مطالبات"], a: "مكتبتنا تضم أكثر من 1000 برومت جاهز! <a href='prompts.html' style='color:var(--primary)'>استعرض مكتبة البرومبتات</a> ✨" },
+            { q: ["اداة","أداة","ادوات","أدوات","tools"], a: "لدينا أكثر من 100 أداة تقنية مجانية! <a href='tools.html' style='color:var(--primary)'>استكشف جميع الأدوات</a> 🛠️" },
         ],
-        init() {
-            // Inject chatbot HTML
-            const html = `
-                <div id="chatbotWidget" style="position:fixed;bottom:90px;right:20px;z-index:7500;display:flex;flex-direction:column;align-items:flex-end;gap:8px;">
-                    <div id="chatbotPanel" style="display:none;width:320px;max-height:420px;background:#0f1219;border:1px solid rgba(37,99,235,0.3);border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,0.5);overflow:hidden;animation:fadeIn 0.2s;direction:rtl;font-family:'Cairo',sans-serif;">
-                        <div style="background:linear-gradient(135deg,var(--primary),var(--accent));padding:14px 16px;display:flex;align-items:center;justify-content:space-between;">
-                            <span style="font-size:0.85rem;font-weight:800;color:white;"><i class="fas fa-robot"></i> المساعد الذكي</span>
-                            <button onclick="window.ViralEngine.toggleChat()" style="background:none;border:none;color:white;font-size:1rem;cursor:pointer;"><i class="fas fa-xmark"></i></button>
-                        </div>
-                        <div id="chatMessages" style="padding:12px;max-height:280px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;">
-                            <div style="background:rgba(37,99,235,0.1);border-radius:12px;padding:10px 12px;font-size:0.75rem;color:var(--text-secondary);line-height:1.5;">أهلاً بك! 👋 أنا المساعد الذكي لمنصة Novatrix EG. اكتب سؤالك وسأساعدك فوراً.</div>
-                        </div>
-                        <div style="padding:8px 12px;border-top:1px solid var(--border-color);display:flex;gap:8px;">
-                            <input id="faqChatInput" type="text" placeholder="اكتب سؤالك هنا..." style="flex:1;background:#181922;border:1px solid var(--border-color);border-radius:10px;padding:8px 12px;color:white;font-family:'Cairo';font-size:0.75rem;outline:none;" onkeydown="if(event.key==='Enter')window.ViralEngine.sendChat()">
-                            <button onclick="window.ViralEngine.sendChat()" style="background:linear-gradient(135deg,var(--primary),var(--accent));border:none;border-radius:10px;width:36px;height:36px;color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;"><i class="fas fa-paper-plane"></i></button>
-                        </div>
-                    </div>
-                    <button id="chatbotFab" onclick="window.ViralEngine.toggleChat()" style="width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#8b5cf6);border:none;color:white;font-size:1.2rem;cursor:pointer;box-shadow:0 4px 20px rgba(99,102,241,0.4);transition:all 0.3s;display:flex;align-items:center;justify-content:center;">
-                        <i class="fas fa-headset"></i>
-                    </button>
-                </div>
-            `;
-            document.body.insertAdjacentHTML('beforeend', html);
-        },
         normalize(text) {
             return text.toLowerCase()
                 .replace(/[أإآ]/g, "ا")
@@ -1166,40 +1145,115 @@
                 .replace(/ى/g, "ي")
                 .trim();
         },
+        async loadDB() {
+            if (this.db) return;
+            try {
+                const isSubfolder = window.location.pathname.includes('/blog/');
+                const path = isSubfolder ? '../database.json' : 'database.json';
+                const res = await fetch(path);
+                const data = await res.json();
+                this.db = data;
+            } catch(e) { this.db = { apps: [] }; }
+        },
+        searchDB(normQ) {
+            if (!this.db || !this.db.apps) return null;
+            const results = this.db.apps.filter(app => {
+                const t = this.normalize(app.title || '');
+                const d = this.normalize(app.desc || '');
+                const id = this.normalize(app.id || '');
+                const words = normQ.split(' ').filter(w => w.length > 2);
+                return words.some(w => t.includes(w) || d.includes(w) || id.includes(w));
+            });
+            if (results.length === 0) return null;
+            const top = results.slice(0, 3);
+            const lines = top.map(app => {
+                const icon = app.icon || 'fa-solid fa-cube';
+                const saves = app.saves ? ` — يوفر <strong>${app.saves}</strong>` : '';
+                const linkHtml = app.link && app.link !== '#' && !app.link.includes('example.com')
+                    ? `<a href="${app.link}" target="_blank" style="display:inline-block;margin-top:5px;font-size:0.68rem;color:var(--primary);font-weight:700;"><i class="fas fa-arrow-up-right-from-square"></i> زيارة / تحميل</a>`
+                    : '';
+                return `<div style="border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:8px 10px;margin-top:6px;">
+<div style="display:flex;align-items:center;gap:7px;margin-bottom:3px;"><i class="${icon}" style="color:var(--primary);font-size:0.85rem;"></i><strong style="font-size:0.74rem;color:white;">${app.title}</strong></div>
+<div style="font-size:0.67rem;color:var(--text-secondary);line-height:1.4;">${app.desc}${saves}</div>${linkHtml}</div>`;
+            }).join('');
+            return `وجدت <strong>${results.length}</strong> نتيجة لـ "${normQ}":${lines}${results.length > 3 ? `<div style="font-size:0.67rem;color:var(--text-secondary);margin-top:6px;">و${results.length-3} نتيجة أخرى...</div>` : ''}`;
+        },
+        async answer(userMsg) {
+            await this.loadDB();
+            const normQ = this.normalize(userMsg);
+            for (const item of this.faq) {
+                if (item.q.some(kw => normQ.includes(this.normalize(kw)))) return item.a;
+            }
+            const dbResult = this.searchDB(normQ);
+            if (dbResult) return dbResult;
+            return `لم أجد إجابة محددة، لكن يمكنك تصفح: <a href='index.html' style='color:var(--primary)'>الرئيسية</a> | <a href='ai-sites.html' style='color:var(--primary)'>مواقع AI</a> | <a href='tools.html' style='color:var(--primary)'>الأدوات</a> | <a href='blog.html' style='color:var(--primary)'>الشروحات</a> | <a href='rewards.html' style='color:var(--primary)'>المكافآت</a>`;
+        },
+        init() {
+            const html = `
+                <div id="chatbotWidget" style="position:fixed;bottom:90px;right:20px;z-index:7500;display:flex;flex-direction:column;align-items:flex-end;gap:8px;">
+                    <div id="chatbotPanel" style="display:none;width:330px;max-height:460px;background:#0f1219;border:1px solid rgba(37,99,235,0.3);border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,0.5);overflow:hidden;direction:rtl;font-family:'Cairo',sans-serif;flex-direction:column;">
+                        <div style="background:linear-gradient(135deg,var(--primary),var(--accent));padding:14px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+                            <span style="font-size:0.85rem;font-weight:800;color:white;"><i class="fas fa-robot"></i> المساعد الذكي</span>
+                            <button onclick="window.ViralEngine.toggleChat()" style="background:none;border:none;color:white;font-size:1rem;cursor:pointer;"><i class="fas fa-xmark"></i></button>
+                        </div>
+                        <div id="chatMessages" style="padding:12px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:8px;max-height:330px;">
+                            <div style="background:rgba(37,99,235,0.1);border-radius:12px;padding:10px 12px;font-size:0.74rem;color:var(--text-secondary);line-height:1.6;">
+                                👋 مرحباً! أنا المساعد الذكي لـ Novatrix EG.<br>
+                                اسألني عن أي <strong style="color:white">تطبيق</strong>، <strong style="color:white">موقع AI</strong>، <strong style="color:white">برومت</strong>، أو أي موضوع وسأبحث لك في قاعدة بيانات الموقع كاملة!
+                            </div>
+                            <div style="display:flex;flex-wrap:wrap;gap:5px;">
+                                <button onclick="window.ViralEngine.quickAsk('ChatGPT')" style="background:rgba(255,255,255,0.04);border:1px solid var(--border-color);border-radius:20px;padding:4px 10px;font-size:0.63rem;color:var(--text-secondary);cursor:pointer;font-family:Cairo;">🤖 ChatGPT</button>
+                                <button onclick="window.ViralEngine.quickAsk('برومت')" style="background:rgba(255,255,255,0.04);border:1px solid var(--border-color);border-radius:20px;padding:4px 10px;font-size:0.63rem;color:var(--text-secondary);cursor:pointer;font-family:Cairo;">✨ برومبتات</button>
+                                <button onclick="window.ViralEngine.quickAsk('مواقع ذكاء اصطناعي')" style="background:rgba(255,255,255,0.04);border:1px solid var(--border-color);border-radius:20px;padding:4px 10px;font-size:0.63rem;color:var(--text-secondary);cursor:pointer;font-family:Cairo;">🌐 مواقع AI</button>
+                                <button onclick="window.ViralEngine.quickAsk('نقاط')" style="background:rgba(255,255,255,0.04);border:1px solid var(--border-color);border-radius:20px;padding:4px 10px;font-size:0.63rem;color:var(--text-secondary);cursor:pointer;font-family:Cairo;">🏆 نقاطي</button>
+                                <button onclick="window.ViralEngine.quickAsk('ElevenLabs')" style="background:rgba(255,255,255,0.04);border:1px solid var(--border-color);border-radius:20px;padding:4px 10px;font-size:0.63rem;color:var(--text-secondary);cursor:pointer;font-family:Cairo;">🎙️ أصوات AI</button>
+                            </div>
+                        </div>
+                        <div style="padding:8px 12px;border-top:1px solid var(--border-color);display:flex;gap:8px;flex-shrink:0;">
+                            <input id="faqChatInput" type="text" placeholder="اسأل عن أي شيء في الموقع..." style="flex:1;background:#181922;border:1px solid var(--border-color);border-radius:10px;padding:8px 12px;color:white;font-family:'Cairo';font-size:0.74rem;outline:none;" onkeydown="if(event.key==='Enter')window.ViralEngine.sendChat()">
+                            <button onclick="window.ViralEngine.sendChat()" style="background:linear-gradient(135deg,var(--primary),var(--accent));border:none;border-radius:10px;width:36px;height:36px;color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                    <button id="chatbotFab" onclick="window.ViralEngine.toggleChat()" style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#8b5cf6);border:none;color:white;font-size:1.2rem;cursor:pointer;box-shadow:0 4px 20px rgba(99,102,241,0.5);transition:all 0.3s;display:flex;align-items:center;justify-content:center;">
+                        <i class="fas fa-headset"></i>
+                    </button>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', html);
+            this.loadDB();
+        },
         toggle() {
             const panel = document.getElementById('chatbotPanel');
             if (!panel) return;
             this.isOpen = !this.isOpen;
-            panel.style.display = this.isOpen ? 'block' : 'none';
+            panel.style.display = this.isOpen ? 'flex' : 'none';
             if (this.isOpen) document.getElementById('faqChatInput')?.focus();
         },
-        send() {
+        addBubble(container, text, isUser) {
+            const div = document.createElement('div');
+            div.style.cssText = `background:${isUser ? 'rgba(255,255,255,0.05)' : 'rgba(37,99,235,0.1)'};border-radius:12px;padding:9px 12px;font-size:0.74rem;color:${isUser ? 'white' : 'var(--text-secondary)'};line-height:1.55;max-width:90%;word-break:break-word;`;
+            div.innerHTML = text;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        },
+        async send() {
             const input = document.getElementById('faqChatInput');
             const container = document.getElementById('chatMessages');
             if (!input || !container || !input.value.trim()) return;
             const userMsg = input.value.trim();
             input.value = '';
-            // User bubble
-            container.innerHTML += `<div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:8px 12px;font-size:0.75rem;color:white;align-self:flex-start;max-width:85%;">${userMsg}</div>`;
-            // Find answer
-            let answer = "عذراً، لم أفهم سؤالك تماماً. حاول السؤال عن: النقاط، الأدوات، الشارات، المكافآت، المدونة، أو التواصل معنا.";
-            const normUser = this.normalize(userMsg);
-            for (const item of this.faq) {
-                const matched = item.q.some(kw => {
-                    return normUser.includes(this.normalize(kw));
-                });
-                if (matched) {
-                    answer = item.a;
-                    break;
-                }
-            }
-            setTimeout(() => {
-                container.innerHTML += `<div style="background:rgba(37,99,235,0.1);border-radius:12px;padding:10px 12px;font-size:0.75rem;color:var(--text-secondary);line-height:1.5;max-width:85%;">${answer}</div>`;
-                container.scrollTop = container.scrollHeight;
-            }, 400);
+            this.addBubble(container, userMsg, true);
+            const loader = document.createElement('div');
+            loader.style.cssText = 'background:rgba(37,99,235,0.1);border-radius:12px;padding:9px 12px;font-size:0.74rem;color:var(--text-secondary);';
+            loader.innerHTML = '<i class="fas fa-ellipsis fa-fade"></i> جاري البحث في قاعدة البيانات...';
+            container.appendChild(loader);
             container.scrollTop = container.scrollHeight;
+            const ans = await this.answer(userMsg);
+            loader.remove();
+            this.addBubble(container, ans, false);
         }
     };
+
     window.ViralEngine = {
         init() {
             // Inject HTML components
@@ -1275,6 +1329,13 @@
         // Chatbot API
         toggleChat() { ChatbotWidget.toggle(); },
         sendChat() { ChatbotWidget.send(); },
+        quickAsk(msg) {
+            const input = document.getElementById('faqChatInput');
+            if (!input) return;
+            // Open panel first if closed
+            if (!ChatbotWidget.isOpen) ChatbotWidget.toggle();
+            setTimeout(() => { input.value = msg; ChatbotWidget.send(); }, 100);
+        },
 
         // Bookmarks API
         toggleBookmark(id, name) { BookmarksSystem.toggle(id, name); },
