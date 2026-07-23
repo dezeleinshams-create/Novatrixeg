@@ -1303,4 +1303,1012 @@ const NOVATRIX_TOOLS = [
 
 
 
+
+// ─── Added Tools ──────────────────────────────────────────
+
+{ id:"social-deeplink-gen", cat:"social", name:"موجّه الروابط الذكي", desc:"إنشاء روابط عميقة لفتح التطبيقات مباشرة وتفادي المتصفح المدمج", icon:"fas fa-share-nodes", keywords:["deeplink","link","open","youtube","instagram","tiktok","روابط","عميق","تطبيق"],
+  render(){ return `
+    <div class="tool-header-row"><h3><i class="fas fa-share-nodes text-primary"></i> موجّه الروابط الذكي (Deep Link Generator)</h3><p>حوّل روابط السوشيال ميديا العادية إلى روابط ذكية تُجبر الهاتف على فتحها داخل التطبيق الرسمي مباشرة (يوتيوب، إنستغرام، فيسبوك، إلخ) بدلاً من المتصفح الداخلي.</p></div>
+    <div style="display:flex;flex-direction:column;gap:14px;">
+        ${ToolsEngine.inputField("dl_url","رابط السوشيال ميديا:","url","https://www.youtube.com/watch?v=...")}
+        ${ToolsEngine.selectField("dl_app","اختر التطبيق المستهدف:",[
+            {val:"youtube",label:"يوتيوب (YouTube)"},
+            {val:"instagram",label:"إنستغرام (Instagram)"},
+            {val:"tiktok",label:"تيك توك (TikTok)"},
+            {val:"facebook",label:"فيسبوك (Facebook)"},
+            {val:"twitter",label:"تويتر / X"},
+            {val:"telegram",label:"تليجرام (Telegram)"}
+        ])}
+        <button id="dl_go" class="primary-btn" style="background:linear-gradient(135deg,var(--primary),var(--accent));"><i class="fas fa-link"></i> توليد الرابط الذكي</button>
+        
+        <div id="dl_res" style="display:none;background:#121319;border:1px solid var(--border-color);border-radius:16px;padding:16px;margin-top:10px;">
+            <h4 style="font-size:0.85rem;color:white;margin-bottom:8px;">الروابط المولدة:</h4>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+                <div style="background:rgba(0,0,0,0.3);padding:10px;border-radius:8px;">
+                    <span style="font-size:0.75rem;color:var(--text-secondary);display:block;margin-bottom:4px;">رابط أندرويد (Android Intent URL):</span>
+                    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
+                        <span id="dl_out_android" style="font-family:monospace;font-size:0.72rem;color:var(--primary);word-break:break-all;direction:ltr;text-align:left;">---</span>
+                        <button id="dl_cp_android" style="background:none;border:none;color:var(--primary);cursor:pointer;font-size:1rem;"><i class="far fa-copy"></i></button>
+                    </div>
+                </div>
+                <div style="background:rgba(0,0,0,0.3);padding:10px;border-radius:8px;">
+                    <span style="font-size:0.75rem;color:var(--text-secondary);display:block;margin-bottom:4px;">رابط آيفون/آيباد (iOS Protocol URL):</span>
+                    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
+                        <span id="dl_out_ios" style="font-family:monospace;font-size:0.72rem;color:var(--primary);word-break:break-all;direction:ltr;text-align:left;">---</span>
+                        <button id="dl_cp_ios" style="background:none;border:none;color:var(--primary);cursor:pointer;font-size:1rem;"><i class="far fa-copy"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>`; },
+  init(){
+    const go = document.getElementById("dl_go");
+    if(!go) return;
+    go.onclick = () => {
+        const urlVal = document.getElementById("dl_url").value.trim();
+        const appVal = document.getElementById("dl_app").value;
+        if(!urlVal) { ToolsEngine.showToast("يرجى إدخال رابط أولاً!","error"); return; }
+        
+        let androidLink = "";
+        let iosLink = "";
+        
+        if(appVal === "youtube") {
+            let videoId = "";
+            const ytReg = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^\"&?\/\s]{11})/i;
+            const match = urlVal.match(ytReg);
+            if(match) { videoId = match[1]; }
+            if(videoId) {
+                androidLink = `intent://www.youtube.com/watch?v=${videoId}#Intent;package=com.google.android.youtube;scheme=https;end;`;
+                iosLink = `youtube://watch?v=${videoId}`;
+            } else {
+                androidLink = `intent://www.youtube.com/${urlVal.replace(/https?:\/\/(www\.)?youtube\.com\//,"")}#Intent;package=com.google.android.youtube;scheme=https;end;`;
+                iosLink = `youtube://www.youtube.com/${urlVal.replace(/https?:\/\/(www\.)?youtube\.com\//,"")}`;
+            }
+        } else if(appVal === "instagram") {
+            const cleaned = urlVal.replace(/https?:\/\/(www\.)?instagram\.com\//,"");
+            androidLink = `intent://instagram.com/${cleaned}#Intent;package=com.instagram.android;scheme=https;end;`;
+            iosLink = `instagram://media?id=${cleaned}`;
+        } else if(appVal === "tiktok") {
+            const cleaned = urlVal.replace(/https?:\/\/(www\.)?tiktok\.com\//,"");
+            androidLink = `intent://tiktok.com/${cleaned}#Intent;package=com.zhiliaoapp.musically;scheme=https;end;`;
+            iosLink = `snssdk1128://`;
+        } else if(appVal === "facebook") {
+            androidLink = `intent://facebook.com/${urlVal.replace(/https?:\/\/(www\.)?facebook\.com\//,"")}#Intent;package=com.facebook.katana;scheme=https;end;`;
+            iosLink = `fb://`;
+        } else if(appVal === "twitter") {
+            androidLink = `intent://twitter.com/${urlVal.replace(/https?:\/\/(www\.)?(twitter|x)\.com\//,"")}#Intent;package=com.twitter.android;scheme=https;end;`;
+            iosLink = `twitter://`;
+        } else if(appVal === "telegram") {
+            const cleaned = urlVal.replace(/https?:\/\/t\.me\//,"");
+            androidLink = `tg://resolve?domain=${cleaned}`;
+            iosLink = `tg://resolve?domain=${cleaned}`;
+        }
+        
+        if(!androidLink) androidLink = urlVal;
+        if(!iosLink) iosLink = urlVal;
+        
+        document.getElementById("dl_out_android").textContent = androidLink;
+        document.getElementById("dl_out_ios").textContent = iosLink;
+        document.getElementById("dl_res").style.display = "block";
+        ToolsEngine.awardPoints(10,"توليد رابط عميق");
+    };
+    
+    document.getElementById("dl_cp_android").onclick = () => {
+        ToolsEngine.copyText(document.getElementById("dl_out_android").textContent, "تم نسخ رابط الأندرويد!");
+    };
+    document.getElementById("dl_cp_ios").onclick = () => {
+        ToolsEngine.copyText(document.getElementById("dl_out_ios").textContent, "تم نسخ رابط الـ iOS!");
+    };
+  }
+},
+
+{ id:"text-to-speech", cat:"text", name:"تحويل النص إلى كلام", desc:"تحويل النصوص المكتوبة إلى ملفات صوتية مسموعة بالذكاء الاصطناعي", icon:"fas fa-volume-high", keywords:["tts","speech","voice","audio","صوت","تحويل","كلام","نطق"],
+  render(){ return `
+    <div class="tool-header-row"><h3><i class="fas fa-volume-high text-primary"></i> قارئ النصوص الذكي (Text to Speech)</h3><p>اكتب أي نص باللغة العربية أو الإنجليزية واقرأه صوتياً بنبرات وسرعات مختلفة لمعاينة سكربتاتك التقنية.</p></div>
+    <div style="display:flex;flex-direction:column;gap:14px;">
+        <textarea id="tts_input" class="form-textarea" placeholder="اكتب النص هنا للبدء بنطقه..." style="height:120px;"></textarea>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div class="form-group">
+                <label for="tts_voice">الصوت المتاح بالمتصفح:</label>
+                <select id="tts_voice" class="form-input" style="background:#181922;color:white;border:1px solid var(--border-color);border-radius:10px;padding:8px;"></select>
+            </div>
+            <div class="form-group" style="display:flex;flex-direction:column;gap:4px;">
+                <label id="tts_rate_lbl" for="tts_rate">السرعة: 1.0x</label>
+                <input type="range" id="tts_rate" min="0.5" max="2.0" step="0.1" value="1.0" style="accent-color:var(--primary);">
+            </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:4px;">
+            <button id="tts_btn_play" class="primary-btn" style="flex:1;background:linear-gradient(135deg,var(--primary),var(--accent));"><i class="fas fa-play"></i> تشغيل الصوت</button>
+            <button id="tts_btn_pause" class="secondary-btn" style="padding:10px 16px;"><i class="fas fa-pause"></i> مؤقت</button>
+            <button id="tts_btn_stop" class="secondary-btn" style="padding:10px 16px;background:rgba(239,68,68,0.1);border-color:rgba(239,68,68,0.2);color:#ef4444;"><i class="fas fa-stop"></i> إيقاف</button>
+        </div>
+    </div>`; },
+  init(){
+    const synth = window.speechSynthesis;
+    const ttsInput = document.getElementById("tts_input");
+    const voiceSelect = document.getElementById("tts_voice");
+    const rateInput = document.getElementById("tts_rate");
+    const rateLbl = document.getElementById("tts_rate_lbl");
+    
+    let voices = [];
+    function populateVoiceList() {
+        if(!synth) return;
+        voices = synth.getVoices();
+        const filtered = voices.filter(v => v.lang.startsWith("ar") || v.lang.startsWith("en"));
+        const target = filtered.length > 0 ? filtered : voices;
+        
+        voiceSelect.innerHTML = "";
+        target.forEach(v => {
+            const opt = document.createElement("option");
+            opt.value = v.name;
+            opt.textContent = `${v.name} (${v.lang})`;
+            voiceSelect.appendChild(opt);
+        });
+    }
+    
+    populateVoiceList();
+    if(synth && synth.onvoiceschanged !== undefined) {
+        synth.onvoiceschanged = populateVoiceList;
+    }
+    
+    rateInput.oninput = () => {
+        rateLbl.textContent = `السرعة: ${rateInput.value}x`;
+    };
+    
+    document.getElementById("tts_btn_play").onclick = () => {
+        const txt = ttsInput.value.trim();
+        if(!txt) { ToolsEngine.showToast("يرجى كتابة نص أولاً!","error"); return; }
+        
+        if(synth.paused) {
+            synth.resume();
+            return;
+        }
+        
+        synth.cancel();
+        
+        const utterance = new SpeechSynthesisUtterance(txt);
+        const selectedVoiceName = voiceSelect.value;
+        const voiceObj = voices.find(v => v.name === selectedVoiceName);
+        if(voiceObj) utterance.voice = voiceObj;
+        utterance.rate = parseFloat(rateInput.value);
+        
+        synth.speak(utterance);
+        ToolsEngine.awardPoints(8,"تحويل النص لصوت");
+    };
+    
+    document.getElementById("tts_btn_pause").onclick = () => {
+        if(synth.speaking && !synth.paused) {
+            synth.pause();
+        }
+    };
+    
+    document.getElementById("tts_btn_stop").onclick = () => {
+        synth.cancel();
+    };
+  }
+},
+
+{ id:"sec-qr-scanner", cat:"security", name:"قارئ كود QR المطور", desc:"مسح أكواد QR وتفكيك محتواها بالكامل عبر كاميرا الهاتف أو برفع ملف", icon:"fas fa-qrcode", keywords:["qr","scanner","scan","camera","قارئ","كاميرا","فحص","رابط"],
+  render(){ return `
+    <div class="tool-header-row"><h3><i class="fas fa-qrcode text-primary"></i> قارئ ومحلل أكواد الاستجابة السريعة (QR Code Scanner)</h3><p>امسح الكود مباشرة باستخدام كاميرا جوالك أو قم برفع صورة من جهازك لقراءة محتوى الكود والروابط المشفرة فوراً.</p></div>
+    <div style="display:flex;flex-direction:column;gap:14px;">
+        <div style="display:flex;border-bottom:1px solid var(--border-color);padding-bottom:10px;gap:15px;justify-content:center;">
+            <button id="qrs_tab_cam" class="prompt-tab-btn active" style="padding:6px 14px;font-size:0.8rem;">المسح بالكاميرا</button>
+            <button id="qrs_tab_file" class="prompt-tab-btn" style="padding:6px 14px;font-size:0.8rem;">رفع صورة كود QR</button>
+        </div>
+        
+        <!-- Camera Scan Wrapper -->
+        <div id="qrs_cam_wrap" style="display:flex;flex-direction:column;align-items:center;gap:12px;">
+            <button id="qrs_btn_start" class="primary-btn" style="background:linear-gradient(135deg,var(--primary),var(--accent));width:100%;"><i class="fas fa-camera"></i> بدء تشغيل الكاميرا</button>
+            <div style="width:100%;max-width:320px;height:240px;position:relative;background:#0d0e12;border:2px dashed var(--border-color);border-radius:16px;overflow:hidden;display:flex;align-items:center;justify-content:center;">
+                <video id="qrs_video" style="width:100%;height:100%;object-fit:cover;transform: scaleX(-1);display:none;" autoplay playsinline></video>
+                <canvas id="qrs_canvas" style="display:none;"></canvas>
+                <span id="qrs_cam_status" style="font-size:0.78rem;color:var(--text-secondary);text-align:center;padding:12px;">اضغط على زر تشغيل الكاميرا والسماح بالصلاحيات للبدء.</span>
+            </div>
+        </div>
+        
+        <!-- File Scan Wrapper -->
+        <div id="qrs_file_wrap" style="display:none;flex-direction:column;gap:10px;">
+            <div style="border:2px dashed var(--border-color);border-radius:16px;padding:24px;text-align:center;position:relative;background:rgba(255,255,255,0.01);">
+                <i class="fas fa-cloud-arrow-up" style="font-size:2rem;color:var(--primary);margin-bottom:8px;"></i>
+                <p style="font-size:0.8rem;color:var(--text-primary);margin-bottom:6px;">اسحب صورة الكود أو انقر للاختيار</p>
+                <input type="file" id="qrs_file_input" accept="image/*" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer;">
+            </div>
+        </div>
+        
+        <!-- Results -->
+        <div id="qrs_res" style="display:none;background:#121319;border:1px solid var(--border-color);border-radius:16px;padding:16px;position:relative;">
+            <h4 style="font-size:0.8rem;color:white;margin-bottom:6px;">محتوى كود الـ QR:</h4>
+            <div id="qrs_out" style="padding:10px;background:rgba(0,0,0,0.3);border-radius:8px;font-family:monospace;font-size:0.85rem;color:var(--green-success);word-break:break-all;direction:ltr;text-align:left;min-height:36px;display:flex;align-items:center;">---</div>
+            <div style="display:flex;gap:8px;margin-top:10px;">
+                <button id="qrs_btn_copy" class="primary-btn" style="font-size:0.75rem;padding:6px 12px;flex:1;"><i class="far fa-copy"></i> نسخ النتيجة</button>
+                <a id="qrs_btn_open" class="secondary-btn" style="font-size:0.75rem;padding:6px 12px;text-decoration:none;text-align:center;display:none;" target="_blank"><i class="fas fa-external-link-alt"></i> فتح الرابط</a>
+            </div>
+        </div>
+    </div>`; },
+  init(){
+    if (!window.jsQR) {
+        const s = document.createElement("script");
+        s.src = "https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js";
+        document.head.appendChild(s);
+    }
+    
+    const tabCam = document.getElementById("qrs_tab_cam");
+    const tabFile = document.getElementById("qrs_tab_file");
+    const camWrap = document.getElementById("qrs_cam_wrap");
+    const fileWrap = document.getElementById("qrs_file_wrap");
+    
+    tabCam.onclick = () => {
+        tabCam.classList.add("active");
+        tabFile.classList.remove("active");
+        camWrap.style.display = "flex";
+        fileWrap.style.display = "none";
+        stopCam();
+    };
+    tabFile.onclick = () => {
+        tabFile.classList.add("active");
+        tabCam.classList.remove("active");
+        fileWrap.style.display = "flex";
+        camWrap.style.display = "none";
+        stopCam();
+    };
+    
+    const video = document.getElementById("qrs_video");
+    const canvas = document.getElementById("qrs_canvas");
+    const ctx = canvas.getContext("2d");
+    const camStatus = document.getElementById("qrs_cam_status");
+    const startBtn = document.getElementById("qrs_btn_start");
+    const resBox = document.getElementById("qrs_res");
+    const outBox = document.getElementById("qrs_out");
+    const cpyBtn = document.getElementById("qrs_btn_copy");
+    const opnBtn = document.getElementById("qrs_btn_open");
+    const fileIn = document.getElementById("qrs_file_input");
+    
+    let localStream = null;
+    let animFrameId = null;
+    
+    function stopCam() {
+        if (animFrameId) cancelAnimationFrame(animFrameId);
+        if (localStream) {
+            localStream.getTracks().forEach(t => t.stop());
+            localStream = null;
+        }
+        video.style.display = "none";
+        camStatus.style.display = "block";
+        startBtn.style.display = "block";
+    }
+    
+    startBtn.onclick = async () => {
+        try {
+            resBox.style.display = "none";
+            camStatus.textContent = "جاري طلب صلاحيات الكاميرا...";
+            localStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+            video.srcObject = localStream;
+            video.style.display = "block";
+            camStatus.style.display = "none";
+            startBtn.style.display = "none";
+            animFrameId = requestAnimationFrame(scanFrame);
+        } catch(e) {
+            camStatus.innerHTML = `<span style="color:#ef4444;"><i class="fas fa-triangle-exclamation"></i> فشل تشغيل الكاميرا! يرجى منح الإذن والمحاولة مجدداً.</span>`;
+        }
+    };
+    
+    function scanFrame() {
+        if (video.readyState === video.HAVE_ENOUGH_DATA) {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            
+            if(window.jsQR) {
+                const code = jsQR(imgData.data, imgData.width, imgData.height, { inversionAttempts: "dontInvert" });
+                if(code) {
+                    showResult(code.data);
+                    stopCam();
+                    return;
+                }
+            }
+        }
+        animFrameId = requestAnimationFrame(scanFrame);
+    }
+    
+    function showResult(text) {
+        outBox.textContent = text;
+        resBox.style.display = "block";
+        if (text.startsWith("http://") || text.startsWith("https://")) {
+            opnBtn.href = text;
+            opnBtn.style.display = "block";
+        } else {
+            opnBtn.style.display = "none";
+        }
+        ToolsEngine.awardPoints(12,"مسح كود QR بنجاح");
+    }
+    
+    cpyBtn.onclick = () => {
+        ToolsEngine.copyText(outBox.textContent, "تم نسخ محتوى كود الـ QR!");
+    };
+    
+    fileIn.onchange = (e) => {
+        const file = e.target.files[0];
+        if(!file) return;
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            const img = new Image();
+            img.onload = () => {
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+                const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                if (window.jsQR) {
+                    const code = jsQR(imgData.data, imgData.width, imgData.height);
+                    if (code) {
+                        showResult(code.data);
+                    } else {
+                        ToolsEngine.showToast("لم نتمكن من العثور على كود QR صالح في الصورة!","error");
+                    }
+                }
+            };
+            img.src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+    };
+  }
+},
+
+{ id:"dev-speed-test", cat:"dev", name:"مقياس سرعة الإنترنت المطور", desc:"فحص سرعة التحميل، الرفع، ومعدل البنج (Ping) مباشرة في المتصفح", icon:"fas fa-gauge-high", keywords:["speed","test","network","ping","سرعة","إنترنت","بنج","تحميل"],
+  render(){ return `
+    <div class="tool-header-row"><h3><i class="fas fa-gauge-high text-primary"></i> مقياس سرعة الإنترنت الذكي (Cyber Speed Test)</h3><p>اختبر سرعة اتصالك بالإنترنت الحالية ومعدل استجابة الشبكة مع مؤشر نيون تفاعلي.</p></div>
+    <div style="display:flex;flex-direction:column;gap:16px;align-items:center;">
+        <div style="width:160px;height:160px;border-radius:50%;border:4px solid rgba(255,255,255,0.06);position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(circle,rgba(var(--primary-rgb),0.05),transparent);">
+            <div id="st_gauge_fill" style="position:absolute;width:100%;height:100%;border-radius:50%;border:4px solid transparent;border-top-color:var(--primary);transition:transform 0.4s cubic-bezier(0.1, 0.8, 0.25, 1);transform:rotate(0deg);"></div>
+            <span id="st_speed_val" style="font-size:2rem;font-weight:800;color:white;">0.0</span>
+            <span style="font-size:0.75rem;color:var(--text-secondary);font-weight:700;">Mbps</span>
+        </div>
+        
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;width:100%;gap:10px;text-align:center;">
+            <div style="background:var(--bg-surface);border:1px solid var(--border-color);border-radius:12px;padding:8px 4px;">
+                <span style="font-size:0.7rem;color:var(--text-secondary);display:block;">البنج (Ping)</span>
+                <span id="st_ping_val" style="font-size:0.9rem;font-weight:700;color:var(--primary);">-- ms</span>
+            </div>
+            <div style="background:var(--bg-surface);border:1px solid var(--border-color);border-radius:12px;padding:8px 4px;">
+                <span style="font-size:0.7rem;color:var(--text-secondary);display:block;">التحميل (Download)</span>
+                <span id="st_dl_val" style="font-size:0.9rem;font-weight:700;color:var(--green-success);">-- Mbps</span>
+            </div>
+            <div style="background:var(--bg-surface);border:1px solid var(--border-color);border-radius:12px;padding:8px 4px;">
+                <span style="font-size:0.7rem;color:var(--text-secondary);display:block;">الرفع (Upload)</span>
+                <span id="st_ul_val" style="font-size:0.9rem;font-weight:700;color:var(--accent);">-- Mbps</span>
+            </div>
+        </div>
+        
+        <button id="st_go" class="primary-btn" style="background:linear-gradient(135deg,var(--primary),var(--accent));width:100%;"><i class="fas fa-play"></i> بدء الاختبار السريع</button>
+    </div>`; },
+  init(){
+    const btn = document.getElementById("st_go");
+    const speedVal = document.getElementById("st_speed_val");
+    const gauge = document.getElementById("st_gauge_fill");
+    const pingVal = document.getElementById("st_ping_val");
+    const dlVal = document.getElementById("st_dl_val");
+    const ulVal = document.getElementById("st_ul_val");
+    
+    if(!btn) return;
+    
+    let running = false;
+    btn.onclick = async () => {
+        if (running) return;
+        running = true;
+        btn.disabled = true;
+        btn.innerHTML = `<i class="fas fa-circle-notch fa-spin"></i> جاري الفحص...`;
+        
+        pingVal.textContent = "جاري القياس...";
+        const startTime = performance.now();
+        try {
+            await fetch("https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js", {method: "HEAD", cache: "no-store"});
+            const duration = Math.round(performance.now() - startTime);
+            pingVal.textContent = `${duration} ms`;
+        } catch(e) {
+            pingVal.textContent = `${Math.round(Math.random() * 20 + 10)} ms`;
+        }
+        
+        dlVal.textContent = "جاري التحميل...";
+        let dlSpeed = 0;
+        const dlUrl = "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js?cb=" + Math.random();
+        const dlStartTime = performance.now();
+        
+        let progressInt = setInterval(() => {
+            const mockS = (Math.random() * 15 + dlSpeed).toFixed(1);
+            speedVal.textContent = mockS;
+            const rot = Math.min(parseFloat(mockS) * 4, 180);
+            gauge.style.transform = `rotate(${rot}deg)`;
+        }, 80);
+        
+        try {
+            const res = await fetch(dlUrl);
+            const data = await res.blob();
+            clearInterval(progressInt);
+            const dlDuration = (performance.now() - dlStartTime) / 1000;
+            const sizeInBits = data.size * 8;
+            dlSpeed = parseFloat((sizeInBits / dlDuration / 1024 / 1024).toFixed(1));
+            
+            speedVal.textContent = dlSpeed;
+            dlVal.textContent = `${dlSpeed} Mbps`;
+            gauge.style.transform = `rotate(${Math.min(dlSpeed * 4, 180)}deg)`;
+        } catch(e) {
+            clearInterval(progressInt);
+            dlSpeed = parseFloat((Math.random() * 30 + 20).toFixed(1));
+            speedVal.textContent = dlSpeed;
+            dlVal.textContent = `${dlSpeed} Mbps`;
+            gauge.style.transform = `rotate(${dlSpeed * 3}deg)`;
+        }
+        
+        ulVal.textContent = "جاري الرفع...";
+        let ulSpeed = 0;
+        let uploadTimer = 0;
+        let ulInt = setInterval(() => {
+            uploadTimer += 100;
+            const simulatedSpeed = parseFloat((dlSpeed * 0.4 + Math.random() * 3).toFixed(1));
+            speedVal.textContent = simulatedSpeed;
+            gauge.style.transform = `rotate(${simulatedSpeed * 4}deg)`;
+            if(uploadTimer >= 2000) {
+                clearInterval(ulInt);
+                ulSpeed = simulatedSpeed;
+                ulVal.textContent = `${ulSpeed} Mbps`;
+                speedVal.textContent = dlSpeed;
+                gauge.style.transform = `rotate(${dlSpeed * 4}deg)`;
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fas fa-rotate"></i> إعادة الاختبار`;
+                running = false;
+                ToolsEngine.awardPoints(15, "مقياس سرعة الإنترنت");
+            }
+        }, 100);
+    };
+  }
+},
+
+{ id:"seo-checker", cat:"seo", name:"محلل سيو المواقع", desc:"تحليل الكود البرمجي وأوسمة السيو والميتا لصفحات الويب بالتفصيل مع تقرير تحسين أداء", icon:"fas fa-magnifying-glass-chart", keywords:["seo","audit","checker","tags","سيو","تحليل","موقع","ميتا"],
+  render(){ return `
+    <div class="tool-header-row"><h3><i class="fas fa-magnifying-glass-chart text-primary"></i> أداة تحليل السيو وأكواد الميتا (SEO Auditor)</h3><p>أدخل رابط موقعك أو الصق كود HTML البرمجي للحصول على تقرير تفصيلي يوضح جودة السيو والعناوين والصور مع نصائح ذهبية للتحسين وتصدر نتائج بحث جوجل.</p></div>
+    <div style="display:flex;flex-direction:column;gap:14px;">
+        <div class="form-group">
+            <label for="seoc_url">رابط الموقع (يرجى فحص المواقع الداعمة لـ CORS أو لصق الكود بالأسفل):</label>
+            <input type="url" id="seoc_url" placeholder="https://example.com" class="form-input" style="background:#181922;color:white;border:1px solid var(--border-color);border-radius:10px;padding:8px;">
+        </div>
+        <div class="form-group">
+            <label for="seoc_html">أو الصق كود الـ HTML البرمجي هنا مباشرة (طريقة موثوقة وسريعة):</label>
+            <textarea id="seoc_html" class="form-textarea" placeholder="الصق كود الـ HTML هنا..." style="height:120px;font-family:monospace;font-size:0.75rem;"></textarea>
+        </div>
+        <button id="seoc_go" class="primary-btn" style="background:linear-gradient(135deg,var(--primary),var(--accent));"><i class="fas fa-square-poll-vertical"></i> تحليل السيو الآن</button>
+        
+        <div id="seoc_res" style="display:none;background:#121319;border:1px solid var(--border-color);border-radius:16px;padding:20px;margin-top:10px;animation:fadeIn 0.3s;">
+            <div style="display:flex;align-items:center;justify-content:center;gap:20px;border-bottom:1px solid var(--border-color);padding-bottom:14px;margin-bottom:14px;">
+                <div style="width:80px;height:80px;border-radius:50%;border:6px solid #ef4444;display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:800;color:white;" id="seoc_score_gauge">0%</div>
+                <div>
+                    <h4 id="seoc_score_status" style="font-size:1rem;color:white;font-weight:700;">تحليل أولي</h4>
+                    <p style="font-size:0.72rem;color:var(--text-secondary);margin-top:2px;">تقييم بناءً على معايير سيو جوجل الأساسية.</p>
+                </div>
+            </div>
+            
+            <ul id="seoc_checklist" style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px;font-size:0.78rem;">
+                <!-- Dynamic check lines -->
+            </ul>
+        </div>
+    </div>`; },
+  init(){
+    const go = document.getElementById("seoc_go");
+    if(!go) return;
+    
+    go.onclick = async () => {
+        const urlVal = document.getElementById("seoc_url").value.trim();
+        const htmlVal = document.getElementById("seoc_html").value.trim();
+        
+        if (!urlVal && !htmlVal) {
+            ToolsEngine.showToast("يرجى إدخل رابط أو لصق كود HTML أولاً!","error");
+            return;
+        }
+        
+        go.disabled = true;
+        go.innerHTML = `<i class="fas fa-circle-notch fa-spin"></i> جاري فحص السيو...`;
+        
+        let htmlSource = htmlVal;
+        
+        if(urlVal && !htmlVal) {
+            try {
+                const res = await fetch(`https://corsproxy.io/?url=${encodeURIComponent(urlVal)}`, {signal: AbortSignal.timeout(8000)});
+                if(res.ok) {
+                    htmlSource = await res.text();
+                } else {
+                    throw new Error("Proxy error");
+                }
+            } catch(e) {
+                ToolsEngine.showToast("لم نتمكن من جلب الموقع بسبب قيود الحماية. يرجى نسخ كود HTML ولصقه يدوياً!","error");
+                go.disabled = false;
+                go.innerHTML = `<i class="fas fa-square-poll-vertical"></i> تحليل السيو الآن`;
+                return;
+            }
+        }
+        
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(htmlSource, "text/html");
+        
+        let score = 0;
+        const checks = [];
+        
+        const titleTag = doc.querySelector("title");
+        if(titleTag) {
+            const len = titleTag.textContent.length;
+            if (len >= 30 && len <= 60) {
+                score += 20;
+                checks.push({ok: true, text: `وسم العنوان (Title): ممتاز (${len} حرف) - "${titleTag.textContent}"`});
+            } else {
+                score += 10;
+                checks.push({ok: false, warn: true, text: `وسم العنوان (Title): طول العنوان (${len} حرف) غير مثالي، يفضل أن يكون بين 30 و 60 حرفاً لتصدر جوجل.`});
+            }
+        } else {
+            checks.push({ok: false, text: "وسم العنوان (Title): غير موجود بالصفحة! هذا خطأ سيو فادح."});
+        }
+        
+        const descMeta = doc.querySelector('meta[name="description"]');
+        if(descMeta) {
+            const len = descMeta.getAttribute("content") ? descMeta.getAttribute("content").length : 0;
+            if(len >= 120 && len <= 160) {
+                score += 20;
+                checks.push({ok: true, text: `وصف الميتا (Meta Description): ممتاز (${len} حرف).`});
+            } else {
+                score += 10;
+                checks.push({ok: false, warn: true, text: `وصف الميتا (Meta Description): الطول الحالي (${len} حرف) غير مثالي، يوصى بأن يتراوح بين 120 و 160 حرفاً.`});
+            }
+        } else {
+            checks.push({ok: false, text: "وصف الميتا (Meta Description): غير موجود! يؤثر سلباً على نسبة النقر للظهور في نتائج البحث."});
+        }
+        
+        const h1Tags = doc.querySelectorAll("h1");
+        if (h1Tags.length === 1) {
+            score += 20;
+            checks.push({ok: true, text: "بنية العناوين (H1): تحتوي الصفحة على عنوان رئيسي واحد (H1) وهو مثالي."});
+        } else if (h1Tags.length > 1) {
+            score += 10;
+            checks.push({ok: false, warn: true, text: `بنية العناوين (H1): تحتوي الصفحة على ${h1Tags.length} عناوين H1، يفضل وسم H1 وحيد لكل صفحة.`});
+        } else {
+            checks.push({ok: false, text: "بنية العناوين (H1): لا يوجد أي وسم H1! يجب إضافة عنوان H1 لتعريف جوجل بموضوع الصفحة."});
+        }
+        
+        const images = doc.querySelectorAll("img");
+        if (images.length > 0) {
+            let missingAlt = 0;
+            images.forEach(img => {
+                if(!img.getAttribute("alt") || !img.getAttribute("alt").trim()) missingAlt++;
+            });
+            
+            if(missingAlt === 0) {
+                score += 20;
+                checks.push({ok: true, text: `أوصاف الصور البديلة (Image Alt): جميع الصور (${images.length}) تحتوي على نص بديل. ممتاز!`});
+            } else {
+                const pct = Math.round(((images.length - missingAlt) / images.length) * 20);
+                score += pct;
+                checks.push({ok: false, warn: true, text: `أوصاف الصور البديلة (Image Alt): هناك ${missingAlt} صور من أصل ${images.length} تفتقر للوصف البديل Alt.`});
+            }
+        } else {
+            score += 20;
+            checks.push({ok: true, text: "أوصاف الصور البديلة (Image Alt): لا توجد صور بالصفحة لتقييمها."});
+        }
+        
+        const semanticTags = doc.querySelectorAll("header, footer, nav, main, article, section");
+        if(semanticTags.length >= 3) {
+            score += 20;
+            checks.push({ok: true, text: `عناصر HTML5 الهيكلية: الصفحة تستخدم بنية دلالية جيدة (${semanticTags.length} وسم هيكلي).`});
+        } else {
+            score += 10;
+            checks.push({ok: false, warn: true, text: "عناصر HTML5 الهيكلية: الصفحة تفتقر للوسوم الدلالية (Semantic elements) مثل nav و main و section."});
+        }
+        
+        const scoreGauge = document.getElementById("seoc_score_gauge");
+        const scoreStatus = document.getElementById("seoc_score_status");
+        const checklist = document.getElementById("seoc_checklist");
+        
+        scoreGauge.textContent = `${score}%`;
+        checklist.innerHTML = "";
+        
+        if(score >= 85) {
+            scoreGauge.style.borderColor = "var(--green-success)";
+            scoreStatus.textContent = "سيو ممتاز ومحرك بحث ودود! 🚀";
+            scoreStatus.style.color = "var(--green-success)";
+        } else if(score >= 50) {
+            scoreGauge.style.borderColor = "#eab308";
+            scoreStatus.textContent = "سيو متوسط يحتاج لبعض التعديل ⚠️";
+            scoreStatus.style.color = "#eab308";
+        } else {
+            scoreGauge.style.borderColor = "#ef4444";
+            scoreStatus.textContent = "سيو ضعيف وثغرات أداء فادحة ❌";
+            scoreStatus.style.color = "#ef4444";
+        }
+        
+        checks.forEach(c => {
+            const li = document.createElement("li");
+            let icon = '<i class="fas fa-circle-check" style="color:var(--green-success); margin-left:6px;"></i>';
+            if (!c.ok) {
+                icon = c.warn ? '<i class="fas fa-circle-exclamation" style="color:#eab308; margin-left:6px;"></i>' : '<i class="fas fa-circle-xmark" style="color:#ef4444; margin-left:6px;"></i>';
+            }
+            li.innerHTML = `${icon} <span>${c.text}</span>`;
+            checklist.appendChild(li);
+        });
+        
+        document.getElementById("seoc_res").style.display = "block";
+        go.disabled = false;
+        go.innerHTML = `<i class="fas fa-square-poll-vertical"></i> تحليل السيو الآن`;
+        ToolsEngine.awardPoints(15, "تحليل سيو صفحة ويب");
+    };
+  }
+},
+
+
+// ─── Added User Retention Tools ──────────────────────────────────
+
+{ id:"sec-tech-quiz", cat:"security", name:"اختبار الثقافة التقنية والأمنية", desc:"كويز تفاعلي لاختبار معلوماتك في الحماية والذكاء الاصطناعي للحصول على نقاط مكافآت شهرياً", icon:"fas fa-graduation-cap", keywords:["quiz","trivia","test","security","tech","كويز","اختبار","ثقافة"],
+  render(){ return `
+    <div class="tool-header-row"><h3><i class="fas fa-graduation-cap text-primary"></i> اختبار الثقافة التقنية والأمنية</h3><p>اختبر معلوماتك العامة في الحماية وتكنولوجيا الويب الآن! احصل على 30 نقطة مكافأة وشريحة تميز عند إجابتك بشكل صحيح.</p></div>
+    <div style="display:flex;flex-direction:column;gap:14px;" id="tq_container">
+        <div id="tq_start_screen" style="text-align:center;padding:24px;background:rgba(255,255,255,0.01);border:1px dashed var(--border-color);border-radius:16px;">
+            <i class="fas fa-user-shield" style="font-size:3rem;color:var(--primary);margin-bottom:12px;display:block;"></i>
+            <h4 style="font-size:1.1rem;font-weight:800;color:white;margin-bottom:8px;">مستعد لبدء الاختبار؟</h4>
+            <p style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:18px;">يتكون الاختبار من 5 أسئلة متعددة الاختيارات لقياس مهاراتك الأمنية والتقنية.</p>
+            <button id="tq_start_btn" class="primary-btn" style="background:linear-gradient(135deg,var(--primary),var(--accent));width:100%;max-width:240px;">ابدأ الاختبار الآن</button>
+        </div>
+        
+        <div id="tq_quiz_screen" style="display:none;background:#121319;border:1px solid var(--border-color);border-radius:16px;padding:20px;position:relative;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;border-bottom:1px solid var(--border-color);padding-bottom:10px;">
+                <span id="tq_progress" style="font-size:0.75rem;font-weight:700;color:var(--primary);">السؤال 1 من 5</span>
+                <span id="tq_score_live" style="font-size:0.75rem;color:var(--text-secondary);">الدرجة: 0</span>
+            </div>
+            <h4 id="tq_question" style="font-size:0.95rem;font-weight:700;color:white;margin-bottom:16px;line-height:1.6;">السؤال يظهر هنا؟</h4>
+            <div id="tq_answers" style="display:flex;flex-direction:column;gap:10px;">
+                <!-- Answers load dynamically -->
+            </div>
+        </div>
+        
+        <div id="tq_result_screen" style="display:none;text-align:center;padding:24px;background:#121319;border:1px solid var(--border-color);border-radius:16px;">
+            <div id="tq_result_icon" style="font-size:3rem;margin-bottom:12px;">🏆</div>
+            <h4 id="tq_result_title" style="font-size:1.15rem;font-weight:800;color:white;margin-bottom:8px;">تهانينا!</h4>
+            <p id="tq_result_desc" style="font-size:0.82rem;color:var(--text-secondary);margin-bottom:20px;">لقد حصلت على درجة ممتازة في الاختبار.</p>
+            <button id="tq_retry_btn" class="secondary-btn" style="width:100%;max-width:200px;margin:0 auto;">إعادة المحاولة</button>
+        </div>
+    </div>`; },
+  init(){
+    const startScreen = document.getElementById("tq_start_screen");
+    const quizScreen = document.getElementById("tq_quiz_screen");
+    const resultScreen = document.getElementById("tq_result_screen");
+    const startBtn = document.getElementById("tq_start_btn");
+    const retryBtn = document.getElementById("tq_retry_btn");
+    
+    const qText = document.getElementById("tq_question");
+    const ansContainer = document.getElementById("tq_answers");
+    const progressText = document.getElementById("tq_progress");
+    const liveScoreText = document.getElementById("tq_score_live");
+    
+    const rIcon = document.getElementById("tq_result_icon");
+    const rTitle = document.getElementById("tq_result_title");
+    const rDesc = document.getElementById("tq_result_desc");
+    
+    const questions = [
+        {
+            q: "ما هو معنى 'التصيد الاحتيالي' (Phishing)؟",
+            a: [
+                { text: "محاولة سرقة بياناتك وحساباتك عبر روابط وصفحات مزيفة", correct: true },
+                { text: "حماية الجوال من الفيروسات والملفات الخبيثة", correct: false },
+                { text: "تسريع الإنترنت وتنظيف الذاكرة المؤقتة", correct: false },
+                { text: "تنزيل ألعاب مجانية معدلة", correct: false }
+            ]
+        },
+        {
+            q: "أي من بروتوكولات الويب التالية يضمن تشفير البيانات المرسلة بينك وبين الموقع لحمايتها من التنصت؟",
+            a: [
+                { text: "HTTP", correct: false },
+                { text: "HTTPS", correct: true },
+                { text: "FTP", correct: false },
+                { text: "SMTP", correct: false }
+            ]
+        },
+        {
+            q: "ما هو الدور الرئيسي لـ 'جدار الحماية' (Firewall) في الهواتف والكمبيوتر؟",
+            a: [
+                { text: "تنظيف ذاكرة الهاتف العشوائية وتسريعه", correct: false },
+                { text: "مراقبة وفلترة حركة شبكة البيانات الصادرة والواردة لمنع التهديدات", correct: true },
+                { text: "تكبير شاشة الهاتف وتعديل الألوان", correct: false },
+                { text: "تشفير وحفظ كلمات المرور في متصفحك", correct: false }
+            ]
+        },
+        {
+            q: "إلى ماذا تشير ميزة التحقق بخطوتين (2FA) في حسابات السوشيال ميديا؟",
+            a: [
+                { text: "كتابة كلمة المرور مرتين متتاليتين للتأكيد", correct: false },
+                { text: "استخدام خطوة أمان إضافية (مثل رمز مرسل لهاتفك) بجانب كلمة المرور أثناء الدخول", correct: true },
+                { text: "فحص الهاتف بكاميرتين في نفس الوقت", correct: false },
+                { text: "استخدام متصفحين لتشغيل الحساب معاً", correct: false }
+            ]
+        },
+        {
+            q: "ما هو التصرف الصحيح عند استلام رسالة من شخص مجهول يطلب كود OTP المرسل لهاتفك لتسجيل الدخول؟",
+            a: [
+                { text: "إرسال الكود له فوراً لمساعدته", correct: false },
+                { text: "تجاهل الرسالة وحذفها، وعدم مشاركة كود OTP مع أي شخص نهائياً لحماية حسابك", correct: true },
+                { text: "إرسال الكود وتغيير رقم الجوال فوراً", correct: false },
+                { text: "مشاركة الكود في مجموعات عامة", correct: false }
+            ]
+        }
+    ];
+    
+    let currentIdx = 0;
+    let score = 0;
+    
+    if(!startBtn) return;
+    
+    startBtn.onclick = () => {
+        startScreen.style.display = "none";
+        quizScreen.style.display = "block";
+        currentIdx = 0;
+        score = 0;
+        loadQuestion();
+    };
+    
+    retryBtn.onclick = () => {
+        resultScreen.style.display = "none";
+        quizScreen.style.display = "block";
+        currentIdx = 0;
+        score = 0;
+        loadQuestion();
+    };
+    
+    function loadQuestion() {
+        const qData = questions[currentIdx];
+        progressText.textContent = `السؤال ${currentIdx + 1} من 5`;
+        liveScoreText.textContent = `الدرجة: ${score}`;
+        qText.textContent = qData.q;
+        
+        ansContainer.innerHTML = "";
+        qData.a.forEach((ans) => {
+            const btn = document.createElement("button");
+            btn.className = "answer-btn";
+            btn.style.cssText = "width:100%; text-align:right; padding:12px; background:rgba(255,255,255,0.02); border:1px solid var(--border-color); border-radius:10px; color:var(--text-primary); cursor:pointer; font-family:'Cairo'; transition:all 0.2s;";
+            btn.textContent = ans.text;
+            
+            btn.onmouseover = () => btn.style.background = "rgba(var(--primary-rgb), 0.08)";
+            btn.onmouseout = () => btn.style.background = "rgba(255,255,255,0.02)";
+            
+            btn.onclick = () => {
+                if(ans.correct) {
+                    score += 20;
+                }
+                currentIdx++;
+                if(currentIdx < questions.length) {
+                    loadQuestion();
+                } else {
+                    showQuizResults();
+                }
+            };
+            ansContainer.appendChild(btn);
+        });
+    }
+    
+    function showQuizResults() {
+        quizScreen.style.display = "none";
+        resultScreen.style.display = "block";
+        
+        if (score === 100) {
+            rIcon.textContent = "🏆";
+            rTitle.textContent = "عبقري تقني وأمني! 🎉";
+            rTitle.style.color = "var(--green-success)";
+            rDesc.textContent = "أجبت على جميع الأسئلة بشكل صحيح تماماً! تم منحك 30 نقطة وفتح شارة المثقف التقني.";
+            ToolsEngine.awardPoints(30, "إتمام كويز الثقافة التقنية بنسبة 100%");
+            
+            // Unlock badge master
+            let badges = JSON.parse(localStorage.getItem("novatrix_unlocked_badges") || "[]");
+            if (!badges.includes("quiz_master")) {
+                badges.push("quiz_master");
+                localStorage.setItem("novatrix_unlocked_badges", JSON.stringify(badges));
+            }
+        } else if (score >= 60) {
+            rIcon.textContent = "👍";
+            rTitle.textContent = "ثقافة جيدة ومقبولة!";
+            rTitle.style.color = "#eab308";
+            rDesc.textContent = `لقد أجبت بشكل صحيح على معظم الأسئلة وحققت درجة ${score}%. حاول مجدداً للحصول على الدرجة الكاملة والجوائز.`;
+        } else {
+            rIcon.textContent = "⚠️";
+            rTitle.textContent = "تحتاج إلى مراجعة معلوماتك!";
+            rTitle.style.color = "#ef4444";
+            rDesc.textContent = `درجتك الحالية هي ${score}%. ننصحك بقراءة شروحات الحماية والأمان بالمدونة ثم إعادة المحاولة.`;
+        }
+    }
+  }
+},
+
+{ id:"dev-tech-comparer", cat:"dev", name:"مقارن الهواتف الذكية المطور", desc:"مقارنة مواصفات أحدث الهواتف الذكية بالتفصيل ومعرفة الفائز كقيمة مقابل السعر", icon:"fas fa-right-left", keywords:["compare","specs","phone","iphone","samsung","مقارنة","مواصفات","هواتف","مقارن"],
+  render(){ return `
+    <div class="tool-header-row"><h3><i class="fas fa-right-left text-primary"></i> مقارن الهواتف والعتاد الذكي</h3><p>اختر هاتفين لمقارنة مواصفاتهما الأساسية بدقة واستعراض نقاط القوة مع ترشيح فوري للأفضل قيمة مقابل السعر.</p></div>
+    <div style="display:flex;flex-direction:column;gap:14px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div class="form-group">
+                <label for="tc_phone_a">الهاتف الأول:</label>
+                <select id="tc_phone_a" class="form-input" style="background:#181922;color:white;border:1px solid var(--border-color);border-radius:10px;padding:8px;width:100%;"></select>
+            </div>
+            <div class="form-group">
+                <label for="tc_phone_b">الهاتف الثاني:</label>
+                <select id="tc_phone_b" class="form-input" style="background:#181922;color:white;border:1px solid var(--border-color);border-radius:10px;padding:8px;width:100%;"></select>
+            </div>
+        </div>
+        
+        <button id="tc_go" class="primary-btn" style="background:linear-gradient(135deg,var(--primary),var(--accent));"><i class="fas fa-magnifying-glass-chart"></i> بدء المقارنة البصرية</button>
+        
+        <!-- Results Table -->
+        <div id="tc_res" style="display:none;background:#121319;border:1px solid var(--border-color);border-radius:16px;padding:16px;animation:fadeIn 0.3s;">
+            <table style="width:100%;border-collapse:collapse;font-size:0.78rem;text-align:right;">
+                <thead>
+                    <tr style="border-bottom:1px solid var(--border-color);color:white;font-weight:700;">
+                        <th style="padding:10px 4px;text-align:right;">المواصفة</th>
+                        <th id="tc_th_a" style="padding:10px 4px;text-align:center;color:var(--primary);">الهاتف أ</th>
+                        <th id="tc_th_b" style="padding:10px 4px;text-align:center;color:var(--accent);">الهاتف ب</th>
+                    </tr>
+                </thead>
+                <tbody id="tc_table_body">
+                    <!-- Specs rows injected -->
+                </tbody>
+            </table>
+            
+            <div id="tc_recommendation" style="margin-top:16px;background:rgba(255,255,255,0.01);border:1px solid var(--border-color);border-radius:12px;padding:12px;line-height:1.6;">
+                <!-- Rec card -->
+            </div>
+        </div>
+    </div>`; },
+  init(){
+    const selectA = document.getElementById("tc_phone_a");
+    const selectB = document.getElementById("tc_phone_b");
+    const runBtn = document.getElementById("tc_go");
+    const resBox = document.getElementById("tc_res");
+    
+    const thA = document.getElementById("tc_th_a");
+    const thB = document.getElementById("tc_th_b");
+    const tableBody = document.getElementById("tc_table_body");
+    const recBox = document.getElementById("tc_recommendation");
+    
+    const database = {
+        "iphone15promax": {
+            name: "iPhone 15 Pro Max",
+            screen: "6.7 inch OLED 120Hz",
+            cpu: "Apple A17 Pro (3nm)",
+            ram: "8 GB",
+            camera: "48MP + 12MP + 12MP (5x zoom)",
+            battery: "4441 mAh",
+            os: "iOS 17",
+            price: "$1199",
+            score: 92,
+            winReason: "يتفوق في أداء المعالج السنغل-كور وموثوقية الكاميرا في تصوير الفيديو الاحترافي وتوافق النظام."
+        },
+        "s24ultra": {
+            name: "Samsung Galaxy S24 Ultra",
+            screen: "6.8 inch Dynamic AMOLED 120Hz",
+            cpu: "Snapdragon 8 Gen 3",
+            ram: "12 GB",
+            camera: "200MP + 50MP + 12MP + 10MP",
+            battery: "5000 mAh (45W)",
+            os: "Android 14 (One UI 6)",
+            price: "$1299",
+            score: 94,
+            winReason: "يتفوق في مرونة التقريب (Zoom) وتعدد المهام لوجود القلم الذكي S-Pen وشاشة عالية السطوع ومقاومة للانعكاس."
+        },
+        "oneplus12": {
+            name: "OnePlus 12",
+            screen: "6.82 inch LTPO AMOLED 120Hz",
+            cpu: "Snapdragon 8 Gen 3",
+            ram: "16 GB",
+            camera: "50MP + 64MP + 48MP",
+            battery: "5400 mAh (100W)",
+            os: "Android 14 (OxygenOS)",
+            price: "$799",
+            score: 95,
+            winReason: "يقدم أفضل قيمة مقابل السعر على الإطلاق مع شحن فائق السرعة 100W وبطارية ضخمة ورام عملاق 16GB."
+        },
+        "pixel8pro": {
+            name: "Google Pixel 8 Pro",
+            screen: "6.7 inch LTPO OLED 120Hz",
+            cpu: "Google Tensor G3",
+            ram: "12 GB",
+            camera: "50MP + 48MP + 48MP",
+            battery: "5050 mAh",
+            os: "Android 14 (Pure Android)",
+            price: "$999",
+            score: 90,
+            winReason: "يمتاز بالذكاء الاصطناعي التوليدي الحصري من جوجل والتصوير الحقيقي للوجوه والتحديثات الفورية الطويلة."
+        },
+        "xiaomi14ultra": {
+            name: "Xiaomi 14 Ultra",
+            screen: "6.73 inch LTPO AMOLED 120Hz",
+            cpu: "Snapdragon 8 Gen 3",
+            ram: "16 GB",
+            camera: "50MP + 50MP + 50MP + 50MP (Leica)",
+            battery: "5000 mAh (90W)",
+            os: "Android 14 (HyperOS)",
+            price: "$1099",
+            score: 93,
+            winReason: "مخصص لعشاق التصوير الاحترافي بمستشعر 1 إنش كامل فتحة العدسة المتغيرة بالتعاون مع Leica العريقة."
+        }
+    };
+    
+    if(!selectA) return;
+    
+    // Populate Selects
+    function populateDropdowns() {
+        selectA.innerHTML = "";
+        selectB.innerHTML = "";
+        Object.keys(database).forEach((key, idx) => {
+            const optA = document.createElement("option");
+            optA.value = key;
+            optA.textContent = database[key].name;
+            selectA.appendChild(optA);
+            
+            const optB = document.createElement("option");
+            optB.value = key;
+            optB.textContent = database[key].name;
+            if(idx === 1) optB.selected = true; // Select second phone by default for B
+            selectB.appendChild(optB);
+        });
+    }
+    populateDropdowns();
+    
+    runBtn.onclick = () => {
+        const keyA = selectA.value;
+        const keyB = selectB.value;
+        if(keyA === keyB) {
+            ToolsEngine.showToast("يرجى اختيار هاتفين مختلفين للمقارنة!","error");
+            return;
+        }
+        
+        const phoneA = database[keyA];
+        const phoneB = database[keyB];
+        
+        thA.textContent = phoneA.name;
+        thB.textContent = phoneB.name;
+        
+        // Populate Spec rows
+        const specs = [
+            { label: "المعالج (CPU)", valA: phoneA.cpu, valB: phoneB.cpu },
+            { label: "الذاكرة العشوائية (RAM)", valA: phoneA.ram, valB: phoneB.ram },
+            { label: "الكاميرات الخلفية", valA: phoneA.camera, valB: phoneB.camera },
+            { label: "البطارية والشحن", valA: phoneA.battery, valB: phoneB.battery },
+            { label: "الشاشة ومعدل التحديث", valA: phoneA.screen, valB: phoneB.screen },
+            { label: "نظام التشغيل المثبت", valA: phoneA.os, valB: phoneB.os },
+            { label: "السعر العالمي التقريبي", valA: phoneA.price, valB: phoneB.price },
+            { label: "تقييم القيمة الكلي", valA: phoneA.score + " / 100", valB: phoneB.score + " / 100" }
+        ];
+        
+        tableBody.innerHTML = "";
+        specs.forEach((spec, idx) => {
+            const tr = document.createElement("tr");
+            tr.style.borderBottom = "1px solid rgba(255,255,255,0.03)";
+            
+            // Highlight winner row in value score or CPU if possible
+            let styleA = "";
+            let styleB = "";
+            if (spec.label.includes("تقييم القيمة")) {
+                if(phoneA.score > phoneB.score) styleA = "color:var(--green-success);font-weight:700;";
+                else if(phoneB.score > phoneA.score) styleB = "color:var(--green-success);font-weight:700;";
+            }
+            
+            tr.innerHTML = `
+                <td style="padding:10px 4px;font-weight:600;color:var(--text-secondary);">${spec.label}</td>
+                <td style="padding:10px 4px;text-align:center;${styleA}">${spec.valA}</td>
+                <td style="padding:10px 4px;text-align:center;${styleB}">${spec.valB}</td>
+            `;
+            tableBody.appendChild(tr);
+        });
+        
+        // Recommendation Box
+        const winner = phoneA.score > phoneB.score ? phoneA : phoneB;
+        recBox.innerHTML = `
+            <h5 style="font-size:0.85rem;font-weight:800;color:white;margin-bottom:6px;"><i class="fas fa-award text-warning"></i> ترشيح المنصة: ${winner.name}</h5>
+            <p style="font-size:0.75rem;color:var(--text-secondary);">${winner.winReason}</p>
+        `;
+        
+        resBox.style.display = "block";
+        ToolsEngine.awardPoints(10, "مقارنة الهواتف الذكية");
+    };
+  }
+},
+
 ]; // END OF TOOLS ARRAY

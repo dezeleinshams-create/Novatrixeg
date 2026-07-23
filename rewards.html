@@ -112,6 +112,31 @@
             </div>
         </section>
 
+
+        <!-- LUCKY WHEEL & ACHIEVEMENTS SECTION (USER RETENTION BOOSTERS) -->
+        <section class="spin-wheel-teaser-section fade-in-delayed" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--card-radius); padding: 24px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 250px; text-align: right;">
+                <h3 style="font-size: 1.05rem; font-weight: 800; color: white; display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                    <i class="fas fa-rotate text-primary"></i> عجلة الحظ الدوارة اليومية
+                </h3>
+                <p style="font-size: 0.75rem; color: var(--text-secondary);">جرب حظك كل 24 ساعة لتربح مكافآت نقاط إضافية واشتراكات Canva Pro مجانية!</p>
+            </div>
+            <button onclick="if(window.ViralEngine) window.ViralEngine.openSpin();" class="primary-btn" style="background: linear-gradient(135deg, var(--primary), var(--accent)); padding: 10px 20px; font-weight: 700; border-radius: 20px; display: inline-flex; align-items: center; gap: 8px; cursor: pointer;">
+                <i class="fas fa-arrows-spin"></i> تشغيل عجلة الحظ الآن
+            </button>
+        </section>
+
+        <section class="badges-section fade-in-delayed" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--card-radius); padding: 24px; margin-bottom: 24px;">
+            <h3 style="font-size: 1.05rem; font-weight: 800; color: white; display: flex; align-items: center; gap: 8px; text-align: right;">
+                <i class="fas fa-trophy text-warning"></i> لوحة شارات التميز والإنجاز
+            </h3>
+            <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 4px; margin-bottom: 16px; text-align: right;">أكمل الأنشطة في الموقع لفتح شارات التميز الخاصة بك وزيادة مستواك!</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 16px;" id="badgesGrid">
+                <!-- Badges load dynamically -->
+            </div>
+        </section>
+
         <!-- DASHBOARD GRID: Tasks & Store -->
         <div class="rewards-dashboard-grid fade-in-delayed">
             
@@ -253,8 +278,8 @@
                 <p class="copyright">© 2026 Novatrix EG. جميع الحقوق محفوظة.</p>
                 <div class="footer-links">
                     <a href="index.html" class="footer-link">الرئيسية</a>
-                    <a href="#" class="footer-link">سياسة الخصوصية</a>
-                    <a href="#" class="footer-link">اتصل بنا</a>
+                    <a href="privacy.html" class="footer-link">سياسة الخصوصية</a>
+                    <a href="contact.html" class="footer-link">اتصل بنا</a>
                 </div>
             </div>
         </footer>
@@ -290,6 +315,52 @@
     <script src="viral.js" defer></script>
     <script>
         // Streak Points values mapping
+
+        // Badges render & check system
+        const BADGES_DEFINITIONS = [
+            { id: "pioneer", name: "مكتشف المنصة", desc: "زيارة مركز الجوائز لأول مرة", icon: "fas fa-flag", color: "#3b82f6" },
+            { id: "security_inspector", name: "فاحص الأمان", desc: "إتمام فحص أمان الهاتف بنجاح", icon: "fas fa-shield-halved", color: "#10b981" },
+            { id: "prompt_writer", name: "صانع الأوامر", desc: "نسخ 3 أوامر ذكاء اصطناعي", icon: "fas fa-brain", color: "#8b5cf6" },
+            { id: "alternative_hunter", name: "صائد البدائل", desc: "استخدام مستكشف البدائل 3 مرات", icon: "fas fa-arrows-spin", color: "#f59e0b" },
+            { id: "lucky_spinner", name: "المحظوظ الدوار", desc: "تجربة عجلة الحظ لأول مرة", icon: "fas fa-circle-notch", color: "#ec4899" },
+            { id: "quiz_master", name: "المثقف التقني", desc: "إتمام الكويز التقني بنجاح 100%", icon: "fas fa-graduation-cap", color: "#06b6d4" }
+        ];
+
+        function checkAndRenderBadges() {
+            const container = document.getElementById("badgesGrid");
+            if (!container) return;
+
+            let unlocked = [];
+            try {
+                unlocked = JSON.parse(localStorage.getItem("novatrix_unlocked_badges") || "[]");
+            } catch(e) { unlocked = []; }
+
+            // Auto unlock pioneer on rewards visit
+            if (!unlocked.includes("pioneer")) {
+                unlocked.push("pioneer");
+                localStorage.setItem("novatrix_unlocked_badges", JSON.stringify(unlocked));
+            }
+
+            container.innerHTML = "";
+            BADGES_DEFINITIONS.forEach(badge => {
+                const isUnlocked = unlocked.includes(badge.id);
+                const card = document.createElement("div");
+                card.className = `streak-day-card ${isUnlocked ? 'claimed' : ''}`;
+                card.style.cssText = `display:flex; flex-direction:column; align-items:center; text-align:center; padding:16px 8px; border:1px solid ${isUnlocked ? badge.color : 'var(--border-color)'}; opacity:${isUnlocked ? '1' : '0.45'}; transition:all 0.3s; position:relative; background:var(--bg-surface); border-radius:12px;`;
+                
+                if (isUnlocked) {
+                    card.style.boxShadow = `0 0 10px ${badge.color}33`;
+                }
+
+                card.innerHTML = `
+                    <div style="font-size:1.8rem; color:${isUnlocked ? badge.color : 'var(--text-secondary)'}; margin-bottom:8px;"><i class="${badge.icon}"></i></div>
+                    <span style="font-size:0.8rem; font-weight:700; color:white; display:block; margin-bottom:4px;">${badge.name}</span>
+                    <span style="font-size:0.65rem; color:var(--text-secondary); line-height:1.3;">${badge.desc}</span>
+                `;
+                container.appendChild(card);
+            });
+        }
+
         const STREAK_VALUES = [10, 15, 20, 25, 30, 40, 50];
 
         document.addEventListener("DOMContentLoaded", () => {
@@ -307,6 +378,8 @@
             setInterval(syncUserDetails, 1000);
             syncUserDetails();
             renderStreaksCalendar();
+            checkAndRenderBadges();
+            setInterval(checkAndRenderBadges, 2000);
         });
 
         function syncUserDetails() {
@@ -387,6 +460,8 @@
             }
 
             renderStreaksCalendar();
+            checkAndRenderBadges();
+            setInterval(checkAndRenderBadges, 2000);
             syncUserDetails();
         }
 

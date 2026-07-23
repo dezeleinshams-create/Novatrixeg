@@ -388,6 +388,15 @@ function performAlternativeLookup() {
 
     // Increment alternative finder searches counter
     fetch("https://countapi.mileshilliard.com/api/v1/hit/novatrixeg_alternatives").catch(err => console.warn(err));
+    let altCount = parseInt(localStorage.getItem("novatrix_alt_lookup_count") || "0") + 1;
+    localStorage.setItem("novatrix_alt_lookup_count", altCount);
+    if (altCount >= 3) {
+        let badges = JSON.parse(localStorage.getItem("novatrix_unlocked_badges") || "[]");
+        if (!badges.includes("alternative_hunter")) {
+            badges.push("alternative_hunter");
+            localStorage.setItem("novatrix_unlocked_badges", JSON.stringify(badges));
+        }
+    }
     if (window.ViralEngine) window.ViralEngine.onToolUsed();
 
     // Try finding direct matches in database keys
@@ -475,6 +484,11 @@ function loadSecurityQuestion() {
 function showSecurityResults() {
     // Increment security check completions counter
     fetch("https://countapi.mileshilliard.com/api/v1/hit/novatrixeg_security").catch(err => console.warn(err));
+    let badges = JSON.parse(localStorage.getItem("novatrix_unlocked_badges") || "[]");
+    if (!badges.includes("security_inspector")) {
+        badges.push("security_inspector");
+        localStorage.setItem("novatrix_unlocked_badges", JSON.stringify(badges));
+    }
     if (window.ViralEngine) window.ViralEngine.onToolUsed();
 
     let healthClass = "gauge-glow-green";
@@ -553,6 +567,15 @@ function loadPrompts(tabId) {
             
             navigator.clipboard.writeText(textContent).then(() => {
                 showToast("تم نسخ أمر الذكاء الاصطناعي بنجاح! جاهز للصق.");
+                let pCount = parseInt(localStorage.getItem("novatrix_copy_prompt_count") || "0") + 1;
+                localStorage.setItem("novatrix_copy_prompt_count", pCount);
+                if (pCount >= 3) {
+                    let badges = JSON.parse(localStorage.getItem("novatrix_unlocked_badges") || "[]");
+                    if (!badges.includes("prompt_writer")) {
+                        badges.push("prompt_writer");
+                        localStorage.setItem("novatrix_unlocked_badges", JSON.stringify(badges));
+                    }
+                }
                 if (window.ViralEngine) window.ViralEngine.onPromptCopied();
             }).catch(err => {
                 showToast("فشل في نسخ النص، يرجى المحاولة يدوياً.");

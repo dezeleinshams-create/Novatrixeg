@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    
+    <!-- SEO Optimization -->
+    <title>اتصل بنا | نموذج التواصل والمقترحات المطور - Novatrix EG</title>
+    <meta name="description" content="تواصل مع فريق Novatrix EG للاقتراحات، الاستفسارات التقنية، الإعلان أو الإبلاغ عن مشاكل الروابط وسنوفر لك رصيد نقاط مكافآت فورية.">
+    <link rel="canonical" href="https://novatrixeg.com/contact.html">
+    
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ContactPage",
+      "name": "اتصل بنا | Novatrix EG",
+      "description": "تواصل مع فريق Novatrix EG للاقتراحات، الاستفسارات التقنية، الإعلان أو الإبلاغ عن مشاكل الروابط وسنوفر لك رصيد نقاط مكافآت فورية.",
+      "url": "https://novatrixeg.com/contact.html",
+      "inLanguage": "ar",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Novatrix EG",
+        "url": "https://novatrixeg.com/"
+      }
+    }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS Stylesheets -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="viral.css">
+    <link rel="icon" type="image/jpeg" href="assets/avatar.jpg">
+</head>
+<body class="light-theme">
+
+    <!-- Cyber Background -->
+    <div class="cyber-bg">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+    </div>
+
+    <div class="app-container">
+
+        <!-- Sticky Main Navbar -->
+        <nav class="main-navbar fade-in">
+            <div class="nav-logo" onclick="window.location.href='index.html'">
+                <img src="assets/logo-light.svg" alt="Novatrix EG Logo" class="logo-svg">
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link"><i class="fas fa-home"></i> الرئيسية</a>
+                <a href="tools.html" class="nav-link"><i class="fas fa-cubes"></i> الأدوات</a>
+                <a href="blog.html" class="nav-link"><i class="fas fa-book-open"></i> الشروحات</a>
+                <a href="rewards.html" class="nav-link"><i class="fas fa-gift"></i> الجوائز</a>
+            </div>
+        </nav>
+
+        <!-- Theme Switcher Wrapper -->
+        <div class="theme-toggle-wrapper fade-in">
+            <button id="themeToggleBtn" class="theme-toggle-btn" title="تغيير المظهر">
+                <i class="fas fa-sun"></i>
+            </button>
+        </div>
+
+        <!-- CONTACT FORM SECTION -->
+        <section class="contact-section fade-in" style="margin-top: 24px;">
+            <div class="contact-card">
+                <div class="contact-header">
+                    <h2><i class="fas fa-envelope-open-text"></i> تواصل معنا / اقترح تطبيقاً</h2>
+                    <p>تبحث عن بديل لبرنامج معين؟ أو تود اقتراح شرح تقني جديد؟ أرسل لنا رسالة وسنرد عليك فوراً وسنمنحك نقاطاً مكافأة لنشاطك!</p>
+                </div>
+                <form id="contactPageForm" onsubmit="event.preventDefault();">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="contactName">الاسم الكامل</label>
+                            <input type="text" id="contactName" placeholder="اسمك الكريم" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactEmail">البريد الإلكتروني</label>
+                            <input type="email" id="contactEmail" placeholder="name@example.com" dir="ltr" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactSubject">الموضوع</label>
+                        <select id="contactSubject">
+                            <option value="suggest">اقتراح تطبيق أو بديل مجاني جديد</option>
+                            <option value="report">الإبلاغ عن رابط تحميل لا يعمل</option>
+                            <option value="question">سؤال أو استفسار تقني شخصي</option>
+                            <option value="business">فرصة تعاون مشترك أو إعلان</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactMessage">تفاصيل الرسالة</label>
+                        <textarea id="contactMessage" rows="5" placeholder="اكتب تفاصيل طلبك أو استفسارك هنا..." required></textarea>
+                    </div>
+                    <button type="submit" class="primary-btn wide-btn" id="submitBtn">
+                        <i class="fas fa-paper-plane"></i> إرسال الرسالة الآن (+20 نقطة)
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="app-footer">
+            <div class="footer-divider"></div>
+            <div class="footer-info">
+                <p class="copyright">© 2026 Novatrix EG. جميع الحقوق محفوظة.</p>
+                <div class="footer-links">
+                    <a href="index.html" class="footer-link">الرئيسية</a>
+                    <a href="privacy.html" class="footer-link">سياسة الخصوصية</a>
+                    <a href="contact.html" class="footer-link">اتصل بنا</a>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Notification Toast System -->
+    <div class="toast-notification" id="toastNotification">
+        <i class="fas fa-circle-check toast-icon"></i>
+        <span class="toast-message" id="toastMessage">تم إرسال رسالتك بنجاح!</span>
+    </div>
+
+    <!-- Core logic JS -->
+    <script src="viral.js" defer></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const themeToggleBtn = document.getElementById("themeToggleBtn");
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener("click", () => {
+                    document.body.classList.toggle("light-theme");
+                    const isLight = document.body.classList.contains("light-theme");
+                    themeToggleBtn.querySelector("i").className = isLight ? "fas fa-moon" : "fas fa-sun";
+                });
+            }
+
+            // Form Submit Logic
+            const form = document.getElementById("contactPageForm");
+            const toast = document.getElementById("toastNotification");
+            const msg = document.getElementById("toastMessage");
+            
+            form.addEventListener("submit", () => {
+                if (window.ViralEngine) {
+                    window.ViralEngine.addPoints(20, "إرسال نموذج اتصل بنا ومقترحات بدائل البرامج");
+                }
+                
+                // Show toast
+                msg.textContent = "تم إرسال رسالتك واقتراحك بنجاح! حصلت على +20 نقطة.";
+                toast.classList.add("active");
+                setTimeout(() => {
+                    toast.classList.remove("active");
+                }, 3500);
+
+                form.reset();
+            });
+        });
+    </script>
+</body>
+</html>

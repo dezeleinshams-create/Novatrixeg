@@ -249,6 +249,11 @@
 
             // Record spin
             Storage.set('last_spin_date', today);
+            let badges = JSON.parse(localStorage.getItem("novatrix_unlocked_badges") || "[]");
+            if (!badges.includes("lucky_spinner")) {
+                badges.push("lucky_spinner");
+                localStorage.setItem("novatrix_unlocked_badges", JSON.stringify(badges));
+            }
             Storage.set('spins_today', spinsToday + 1);
 
             // Show result after animation
