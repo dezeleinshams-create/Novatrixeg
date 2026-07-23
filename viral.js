@@ -1137,6 +1137,7 @@
             { q: ["مواقع ai","مواقع ذكاء","ai sites","مواقع"], a: "لدينا دليل يضم أفضل 100 موقع ذكاء اصطناعي لصناع المحتوى! <a href='ai-sites.html' style='color:var(--primary)'>تصفح الدليل الآن</a> 🤖" },
             { q: ["برومت","prompt","اوامر","مطالبات"], a: "مكتبتنا تضم أكثر من 1000 برومت جاهز! <a href='prompts.html' style='color:var(--primary)'>استعرض مكتبة البرومبتات</a> ✨" },
             { q: ["اداة","أداة","ادوات","أدوات","tools"], a: "لدينا أكثر من 100 أداة تقنية مجانية! <a href='tools.html' style='color:var(--primary)'>استكشف جميع الأدوات</a> 🛠️" },
+            { q: ["بديل","بدائل","مجاني","مجانا","مجانيه","رخيص","free","alternative"], a: "اكتب اسم البرنامج الذي تريد بديلاً له مثل: Photoshop أو Canva أو IDM وسأجد لك أفضل البدائل المجانية! 🔍" },
         ],
         normalize(text) {
             return text.toLowerCase()
@@ -1178,12 +1179,38 @@
             }).join('');
             return `وجدت <strong>${results.length}</strong> نتيجة لـ "${normQ}":${lines}${results.length > 3 ? `<div style="font-size:0.67rem;color:var(--text-secondary);margin-top:6px;">و${results.length-3} نتيجة أخرى...</div>` : ''}`;
         },
+        searchAlternatives(normQ) {
+            if (!this.db || !this.db.alternatives) return null;
+            const alts = this.db.alternatives;
+            // Match key or name
+            const match = Object.keys(alts).find(key => {
+                const normKey  = this.normalize(key);
+                const normName = this.normalize(alts[key].name || '');
+                const words = normQ.split(' ').filter(w => w.length > 2);
+                return words.some(w => normKey.includes(w) || normName.includes(w));
+            });
+            if (!match) return null;
+            const entry = alts[match];
+            const optLines = entry.options.map(o => {
+                const link = o.link ? `<a href="${o.link}" target="_blank" style="font-size:0.67rem;color:var(--primary);font-weight:700;"><i class="fas fa-arrow-up-right-from-square"></i> زيارة</a>` : '';
+                return `<div style="border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:7px 9px;margin-top:5px;">
+<div style="display:flex;justify-content:space-between;align-items:center;">
+  <strong style="font-size:0.74rem;color:#4ade80;">${o.name}</strong>${link}
+</div>
+<div style="font-size:0.67rem;color:var(--text-secondary);margin-top:2px;line-height:1.4;">${o.desc}</div>
+</div>`;
+            }).join('');
+            return `🔍 وجدت بدائل مجانية لـ <strong style="color:white;">${entry.name}</strong> (${entry.price}):<br>${optLines}<br><div style="font-size:0.67rem;color:var(--text-secondary);margin-top:6px;">💡 يمكنك البحث بنفسك عبر <a href="index.html#altFinderCard" style="color:var(--primary);">مستكشف البدائل التفاعلي</a></div>`;
+        },
         async answer(userMsg) {
             await this.loadDB();
             const normQ = this.normalize(userMsg);
             for (const item of this.faq) {
                 if (item.q.some(kw => normQ.includes(this.normalize(kw)))) return item.a;
             }
+            // Search alternatives first
+            const altResult = this.searchAlternatives(normQ);
+            if (altResult) return altResult;
             const dbResult = this.searchDB(normQ);
             if (dbResult) return dbResult;
             return `لم أجد إجابة محددة، لكن يمكنك تصفح: <a href='index.html' style='color:var(--primary)'>الرئيسية</a> | <a href='ai-sites.html' style='color:var(--primary)'>مواقع AI</a> | <a href='tools.html' style='color:var(--primary)'>الأدوات</a> | <a href='blog.html' style='color:var(--primary)'>الشروحات</a> | <a href='rewards.html' style='color:var(--primary)'>المكافآت</a>`;
@@ -1207,6 +1234,7 @@
                                 <button onclick="window.ViralEngine.quickAsk('مواقع ذكاء اصطناعي')" style="background:rgba(255,255,255,0.04);border:1px solid var(--border-color);border-radius:20px;padding:4px 10px;font-size:0.63rem;color:var(--text-secondary);cursor:pointer;font-family:Cairo;">🌐 مواقع AI</button>
                                 <button onclick="window.ViralEngine.quickAsk('نقاط')" style="background:rgba(255,255,255,0.04);border:1px solid var(--border-color);border-radius:20px;padding:4px 10px;font-size:0.63rem;color:var(--text-secondary);cursor:pointer;font-family:Cairo;">🏆 نقاطي</button>
                                 <button onclick="window.ViralEngine.quickAsk('ElevenLabs')" style="background:rgba(255,255,255,0.04);border:1px solid var(--border-color);border-radius:20px;padding:4px 10px;font-size:0.63rem;color:var(--text-secondary);cursor:pointer;font-family:Cairo;">🎙️ أصوات AI</button>
+                                <button onclick="window.ViralEngine.quickAsk('بديل Photoshop')" style="background:rgba(255,255,255,0.04);border:1px solid var(--border-color);border-radius:20px;padding:4px 10px;font-size:0.63rem;color:var(--text-secondary);cursor:pointer;font-family:Cairo;">🔄 بديل مجاني</button>
                             </div>
                         </div>
                         <div style="padding:8px 12px;border-top:1px solid var(--border-color);display:flex;gap:8px;flex-shrink:0;">
