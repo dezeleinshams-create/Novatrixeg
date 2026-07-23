@@ -1148,7 +1148,7 @@
                             <div style="background:rgba(37,99,235,0.1);border-radius:12px;padding:10px 12px;font-size:0.75rem;color:var(--text-secondary);line-height:1.5;">أهلاً بك! 👋 أنا المساعد الذكي لمنصة Novatrix EG. اكتب سؤالك وسأساعدك فوراً.</div>
                         </div>
                         <div style="padding:8px 12px;border-top:1px solid var(--border-color);display:flex;gap:8px;">
-                            <input id="chatInput" type="text" placeholder="اكتب سؤالك هنا..." style="flex:1;background:#181922;border:1px solid var(--border-color);border-radius:10px;padding:8px 12px;color:white;font-family:'Cairo';font-size:0.75rem;outline:none;" onkeydown="if(event.key==='Enter')window.ViralEngine.sendChat()">
+                            <input id="faqChatInput" type="text" placeholder="اكتب سؤالك هنا..." style="flex:1;background:#181922;border:1px solid var(--border-color);border-radius:10px;padding:8px 12px;color:white;font-family:'Cairo';font-size:0.75rem;outline:none;" onkeydown="if(event.key==='Enter')window.ViralEngine.sendChat()">
                             <button onclick="window.ViralEngine.sendChat()" style="background:linear-gradient(135deg,var(--primary),var(--accent));border:none;border-radius:10px;width:36px;height:36px;color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;"><i class="fas fa-paper-plane"></i></button>
                         </div>
                     </div>
@@ -1164,10 +1164,10 @@
             if (!panel) return;
             this.isOpen = !this.isOpen;
             panel.style.display = this.isOpen ? 'block' : 'none';
-            if (this.isOpen) document.getElementById('chatInput')?.focus();
+            if (this.isOpen) document.getElementById('faqChatInput')?.focus();
         },
         send() {
-            const input = document.getElementById('chatInput');
+            const input = document.getElementById('faqChatInput');
             const container = document.getElementById('chatMessages');
             if (!input || !container || !input.value.trim()) return;
             const userMsg = input.value.trim();

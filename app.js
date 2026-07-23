@@ -774,43 +774,51 @@ function triggerBotReply(userMsg) {
 }
 
 // Chat quick hints button trigger
-chatQuickHints.addEventListener("click", (e) => {
-    const hintBtn = e.target.closest(".hint-btn");
-    if (!hintBtn) return;
-    
-    const queryText = hintBtn.textContent.trim();
-    appendChatMessage("user", queryText);
-    triggerBotReply(queryText);
-    if (window.ViralEngine) window.ViralEngine.onToolUsed();
-});
+if (chatQuickHints) {
+    chatQuickHints.addEventListener("click", (e) => {
+        const hintBtn = e.target.closest(".hint-btn");
+        if (!hintBtn) return;
+        
+        const queryText = hintBtn.textContent.trim();
+        appendChatMessage("user", queryText);
+        triggerBotReply(queryText);
+        if (window.ViralEngine) window.ViralEngine.onToolUsed();
+    });
+}
 
-sendChatBtn.addEventListener("click", handleUserMessageSubmit);
-chatInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") handleUserMessageSubmit();
-});
+if (sendChatBtn) {
+    sendChatBtn.addEventListener("click", handleUserMessageSubmit);
+}
+if (chatInput) {
+    chatInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") handleUserMessageSubmit();
+    });
+}
 
 // CONTACT FORM SUBMISSION SIMULATOR
 const contactForm = document.getElementById("contactForm");
 const submitContactBtn = document.getElementById("submitContactBtn");
 
-contactForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    
-    // Disable submit button and show loading text
-    const originalText = submitContactBtn.innerHTML;
-    submitContactBtn.disabled = true;
-    submitContactBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> جاري إرسال رسالتك بأمان...`;
-    
-    setTimeout(() => {
-        // Show success toast
-        showToast("تم إرسال رسالتك واقتراحك بنجاح! شكراً لتواصلك.");
+if (contactForm && submitContactBtn) {
+    contactForm.addEventListener("submit", (e) => {
+        e.preventDefault();
         
-        // Reset form
-        contactForm.reset();
-        submitContactBtn.disabled = false;
-        submitContactBtn.innerHTML = originalText;
-    }, 1500);
-});
+        // Disable submit button and show loading text
+        const originalText = submitContactBtn.innerHTML;
+        submitContactBtn.disabled = true;
+        submitContactBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> جاري إرسال رسالتك بأمان...`;
+        
+        setTimeout(() => {
+            // Show success toast
+            showToast("تم إرسال رسالتك واقتراحك بنجاح! شكراً لتواصلك.");
+            
+            // Reset form
+            contactForm.reset();
+            submitContactBtn.disabled = false;
+            submitContactBtn.innerHTML = originalText;
+        }, 1500);
+    });
+}
 
 // THEME SWITCHER LOGIC
 const themeToggleBtn = document.getElementById("themeToggleBtn");
