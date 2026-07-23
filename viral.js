@@ -1159,6 +1159,13 @@
             `;
             document.body.insertAdjacentHTML('beforeend', html);
         },
+        normalize(text) {
+            return text.toLowerCase()
+                .replace(/[أإآ]/g, "ا")
+                .replace(/ة/g, "ه")
+                .replace(/ى/g, "ي")
+                .trim();
+        },
         toggle() {
             const panel = document.getElementById('chatbotPanel');
             if (!panel) return;
@@ -1176,9 +1183,12 @@
             container.innerHTML += `<div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:8px 12px;font-size:0.75rem;color:white;align-self:flex-start;max-width:85%;">${userMsg}</div>`;
             // Find answer
             let answer = "عذراً، لم أفهم سؤالك تماماً. حاول السؤال عن: النقاط، الأدوات، الشارات، المكافآت، المدونة، أو التواصل معنا.";
-            const lower = userMsg.toLowerCase();
+            const normUser = this.normalize(userMsg);
             for (const item of this.faq) {
-                if (item.q.some(kw => lower.includes(kw))) {
+                const matched = item.q.some(kw => {
+                    return normUser.includes(this.normalize(kw));
+                });
+                if (matched) {
                     answer = item.a;
                     break;
                 }
