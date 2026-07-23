@@ -1124,10 +1124,24 @@
     };
 
 
-        // ═══ SMART CHATBOT WIDGET (Database-Aware) ═══
+        // ═══ UNIFIED SEARCH CHATBOT WIDGET (AI-Style) ═══
     const ChatbotWidget = {
         isOpen: false,
         db: null,
+        tools: [
+            { id: "alt-finder", name: "مستكشف البدائل المجانية", desc: "البحث عن بدائل مجانية ومفتوحة المصدر للبرامج المدفوعة", url: "index.html#altFinderCard", icon: "fas fa-arrows-spin", keys: ["بديل", "بدائل", "برنامج", "تطبيق", "فوتوشوب", "office", "photoshop", "كانفا", "canva"] },
+            { id: "phone-security", name: "مستشار أمان الهاتف", desc: "اختبار مستوى أمان الجوال وكشف تطبيقات التجسس", url: "index.html#securityCard", icon: "fas fa-shield-halved", keys: ["امان", "حمايه", "تجسس", "اختراق", "هاتف", "جوال", "مخترق"] },
+            { id: "ai-prompts", name: "مكتبة أوامر الذكاء الاصطناعي (Prompts)", desc: "أوامر ومطالبات جاهزة للنسخ والاستخدام لـ ChatGPT و Midjourney", url: "prompts.html", icon: "fas fa-brain", keys: ["برومت", "اوامر", "مطالبات", "رسم", "كتابه", "تصميم", "chatgpt", "midjourney"] },
+            { id: "typing-test", name: "اختبار سرعة الكتابة المطور", desc: "قياس سرعة ودقة كتابتك على الكيبورد باللغة العربية والإنجليزية", url: "tools.html?tool=dev-typing-speed", icon: "fas fa-keyboard", keys: ["كتابه", "كيبورد", "سرعه", "سرعة", "سرعة الكتابة", "طباعة", "طباعه"] },
+            { id: "phone-comparer", name: "مقارنة مواصفات الهواتف", desc: "قارن بين مواصفات وأسعار الهواتف الذكية لاختيار الأفضل لك", url: "tools.html?tool=phone-comparer", icon: "fas fa-mobile-screen-button", keys: ["مقارنه", "مقارنة", "تلفون", "موبايل", "هاتف", "شاومي", "سامسونج", "ايفون"] },
+            { id: "seo-auditor", name: "محلل سيو المواقع", desc: "افحص سيو موقعك واحصل على نصائح تصدر نتائج البحث في جوجل", url: "tools.html?tool=seo-auditor", icon: "fas fa-magnifying-glass-chart", keys: ["سيو", "seo", "موقع", "مواقع", "ارشفه", "ارشفة"] },
+            { id: "tech-quiz", name: "اختبار المعلومات التقنية", desc: "تحدي الأسئلة التقنية لزيادة معلوماتك وربح نقاط إضافية", url: "tools.html?tool=tech-quiz", icon: "fas fa-trophy", keys: ["كويز", "اختبار", "اسئله", "اسئلة", "تحدي", "لعبة", "مسابقة"] },
+            { id: "deep-link", name: "مولد الروابط العميقة (Deep Links)", desc: "توجيه الزوار مباشرة لتطبيق يوتيوب لزيادة المشاهدات والمشتركين", url: "tools.html?tool=deep-link-gen", icon: "fas fa-link", keys: ["رابط", "روابط", "يوتيوب", "عميق", "لينك", "مشتركين"] },
+            { id: "tts", name: "تحويل النص إلى صوت بالذكاء الاصطناعي", desc: "اكتب نصوصك وحولها لتعليق صوتي احترافي بأصوات واقعية", url: "tools.html?tool=text-to-speech", icon: "fas fa-volume-high", keys: ["صوت", "تعليق", "تحويل النص", "tts", "نطق"] },
+            { id: "qr-gen", name: "مولد أكواد الـ QR المطور", desc: "إنشاء باركود مخصص لأي رابط أو نص وتحميله بجودة عالية", url: "tools.html?tool=qr-generator", icon: "fas fa-qrcode", keys: ["باركود", "qr", "كود", "رمز"] },
+            { id: "speed-test", name: "قياس سرعة الإنترنت", desc: "فحص سرعة الرفع والتحميل وزمن الاستجابة (Ping) للإنترنت لديك", url: "tools.html?tool=speed-test", icon: "fas fa-gauge-high", keys: ["نت", "انترنت", "سرعه", "سرعة", "بينج", "ping"] },
+            { id: "password-check", name: "فاحص قوة كلمة المرور", desc: "احسب الوقت اللازم لتخمين كلمة مرورك لتأمين حساباتك", url: "tools.html?tool=password-checker", icon: "fas fa-key", keys: ["رقم سري", "باسورد", "كلمة مرور", "كلمة سر", "امان"] }
+        ],
         faq: [
             { q: ["كيف","نقاط","اربح","احصل","points"], a: "تربح نقاط عبر: زيارة الموقع يومياً (+5)، استخدام الأدوات (+10)، نسخ البرومبتات (+2)، مشاركة الموقع (+20)، وعجلة الحظ اليومية! 🎯" },
             { q: ["شارة","شارات","إنجاز","badge","انجاز"], a: "تحصل على شارات بإتمام أنشطة معينة مثل: فحص الأمان، نسخ 3 برومبتات، إتمام الكويز بنجاح، واستخدام عجلة الحظ. تابع تقدمك في <a href='rewards.html' style='color:var(--primary)'>صفحة المكافآت</a>! 🏅" },
@@ -1154,91 +1168,123 @@
                 const res = await fetch(path);
                 const data = await res.json();
                 this.db = data;
-            } catch(e) { this.db = { apps: [] }; }
-        },
-        searchDB(normQ) {
-            if (!this.db || !this.db.apps) return null;
-            const results = this.db.apps.filter(app => {
-                const t = this.normalize(app.title || '');
-                const d = this.normalize(app.desc || '');
-                const id = this.normalize(app.id || '');
-                const words = normQ.split(' ').filter(w => w.length > 2);
-                return words.some(w => t.includes(w) || d.includes(w) || id.includes(w));
-            });
-            if (results.length === 0) return null;
-            const top = results.slice(0, 3);
-            const lines = top.map(app => {
-                const icon = app.icon || 'fa-solid fa-cube';
-                const saves = app.saves ? ` — يوفر <strong>${app.saves}</strong>` : '';
-                const linkHtml = app.link && app.link !== '#' && !app.link.includes('example.com')
-                    ? `<a href="${app.link}" target="_blank" style="display:inline-block;margin-top:5px;font-size:0.68rem;color:var(--primary);font-weight:700;"><i class="fas fa-arrow-up-right-from-square"></i> زيارة / تحميل</a>`
-                    : '';
-                return `<div style="border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:8px 10px;margin-top:6px;">
-<div style="display:flex;align-items:center;gap:7px;margin-bottom:3px;"><i class="${icon}" style="color:var(--primary);font-size:0.85rem;"></i><strong style="font-size:0.74rem;color:white;">${app.title}</strong></div>
-<div style="font-size:0.67rem;color:var(--text-secondary);line-height:1.4;">${app.desc}${saves}</div>${linkHtml}</div>`;
-            }).join('');
-            return `وجدت <strong>${results.length}</strong> نتيجة لـ "${normQ}":${lines}${results.length > 3 ? `<div style="font-size:0.67rem;color:var(--text-secondary);margin-top:6px;">و${results.length-3} نتيجة أخرى...</div>` : ''}`;
-        },
-        searchAlternatives(normQ) {
-            if (!this.db || !this.db.alternatives) return null;
-            const alts = this.db.alternatives;
-            // Match key or name
-            const match = Object.keys(alts).find(key => {
-                const normKey  = this.normalize(key);
-                const normName = this.normalize(alts[key].name || '');
-                const words = normQ.split(' ').filter(w => w.length > 2);
-                return words.some(w => normKey.includes(w) || normName.includes(w));
-            });
-            if (!match) return null;
-            const entry = alts[match];
-            const optLines = entry.options.map(o => {
-                const link = o.link ? `<a href="${o.link}" target="_blank" style="font-size:0.67rem;color:var(--primary);font-weight:700;"><i class="fas fa-arrow-up-right-from-square"></i> زيارة</a>` : '';
-                return `<div style="border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:7px 9px;margin-top:5px;">
-<div style="display:flex;justify-content:space-between;align-items:center;">
-  <strong style="font-size:0.74rem;color:#4ade80;">${o.name}</strong>${link}
-</div>
-<div style="font-size:0.67rem;color:var(--text-secondary);margin-top:2px;line-height:1.4;">${o.desc}</div>
-</div>`;
-            }).join('');
-            return `🔍 وجدت بدائل مجانية لـ <strong style="color:white;">${entry.name}</strong> (${entry.price}):<br>${optLines}<br><div style="font-size:0.67rem;color:var(--text-secondary);margin-top:6px;">💡 يمكنك البحث بنفسك عبر <a href="index.html#altFinderCard" style="color:var(--primary);">مستكشف البدائل التفاعلي</a></div>`;
+            } catch(e) { this.db = { apps: [], alternatives: {} }; }
         },
         async answer(userMsg) {
             await this.loadDB();
             const normQ = this.normalize(userMsg);
-            for (const item of this.faq) {
-                if (item.q.some(kw => normQ.includes(this.normalize(kw)))) return item.a;
+            const words = normQ.split(' ').filter(w => w.length > 1);
+
+            let matchedTools = [];
+            let matchedAlts = [];
+            let matchedApps = [];
+            let matchedFaqs = [];
+
+            // 1. Search tools
+            matchedTools = this.tools.filter(t => {
+                const name = this.normalize(t.name);
+                const desc = this.normalize(t.desc);
+                return name.includes(normQ) || desc.includes(normQ) || 
+                       t.keys.some(k => normQ.includes(this.normalize(k))) ||
+                       words.some(w => name.includes(w) || t.keys.some(k => this.normalize(k).includes(w)));
+            });
+
+            // 2. Search alternatives
+            if (this.db && this.db.alternatives) {
+                const alts = this.db.alternatives;
+                Object.keys(alts).forEach(key => {
+                    const entry = alts[key];
+                    const normKey = this.normalize(key);
+                    const normName = this.normalize(entry.name || '');
+                    const isMatch = normQ.includes(normKey) || normQ.includes(normName) || normKey.includes(normQ) || normName.includes(normQ) ||
+                                    words.some(w => normKey.includes(w) || normName.includes(w));
+                    if (isMatch) matchedAlts.push(entry);
+                });
             }
-            // Search alternatives first
-            const altResult = this.searchAlternatives(normQ);
-            if (altResult) return altResult;
-            const dbResult = this.searchDB(normQ);
-            if (dbResult) return dbResult;
-            return `لم أجد إجابة محددة، لكن يمكنك تصفح: <a href='index.html' style='color:var(--primary)'>الرئيسية</a> | <a href='ai-sites.html' style='color:var(--primary)'>مواقع AI</a> | <a href='tools.html' style='color:var(--primary)'>الأدوات</a> | <a href='blog.html' style='color:var(--primary)'>الشروحات</a> | <a href='rewards.html' style='color:var(--primary)'>المكافآت</a>`;
+
+            // 3. Search apps & AI sites
+            if (this.db && this.db.apps) {
+                matchedApps = this.db.apps.filter(app => {
+                    const title = this.normalize(app.title || '');
+                    const desc = this.normalize(app.desc || '');
+                    const id = this.normalize(app.id || '');
+                    return title.includes(normQ) || desc.includes(normQ) || id.includes(normQ.replace(/ /g,'')) ||
+                           words.some(w => title.includes(w) || desc.includes(w));
+                });
+            }
+
+            // 4. Search FAQs
+            matchedFaqs = this.faq.filter(item => {
+                return item.q.some(kw => normQ.includes(this.normalize(kw)) || words.some(w => this.normalize(kw).includes(w)));
+            });
+
+            let htmlResult = '';
+
+            // Format tools
+            if (matchedTools.length > 0) {
+                const list = matchedTools.slice(0, 3).map(t => {
+                    return `• <a href="${t.url}" style="color:var(--primary);font-weight:700;text-decoration:none;"><i class="${t.icon}"></i> ${t.name}</a>`;
+                }).join("<br>");
+                htmlResult += `<div style="margin-bottom:10px;background:rgba(255,255,255,0.02);padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.05);">
+<strong style="color:white;font-size:0.76rem;"><i class="fas fa-screwdriver-wrench" style="color:var(--primary);"></i> أدوات تفاعلية مقترحة:</strong><br>${list}</div>`;
+            }
+
+            // Format alternatives
+            if (matchedAlts.length > 0) {
+                const list = matchedAlts.slice(0, 2).map(entry => {
+                    const optList = entry.options.map(o => `<strong>${o.name}</strong>`).join(" - ");
+                    return `• بدائل لـ <strong>${entry.name}</strong>: ${optList} <a href="index.html#altFinderCard" style="color:var(--primary);font-size:0.65rem;text-decoration:none;">(تصفح البدائل)</a>`;
+                }).join("<br>");
+                htmlResult += `<div style="margin-bottom:10px;background:rgba(255,255,255,0.02);padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.05);">
+<strong style="color:white;font-size:0.76rem;"><i class="fas fa-arrows-spin" style="color:var(--primary);"></i> البدائل المجانية للبرامج:</strong><br>${list}</div>`;
+            }
+
+            // Format apps / AI sites
+            if (matchedApps.length > 0) {
+                const list = matchedApps.slice(0, 3).map(app => {
+                    const icon = app.icon || 'fa-solid fa-cube';
+                    const isAISite = app.id && app.id.startsWith('ai-site');
+                    const link = isAISite ? app.link : `index.html?app=${app.id}`;
+                    return `• <a href="${link}" target="${isAISite ? '_blank' : '_self'}" style="color:var(--primary);font-weight:700;text-decoration:none;"><i class="${icon}"></i> ${app.title}</a>`;
+                }).join("<br>");
+                htmlResult += `<div style="margin-bottom:10px;background:rgba(255,255,255,0.02);padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.05);">
+<strong style="color:white;font-size:0.76rem;"><i class="fas fa-cube" style="color:var(--primary);"></i> تطبيقات ومواقع مقترحة:</strong><br>${list}</div>`;
+            }
+
+            // FAQ fallback if no matches in DB
+            if (htmlResult === '' && matchedFaqs.length > 0) {
+                htmlResult += `<div style="background:rgba(255,255,255,0.02);padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.05);">
+<strong style="color:white;font-size:0.76rem;"><i class="fas fa-lightbulb" style="color:var(--primary);"></i> إجابة سريعة:</strong><br>${matchedFaqs[0].a}</div>`;
+            }
+
+            if (htmlResult !== '') {
+                return `🔍 وجدت لك النتائج التالية لـ <strong>"${userMsg}"</strong>:<br><br>${htmlResult}`;
+            }
+
+            return `عذراً، لم أجد نتائج مباشرة لـ <strong>"${userMsg}"</strong>.<br>جرب البحث بكلمات أبسط مثل: **Photoshop**، **أمان**، **تحميل**، **ChatGPT**، أو **نقاط**.`;
         },
         init() {
             const html = `
                 <div id="chatbotWidget" style="position:fixed;bottom:90px;right:20px;z-index:7500;display:flex;flex-direction:column;align-items:flex-end;gap:8px;">
                     <div id="chatbotPanel" style="display:none;width:330px;max-height:460px;background:#0f1219;border:1px solid rgba(37,99,235,0.3);border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,0.5);overflow:hidden;direction:rtl;font-family:'Cairo',sans-serif;flex-direction:column;">
                         <div style="background:linear-gradient(135deg,var(--primary),var(--accent));padding:14px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
-                            <span style="font-size:0.85rem;font-weight:800;color:white;"><i class="fas fa-robot"></i> المساعد الذكي</span>
+                            <span style="font-size:0.85rem;font-weight:800;color:white;"><i class="fas fa-robot"></i> المساعد الذكي الموحد</span>
                             <button onclick="window.ViralEngine.toggleChat()" style="background:none;border:none;color:white;font-size:1rem;cursor:pointer;"><i class="fas fa-xmark"></i></button>
                         </div>
                         <div id="chatMessages" style="padding:12px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:8px;max-height:330px;">
                             <div style="background:rgba(37,99,235,0.1);border-radius:12px;padding:10px 12px;font-size:0.74rem;color:var(--text-secondary);line-height:1.6;">
                                 👋 مرحباً! أنا المساعد الذكي لـ Novatrix EG.<br>
-                                اسألني عن أي <strong style="color:white">تطبيق</strong>، <strong style="color:white">موقع AI</strong>، <strong style="color:white">برومت</strong>، أو أي موضوع وسأبحث لك في قاعدة بيانات الموقع كاملة!
+                                اكتب اسم أي <strong>تطبيق</strong>، <strong>أداة</strong>، <strong>بديل</strong>، أو أي سؤال تقني وسأبحث لك فوراً في جميع أقسام الموقع!
                             </div>
                             <div style="display:flex;flex-wrap:wrap;gap:5px;">
                                 <button onclick="window.ViralEngine.quickAsk('ChatGPT')" style="background:rgba(255,255,255,0.04);border:1px solid var(--border-color);border-radius:20px;padding:4px 10px;font-size:0.63rem;color:var(--text-secondary);cursor:pointer;font-family:Cairo;">🤖 ChatGPT</button>
-                                <button onclick="window.ViralEngine.quickAsk('برومت')" style="background:rgba(255,255,255,0.04);border:1px solid var(--border-color);border-radius:20px;padding:4px 10px;font-size:0.63rem;color:var(--text-secondary);cursor:pointer;font-family:Cairo;">✨ برومبتات</button>
-                                <button onclick="window.ViralEngine.quickAsk('مواقع ذكاء اصطناعي')" style="background:rgba(255,255,255,0.04);border:1px solid var(--border-color);border-radius:20px;padding:4px 10px;font-size:0.63rem;color:var(--text-secondary);cursor:pointer;font-family:Cairo;">🌐 مواقع AI</button>
-                                <button onclick="window.ViralEngine.quickAsk('نقاط')" style="background:rgba(255,255,255,0.04);border:1px solid var(--border-color);border-radius:20px;padding:4px 10px;font-size:0.63rem;color:var(--text-secondary);cursor:pointer;font-family:Cairo;">🏆 نقاطي</button>
-                                <button onclick="window.ViralEngine.quickAsk('ElevenLabs')" style="background:rgba(255,255,255,0.04);border:1px solid var(--border-color);border-radius:20px;padding:4px 10px;font-size:0.63rem;color:var(--text-secondary);cursor:pointer;font-family:Cairo;">🎙️ أصوات AI</button>
-                                <button onclick="window.ViralEngine.quickAsk('بديل Photoshop')" style="background:rgba(255,255,255,0.04);border:1px solid var(--border-color);border-radius:20px;padding:4px 10px;font-size:0.63rem;color:var(--text-secondary);cursor:pointer;font-family:Cairo;">🔄 بديل مجاني</button>
+                                <button onclick="window.ViralEngine.quickAsk('بديل Photoshop')" style="background:rgba(255,255,255,0.04);border:1px solid var(--border-color);border-radius:20px;padding:4px 10px;font-size:0.63rem;color:var(--text-secondary);cursor:pointer;font-family:Cairo;">🔄 بديل فوتوشوب</button>
+                                <button onclick="window.ViralEngine.quickAsk('أمان الجوال')" style="background:rgba(255,255,255,0.04);border:1px solid var(--border-color);border-radius:20px;padding:4px 10px;font-size:0.63rem;color:var(--text-secondary);cursor:pointer;font-family:Cairo;">🛡️ أمان الهاتف</button>
+                                <button onclick="window.ViralEngine.quickAsk('ربح')" style="background:rgba(255,255,255,0.04);border:1px solid var(--border-color);border-radius:20px;padding:4px 10px;font-size:0.63rem;color:var(--text-secondary);cursor:pointer;font-family:Cairo;">💰 تسعير وأرباح</button>
                             </div>
                         </div>
                         <div style="padding:8px 12px;border-top:1px solid var(--border-color);display:flex;gap:8px;flex-shrink:0;">
-                            <input id="faqChatInput" type="text" placeholder="اسأل عن أي شيء في الموقع..." style="flex:1;background:#181922;border:1px solid var(--border-color);border-radius:10px;padding:8px 12px;color:white;font-family:'Cairo';font-size:0.74rem;outline:none;" onkeydown="if(event.key==='Enter')window.ViralEngine.sendChat()">
+                            <input id="faqChatInput" type="text" placeholder="اكتب سؤالك أو اسم البرنامج..." style="flex:1;background:#181922;border:1px solid var(--border-color);border-radius:10px;padding:8px 12px;color:white;font-family:'Cairo';font-size:0.74rem;outline:none;" onkeydown="if(event.key==='Enter')window.ViralEngine.sendChat()">
                             <button onclick="window.ViralEngine.sendChat()" style="background:linear-gradient(135deg,var(--primary),var(--accent));border:none;border-radius:10px;width:36px;height:36px;color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-paper-plane"></i></button>
                         </div>
                     </div>
@@ -1273,7 +1319,7 @@
             this.addBubble(container, userMsg, true);
             const loader = document.createElement('div');
             loader.style.cssText = 'background:rgba(37,99,235,0.1);border-radius:12px;padding:9px 12px;font-size:0.74rem;color:var(--text-secondary);';
-            loader.innerHTML = '<i class="fas fa-ellipsis fa-fade"></i> جاري البحث في قاعدة البيانات...';
+            loader.innerHTML = '<i class="fas fa-ellipsis fa-fade"></i> جاري البحث والتحليل...';
             container.appendChild(loader);
             container.scrollTop = container.scrollHeight;
             const ans = await this.answer(userMsg);
