@@ -3210,35 +3210,35 @@ body.light-theme .nav-link:hover {
 
 @media (max-width: 650px) {
     .main-navbar {
-        flex-direction: column;
-        gap: 6px;
-        padding: 6px 4px;
-        overflow: hidden;
+        flex-direction: column !important;
+        gap: 6px !important;
+        padding: 6px 4px !important;
+        overflow: hidden !important;
     }
     .nav-links {
-        width: 100%;
-        display: flex;
-        flex-wrap: nowrap;
-        justify-content: space-around;
-        align-items: center;
-        gap: 1px;
-        padding: 0;
-        overflow: hidden;
+        width: 100% !important;
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        justify-content: space-around !important;
+        align-items: center !important;
+        gap: 1px !important;
+        padding: 0 !important;
+        overflow: hidden !important;
     }
     .nav-link {
-        flex: 1 1 0;
-        min-width: 0;
-        justify-content: center;
-        padding: 5px 2px;
-        font-size: 0.58rem;
-        letter-spacing: -0.2px;
-        white-space: nowrap;
-        text-align: center;
-        border-radius: 10px;
-        gap: 2px;
+        flex: 1 1 0 !important;
+        min-width: 0 !important;
+        justify-content: center !important;
+        padding: 5px 2px !important;
+        font-size: 0.58rem !important;
+        letter-spacing: -0.2px !important;
+        white-space: nowrap !important;
+        text-align: center !important;
+        border-radius: 10px !important;
+        gap: 2px !important;
     }
     .nav-link i {
-        font-size: 0.65rem;
+        font-size: 0.65rem !important;
     }
 }
 
@@ -4151,9 +4151,9 @@ body.light-theme .pill-btn:hover {
     .profile-name { font-size: 1.3rem; }
     .profile-bio { font-size: 0.82rem; }
     .hero-logo-banner { padding: 14px 0; margin: -40px -24px 16px -24px; }
-    .main-navbar { padding: 6px 3px; gap: 6px; overflow: hidden; }
-    .nav-link { font-size: 0.56rem; padding: 4px 1px; gap: 2px; white-space: nowrap; flex: 1 1 0; min-width: 0; justify-content: center; letter-spacing: -0.3px; }
-    .nav-link i { font-size: 0.62rem; }
+    .main-navbar { padding: 6px 3px !important; gap: 6px !important; overflow: hidden !important; }
+    .nav-link { font-size: 0.55rem !important; padding: 4px 1px !important; gap: 2px !important; white-space: nowrap !important; flex: 1 1 0 !important; min-width: 0 !important; justify-content: center !important; letter-spacing: -0.3px !important; }
+    .nav-link i { font-size: 0.62rem !important; }
     .section-title,
     .prompts-title { font-size: 1.25rem !important; }
     .section-subtitle,
