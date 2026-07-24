@@ -24,7 +24,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=2">
     <link rel="stylesheet" href="viral.css">
     <link rel="icon" type="image/jpeg" href="assets/avatar.jpg">
     <style>
@@ -57,7 +57,7 @@
             background: var(--bg-surface);
             border: 1px solid var(--border-color);
             border-radius: 14px;
-            color: white;
+            color: var(--text-primary);
             font-family: 'Cairo';
             font-size: 0.85rem;
             outline: none;
@@ -97,10 +97,15 @@
             gap: 6px;
             font-family: 'Cairo';
         }
+        body.light-theme .ai-cat-chip {
+            background: #ffffff;
+            border-color: #cbd5e1;
+            color: #475569;
+        }
         .ai-cat-chip:hover, .ai-cat-chip.active {
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            color: white;
-            border-color: transparent;
+            background: linear-gradient(135deg, var(--primary), var(--accent)) !important;
+            color: white !important;
+            border-color: transparent !important;
         }
         .ai-counter {
             text-align: center;
@@ -133,6 +138,10 @@
             flex-direction: column;
             gap: 8px;
         }
+        body.light-theme .ai-card {
+            background: #ffffff;
+            border-color: #e2e8f0;
+        }
         .ai-card:hover {
             border-color: var(--primary);
             transform: translateY(-3px);
@@ -156,7 +165,7 @@
         .ai-card-name {
             font-size: 0.88rem;
             font-weight: 700;
-            color: white;
+            color: var(--text-primary);
         }
         .ai-card-cat {
             font-size: 0.62rem;
@@ -175,6 +184,18 @@
             align-items: center;
             gap: 4px;
             margin-top: auto;
+        }
+
+        /* Mobile specific fixes to avoid page zoom/scale shift */
+        @media (max-width: 480px) {
+            .ai-hero h1 { font-size: 1.25rem; }
+            .ai-hero p { font-size: 0.78rem; }
+            .ai-search-bar { width: 100%; margin: 14px 0; }
+            .ai-search-bar input { font-size: 0.78rem; padding: 10px 38px 10px 12px; }
+            .ai-cats-row { padding: 0 4px 14px; gap: 5px; }
+            .ai-cat-chip { padding: 5px 10px; font-size: 0.65rem; }
+            .ai-grid { grid-template-columns: 1fr; padding: 0 4px 30px; gap: 10px; }
+            .ai-card { padding: 12px; }
         }
     </style>
 </head>
