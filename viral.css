@@ -90,6 +90,26 @@ body.has-viral-bar {
     padding-top: 36px;
 }
 
+@media (max-width: 600px) {
+    .viral-points-bar {
+        padding: 5px 8px;
+        gap: 6px;
+        justify-content: space-between;
+    }
+    .points-item {
+        font-size: 0.68rem;
+        gap: 3px;
+    }
+    .points-bar-cta {
+        padding: 2px 8px;
+        font-size: 0.65rem;
+        white-space: nowrap;
+    }
+    body.has-viral-bar {
+        padding-top: 32px;
+    }
+}
+
 /* ============================================
    2. FAB BUTTON (Floating Gift Button)
    ============================================ */
