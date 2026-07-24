@@ -78,8 +78,8 @@ body.light-theme .main-navbar {
     backdrop-filter: blur(16px);
 }
 body.light-theme .nav-link { color: #334155 !important; }
-body.light-theme .nav-link:hover,
-body.light-theme .nav-link.active { color: var(--primary) !important; }
+body.light-theme .nav-link:hover { color: var(--primary) !important; }
+body.light-theme .nav-link.active { color: #ffffff !important; background: var(--primary) !important; }
 body.light-theme .app-footer {
     background: #ffffff !important;
     border-top: 1px solid #e2e8f0 !important;
