@@ -154,12 +154,14 @@ body.light-theme p { color: #475569; }
 
 
 /* RESET & BODY */
+html { scroll-behavior: smooth; }
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
 }
+img { max-width: 100%; height: auto; }
 
 body {
     background-color: var(--bg-base);
@@ -4122,4 +4124,58 @@ body.light-theme .pill-btn:hover {
 @keyframes spin {
     from { transform: rotate(0deg); }
     to   { transform: rotate(360deg); }
+}
+
+/* ==============================================
+   RESPONSIVE — MOBILE (≤480px)
+   ============================================== */
+@media (max-width: 480px) {
+    .app-container { padding: 10px 6px; }
+    .profile-name { font-size: 1.3rem; }
+    .profile-bio { font-size: 0.82rem; }
+    .hero-logo-banner { padding: 14px 0; margin: -40px -24px 16px -24px; }
+    .main-navbar { padding: 10px 8px; gap: 8px; }
+    .nav-link { font-size: 0.68rem; padding: 5px 7px; gap: 3px; }
+    .nav-link i { font-size: 0.8rem; }
+    .section-title,
+    .prompts-title { font-size: 1.25rem !important; }
+    .section-subtitle,
+    .prompts-subtitle { font-size: 0.78rem !important; }
+    .tool-workspace { padding: 14px 10px !important; }
+    .tool-menu-btn { padding: 12px 10px; font-size: 0.78rem; }
+    .tools-search-input-box input { font-size: 0.78rem; }
+    .tools-counter-badge { font-size: 0.7rem; }
+    .primary-btn { font-size: 0.8rem; padding: 10px 16px; }
+    .form-textarea { font-size: 0.8rem; }
+    .preloader-logo-container { width: 220px; height: 45px; }
+    .preloader-title { font-size: 1.2rem; }
+    .blog-card { padding: 14px; }
+    .blog-card-title { font-size: 0.95rem; }
+    .stat-card { padding: 14px; }
+    .footer-info { flex-direction: column; gap: 8px; text-align: center; }
+    .footer-links { justify-content: center; }
+    .ad-container { margin: 12px 0; }
+    .viral-topbar { font-size: 0.68rem; padding: 6px 8px; }
+    .viral-topbar-item { font-size: 0.65rem; }
+}
+
+/* ==============================================
+   RESPONSIVE — TABLET (481px – 1024px)
+   ============================================== */
+@media (min-width: 481px) and (max-width: 1024px) {
+    .app-container { width: 98%; padding: 16px 10px; }
+    .nav-link { font-size: 0.78rem; padding: 7px 12px; }
+    .profile-name { font-size: 1.6rem; }
+    .tools-grid { grid-template-columns: 1fr !important; }
+    .interactive-tools-grid { grid-template-columns: 1fr 1fr; }
+    .hero-logo-banner { padding: 18px 0; }
+    .preloader-logo-container { width: 280px; }
+    .section-title { font-size: 1.4rem; }
+}
+
+/* ==============================================
+   RESPONSIVE — LARGE DESKTOP (≥1440px)
+   ============================================== */
+@media (min-width: 1440px) {
+    .app-container { max-width: 1500px; }
 }
