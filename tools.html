@@ -286,29 +286,6 @@
     <script src="tools-data.js"></script>
     <script src="tools-engine.js"></script>
     <script>
-        // Theme toggle
-        document.addEventListener("DOMContentLoaded", () => {
-            const themeToggleBtn = document.getElementById("themeToggleBtn");
-            const savedTheme = localStorage.getItem("novatrix-theme");
-
-            // Apply saved theme or default to light
-            if (savedTheme === "dark") {
-                document.body.classList.remove("light-theme");
-                if (themeToggleBtn) themeToggleBtn.querySelector("i").className = "fas fa-sun";
-            } else {
-                document.body.classList.add("light-theme");
-                if (themeToggleBtn) themeToggleBtn.querySelector("i").className = "fas fa-moon";
-            }
-
-            if (themeToggleBtn) {
-                themeToggleBtn.addEventListener("click", () => {
-                    const isNowLight = document.body.classList.toggle("light-theme");
-                    themeToggleBtn.querySelector("i").className = isNowLight ? "fas fa-moon" : "fas fa-sun";
-                    localStorage.setItem("novatrix-theme", isNowLight ? "light" : "dark");
-                });
-            }
-        });
-
         // Initialize Tools Engine — runs immediately since scripts are sync + DOM is ready (end of body)
         function startEngine() {
             if (typeof ToolsEngine !== "undefined" && typeof NOVATRIX_TOOLS !== "undefined") {

@@ -5,20 +5,16 @@
 
 /* --- Global Theme Manager (runs on all pages) --- */
 (function initTheme() {
+    // Default = light. Only go dark if user explicitly chose dark.
     const saved = localStorage.getItem('novatrix-theme');
-    const body  = document.documentElement; // apply to <html> for instant paint
-    if (saved === 'light') {
-        document.body ? document.body.classList.add('light-theme') : null;
-        // Fallback: re-apply after DOM ready
-        document.addEventListener('DOMContentLoaded', () => {
-            document.body.classList.add('light-theme');
-            _syncThemeIcon(true);
-        });
-    } else {
-        document.addEventListener('DOMContentLoaded', () => _syncThemeIcon(false));
-    }
+    const isDark = saved === 'dark';
 
     document.addEventListener('DOMContentLoaded', () => {
+        if (!isDark) {
+            document.body.classList.add('light-theme');
+        }
+        _syncThemeIcon(!isDark);
+
         const btn = document.getElementById('themeToggleBtn');
         if (!btn) return;
         btn.addEventListener('click', () => {
