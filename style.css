@@ -48,6 +48,110 @@
     --bg-surface-solid: #0f172a;
 }
 
+/* =============================================
+   LIGHT THEME OVERRIDES (.light-theme on body)
+   ============================================= */
+body.light-theme {
+    --bg-base:              #f0f4f8;
+    --bg-surface:           #ffffff;
+    --bg-surface-elevated:  #ffffff;
+    --bg-surface-solid:     #e8edf3;
+    --bg-dark-stripe:       #f0f4f8;
+    --bg-light-stripe:      #ffffff;
+    --text-primary:         #0f172a;
+    --text-light-stripe:    #0f172a;
+    --text-secondary:       #475569;
+    --text-secondary-light-stripe: #475569;
+    --text-dark-stripe:     #0f172a;
+    --text-muted:           #64748b;
+    --border-color:         #cbd5e1;
+    --border-color-hover:   #94a3b8;
+    --border-dark-stripe:   #e2e8f0;
+    --border-light-stripe:  #e2e8f0;
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+}
+body.light-theme .cyber-bg { display: none; }
+body.light-theme .main-navbar {
+    background: rgba(255,255,255,0.93) !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    backdrop-filter: blur(16px);
+}
+body.light-theme .nav-link { color: #334155 !important; }
+body.light-theme .nav-link:hover,
+body.light-theme .nav-link.active { color: var(--primary) !important; }
+body.light-theme .app-footer {
+    background: #ffffff !important;
+    border-top: 1px solid #e2e8f0 !important;
+}
+body.light-theme .prompts-header,
+body.light-theme .tools-filter-section,
+body.light-theme .tools-sidebar,
+body.light-theme .tool-workspace {
+    background: #ffffff !important;
+    border-color: #e2e8f0 !important;
+    color: #0f172a !important;
+}
+body.light-theme .tool-card,
+body.light-theme .sidebar-item {
+    background: #f8fafc !important;
+    border-color: #e2e8f0 !important;
+    color: #1e293b !important;
+}
+body.light-theme .tool-card:hover,
+body.light-theme .sidebar-item:hover {
+    background: #eff6ff !important;
+    border-color: var(--primary) !important;
+}
+body.light-theme .sidebar-item.active {
+    background: var(--primary) !important;
+    color: #fff !important;
+}
+body.light-theme .form-textarea,
+body.light-theme input[type="text"],
+body.light-theme input[type="number"],
+body.light-theme select {
+    background: #f1f5f9 !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+}
+body.light-theme .tools-search-input-box,
+body.light-theme .search-box-container,
+body.light-theme #toolSearchInput {
+    background: #ffffff !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+}
+body.light-theme .tools-category-tabs .tab-btn {
+    background: #e2e8f0 !important;
+    color: #475569 !important;
+}
+body.light-theme .tools-category-tabs .tab-btn.active {
+    background: var(--primary) !important;
+    color: #fff !important;
+}
+body.light-theme .theme-toggle-btn {
+    background: #e2e8f0 !important;
+    color: #1e293b !important;
+    border: 1px solid #cbd5e1 !important;
+}
+body.light-theme ::-webkit-scrollbar-track { background: #f0f4f8; }
+body.light-theme ::-webkit-scrollbar-thumb { background: #cbd5e1; }
+/* Hero / Section Cards on homepage */
+body.light-theme .hero-section,
+body.light-theme .section-card,
+body.light-theme .stat-card,
+body.light-theme .feature-card,
+body.light-theme .blog-card,
+body.light-theme .prompt-card {
+    background: #ffffff !important;
+    border-color: #e2e8f0 !important;
+    color: #0f172a !important;
+}
+body.light-theme h1,body.light-theme h2,body.light-theme h3,
+body.light-theme h4,body.light-theme h5,body.light-theme h6 { color: #0f172a; }
+body.light-theme p { color: #475569; }
+
 
 /* RESET & BODY */
 * {

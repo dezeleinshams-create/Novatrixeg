@@ -3,8 +3,40 @@
    Temu-Inspired Viral Mechanics System
    ========================================================================== */
 
+/* --- Global Theme Manager (runs on all pages) --- */
+(function initTheme() {
+    const saved = localStorage.getItem('novatrix-theme');
+    const body  = document.documentElement; // apply to <html> for instant paint
+    if (saved === 'light') {
+        document.body ? document.body.classList.add('light-theme') : null;
+        // Fallback: re-apply after DOM ready
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.classList.add('light-theme');
+            _syncThemeIcon(true);
+        });
+    } else {
+        document.addEventListener('DOMContentLoaded', () => _syncThemeIcon(false));
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const btn = document.getElementById('themeToggleBtn');
+        if (!btn) return;
+        btn.addEventListener('click', () => {
+            const isLight = document.body.classList.toggle('light-theme');
+            localStorage.setItem('novatrix-theme', isLight ? 'light' : 'dark');
+            _syncThemeIcon(isLight);
+        });
+    });
+
+    function _syncThemeIcon(isLight) {
+        const icon = document.querySelector('#themeToggleBtn i');
+        if (icon) icon.className = isLight ? 'fas fa-moon' : 'fas fa-sun';
+    }
+})();
+
 (function() {
     'use strict';
+
 
     // ==========================================
     // CONFIGURATION
