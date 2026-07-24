@@ -3211,30 +3211,34 @@ body.light-theme .nav-link:hover {
 @media (max-width: 650px) {
     .main-navbar {
         flex-direction: column;
-        gap: 8px;
-        padding: 8px 6px;
+        gap: 6px;
+        padding: 6px 4px;
         overflow: hidden;
     }
     .nav-links {
         width: 100%;
         display: flex;
         flex-wrap: nowrap;
-        justify-content: space-between;
+        justify-content: space-around;
         align-items: center;
-        gap: 2px;
+        gap: 1px;
         padding: 0;
+        overflow: hidden;
     }
     .nav-link {
         flex: 1 1 0;
+        min-width: 0;
         justify-content: center;
-        padding: 5px 4px;
-        font-size: 0.65rem;
+        padding: 5px 2px;
+        font-size: 0.58rem;
+        letter-spacing: -0.2px;
         white-space: nowrap;
         text-align: center;
-        border-radius: 12px;
+        border-radius: 10px;
+        gap: 2px;
     }
     .nav-link i {
-        font-size: 0.7rem;
+        font-size: 0.65rem;
     }
 }
 
@@ -4147,9 +4151,9 @@ body.light-theme .pill-btn:hover {
     .profile-name { font-size: 1.3rem; }
     .profile-bio { font-size: 0.82rem; }
     .hero-logo-banner { padding: 14px 0; margin: -40px -24px 16px -24px; }
-    .main-navbar { padding: 8px 6px; gap: 8px; overflow: hidden; }
-    .nav-link { font-size: 0.62rem; padding: 5px 3px; gap: 2px; white-space: nowrap; flex: 1 1 0; justify-content: center; }
-    .nav-link i { font-size: 0.68rem; }
+    .main-navbar { padding: 6px 3px; gap: 6px; overflow: hidden; }
+    .nav-link { font-size: 0.56rem; padding: 4px 1px; gap: 2px; white-space: nowrap; flex: 1 1 0; min-width: 0; justify-content: center; letter-spacing: -0.3px; }
+    .nav-link i { font-size: 0.62rem; }
     .section-title,
     .prompts-title { font-size: 1.25rem !important; }
     .section-subtitle,
