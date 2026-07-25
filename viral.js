@@ -30,6 +30,42 @@
     }
 })();
 
+/* --- Secret Global Admin Gateway (5 logo clicks or Ctrl+Shift+D on ANY page) --- */
+document.addEventListener("DOMContentLoaded", () => {
+    let clickCount = 0;
+    let lastClickTime = 0;
+
+    document.querySelectorAll(".nav-logo, .hero-logo-banner, #heroLogoImg, .logo-svg, .logo-img").forEach(logo => {
+        logo.addEventListener("click", (e) => {
+            const now = Date.now();
+            if (now - lastClickTime < 3000) {
+                clickCount++;
+            } else {
+                clickCount = 1;
+            }
+            lastClickTime = now;
+
+            if (clickCount === 5) {
+                clickCount = 0;
+                const isSub = window.location.pathname.includes('/blog/');
+                const targetUrl = (isSub ? '../' : '') + 'admin-portal.html';
+                if (typeof showPointsToast === "function") showPointsToast("🔒 بوابة الإدارة", "جاري الانتقال لصفحة التحكم...");
+                setTimeout(() => { window.location.href = targetUrl; }, 600);
+            }
+        });
+    });
+
+    window.addEventListener("keydown", (e) => {
+        if (e.ctrlKey && e.shiftKey && (e.key === "D" || e.key === "d")) {
+            e.preventDefault();
+            const isSub = window.location.pathname.includes('/blog/');
+            const targetUrl = (isSub ? '../' : '') + 'admin-portal.html';
+            if (typeof showPointsToast === "function") showPointsToast("🔒 بوابة الإدارة", "جاري الانتقال لصفحة التحكم...");
+            setTimeout(() => { window.location.href = targetUrl; }, 600);
+        }
+    });
+});
+
 (function() {
     'use strict';
 

@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم | Novatrix EG</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Dashboard Custom Stylesheet -->
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+
+    <!-- Cyber Background -->
+    <div class="cyber-bg">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+    </div>
+
+    <!-- Theme Switcher Wrapper -->
+    <div class="theme-toggle-wrapper fade-in" style="position: fixed; top: 20px; left: 20px; z-index: 5000; margin-bottom: 0; width: auto;">
+        <button id="themeToggleBtn" class="theme-toggle-btn" title="تغيير المظهر" style="cursor: pointer;">
+            <i class="fas fa-sun"></i>
+        </button>
+    </div>
+
+    <!-- Login Gateway Overlay -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="login-icon-box"><i class="fas fa-lock"></i></div>
+                <h2>تسجيل الدخول | لوحة التحكم</h2>
+                <p>يرجى إدخال اسم المستخدم وكلمة المرور للوصول إلى لوحة التحكم.</p>
+            </div>
+            <form id="loginForm" onsubmit="event.preventDefault();" autocomplete="off">
+                <div class="form-group">
+                    <label for="loginUser">اسم المستخدم</label>
+                    <input type="text" id="loginUser" placeholder="اسم المستخدم" required autocomplete="off" spellcheck="false">
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">كلمة المرور</label>
+                    <input type="password" id="loginPassword" placeholder="••••••••" required autocomplete="new-password">
+                </div>
+                <button type="submit" class="primary-btn wide-btn" id="loginSubmitBtn">
+                    <i class="fas fa-sign-in-alt"></i> دخول الآدمن
+                </button>
+                <div class="login-error" id="loginErrorMsg">
+                    <i class="fas fa-circle-exclamation"></i> خطأ في اسم المستخدم أو كلمة المرور!
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="dashboard-container" id="dashboardContainer" style="display: none;">
+        
+        <!-- Header -->
+        <header class="dash-header">
+            <div class="header-main">
+                <div class="header-actions" style="display: flex; gap: 10px;">
+                    <a href="index.html" class="back-home-btn"><i class="fas fa-arrow-right"></i> العودة للموقع</a>
+                    <button id="logoutBtn" class="back-home-btn logout-btn" style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.2); color: #ef4444; cursor: pointer;"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>
+                </div>
+                <h1><i class="fas fa-sliders-h text-glow-purple"></i> لوحة تحكم Novatrix EG</h1>
+            </div>
+            <p class="dash-subtitle">تعديل التطبيقات، البدائل، والبرومبتات مباشرة عبر GitHub API بدون قواعد بيانات خارجية.</p>
+        </header>
+
+        <!-- Config Section: GitHub Authentication -->
+        <section class="dash-card auth-card">
+            <h3><i class="fab fa-github"></i> إعدادات الاتصال بـ GitHub</h3>
+            <p class="section-desc text-muted">أدخل رمز الوصول الخاص بك (Personal Access Token) للتمكن من حفظ التعديلات ونشرها للموقع مباشرة. يتم حفظ الرمز محلياً في متصفحك فقط.</p>
+            
+            <div class="auth-grid">
+                <div class="form-group">
+                    <label for="githubToken">GitHub Access Token</label>
+                    <input type="password" id="githubToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxx" dir="ltr">
+                </div>
+                <div class="form-group">
+                    <label for="githubOwner">اسم مالك المستودع (Owner)</label>
+                    <input type="text" id="githubOwner" value="dezeleinshams-create" dir="ltr">
+                </div>
+                <div class="form-group">
+                    <label for="githubRepo">اسم المستودع (Repo)</label>
+                    <input type="text" id="githubRepo" value="abdallah-tech" dir="ltr">
+                </div>
+                <div class="form-group">
+                    <label for="githubBranch">الفرع (Branch)</label>
+                    <input type="text" id="githubBranch" value="main" dir="ltr">
+                </div>
+            </div>
+            
+            <button id="saveAuthConfigBtn" class="primary-btn"><i class="fas fa-lock"></i> حفظ إعدادات الاتصال محلياً</button>
+        </section>
+
+        <!-- Tabs Nav -->
+        <nav class="dash-tabs">
+            <button class="tab-btn active" data-tab="apps"><i class="fas fa-mobile-screen"></i> إدارة التطبيقات</button>
+            <button class="tab-btn" data-tab="alternatives"><i class="fas fa-arrows-spin"></i> إدارة البدائل</button>
+            <button class="tab-btn" data-tab="prompts"><i class="fas fa-brain"></i> إدارة البرومبتات</button>
+            <button class="tab-btn" data-tab="analytics"><i class="fas fa-chart-line"></i> التحليلات والزيارات</button>
+        </nav>
+
+        <!-- Content Area -->
+        <div class="tab-contents">
+            
+            <!-- TAB 1: Apps Manager -->
+            <div class="tab-pane active" id="pane-apps">
+                <div class="pane-header">
+                    <h2>قائمة التطبيقات والألعاب والحلول</h2>
+                    <button class="primary-btn" id="addNewAppBtn"><i class="fas fa-plus"></i> إضافة تطبيق جديد</button>
+                </div>
+                
+                <div class="items-list" id="appsListContainer">
+                    <!-- Apps loaded dynamically -->
+                </div>
+            </div>
+
+            <!-- TAB 2: Alternatives Manager -->
+            <div class="tab-pane" id="pane-alternatives">
+                <div class="pane-header">
+                    <h2>إدارة مستكشف البدائل</h2>
+                    <button class="primary-btn" id="addNewAltBtn"><i class="fas fa-plus"></i> إضافة بديل جديد</button>
+                </div>
+                
+                <div class="items-list" id="altsListContainer">
+                    <!-- Alternatives loaded dynamically -->
+                </div>
+            </div>
+
+            <!-- TAB 3: Prompts Manager -->
+            <div class="tab-pane" id="pane-prompts">
+                <div class="pane-header">
+                    <h2>إدارة مكتبة أوامر الذكاء الاصطناعي</h2>
+                    <button class="primary-btn" id="addNewPromptBtn"><i class="fas fa-plus"></i> إضافة برومت جديد</button>
+                </div>
+                
+                <div class="items-list" id="promptsListContainer">
+                    <!-- Prompts loaded dynamically -->
+                </div>
+            </div>
+
+            <!-- TAB 4: Analytics Dashboard -->
+            <div class="tab-pane" id="pane-analytics">
+                <div class="pane-header">
+                    <h2>إحصائيات وتحليلات المنصة</h2>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="primary-btn" id="refreshAnalyticsBtn"><i class="fas fa-arrows-rotate"></i> تحديث البيانات</button>
+                    </div>
+                </div>
+                
+                <!-- Main Stats Cards Grid -->
+                <div class="analytics-stats-grid">
+                    <div class="stat-card visit-card">
+                        <div class="stat-icon-wrapper"><i class="fas fa-eye"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">زيارات الموقع الإجمالية</span>
+                            <h3 class="stat-value" id="statVisits">---</h3>
+                        </div>
+                    </div>
+                    <div class="stat-card download-card">
+                        <div class="stat-icon-wrapper"><i class="fas fa-circle-down"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">نقرات تحميل التطبيقات</span>
+                            <h3 class="stat-value" id="statDownloads">---</h3>
+                        </div>
+                    </div>
+                    <div class="stat-card chatbot-card">
+                        <div class="stat-icon-wrapper"><i class="fas fa-robot"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">استشارات البوت الذكي</span>
+                            <h3 class="stat-value" id="statChatbot">---</h3>
+                        </div>
+                    </div>
+                    <div class="stat-card alt-card">
+                        <div class="stat-icon-wrapper"><i class="fas fa-magnifying-glass"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">البحث عن بدائل البرامج</span>
+                            <h3 class="stat-value" id="statAlternatives">---</h3>
+                        </div>
+                    </div>
+                    <div class="stat-card security-card">
+                        <div class="stat-icon-wrapper"><i class="fas fa-shield-halved"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">فحوصات الأمان المنجزة</span>
+                            <h3 class="stat-value" id="statSecurity">---</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Top Apps Downloads Section -->
+                <div class="dash-card analytics-details-card" style="margin-top: 24px;">
+                    <h3><i class="fas fa-star text-glow-purple"></i> ترتيب التطبيقات الأكثر تحميلاً</h3>
+                    <p class="section-desc text-muted">يعرض عدد نقرات التحميل لكل تطبيق مرتبة تنازلياً مع مؤشر نسبي للتنزيلات.</p>
+                    <div class="top-apps-list" id="topAppsListContainer">
+                        <!-- Loaded dynamically -->
+                        <p class="text-muted text-center" style="padding: 24px 0;">جاري جلب إحصائيات التطبيقات...</p>
+                    </div>
+                </div>
+
+                <!-- Controls & Reset panel -->
+                <div class="dash-card analytics-controls-card" style="margin-top: 24px;">
+                    <h3><i class="fas fa-gears"></i> أدوات وإجراءات التحليلات</h3>
+                    <p class="section-desc text-muted">إدارة وتصفير عدادات التحليلات للموقع. تنبيه: هذا الإجراء لا يمكن التراجع عنه.</p>
+                    <div class="control-actions-grid" style="display: flex; gap: 12px; flex-wrap: wrap;">
+                        <button class="primary-btn danger-btn" id="resetVisitsBtn"><i class="fas fa-trash-can"></i> تصفير الزيارات</button>
+                        <button class="primary-btn danger-btn" id="resetDownloadsBtn"><i class="fas fa-trash-can"></i> تصفير العدادات التفاعلية</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Global Save/Publish Bar -->
+        <footer class="publish-bar">
+            <div class="status-indicator" id="publishStatus">
+                <span class="indicator-dot idle"></span>
+                <span class="status-text">تعديلات غير محفوظة محلياً</span>
+            </div>
+            <div class="publish-actions" style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <button id="downloadDbBtn" class="primary-btn" style="background: linear-gradient(135deg, #1e3a8a, #3b82f6); box-shadow: 0 0 15px rgba(59, 130, 246, 0.3); cursor: pointer;">
+                    <i class="fas fa-download"></i> تحميل قاعدة البيانات (database.json)
+                </button>
+                <button id="publishBtn" class="primary-btn publish-btn-glow" disabled>
+                    <i class="fas fa-cloud-arrow-up"></i> حفظ ونشر التغييرات على GitHub
+                </button>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- MODAL 1: ADD/EDIT APP -->
+    <div class="modal-backdrop" id="appModal">
+        <div class="modal-card">
+            <button class="modal-close" onclick="closeModal('appModal')"><i class="fas fa-times"></i></button>
+            <h3 id="appModalTitle">إضافة تطبيق جديد</h3>
+            
+            <form id="appForm" onsubmit="event.preventDefault();">
+                <input type="hidden" id="editAppIndex">
+                
+                <div class="form-group">
+                    <label for="appId">معرف التطبيق الفريد (App ID - إنجليزي فقط)</label>
+                    <input type="text" id="appId" placeholder="مثال: custom-vpn" dir="ltr" required>
+                </div>
+                
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label for="appTitle">عنوان التطبيق (عربي)</label>
+                        <input type="text" id="appTitle" placeholder="تطبيق VPN سريع وآمن" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="appCategory">القسم</label>
+                        <select id="appCategory">
+                            <option value="apps">تطبيق مميز</option>
+                            <option value="games">ألعاب وتسلية</option>
+                            <option value="ai">ذكاء اصطناعي</option>
+                            <option value="tricks">شروحات وثغرات</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-grid-3">
+                    <div class="form-group">
+                        <label for="appIcon">كود أيقونة FontAwesome</label>
+                        <input type="text" id="appIcon" placeholder="fa-solid fa-shield-halved" dir="ltr" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="appSize">الحجم</label>
+                        <input type="text" id="appSize" placeholder="12 MB" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="appCompat">التوافق</label>
+                        <input type="text" id="appCompat" placeholder="Android 9.0+" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="appDesc">وصف التطبيق القصير</label>
+                    <textarea id="appDesc" rows="2" placeholder="اكتب وصفاً جذاباً للتطبيق هنا..." required></textarea>
+                </div>
+
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label for="appAlternative">البرنامج الأصلي البديل (المدفوع)</label>
+                        <input type="text" id="appAlternative" placeholder="مثال: NordVPN ($12/شهرياً)">
+                    </div>
+                    <div class="form-group">
+                        <label for="appSaves">التوفير المالي</label>
+                        <input type="text" id="appSaves" placeholder="مثال: $120 سنوياً">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="appLink">رابط التحميل المباشر</label>
+                    <input type="url" id="appLink" placeholder="https://example.com/file.apk" dir="ltr" required>
+                </div>
+
+                <div class="form-group">
+                    <label>مميزات وخصائص التطبيق (ميزة واحدة في كل سطر)</label>
+                    <textarea id="appFeatures" rows="3" placeholder="مشاركة الشاشة بدقة عالية&#10;آمن ومشفر بالكامل" required></textarea>
+                </div>
+
+                <button type="submit" class="primary-btn wide-btn" id="saveAppBtn">حفظ التطبيق</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 2: ADD/EDIT ALTERNATIVE -->
+    <div class="modal-backdrop" id="altModal">
+        <div class="modal-card">
+            <button class="modal-close" onclick="closeModal('altModal')"><i class="fas fa-times"></i></button>
+            <h3 id="altModalTitle">إضافة بديل جديد</h3>
+            
+            <form id="altForm" onsubmit="event.preventDefault();">
+                <input type="hidden" id="editAltKey">
+                
+                <div class="form-group">
+                    <label for="altKey">الاسم المفتاحي للبرنامج المدفوع (إنجليزي فقط - للبحث)</label>
+                    <input type="text" id="altKey" placeholder="مثال: photoshop" dir="ltr" required>
+                </div>
+
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label for="altName">اسم البرنامج الأصلي (كامل)</label>
+                        <input type="text" id="altName" placeholder="Photoshop (فوتوشوب)" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="altPrice">سعر الاشتراك الأصلي</label>
+                        <input type="text" id="altPrice" placeholder="$22/شهرياً" required>
+                    </div>
+                </div>
+
+                <div class="divider">البدائل المجانية الموصى بها</div>
+                
+                <div class="alt-options-forms">
+                    <!-- Option 1 -->
+                    <div class="option-sub-form">
+                        <h5>البديل الأول</h5>
+                        <div class="form-group">
+                            <input type="text" id="altOptName1" placeholder="اسم البديل (مثال: GIMP)" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="altOptDesc1" placeholder="وصف البديل..." required>
+                        </div>
+                        <div class="form-group">
+                            <input type="url" id="altOptLink1" placeholder="رابط التحميل..." dir="ltr" required>
+                        </div>
+                    </div>
+
+                    <!-- Option 2 -->
+                    <div class="option-sub-form">
+                        <h5>البديل الثاني</h5>
+                        <div class="form-group">
+                            <input type="text" id="altOptName2" placeholder="اسم البديل (مثال: Photopea)">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="altOptDesc2" placeholder="وصف البديل...">
+                        </div>
+                        <div class="form-group">
+                            <input type="url" id="altOptLink2" placeholder="رابط التحميل..." dir="ltr">
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="primary-btn wide-btn" id="saveAltBtn">حفظ البديل</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 3: ADD/EDIT PROMPT -->
+    <div class="modal-backdrop" id="promptModal">
+        <div class="modal-card">
+            <button class="modal-close" onclick="closeModal('promptModal')"><i class="fas fa-times"></i></button>
+            <h3 id="promptModalTitle">إضافة برومت جديد</h3>
+            
+            <form id="promptForm" onsubmit="event.preventDefault();">
+                <input type="hidden" id="editPromptIndex">
+                
+                <div class="form-group">
+                    <label for="promptTitle">عنوان الأمر (عربي)</label>
+                    <input type="text" id="promptTitle" placeholder="توليد صورة سايبربانك..." required>
+                </div>
+
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label for="promptCategory">القسم</label>
+                        <select id="promptCategory">
+                            <option value="images">تصميم صور</option>
+                            <option value="content">صناعة محتوى</option>
+                            <option value="coding">برمجة وتطوير</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="promptTags">الوسوم / الكلمات الدلالية (مفصولة بفاصلة)</label>
+                        <input type="text" id="promptTags" placeholder="neon, cyberpunk, realistic">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="promptExplanation">شرح الاستخدام (عربي)</label>
+                    <input type="text" id="promptExplanation" placeholder="لتوليد صورة هاكر نيون مع شاشات مجسمة..." required>
+                </div>
+
+                <div class="form-group">
+                    <label for="promptText">نص الأمر بالإنجليزية (Prompt Text)</label>
+                    <textarea id="promptText" rows="4" placeholder="A cybernetic hacker in front of glowing code..." dir="ltr" required></textarea>
+                </div>
+
+                <button type="submit" class="primary-btn wide-btn" id="savePromptBtn">حفظ الأمر</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-notification" id="toastNotification">
+        <i class="fas fa-circle-check toast-icon"></i>
+        <span class="toast-message" id="toastMessage">تم الحفظ بنجاح!</span>
+    </div>
+
+    <!-- Dashboard Core JS -->
+    <script src="dashboard.js"></script>
+</body>
+</html>

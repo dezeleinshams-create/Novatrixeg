@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /admin-portal.html
+Disallow: /dashboard.html
 
 Sitemap: https://novatrixeg.com/sitemap.xml

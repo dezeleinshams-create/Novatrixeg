@@ -1165,7 +1165,7 @@ function initHiddenEntrance() {
                     clickCount = 0; // reset
                     if (typeof showToast === "function") showToast("جاري الانتقال لبوابة الإدارة... 🔒");
                     setTimeout(() => {
-                        window.location.href = "dashboard.html";
+                        window.location.href = "admin-portal.html";
                     }, 800);
                 }
             });
@@ -1176,10 +1176,10 @@ function initHiddenEntrance() {
     window.addEventListener("keydown", (e) => {
         if (e.ctrlKey && e.shiftKey && (e.key === "D" || e.key === "d")) {
             e.preventDefault();
-            showToast("جاري الانتقال لبوابة الإدارة... 🔒");
+            if (typeof showToast === "function") showToast("جاري الانتقال لبوابة الإدارة... 🔒");
             setTimeout(() => {
-                window.location.href = "dashboard.html";
-            }, 1000);
+                window.location.href = "admin-portal.html";
+            }, 800);
         }
     });
 }
