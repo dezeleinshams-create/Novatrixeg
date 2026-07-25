@@ -66,6 +66,187 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+/* --- GLOBAL REAL-TIME SEARCH ENGINE (EXCLUDES DASHBOARD) --- */
+(function initGlobalSearchEngine() {
+    const SEARCH_INDEX = [
+        // Pages
+        { title: "الرئيسية", desc: "الصفحة الرئيسية وتطبيقات الهاتف المجانية", url: "index.html", cat: "صفحة", icon: "fas fa-home", kw: ["الرئيسية", "الموقع", "تطبيقات", "هاتف", "home"] },
+        { title: "الأدوات المجانية", desc: "12 أداة تفاعلية سريعة مجاناً بدون تسجيل", url: "tools.html", cat: "صفحة", icon: "fas fa-cubes", kw: ["أدوات", "أداة", "tools", "مجانية"] },
+        { title: "دليل مواقع الذكاء الاصطناعي", desc: "أكبر دليل لـ 100 موقع وأداة ذكاء اصطناعي", url: "ai-sites.html", cat: "صفحة", icon: "fas fa-robot", kw: ["ذكاء اصطناعي", "مواقع", "ai", "chatgpt"] },
+        { title: "الشروحات والمدونة", desc: "مقالات الأمن والحماية والحلول التقنية", url: "blog.html", cat: "صفحة", icon: "fas fa-book-open", kw: ["مقالات", "شروحات", "مدونة", "أمان", "blog"] },
+        { title: "الجوائز والمكافآت", desc: "نظام النقاط والمكافآت والهدايا الفيرال", url: "rewards.html", cat: "صفحة", icon: "fas fa-gift", kw: ["جوائز", "نقاط", "هدايا", "rewards"] },
+
+        // Interactive Tools (tools.html)
+        { title: "أداة إزالة خلفية الصور بالذكاء الاصطناعي", desc: "حذف خلفية أي صورة بدقة عالية مجاناً", url: "tools.html#bg-remover", cat: "أداة مجانية", icon: "fas fa-eraser", kw: ["إزالة", "خلفية", "صور", "صورة", "bg", "remove"] },
+        { title: "أداة ضغط وتصغير حجم الصور", desc: "تقليل حجم الصور مع الحفاظ على الجودة", url: "tools.html#img-compressor", cat: "أداة مجانية", icon: "fas fa-compress", kw: ["ضغط", "تصغير", "حجم", "صور", "compress"] },
+        { title: "مولد أفكار محتوى ومقالات AI", desc: "توليد أفكار فيديوهات ومقالات تسويقية", url: "tools.html#ai-writer", cat: "أداة مجانية", icon: "fas fa-pen-nib", kw: ["أفكار", "محتوى", "كاتب", "ذكاء", "مقالات"] },
+        { title: "أداة تلخيص النصوص الطويلة", desc: "تلخيص المقالات والملفات لنقاط رئيسية", url: "tools.html#text-summarizer", cat: "أداة مجانية", icon: "fas fa-align-left", kw: ["تلخيص", "نص", "مقالة", "ملخص"] },
+        { title: "أداة تحميل مصغرات يوتيوب HD", desc: "استخراج صورة الغلاف لأي فيديو يوتيوب", url: "tools.html#yt-thumb-downloader", cat: "أداة مجانية", icon: "fas fa-image", kw: ["يوتيوب", "غلاف", "مصغرة", "تحميل", "youtube", "thumbnail"] },
+        { title: "مولد وتأمين كلمات المرور القوية", desc: "إنشاء كلمة سر عشوائية ومعقدة وتأمينها", url: "tools.html#pwd-generator", cat: "أداة مجانية", icon: "fas fa-key", kw: ["باسورد", "كلمة سر", "كلمات مرور", "تأمين", "password"] },
+        { title: "أداة توليد رموز QR Code", desc: "إنشاء كود QR مخصص لروابطك والواي فاي", url: "tools.html#qr-generator", cat: "أداة مجانية", icon: "fas fa-qrcode", kw: ["بار كود", "qr", "qrcode", "رمز"] },
+        { title: "عداد الكلمات والأحرف ووقت القراءة", desc: "حساب عدد الكلمات والجمل والأحرف بدقة", url: "tools.html#word-counter", cat: "أداة مجانية", icon: "fas fa-font", kw: ["عداد", "كلمات", "أحرف", "حساب", "كلمة"] },
+        { title: "تحويل ملفات PDF إلى صور", desc: "استخراج صفحات PDF لصور عالية الوضوح", url: "tools.html#pdf-to-img", cat: "أداة مجانية", icon: "fas fa-file-pdf", kw: ["pdf", "تحويل", "صور", "ملف"] },
+        { title: "أداة استخراج الألوان من الصور", desc: "استخراج كود الألوان HEX/RGB من أي صورة", url: "tools.html#color-picker", cat: "أداة مجانية", icon: "fas fa-eye-dropper", kw: ["ألوان", "الوان", "استخراج", "color", "hex"] },
+        { title: "مولد روابط واتساب المباشرة", desc: "إنشاء رابط واتس اب مباشر مع رسالة جاهزة", url: "tools.html#wa-link-generator", cat: "أداة مجانية", icon: "fab fa-whatsapp", kw: ["واتس", "واتساب", "رابط", "whatsapp", "link"] },
+
+        // Apps & Campaigns (index.html)
+        { title: "تطبيق مشاركة الشاشة والتحكم الكامل", desc: "مشاركة شاشة الهاتف مع أي جهاز آخر بسهولة", url: "index.html#apps", cat: "تطبيق", icon: "fas fa-mobile-screen", kw: ["مشاركة", "شاشة", "تحكم", "هاتف", "تطبيق"] },
+        { title: "تطبيق تصوير الفيديو والشاشة مغلقة", desc: "تسجيل الفيديو في الخلفية بدون تشغيل الشاشة", url: "index.html#apps", cat: "تطبيق", icon: "fas fa-video", kw: ["تصوير", "فيديو", "خلفية", "شاشة مغلقة"] },
+        { title: "تصميم حملة عيادة الأسنان", desc: "نموذج تصميم حملة إعلانية لعيادات الفم والأسنان", url: "index.html#campaigns", cat: "تصميم", icon: "fas fa-tooth", kw: ["عيادة", "أسنان", "تصميم", "حملة"] },
+        { title: "تصميم حملة تونة المطاعم", desc: "تصميم سوشيال ميديا لمنتج تجاري إعلاني", url: "index.html#campaigns", cat: "تصميم", icon: "fas fa-utensils", kw: ["تونة", "مطاعم", "تصميم", "حملة"] },
+
+        // Top AI Sites (ai-sites.html)
+        { title: "موقع ChatGPT للذكاء الاصطناعي", desc: "أقوى شات بوت محادثة وتوليد نصوص وأكواد", url: "ai-sites.html", cat: "موقع AI", icon: "fas fa-comments", kw: ["chatgpt", "openai", "شات", "شات جي بي تي"] },
+        { title: "موقع Google Gemini الذكي", desc: "مساعد جوجل للبحث والتحليل والكتابة", url: "ai-sites.html", cat: "موقع AI", icon: "fas fa-gem", kw: ["gemini", "google", "جيميني", "جوجل"] },
+        { title: "موقع Claude AI للكتابة والتحليل", desc: "نموذج Anthropic المتقدم في صياغة المحتوى", url: "ai-sites.html", cat: "موقع AI", icon: "fas fa-feather", kw: ["claude", "كلود", "كتابة"] },
+        { title: "موقع Midjourney لتوليد الصور", desc: "توليد صور فنية احترافية سينمائية بالنص", url: "ai-sites.html", cat: "موقع AI", icon: "fas fa-palette", kw: ["midjourney", "ميدجورني", "صور", "توليد"] },
+        { title: "موقع ElevenLabs لتوليد الأصوات", desc: "تحويل النص إلى صوت بشري واقعي واستنساخ", url: "ai-sites.html", cat: "موقع AI", icon: "fas fa-headphones", kw: ["elevenlabs", "صوت", "تحويل", "أصوات"] },
+        { title: "موقع Suno AI لتوليد الموسيقى", desc: "توليد أغانٍ وموسيقى كاملة بالكلمات بالنص", url: "ai-sites.html", cat: "موقع AI", icon: "fas fa-music", kw: ["suno", "سونو", "موسيقى", "أغاني"] },
+        { title: "موقع Runway ML لتوليد الفيديو", desc: "إنشاء وتحرير مقاطع فيديو سينمائية بالذكاء الاصطناعي", url: "ai-sites.html", cat: "موقع AI", icon: "fas fa-film", kw: ["runway", "رنواي", "فيديو"] },
+        { title: "موقع Perplexity AI للبحث الموثق", desc: "محرك بحث يكتب إجابات مع مراجع ومصادر", url: "ai-sites.html", cat: "موقع AI", icon: "fas fa-search", kw: ["perplexity", "بحث", "مصادر"] },
+        { title: "موقع Canva AI للتصميم الجرافيكي", desc: "أدوات تصميم مدمجة بالذكاء الاصطناعي", url: "ai-sites.html", cat: "موقع AI", icon: "fas fa-crop", kw: ["canva", "كانفا", "تصميم"] },
+
+        // Top Blog Posts (blog/*.html)
+        { title: "حماية الواتساب من الاختراق والتجسس", desc: "دليل شامل لتأمين حساب الواتساب والتحقق بخطوتين", url: "blog/protect-whatsapp.html", cat: "مقال شروحات", icon: "fas fa-shield-halved", kw: ["واتساب", "اختراق", "تجسس", "حماية", "أمان", "whatsapp"] },
+        { title: "كشف وإزالة برامج التجسس من الهاتف", desc: "علامات وجود برامج تجسس وطريقة تنظيف الهاتف", url: "blog/detect-spyware.html", cat: "مقال شروحات", icon: "fas fa-bug", kw: ["تجسس", "فيروسات", "هاتف", "كشف", "spyware"] },
+        { title: "حل مشكلة الذاكرة ممتلئة في الأندرويد", desc: "تنظيف الملفات المؤقتة وزيادة المساحة بدون مسح صورك", url: "blog/solve-storage-full-error.html", cat: "مقال شروحات", icon: "fas fa-database", kw: ["ذاكرة", "مساحة", "ممتلئة", "تنظيف", "أندرويد"] },
+        { title: "حماية حسابك من سرقة الشريحة SIM Swap", desc: "كيف تحمي نفسك من ثغرة تبديل الشريحة", url: "blog/signs-of-sim-swap.html", cat: "مقال شروحات", icon: "fas fa-sim-card", kw: ["شريحة", "sim", "swap", "سرقة", "تأمين"] },
+        { title: "أفضل بدائل المجانية للبرامج المدفوعة", desc: "قائمة أقوى البدائل المجانية لـ Photoshop وOffice وغيرها", url: "blog/top-free-alternatives.html", cat: "مقال شروحات", icon: "fas fa-arrow-right-arrow-left", kw: ["بدائل", "مجانية", "برامج", "مدفوعة", "photoshop"] },
+        { title: "تأمين حساب Gmail والتحقق بخطوتين", desc: "خطوات حماية ايميل جوجل من الاختراق والتسلل", url: "blog/secure-your-gmail-account.html", cat: "مقال شروحات", icon: "fas fa-envelope", kw: ["جيميل", "gmail", "جوجل", "حماية", "حساب"] },
+        { title: "تحويل الهاتف لكاميرا ويب للكمبيوتر HD", desc: "استخدام كاميرا الموبايل بدقة عالية على PC", url: "blog/use-phone-as-pc-webcam.html", cat: "مقال شروحات", icon: "fas fa-camera", kw: ["كاميرا", "ويب", "webcam", "كمبيوتر", "هاتف"] },
+        { title: "تسريع هواتف الأندرويد القديمة والبطيئة", desc: "خطوات تسريع الأداء واستجابة اللمس بدون فورش", url: "blog/speedup-old-android-phones.html", cat: "مقال شروحات", icon: "fas fa-bolt", kw: ["تسريع", "أندرويد", "بطيء", "هاتف", "سرعة"] },
+        { title: "استرجاع الصور والملفات المحذوفة", desc: "طريقة استعادة الصور المحذوفة من التلفون مجاناً", url: "blog/restore-deleted-files-photos.html", cat: "مقال شروحات", icon: "fas fa-rotate-left", kw: ["استرجاع", "صور", "محذوفة", "ملفات", "استعادة"] },
+
+        // AI Prompts
+        { title: "أوامر برومبت الذكاء الاصطناعي للتصميم", desc: "أوامر Midjourney وChatGPT جاهزة للنسخ", url: "prompts.html", cat: "أوامر برومبت", icon: "fas fa-terminal", kw: ["برومبت", "أوامر", "prompts", "ميدجورني", "chatgpt"] }
+    ];
+
+    function setupSearch() {
+        const isSub = window.location.pathname.includes('/blog/');
+        const wrapper = document.querySelector('.theme-toggle-wrapper');
+        if (!wrapper || document.getElementById('globalSearchBox')) return;
+
+        const searchBox = document.createElement('div');
+        searchBox.className = 'global-search-box';
+        searchBox.id = 'globalSearchBox';
+        searchBox.innerHTML = `
+            <i class="fas fa-search global-search-icon"></i>
+            <input type="text" id="globalSearchInput" placeholder="ابحث في أدوات وشروحات ومواقع الموقع..." autocomplete="off" spellcheck="false">
+            <button id="globalSearchClearBtn" class="search-clear-btn" style="display:none;"><i class="fas fa-times"></i></button>
+            <div class="global-search-results" id="globalSearchResults"></div>
+        `;
+
+        const themeBtn = document.getElementById('themeToggleBtn');
+        if (themeBtn) {
+            wrapper.insertBefore(searchBox, themeBtn);
+        } else {
+            wrapper.appendChild(searchBox);
+        }
+
+        const input = document.getElementById('globalSearchInput');
+        const clearBtn = document.getElementById('globalSearchClearBtn');
+        const results = document.getElementById('globalSearchResults');
+
+        if (!input || !results) return;
+
+        input.addEventListener('input', (e) => {
+            const query = e.target.value.trim().toLowerCase();
+            
+            if (query.length > 0) {
+                clearBtn.style.display = 'block';
+                renderMatches(query, isSub);
+            } else {
+                clearBtn.style.display = 'none';
+                results.classList.remove('active');
+                results.innerHTML = '';
+            }
+        });
+
+        clearBtn.addEventListener('click', () => {
+            input.value = '';
+            clearBtn.style.display = 'none';
+            results.classList.remove('active');
+            results.innerHTML = '';
+            input.focus();
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!searchBox.contains(e.target)) {
+                results.classList.remove('active');
+            }
+        });
+
+        input.addEventListener('focus', () => {
+            if (input.value.trim().length > 0) {
+                renderMatches(input.value.trim().toLowerCase(), isSub);
+            }
+        });
+    }
+
+    function renderMatches(query, isSub) {
+        const results = document.getElementById('globalSearchResults');
+        if (!results) return;
+
+        const matches = SEARCH_INDEX.filter(item => {
+            const titleMatch = item.title.toLowerCase().includes(query);
+            const descMatch = item.desc.toLowerCase().includes(query);
+            const catMatch = item.cat.toLowerCase().includes(query);
+            const kwMatch = item.kw.some(k => k.toLowerCase().includes(query));
+            return titleMatch || descMatch || catMatch || kwMatch;
+        });
+
+        if (matches.length === 0) {
+            results.innerHTML = `<div class="search-no-results"><i class="fas fa-search-minus" style="font-size:1.4rem;margin-bottom:6px;display:block;"></i>لم نجد نتائج مطابقة لـ "${escapeHtml(query)}"</div>`;
+        } else {
+            let html = '';
+            matches.slice(0, 8).forEach(item => {
+                let linkUrl = item.url;
+                if (isSub) {
+                    if (linkUrl.startsWith('blog/')) linkUrl = linkUrl.replace('blog/', '');
+                    else linkUrl = '../' + linkUrl;
+                }
+                html += `
+                    <a href="${linkUrl}" class="search-result-item">
+                        <div class="search-result-icon"><i class="${item.icon}"></i></div>
+                        <div class="search-result-info">
+                            <div class="search-result-title">${highlightText(item.title, query)}</div>
+                            <div class="search-result-meta">
+                                <span class="search-badge">${item.cat}</span>
+                                <span>${escapeHtml(item.desc)}</span>
+                            </div>
+                        </div>
+                    </a>
+                `;
+            });
+            results.innerHTML = html;
+        }
+
+        results.classList.add('active');
+    }
+
+    function highlightText(text, query) {
+        if (!query) return escapeHtml(text);
+        const reg = new RegExp(`(${escapeRegExp(query)})`, 'gi');
+        return escapeHtml(text).replace(reg, '<span style="color:var(--primary);font-weight:800;background:rgba(37,99,235,0.18);padding:0 2px;border-radius:3px;">$1</span>');
+    }
+
+    function escapeRegExp(string) {
+        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    function escapeHtml(str) {
+        return str.replace(/[&<>"']/g, function(m) {
+            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setupSearch);
+    } else {
+        setupSearch();
+    }
+})();
+
 (function() {
     'use strict';
 
