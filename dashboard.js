@@ -244,7 +244,7 @@ function initAuthConfig() {
     // Load config from LocalStorage if exists
     gitConfig.token = localStorage.getItem("git_token") || "";
     gitConfig.owner = localStorage.getItem("git_owner") || "dezeleinshams-create";
-    gitConfig.repo = localStorage.getItem("git_repo") || "abdallah-tech";
+    gitConfig.repo = localStorage.getItem("git_repo") || "NEXURAEG";
     gitConfig.branch = localStorage.getItem("git_branch") || "main";
 
     githubTokenInput.value = gitConfig.token;
@@ -304,8 +304,8 @@ function updateModificationState(state) {
 }
 
 function checkPublishAbility() {
-    const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
-    publishBtn.disabled = !isModified || (!gitConfig.token && !isLocalhost);
+    publishBtn.disabled = !isModified;
+    if (downloadDbBtn) downloadDbBtn.disabled = !isModified;
 }
 
 // ==========================================
@@ -726,11 +726,17 @@ function publishToGitHub() {
     }
 
     if (!gitConfig.token) {
-        showToast("يرجى إدخال Access Token لحفظ التعديلات!");
-        dot.className = "indicator-dot idle";
-        text.textContent = "تعديلات غير محفوظة محلياً";
-        checkPublishAbility();
-        return;
+        const inputToken = prompt("أدخل رمز الوصول الخاص بك من GitHub (Personal Access Token) للنشر المباشر أونلاين:");
+        if (!inputToken) {
+            showToast("يلزم إدخال Token للنشر المباشر على GitHub!");
+            dot.className = "indicator-dot idle";
+            text.textContent = "تعديلات غير محفوظة محلياً";
+            checkPublishAbility();
+            return;
+        }
+        gitConfig.token = inputToken.trim();
+        localStorage.setItem("git_token", gitConfig.token);
+        if (githubTokenInput) githubTokenInput.value = gitConfig.token;
     }
 
     text.textContent = "جاري الاتصال بـ GitHub وجلب الـ SHA...";
