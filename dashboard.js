@@ -7,8 +7,8 @@ let localDatabase = { apps: [], alternatives: {}, prompts: [], customizer: {} };
 let isModified = false;
 let gitConfig = { token: "", owner: "", repo: "", branch: "" };
 
-// Credentials Hash (SHA-256)
-const CREDENTIALS_HASH = "d2a7453f9a3e08f14a1277a8e4068e844d53c693408cc823662f2a72476b14bf";
+// Credentials Hash (SHA-256 for bodanow6@gmail.com:bn918912bn918912bn)
+const CREDENTIALS_HASH = "4bcb38a270dc1bdc34662608a1295f89f4c87429bd3018b6d362d59896b9aa4c";
 
 // === Admin Authentication Gate enabled for all hosts via SHA-256 login ===
 
