@@ -155,8 +155,35 @@ const ToolsEngine = (() => {
     function init(toolsData) {
         allTools = toolsData;
         renderCategories();
-        renderSidebar("all");
-        if (allTools.length > 0) loadTool(allTools[0].id);
+        
+        // Read URL query parameter (?tool=...) or hash (#tool=...)
+        const urlParams = new URLSearchParams(window.location.search);
+        const toolParam = urlParams.get('tool');
+        const hashParam = window.location.hash.replace(/^#/, '').replace(/^tool=/, '');
+
+        const targetId = toolParam || hashParam;
+        let foundTool = null;
+        if (targetId) {
+            foundTool = allTools.find(t => t.id === targetId || t.id.includes(targetId) || targetId.includes(t.id));
+        }
+
+        if (foundTool) {
+            if (foundTool.cat) {
+                const catTab = document.querySelector(`.cat-tab[data-cat="${foundTool.cat}"]`);
+                if (catTab) {
+                    document.querySelectorAll(".cat-tab").forEach(t => t.classList.remove("active"));
+                    catTab.classList.add("active");
+                }
+                renderSidebar(foundTool.cat);
+            } else {
+                renderSidebar("all");
+            }
+            loadTool(foundTool.id);
+        } else {
+            renderSidebar("all");
+            if (allTools.length > 0) loadTool(allTools[0].id);
+        }
+
         bindSearch();
     }
 
@@ -210,6 +237,12 @@ const ToolsEngine = (() => {
         if (!tool) return;
         activeToolId = id;
         
+        // Update URL query without reloading
+        if (window.history && window.history.replaceState) {
+            const newUrl = window.location.pathname + '?tool=' + id;
+            window.history.replaceState(null, '', newUrl);
+        }
+
         // Update sidebar selection
         document.querySelectorAll(".tool-menu-btn").forEach(b => b.classList.toggle("active", b.dataset.toolId === id));
         
@@ -220,7 +253,7 @@ const ToolsEngine = (() => {
         // Run tool init logic after DOM update
         requestAnimationFrame(() => { if (tool.init) tool.init(); });
 
-        // Scroll workspace to top and into view smoothly
+        // Scroll workspace into view smoothly
         workspace.scrollTop = 0;
         workspace.scrollIntoView({ behavior: "smooth", block: "start" });
     }

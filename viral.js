@@ -118,17 +118,17 @@ document.addEventListener("DOMContentLoaded", () => {
         { title: "الجوائز والمكافآت", desc: "نظام النقاط والمكافآت والهدايا الفيرال", url: "rewards.html", cat: "صفحة", icon: "fas fa-gift", kw: ["جوائز", "نقاط", "هدايا", "rewards"] },
 
         // Interactive Tools (tools.html)
-        { title: "أداة إزالة خلفية الصور بالذكاء الاصطناعي", desc: "حذف خلفية أي صورة بدقة عالية مجاناً", url: "tools.html#bg-remover", cat: "أداة مجانية", icon: "fas fa-eraser", kw: ["إزالة", "خلفية", "صور", "صورة", "bg", "remove"] },
-        { title: "أداة ضغط وتصغير حجم الصور", desc: "تقليل حجم الصور مع الحفاظ على الجودة", url: "tools.html#img-compressor", cat: "أداة مجانية", icon: "fas fa-compress", kw: ["ضغط", "تصغير", "حجم", "صور", "compress"] },
-        { title: "مولد أفكار محتوى ومقالات AI", desc: "توليد أفكار فيديوهات ومقالات تسويقية", url: "tools.html#ai-writer", cat: "أداة مجانية", icon: "fas fa-pen-nib", kw: ["أفكار", "محتوى", "كاتب", "ذكاء", "مقالات"] },
-        { title: "أداة تلخيص النصوص الطويلة", desc: "تلخيص المقالات والملفات لنقاط رئيسية", url: "tools.html#text-summarizer", cat: "أداة مجانية", icon: "fas fa-align-left", kw: ["تلخيص", "نص", "مقالة", "ملخص"] },
-        { title: "أداة تحميل مصغرات يوتيوب HD", desc: "استخراج صورة الغلاف لأي فيديو يوتيوب", url: "tools.html#yt-thumb-downloader", cat: "أداة مجانية", icon: "fas fa-image", kw: ["يوتيوب", "غلاف", "مصغرة", "تحميل", "youtube", "thumbnail"] },
-        { title: "مولد وتأمين كلمات المرور القوية", desc: "إنشاء كلمة سر عشوائية ومعقدة وتأمينها", url: "tools.html#pwd-generator", cat: "أداة مجانية", icon: "fas fa-key", kw: ["باسورد", "كلمة سر", "كلمات مرور", "تأمين", "password"] },
-        { title: "أداة توليد رموز QR Code", desc: "إنشاء كود QR مخصص لروابطك والواي فاي", url: "tools.html#qr-generator", cat: "أداة مجانية", icon: "fas fa-qrcode", kw: ["بار كود", "qr", "qrcode", "رمز"] },
-        { title: "عداد الكلمات والأحرف ووقت القراءة", desc: "حساب عدد الكلمات والجمل والأحرف بدقة", url: "tools.html#word-counter", cat: "أداة مجانية", icon: "fas fa-font", kw: ["عداد", "كلمات", "أحرف", "حساب", "كلمة"] },
-        { title: "تحويل ملفات PDF إلى صور", desc: "استخراج صفحات PDF لصور عالية الوضوح", url: "tools.html#pdf-to-img", cat: "أداة مجانية", icon: "fas fa-file-pdf", kw: ["pdf", "تحويل", "صور", "ملف"] },
-        { title: "أداة استخراج الألوان من الصور", desc: "استخراج كود الألوان HEX/RGB من أي صورة", url: "tools.html#color-picker", cat: "أداة مجانية", icon: "fas fa-eye-dropper", kw: ["ألوان", "الوان", "استخراج", "color", "hex"] },
-        { title: "مولد روابط واتساب المباشرة", desc: "إنشاء رابط واتس اب مباشر مع رسالة جاهزة", url: "tools.html#wa-link-generator", cat: "أداة مجانية", icon: "fab fa-whatsapp", kw: ["واتس", "واتساب", "رابط", "whatsapp", "link"] },
+        { title: "أداة إزالة خلفية الصور بالذكاء الاصطناعي", desc: "حذف خلفية أي صورة بدقة عالية مجاناً", url: "tools.html?tool=img-bg-remover", cat: "أداة مجانية", icon: "fas fa-eraser", kw: ["إزالة", "خلفية", "صور", "صورة", "bg", "remove"] },
+        { title: "أداة ضغط وتصغير حجم الصور", desc: "تقليل حجم الصور مع الحفاظ على الجودة", url: "tools.html?tool=img-compress", cat: "أداة مجانية", icon: "fas fa-compress", kw: ["ضغط", "تصغير", "حجم", "صور", "compress"] },
+        { title: "مولد أفكار محتوى ومقالات AI", desc: "توليد أفكار فيديوهات ومقالات تسويقية", url: "tools.html?tool=orig-prompt", cat: "أداة مجانية", icon: "fas fa-pen-nib", kw: ["أفكار", "محتوى", "كاتب", "ذكاء", "مقالات"] },
+        { title: "أداة تلخيص وإعادة صياغة النصوص", desc: "تلخيص المقالات والملفات لنقاط رئيسية", url: "tools.html?tool=ar-paraphraser", cat: "أداة مجانية", icon: "fas fa-align-left", kw: ["تلخيص", "نص", "مقالة", "ملخص"] },
+        { title: "أداة تحميل فيديوهات يوتيوب HD", desc: "استخراج وتنزيل مقاطع وفيديوهات يوتيوب", url: "tools.html?tool=social-youtube-dl", cat: "أداة مجانية", icon: "fab fa-youtube", kw: ["يوتيوب", "غلاف", "مصغرة", "تحميل", "youtube", "thumbnail"] },
+        { title: "مولد وتأمين كلمات المرور القوية", desc: "إنشاء كلمة سر عشوائية ومعقدة وتأمينها", url: "tools.html?tool=sec-pass-gen", cat: "أداة مجانية", icon: "fas fa-key", kw: ["باسورد", "كلمة سر", "كلمات مرور", "تأمين", "password"] },
+        { title: "أداة توليد رموز QR Code", desc: "إنشاء كود QR مخصص لروابطك والواي فاي", url: "tools.html?tool=orig-qr", cat: "أداة مجانية", icon: "fas fa-qrcode", kw: ["بار كود", "qr", "qrcode", "رمز"] },
+        { title: "عداد الكلمات والأحرف ووقت القراءة", desc: "حساب عدد الكلمات والجمل والأحرف بدقة", url: "tools.html?tool=txt-counter", cat: "أداة مجانية", icon: "fas fa-font", kw: ["عداد", "كلمات", "أحرف", "حساب", "كلمة"] },
+        { title: "تحويل صيغ الصور وتصغير الحجم", desc: "استخراج وتحويل صيغ الصور عالية الوضوح", url: "tools.html?tool=img-convert", cat: "أداة مجانية", icon: "fas fa-image", kw: ["تحويل", "صور", "ملف", "convert"] },
+        { title: "أداة استخراج ومحول الألوان", desc: "استخراج كود الألوان HEX/RGB من أي صورة", url: "tools.html?tool=dev-color-conv", cat: "أداة مجانية", icon: "fas fa-eye-dropper", kw: ["ألوان", "الوان", "استخراج", "color", "hex"] },
+        { title: "أداة تحميل فيديوهات تيك توك", desc: "تنزيل مقاطع تيك توك بدون علامة مائية", url: "tools.html?tool=social-tiktok-dl", cat: "أداة مجانية", icon: "fab fa-tiktok", kw: ["تيك توك", "تحميل", "tiktok", "watermark"] },
 
         // Apps & Campaigns (index.html)
         { title: "تطبيق مشاركة الشاشة والتحكم الكامل", desc: "مشاركة شاشة الهاتف مع أي جهاز آخر بسهولة", url: "index.html#apps", cat: "تطبيق", icon: "fas fa-mobile-screen", kw: ["مشاركة", "شاشة", "تحكم", "هاتف", "تطبيق"] },
