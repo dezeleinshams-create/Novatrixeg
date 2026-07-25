@@ -32,7 +32,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=3">
     <link rel="stylesheet" href="viral.css">
     <link rel="icon" type="image/jpeg" href="assets/avatar.jpg">
     
@@ -55,7 +55,20 @@
             <div class="nav-logo" onclick="window.location.href='index.html'">
                 <img src="assets/logo-light.svg" alt="Novatrix EG Logo" class="logo-svg">
             </div>
-            <div class="nav-links">
+            
+    <!-- NAVBAR CENTER: SEARCH BOX + THEME TOGGLE -->
+    <div class="nav-center-controls" id="navCenterControls">
+        <div class="global-search-box" id="globalSearchBox">
+            <i class="fas fa-search global-search-icon"></i>
+            <input type="text" id="globalSearchInput" placeholder="ابحث في أدوات، شروحات، أو مواقع..." autocomplete="off" spellcheck="false">
+            <button id="globalSearchClearBtn" class="search-clear-btn" style="display:none;"><i class="fas fa-times"></i></button>
+            <div class="global-search-results" id="globalSearchResults"></div>
+        </div>
+        <button id="themeToggleBtn" class="theme-toggle-btn" title="تغيير المظهر">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+<div class="nav-links">
                 <a href="index.html" class="nav-link"><i class="fas fa-home"></i> الرئيسية</a>
                 <a href="tools.html" class="nav-link"><i class="fas fa-cubes"></i> الأدوات</a>
                 <a href="ai-sites.html" class="nav-link"><i class="fas fa-globe"></i> مواقع AI</a>
@@ -65,11 +78,7 @@
         </nav>
 
         <!-- Theme Switcher Wrapper -->
-        <div class="theme-toggle-wrapper fade-in">
-            <button id="themeToggleBtn" class="theme-toggle-btn" title="تغيير المظهر">
-                <i class="fas fa-sun"></i>
-            </button>
-        </div>
+        
 
         <!-- REWARDS HEADER CARD -->
         <header class="rewards-header-card fade-in">
@@ -336,7 +345,7 @@
     </div>
 
     <!-- Core logic JS assets -->
-    <script src="viral.js" defer></script>
+    <script src="viral.js?v=4" defer></script>
     <script>
         // Streak Points values mapping
 
@@ -372,7 +381,7 @@
                 const isUnlocked = unlocked.includes(badge.id);
                 const card = document.createElement("div");
                 card.className = `streak-day-card ${isUnlocked ? 'claimed' : ''}`;
-                card.style.cssText = `display:flex; flex-direction:column; align-items:center; text-align:center; padding:16px 8px; border:1px solid ${isUnlocked ? badge.color : 'var(--border-color)'}; opacity:${isUnlocked ? '1' : '0.45'}; transition:all 0.3s; position:relative; background:var(--bg-surface); border-radius:12px;`;
+                card.style.css?v=3Text = `display:flex; flex-direction:column; align-items:center; text-align:center; padding:16px 8px; border:1px solid ${isUnlocked ? badge.color : 'var(--border-color)'}; opacity:${isUnlocked ? '1' : '0.45'}; transition:all 0.3s; position:relative; background:var(--bg-surface); border-radius:12px;`;
                 
                 if (isUnlocked) {
                     card.style.boxShadow = `0 0 10px ${badge.color}33`;
@@ -413,7 +422,7 @@
                 const alreadyClaimed = claimed.includes(mission.id);
                 const pct = Math.min(100, Math.round((progress / mission.target) * 100));
                 const card = document.createElement("div");
-                card.style.cssText = "display:flex;align-items:center;gap:12px;padding:12px;background:rgba(255,255,255,0.01);border:1px solid " + (done ? "var(--primary)" : "var(--border-color)") + ";border-radius:12px;transition:all 0.3s;";
+                card.style.css?v=3Text = "display:flex;align-items:center;gap:12px;padding:12px;background:rgba(255,255,255,0.01);border:1px solid " + (done ? "var(--primary)" : "var(--border-color)") + ";border-radius:12px;transition:all 0.3s;";
                 card.innerHTML = `
                     <div style="width:36px;height:36px;border-radius:10px;background:${done ? 'linear-gradient(135deg,var(--primary),var(--accent))' : 'rgba(255,255,255,0.03)'};display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                         <i class="${mission.icon}" style="color:${done ? 'white' : 'var(--text-secondary)'};font-size:0.85rem;"></i>
@@ -467,7 +476,7 @@
             all.forEach((entry, idx) => {
                 const row = document.createElement("div");
                 const isUser = entry.isUser;
-                row.style.cssText = `display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;background:${isUser ? 'rgba(37,99,235,0.08)' : 'rgba(255,255,255,0.01)'};border:1px solid ${isUser ? 'var(--primary)' : 'transparent'};transition:all 0.2s;`;
+                row.style.css?v=3Text = `display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;background:${isUser ? 'rgba(37,99,235,0.08)' : 'rgba(255,255,255,0.01)'};border:1px solid ${isUser ? 'var(--primary)' : 'transparent'};transition:all 0.2s;`;
                 row.innerHTML = `
                     <span style="font-size:0.85rem;width:24px;text-align:center;">${idx < 3 ? medals[idx] : (idx + 1)}</span>
                     <span style="flex:1;font-size:0.8rem;font-weight:${isUser ? '800' : '600'};color:${isUser ? 'var(--primary)' : 'white'};">${entry.name}</span>

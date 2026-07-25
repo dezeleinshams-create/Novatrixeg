@@ -57,7 +57,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=3">
     <link rel="stylesheet" href="viral.css">
     <link rel="icon" type="image/jpeg" href="assets/avatar.jpg">
     
@@ -80,7 +80,20 @@
             <div class="nav-logo" onclick="window.location.href='index.html'">
                 <img src="assets/logo-light.svg" alt="Novatrix EG Logo" class="logo-svg">
             </div>
-            <div class="nav-links">
+            
+    <!-- NAVBAR CENTER: SEARCH BOX + THEME TOGGLE -->
+    <div class="nav-center-controls" id="navCenterControls">
+        <div class="global-search-box" id="globalSearchBox">
+            <i class="fas fa-search global-search-icon"></i>
+            <input type="text" id="globalSearchInput" placeholder="ابحث في أدوات، شروحات، أو مواقع..." autocomplete="off" spellcheck="false">
+            <button id="globalSearchClearBtn" class="search-clear-btn" style="display:none;"><i class="fas fa-times"></i></button>
+            <div class="global-search-results" id="globalSearchResults"></div>
+        </div>
+        <button id="themeToggleBtn" class="theme-toggle-btn" title="تغيير المظهر">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+<div class="nav-links">
                 <a href="index.html" class="nav-link"><i class="fas fa-home"></i> الرئيسية</a>
                 <a href="tools.html" class="nav-link"><i class="fas fa-cubes"></i> الأدوات</a>
                 <a href="blog.html" class="nav-link active"><i class="fas fa-book-open"></i> الشروحات</a>
@@ -89,11 +102,7 @@
         </nav>
 
         <!-- Theme Switcher Wrapper -->
-        <div class="theme-toggle-wrapper fade-in">
-            <button id="themeToggleBtn" class="theme-toggle-btn" title="تغيير المظهر">
-                <i class="fas fa-sun"></i>
-            </button>
-        </div>
+        
 
         <!-- BLOG HEADER -->
         <header class="prompts-header fade-in" style="background: var(--bg-surface); padding: 32px 16px; margin-bottom: 24px;">
@@ -1301,7 +1310,7 @@
     </div>
 
     <!-- Core logic JS assets -->
-    <script src="viral.js" defer></script>
+    <script src="viral.js?v=4" defer></script>
     <script>
         // Advanced blog search, category filter, and pagination logic
         document.addEventListener("DOMContentLoaded", () => {
@@ -1321,7 +1330,7 @@
             // Create pagination container in HTML
             const paginationContainer = document.createElement("div");
             paginationContainer.className = "pagination-container";
-            paginationContainer.style.cssText = "display:flex; justify-content:center; align-items:center; gap:8px; margin-top:32px; width:100%; flex-wrap:wrap;";
+            paginationContainer.style.css?v=3Text = "display:flex; justify-content:center; align-items:center; gap:8px; margin-top:32px; width:100%; flex-wrap:wrap;";
             blogGrid.parentNode.insertBefore(paginationContainer, blogGrid.nextSibling);
 
             function filterAndPaginateBlog() {

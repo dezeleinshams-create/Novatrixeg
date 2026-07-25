@@ -44,7 +44,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Style links - absolute paths since this is inside a subfolder -->
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../style.css?v=3">
     <link rel="stylesheet" href="../viral.css">
     <link rel="icon" type="image/jpeg" href="../assets/avatar.jpg">
     
@@ -67,7 +67,20 @@
             <div class="nav-logo" onclick="window.location.href='../index.html'">
                 <img src="../assets/logo-light.svg" alt="Novatrix EG Logo" class="logo-svg">
             </div>
-            <div class="nav-links">
+            
+    <!-- NAVBAR CENTER: SEARCH BOX + THEME TOGGLE -->
+    <div class="nav-center-controls" id="navCenterControls">
+        <div class="global-search-box" id="globalSearchBox">
+            <i class="fas fa-search global-search-icon"></i>
+            <input type="text" id="globalSearchInput" placeholder="ابحث في أدوات، شروحات، أو مواقع..." autocomplete="off" spellcheck="false">
+            <button id="globalSearchClearBtn" class="search-clear-btn" style="display:none;"><i class="fas fa-times"></i></button>
+            <div class="global-search-results" id="globalSearchResults"></div>
+        </div>
+        <button id="themeToggleBtn" class="theme-toggle-btn" title="تغيير المظهر">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+<div class="nav-links">
                 <a href="../index.html" class="nav-link"><i class="fas fa-home"></i> الرئيسية</a>
                 <a href="../tools.html" class="nav-link"><i class="fas fa-cubes"></i> الأدوات</a>
                 <a href="../blog.html" class="nav-link active"><i class="fas fa-book-open"></i> الشروحات</a>
@@ -76,11 +89,7 @@
         </nav>
 
         <!-- Theme Switcher Wrapper -->
-        <div class="theme-toggle-wrapper fade-in">
-            <button id="themeToggleBtn" class="theme-toggle-btn" title="تغيير المظهر">
-                <i class="fas fa-sun"></i>
-            </button>
-        </div>
+        
 
         <a href="../blog.html" class="primary-btn back-blog-btn"><i class="fas fa-arrow-right"></i> العودة للمدونة</a>
 
@@ -179,6 +188,6 @@
     </div>
 
     <!-- Core logic JS assets -->
-    <script src="../viral.js" defer></script>
+    <script src="../viral.js?v=4" defer></script>
 </body>
 </html>
