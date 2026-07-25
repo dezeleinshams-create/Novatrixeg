@@ -227,25 +227,18 @@ document.addEventListener("DOMContentLoaded", () => {
                     const targetUrl = el.getAttribute('data-url');
                     results.classList.remove('active');
                     if (targetUrl) {
-                        const currentFile = window.location.pathname.split('/').pop() || 'index.html';
                         const parts = targetUrl.split('#');
-                        const targetFile = parts[0];
                         const targetHash = parts[1];
 
-                        if (targetFile === currentFile || (currentFile === '' && targetFile === 'index.html')) {
-                            if (targetHash) {
+                        window.location.href = targetUrl;
+
+                        if (targetHash) {
+                            setTimeout(() => {
                                 const targetElem = document.getElementById(targetHash);
                                 if (targetElem) {
                                     targetElem.scrollIntoView({ behavior: 'smooth' });
-                                    window.location.hash = targetHash;
-                                } else {
-                                    window.location.href = targetUrl;
                                 }
-                            } else {
-                                window.location.href = targetUrl;
-                            }
-                        } else {
-                            window.location.href = targetUrl;
+                            }, 100);
                         }
                     }
                 });
