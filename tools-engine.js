@@ -139,7 +139,7 @@ const ToolsEngine = (() => {
     function inputField(id, label, type, placeholder, extra) {
         return `<div ${extra || ""}>
             <label style="font-size:0.78rem;font-weight:700;color:var(--text-secondary);">${label}</label>
-            <input type="${type}" id="${id}" class="form-input" placeholder="${placeholder || ""}" style="background:rgba(0,0,0,0.15);border:1px solid var(--border-color);border-radius:12px;padding:10px;color:var(--text-primary);width:100%;margin-top:4px;">
+            <input type="${type === 'password' ? 'text' : type}" id="${id}" class="form-input" placeholder="${placeholder || ""}" autocomplete="off" spellcheck="false" data-lpignore="true" data-form-type="other" style="background:rgba(0,0,0,0.15);border:1px solid var(--border-color);border-radius:12px;padding:10px;color:var(--text-primary);width:100%;margin-top:4px;">
         </div>`;
     }
 

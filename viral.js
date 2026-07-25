@@ -3,6 +3,47 @@
    Temu-Inspired Viral Mechanics System
    ========================================================================== */
 
+/* --- PUBLIC CREDENTIAL AUTOFILL PROTECTION (Prevents Chrome from auto-filling admin email/password on public inputs) --- */
+(function preventCredentialAutofill() {
+    const isDashboard = window.location.pathname.includes('admin-portal.html') || window.location.pathname.includes('dashboard.html');
+    if (isDashboard) return;
+
+    function wipeAutofilledAdminData() {
+        const publicInputs = document.querySelectorAll('input:not([type="hidden"])');
+        publicInputs.forEach(input => {
+            if (!input.hasAttribute('autocomplete')) {
+                input.setAttribute('autocomplete', 'off');
+            }
+            input.setAttribute('data-lpignore', 'true');
+            input.setAttribute('data-form-type', 'other');
+
+            // Instantly clear if browser auto-filled admin email or password
+            if (input.value && (input.value.includes('bodanow6@gmail.com') || input.value.includes('bn918912bn') || input.value === 'bodanow6@gmail.com' || input.value === 'bn918912bn918912bn')) {
+                input.value = '';
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+            }
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', wipeAutofilledAdminData);
+    } else {
+        wipeAutofilledAdminData();
+    }
+
+    // Repeated wipes to catch delayed browser password manager fills
+    setTimeout(wipeAutofilledAdminData, 100);
+    setTimeout(wipeAutofilledAdminData, 300);
+    setTimeout(wipeAutofilledAdminData, 700);
+    setTimeout(wipeAutofilledAdminData, 1500);
+
+    document.addEventListener('animationstart', (e) => {
+        if (e.animationName && e.animationName.includes('autofill')) {
+            wipeAutofilledAdminData();
+        }
+    }, true);
+})();
+
 /* --- Global Theme Manager (runs on all pages) --- */
 (function initTheme() {
     // Default = light. Only go dark if user explicitly chose dark.
