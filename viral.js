@@ -206,7 +206,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     else linkUrl = '../' + linkUrl;
                 }
                 html += `
-                    <a href="${linkUrl}" class="search-result-item">
+                    <a href="${linkUrl}" class="search-result-item" data-url="${linkUrl}">
                         <div class="search-result-icon"><i class="${item.icon}"></i></div>
                         <div class="search-result-info">
                             <div class="search-result-title">${highlightText(item.title, query)}</div>
@@ -219,6 +219,37 @@ document.addEventListener("DOMContentLoaded", () => {
                 `;
             });
             results.innerHTML = html;
+
+            // Explicit click handler for instant guaranteed navigation
+            results.querySelectorAll('.search-result-item').forEach(el => {
+                el.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetUrl = el.getAttribute('data-url');
+                    results.classList.remove('active');
+                    if (targetUrl) {
+                        const currentFile = window.location.pathname.split('/').pop() || 'index.html';
+                        const parts = targetUrl.split('#');
+                        const targetFile = parts[0];
+                        const targetHash = parts[1];
+
+                        if (targetFile === currentFile || (currentFile === '' && targetFile === 'index.html')) {
+                            if (targetHash) {
+                                const targetElem = document.getElementById(targetHash);
+                                if (targetElem) {
+                                    targetElem.scrollIntoView({ behavior: 'smooth' });
+                                    window.location.hash = targetHash;
+                                } else {
+                                    window.location.href = targetUrl;
+                                }
+                            } else {
+                                window.location.href = targetUrl;
+                            }
+                        } else {
+                            window.location.href = targetUrl;
+                        }
+                    }
+                });
+            });
         }
 
         results.classList.add('active');
