@@ -244,7 +244,13 @@ function initAuthConfig() {
     // Load config from LocalStorage if exists
     gitConfig.token = localStorage.getItem("git_token") || "";
     gitConfig.owner = localStorage.getItem("git_owner") || "dezeleinshams-create";
-    gitConfig.repo = localStorage.getItem("git_repo") || "NEXURAEG";
+    
+    let storedRepo = localStorage.getItem("git_repo");
+    if (!storedRepo || storedRepo === "abdallah-tech") {
+        storedRepo = "NEXURAEG";
+        localStorage.setItem("git_repo", "NEXURAEG");
+    }
+    gitConfig.repo = storedRepo;
     gitConfig.branch = localStorage.getItem("git_branch") || "main";
 
     githubTokenInput.value = gitConfig.token;
