@@ -1145,28 +1145,30 @@ function loadDatabase(callback) {
 
 // HIDDEN ADMIN ENTRANCE CONTROLLER
 function initHiddenEntrance() {
-    // 1. Avatar Click Listener (5 clicks in 3 seconds)
-    const avatar = document.querySelector(".profile-avatar-container");
-    if (avatar) {
+    // 1. Logo Click Listener (5 clicks in 3 seconds)
+    const logoElements = document.querySelectorAll(".nav-logo, .hero-logo-banner, #heroLogoImg");
+    if (logoElements.length > 0) {
         let clickCount = 0;
         let lastClickTime = 0;
         
-        avatar.addEventListener("click", () => {
-            const currentTime = Date.now();
-            if (currentTime - lastClickTime < 3000) {
-                clickCount++;
-            } else {
-                clickCount = 1;
-            }
-            lastClickTime = currentTime;
-            
-            if (clickCount === 5) {
-                clickCount = 0; // reset
-                showToast("جاري الانتقال لبوابة الإدارة... 🔒");
-                setTimeout(() => {
-                    window.location.href = "dashboard.html";
-                }, 1000);
-            }
+        logoElements.forEach(el => {
+            el.addEventListener("click", (e) => {
+                const currentTime = Date.now();
+                if (currentTime - lastClickTime < 3000) {
+                    clickCount++;
+                } else {
+                    clickCount = 1;
+                }
+                lastClickTime = currentTime;
+                
+                if (clickCount === 5) {
+                    clickCount = 0; // reset
+                    if (typeof showToast === "function") showToast("جاري الانتقال لبوابة الإدارة... 🔒");
+                    setTimeout(() => {
+                        window.location.href = "dashboard.html";
+                    }, 800);
+                }
+            });
         });
     }
 
