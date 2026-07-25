@@ -4198,23 +4198,50 @@ body.light-theme .pill-btn:hover {
 }
 
 /* ==============================================
-   GLOBAL LIVE SEARCH SYSTEM STYLES
+   GLOBAL LIVE SEARCH & NAV CENTER SYSTEM STYLES
    ============================================== */
 .theme-toggle-wrapper {
+    display: none !important;
+}
+
+.nav-center-controls {
     display: flex !important;
-    justify-content: flex-end !important;
     align-items: center !important;
-    gap: 10px !important;
-    width: 100% !important;
-    margin-bottom: 12px !important;
-    z-index: 5000 !important;
-    position: relative !important;
+    gap: 8px !important;
+    flex: 1 !important;
+    max-width: 340px !important;
+    margin: 0 12px !important;
+    z-index: 1000 !important;
+}
+
+.nav-center-controls .theme-toggle-btn {
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    border-radius: 50% !important;
+    background: var(--bg-surface) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-primary) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    font-size: 0.88rem !important;
+    transition: all 0.25s ease !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15) !important;
+    flex-shrink: 0 !important;
+}
+
+.nav-center-controls .theme-toggle-btn:hover {
+    border-color: var(--primary) !important;
+    color: var(--primary) !important;
+    transform: scale(1.06) !important;
 }
 
 .global-search-box {
     position: relative;
-    width: 300px;
-    max-width: calc(100vw - 80px);
+    flex: 1;
+    width: 100%;
     transition: all 0.3s ease;
 }
 

@@ -123,26 +123,47 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function setupSearch() {
         const isSub = window.location.pathname.includes('/blog/');
-        const wrapper = document.querySelector('.theme-toggle-wrapper');
-        if (!wrapper || document.getElementById('globalSearchBox')) return;
+        const mainNav = document.querySelector('.main-navbar');
+        if (!mainNav || document.getElementById('navCenterControls')) return;
 
-        const searchBox = document.createElement('div');
-        searchBox.className = 'global-search-box';
-        searchBox.id = 'globalSearchBox';
-        searchBox.innerHTML = `
-            <i class="fas fa-search global-search-icon"></i>
-            <input type="text" id="globalSearchInput" placeholder="ابحث في أدوات وشروحات ومواقع الموقع..." autocomplete="off" spellcheck="false">
-            <button id="globalSearchClearBtn" class="search-clear-btn" style="display:none;"><i class="fas fa-times"></i></button>
-            <div class="global-search-results" id="globalSearchResults"></div>
+        const navLogo = mainNav.querySelector('.nav-logo');
+        const navLinks = mainNav.querySelector('.nav-links');
+
+        const navCenter = document.createElement('div');
+        navCenter.className = 'nav-center-controls';
+        navCenter.id = 'navCenterControls';
+
+        navCenter.innerHTML = `
+            <div class="global-search-box" id="globalSearchBox">
+                <i class="fas fa-search global-search-icon"></i>
+                <input type="text" id="globalSearchInput" placeholder="ابحث في أدوات، شروحات، أو مواقع..." autocomplete="off" spellcheck="false">
+                <button id="globalSearchClearBtn" class="search-clear-btn" style="display:none;"><i class="fas fa-times"></i></button>
+                <div class="global-search-results" id="globalSearchResults"></div>
+            </div>
         `;
 
-        const themeBtn = document.getElementById('themeToggleBtn');
-        if (themeBtn) {
-            wrapper.insertBefore(searchBox, themeBtn);
+        const existingThemeBtn = document.getElementById('themeToggleBtn');
+        if (existingThemeBtn) {
+            navCenter.appendChild(existingThemeBtn);
         } else {
-            wrapper.appendChild(searchBox);
+            const themeBtn = document.createElement('button');
+            themeBtn.id = 'themeToggleBtn';
+            themeBtn.className = 'theme-toggle-btn';
+            themeBtn.title = 'تغيير المظهر';
+            themeBtn.innerHTML = '<i class="fas fa-moon"></i>';
+            navCenter.appendChild(themeBtn);
         }
 
+        if (navLogo && navLinks) {
+            mainNav.insertBefore(navCenter, navLinks);
+        } else {
+            mainNav.appendChild(navCenter);
+        }
+
+        const oldWrapper = document.querySelector('.theme-toggle-wrapper');
+        if (oldWrapper) oldWrapper.style.display = 'none';
+
+        const searchBox = document.getElementById('globalSearchBox');
         const input = document.getElementById('globalSearchInput');
         const clearBtn = document.getElementById('globalSearchClearBtn');
         const results = document.getElementById('globalSearchResults');
@@ -171,7 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         document.addEventListener('click', (e) => {
-            if (!searchBox.contains(e.target)) {
+            if (searchBox && !searchBox.contains(e.target)) {
                 results.classList.remove('active');
             }
         });
