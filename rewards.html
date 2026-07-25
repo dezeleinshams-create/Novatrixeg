@@ -32,7 +32,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <link rel="stylesheet" href="style.css?v=3">
+    <link rel="stylesheet" href="style.css?v=4">
     <link rel="stylesheet" href="viral.css">
     <link rel="icon" type="image/jpeg" href="assets/avatar.jpg">
     
@@ -381,7 +381,7 @@
                 const isUnlocked = unlocked.includes(badge.id);
                 const card = document.createElement("div");
                 card.className = `streak-day-card ${isUnlocked ? 'claimed' : ''}`;
-                card.style.css?v=3Text = `display:flex; flex-direction:column; align-items:center; text-align:center; padding:16px 8px; border:1px solid ${isUnlocked ? badge.color : 'var(--border-color)'}; opacity:${isUnlocked ? '1' : '0.45'}; transition:all 0.3s; position:relative; background:var(--bg-surface); border-radius:12px;`;
+                card.style.css?v=4Text = `display:flex; flex-direction:column; align-items:center; text-align:center; padding:16px 8px; border:1px solid ${isUnlocked ? badge.color : 'var(--border-color)'}; opacity:${isUnlocked ? '1' : '0.45'}; transition:all 0.3s; position:relative; background:var(--bg-surface); border-radius:12px;`;
                 
                 if (isUnlocked) {
                     card.style.boxShadow = `0 0 10px ${badge.color}33`;
@@ -422,7 +422,7 @@
                 const alreadyClaimed = claimed.includes(mission.id);
                 const pct = Math.min(100, Math.round((progress / mission.target) * 100));
                 const card = document.createElement("div");
-                card.style.css?v=3Text = "display:flex;align-items:center;gap:12px;padding:12px;background:rgba(255,255,255,0.01);border:1px solid " + (done ? "var(--primary)" : "var(--border-color)") + ";border-radius:12px;transition:all 0.3s;";
+                card.style.css?v=4Text = "display:flex;align-items:center;gap:12px;padding:12px;background:rgba(255,255,255,0.01);border:1px solid " + (done ? "var(--primary)" : "var(--border-color)") + ";border-radius:12px;transition:all 0.3s;";
                 card.innerHTML = `
                     <div style="width:36px;height:36px;border-radius:10px;background:${done ? 'linear-gradient(135deg,var(--primary),var(--accent))' : 'rgba(255,255,255,0.03)'};display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                         <i class="${mission.icon}" style="color:${done ? 'white' : 'var(--text-secondary)'};font-size:0.85rem;"></i>
@@ -476,7 +476,7 @@
             all.forEach((entry, idx) => {
                 const row = document.createElement("div");
                 const isUser = entry.isUser;
-                row.style.css?v=3Text = `display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;background:${isUser ? 'rgba(37,99,235,0.08)' : 'rgba(255,255,255,0.01)'};border:1px solid ${isUser ? 'var(--primary)' : 'transparent'};transition:all 0.2s;`;
+                row.style.css?v=4Text = `display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;background:${isUser ? 'rgba(37,99,235,0.08)' : 'rgba(255,255,255,0.01)'};border:1px solid ${isUser ? 'var(--primary)' : 'transparent'};transition:all 0.2s;`;
                 row.innerHTML = `
                     <span style="font-size:0.85rem;width:24px;text-align:center;">${idx < 3 ? medals[idx] : (idx + 1)}</span>
                     <span style="flex:1;font-size:0.8rem;font-weight:${isUser ? '800' : '600'};color:${isUser ? 'var(--primary)' : 'white'};">${entry.name}</span>
