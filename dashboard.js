@@ -685,52 +685,24 @@ if (downloadDbBtn) {
 publishBtn.addEventListener("click", publishToGitHub);
 
 function publishToGitHub() {
-    const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
-    
     // Update status UI
     const dot = publishStatus.querySelector(".indicator-dot");
     const text = publishStatus.querySelector(".status-text");
     dot.className = "indicator-dot loading";
     publishBtn.disabled = true;
 
-    if (isLocalhost) {
-        text.textContent = "جاري الحفظ المحلي والمزامنة تلقائياً مع GitHub...";
-        
-        fetch("/api/save", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json; charset=utf-8"
-            },
-            body: JSON.stringify(localDatabase)
-        })
-        .then(res => {
-            if (!res.ok) throw new Error("فشل الحفظ عبر خادم الأتمتة المحلي.");
-            return res.json();
-        })
-        .then(data => {
-            if (data.status === "success") {
-                updateModificationState(false);
-                showToast("تم الحفظ محلياً وبدء المزامنة التلقائية مع GitHub! 🎉");
-            } else {
-                throw new Error(data.message);
-            }
-        })
-        .catch(err => {
-            console.error(err);
-            dot.className = "indicator-dot idle";
-            text.textContent = "فشل الحفظ التلقائي";
-            alert(`حدث خطأ أثناء المزامنة المحلية:\n${err.message}`);
-            checkPublishAbility();
-        });
-        return;
-    }
+    // Read current input values if changed
+    if (githubOwnerInput && githubOwnerInput.value.trim()) gitConfig.owner = githubOwnerInput.value.trim();
+    if (githubRepoInput && githubRepoInput.value.trim()) gitConfig.repo = githubRepoInput.value.trim();
+    if (githubBranchInput && githubBranchInput.value.trim()) gitConfig.branch = githubBranchInput.value.trim();
+    if (githubTokenInput && githubTokenInput.value.trim()) gitConfig.token = githubTokenInput.value.trim();
 
     if (!gitConfig.token) {
-        const inputToken = prompt("أدخل رمز الوصول الخاص بك من GitHub (Personal Access Token) للنشر المباشر أونلاين:");
+        const inputToken = prompt(`أدخل رمز الوصول (GitHub Access Token) للنشر المباشر على المستودع (${gitConfig.owner}/${gitConfig.repo}):`);
         if (!inputToken) {
             showToast("يلزم إدخال Token للنشر المباشر على GitHub!");
             dot.className = "indicator-dot idle";
-            text.textContent = "تعديلات غير محفوظة محلياً";
+            text.textContent = "تعديلات غير محفوظة أونلاين";
             checkPublishAbility();
             return;
         }
@@ -739,7 +711,7 @@ function publishToGitHub() {
         if (githubTokenInput) githubTokenInput.value = gitConfig.token;
     }
 
-    text.textContent = "جاري الاتصال بـ GitHub وجلب الـ SHA...";
+    text.textContent = `جاري الاتصال بـ GitHub (${gitConfig.owner}/${gitConfig.repo})...`;
 
     const path = "database.json";
     const url = `https://api.github.com/repos/${gitConfig.owner}/${gitConfig.repo}/contents/${path}`;
@@ -753,7 +725,7 @@ function publishToGitHub() {
     })
     .then(res => {
         if (!res.ok) {
-            throw new Error("فشل الاتصال بـ GitHub. تحقق من صحة الـ Token واسم المستودع.");
+            throw new Error(`فشل الاتصال بـ GitHub على المستودع (${gitConfig.owner}/${gitConfig.repo}). تحقق من اسم المستودع والـ Token.`);
         }
         return res.json();
     })
@@ -765,7 +737,7 @@ function publishToGitHub() {
         const encodedContent = btoa(unescape(encodeURIComponent(updatedDbString)));
 
         // Step 2: PUT updated JSON to GitHub
-        text.textContent = "جاري رفع البيانات وتحديث ملف database.json...";
+        text.textContent = `جاري رفع وتحديث database.json على المستودع (${gitConfig.repo})...`;
         
         return fetch(url, {
             method: "PUT",
@@ -775,7 +747,7 @@ function publishToGitHub() {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                message: "Update database.json from Admin Dashboard",
+                message: "Auto-update database.json from Admin Dashboard",
                 content: encodedContent,
                 sha: fileSha,
                 branch: gitConfig.branch
@@ -790,13 +762,13 @@ function publishToGitHub() {
     })
     .then(data => {
         updateModificationState(false);
-        showToast("تم نشر التعديلات بنجاح! الموقع قيد التحديث الآن.");
+        showToast(`تم تحديث ونشر البيانات بنجاح على المستودع ${gitConfig.owner}/${gitConfig.repo}! 🎉`);
     })
     .catch(err => {
         console.error(err);
         dot.className = "indicator-dot idle";
         text.textContent = "فشل النشر والاتصال بـ GitHub";
-        alert(`حدث خطأ أثناء عملية النشر:\n${err.message}`);
+        alert(`حدث خطأ أثناء عملية النشر على GitHub:\n${err.message}`);
         checkPublishAbility();
     });
 }
