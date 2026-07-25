@@ -7,8 +7,11 @@ let localDatabase = { apps: [], alternatives: {}, prompts: [], customizer: {} };
 let isModified = false;
 let gitConfig = { token: "", owner: "", repo: "", branch: "" };
 
-// Credentials Hash (SHA-256 for bodanow6@gmail.com:bn918912bn918912bn)
-const CREDENTIALS_HASH = "4bcb38a270dc1bdc34662608a1295f89f4c87429bd3018b6d362d59896b9aa4c";
+// Allowed Credentials Hashes (SHA-256)
+const ALLOWED_HASHES = [
+    "4bcb38a270dc1bdc34662608a1295f89f4c87429bd3018b6d362d59896b9aa4c", // bodanow6@gmail.com:bn918912bn918912bn
+    "d2a7453f9a3e08f14a1277a8e4068e844d53c693408cc823662f2a72476b14bf"  // admin:bn918912bn918912bn
+];
 
 // === Admin Authentication Gate enabled for all hosts via SHA-256 login ===
 
@@ -85,7 +88,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // SHA-256 Hashing helper using native Web Crypto API
 async function hashCredentials(username, password) {
-    const msgBuffer = new TextEncoder().encode(`${username}:${password}`);
+    const cleanUser = username.trim().toLowerCase();
+    const cleanPass = password.trim();
+    const msgBuffer = new TextEncoder().encode(`${cleanUser}:${cleanPass}`);
     const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
     const hashArray = Array.from(new Uint8Array(hashBuffer));
     return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
@@ -178,7 +183,7 @@ function initLoginGate() {
 
         const computedHash = await hashCredentials(username, password);
 
-        if (computedHash === CREDENTIALS_HASH) {
+        if (ALLOWED_HASHES.includes(computedHash)) {
             // Success
             clearAttempts();
             sessionStorage.setItem("admin_authenticated", "true");
