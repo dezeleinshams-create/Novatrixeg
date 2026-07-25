@@ -10,14 +10,7 @@ let gitConfig = { token: "", owner: "", repo: "", branch: "" };
 // Credentials Hash (SHA-256)
 const CREDENTIALS_HASH = "d2a7453f9a3e08f14a1277a8e4068e844d53c693408cc823662f2a72476b14bf";
 
-// === Security: Block access from outside localhost ===
-(function() {
-    const host = window.location.hostname;
-    if (host !== 'localhost' && host !== '127.0.0.1' && host !== '') {
-        document.body.innerHTML = '<div style="display:flex;height:100vh;align-items:center;justify-content:center;background:#0a0a0f;color:#ff4757;font-family:Cairo,sans-serif;font-size:1.5rem;text-align:center"><div><i class="fas fa-ban" style="font-size:4rem;margin-bottom:1rem;display:block"></i>⛔ الوصول محظور<br><small style="color:#888;font-size:0.9rem">لوحة التحكم متاحة من الجهاز المحلي فقط</small></div></div>';
-        throw new Error('Access denied: dashboard only accessible from localhost');
-    }
-})();
+// === Admin Authentication Gate enabled for all hosts via SHA-256 login ===
 
 // DOM Selectors
 const githubTokenInput = document.getElementById("githubToken");
