@@ -122,7 +122,6 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
 
     function setupSearch() {
-        const isSub = window.location.pathname.includes('/blog/');
         const mainNav = document.querySelector('.main-navbar');
 
         let navCenter = document.getElementById('navCenterControls');
@@ -161,47 +160,62 @@ document.addEventListener("DOMContentLoaded", () => {
                 mainNav.appendChild(navCenter);
             }
         }
+    }
 
-        const searchBox = document.getElementById('globalSearchBox');
-        const input = document.getElementById('globalSearchInput');
-        const clearBtn = document.getElementById('globalSearchClearBtn');
-        const results = document.getElementById('globalSearchResults');
+    // GLOBAL EVENT DELEGATION — GUARANTEED TO WORK ON EVERY SINGLE PAGE
+    document.addEventListener('input', (e) => {
+        if (e.target && e.target.id === 'globalSearchInput') {
+            const input = e.target;
+            const query = input.value.trim().toLowerCase();
+            const results = document.getElementById('globalSearchResults');
+            const clearBtn = document.getElementById('globalSearchClearBtn');
+            const isSub = window.location.pathname.includes('/blog/');
 
-        if (!input || !results) return;
+            if (!results) return;
 
-        input.addEventListener('input', (e) => {
-            const query = e.target.value.trim().toLowerCase();
-            
             if (query.length > 0) {
-                clearBtn.style.display = 'block';
+                if (clearBtn) clearBtn.style.display = 'block';
                 renderMatches(query, isSub);
             } else {
-                clearBtn.style.display = 'none';
+                if (clearBtn) clearBtn.style.display = 'none';
                 results.classList.remove('active');
                 results.innerHTML = '';
             }
-        });
+        }
+    });
 
-        clearBtn.addEventListener('click', () => {
-            input.value = '';
-            clearBtn.style.display = 'none';
-            results.classList.remove('active');
-            results.innerHTML = '';
-            input.focus();
-        });
-
-        document.addEventListener('click', (e) => {
-            if (searchBox && !searchBox.contains(e.target)) {
+    document.addEventListener('click', (e) => {
+        if (e.target && e.target.closest('#globalSearchClearBtn')) {
+            const input = document.getElementById('globalSearchInput');
+            const results = document.getElementById('globalSearchResults');
+            const clearBtn = document.getElementById('globalSearchClearBtn');
+            if (input) {
+                input.value = '';
+                if (clearBtn) clearBtn.style.display = 'none';
+                if (results) {
+                    results.classList.remove('active');
+                    results.innerHTML = '';
+                }
+                input.focus();
+            }
+        } else {
+            const searchBox = document.getElementById('globalSearchBox');
+            const results = document.getElementById('globalSearchResults');
+            if (searchBox && results && !searchBox.contains(e.target)) {
                 results.classList.remove('active');
             }
-        });
+        }
+    });
 
-        input.addEventListener('focus', () => {
-            if (input.value.trim().length > 0) {
-                renderMatches(input.value.trim().toLowerCase(), isSub);
+    document.addEventListener('focusin', (e) => {
+        if (e.target && e.target.id === 'globalSearchInput') {
+            const query = e.target.value.trim().toLowerCase();
+            const isSub = window.location.pathname.includes('/blog/');
+            if (query.length > 0) {
+                renderMatches(query, isSub);
             }
-        });
-    }
+        }
+    });
 
     function renderMatches(query, isSub) {
         const results = document.getElementById('globalSearchResults');
