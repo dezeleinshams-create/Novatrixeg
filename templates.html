@@ -125,6 +125,70 @@
             border: none;
             background: white;
         }
+        /* HOW-TO-USE SECTION */
+        .how-to-use {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 28px;
+        }
+        .how-to-use h2 {
+            font-size: 1.4rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .how-to-use h2 i {
+            color: var(--primary);
+        }
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+        }
+        .step-card {
+            background: rgba(37, 99, 235, 0.06);
+            border: 1px solid rgba(37, 99, 235, 0.12);
+            border-radius: 14px;
+            padding: 20px;
+            text-align: center;
+            transition: 0.3s;
+        }
+        .step-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+        .step-num {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            font-weight: 900;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+        }
+        .step-card h4 {
+            font-size: 0.92rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+        .step-card p {
+            color: var(--text-secondary);
+            font-size: 0.78rem;
+            line-height: 1.6;
+        }
+        /* Download loading state */
+        .btn-downloading {
+            pointer-events: none;
+            opacity: 0.7;
+        }
     </style>
 </head>
 <body>
@@ -197,6 +261,33 @@
             </div>
         </section>
 
+        <!-- HOW TO USE SECTION -->
+        <section class="how-to-use fade-in-delayed">
+            <h2><i class="fas fa-lightbulb"></i> ازاي تستخدم القالب وتبني موقعك الخاص؟</h2>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-num">1</div>
+                    <h4>اختار القالب المناسب</h4>
+                    <p>تصفح القوالب المتاحة واضغط "معاينة مباشرة" لاستعراض القالب قبل التحميل.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">2</div>
+                    <h4>حمّل ملف ZIP الكامل</h4>
+                    <p>اضغط "تنزيل ZIP" وهيتحمل ملف مضغوط فيه كل صفحات الموقع + ملف CSS.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">3</div>
+                    <h4>فك الضغط وعدّل المحتوى</h4>
+                    <p>افتح الملفات في أي محرر نصوص (VS Code أو Notepad) وغيّر النصوص والصور لتناسب مشروعك.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">4</div>
+                    <h4>ارفع موقعك على الإنترنت</h4>
+                    <p>ارفع الملفات على أي استضافة مجانية (Netlify، Vercel، GitHub Pages) أو استضافة مدفوعة.</p>
+                </div>
+            </div>
+        </section>
+
         <!-- TEMPLATES GRID WORKSPACE -->
         <main class="templates-grid fade-in-delayed" id="templatesGrid">
             <!-- Template cards loaded dynamically via JS -->
@@ -219,7 +310,7 @@
                 <span class="search-badge" style="background: rgba(16,185,129,0.2); color: #10b981;">معاينة مباشرة 👁️</span>
             </div>
             <div style="display: flex; gap: 10px; align-items: center;">
-                <button id="modalDownloadBtn" class="primary-btn" style="padding: 6px 14px; font-size: 0.78rem; background: linear-gradient(135deg, #10b981, #059669);"><i class="fas fa-download"></i> تحميل كـ ZIP/HTML</button>
+                <button id="modalDownloadBtn" class="primary-btn" style="padding: 6px 14px; font-size: 0.78rem; background: linear-gradient(135deg, #10b981, #059669);"><i class="fas fa-download"></i> تنزيل ZIP</button>
                 <button id="closeDemoModalBtn" class="secondary-btn" style="padding: 6px 12px; font-size: 0.8rem; cursor: pointer;"><i class="fas fa-times"></i> إغلاق</button>
             </div>
         </div>
@@ -227,6 +318,7 @@
     </div>
 
     <!-- Core Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="templates-data.js"></script>
     <script src="viral.js?v=7" defer></script>
     <script>
@@ -283,9 +375,10 @@
                             </div>
                         </div>
 
-                        <div class="template-actions">
-                            <button class="secondary-btn btn-demo" data-id="${t.id}" style="flex: 1; padding: 9px 12px; font-size: 0.78rem;"><i class="fas fa-eye"></i> معاينة مباشرة</button>
-                            <a href="${t.previewUrl}" target="_blank" class="primary-btn" style="flex: 1; padding: 9px 12px; font-size: 0.78rem; background: linear-gradient(135deg, var(--primary), var(--accent)); text-align:center; border-radius: 10px;"><i class="fas fa-external-link-alt"></i> فتح الموقع</a>
+                        <div class="template-actions" style="flex-wrap:wrap">
+                            <button class="secondary-btn btn-demo" data-id="${t.id}" style="flex: 1; min-width:90px; padding: 9px 12px; font-size: 0.78rem;"><i class="fas fa-eye"></i> معاينة</button>
+                            <button class="primary-btn btn-zip" data-id="${t.id}" style="flex: 1; min-width:90px; padding: 9px 12px; font-size: 0.78rem; background: linear-gradient(135deg, #10b981, #059669);"><i class="fas fa-download"></i> تنزيل ZIP</button>
+                            <a href="${t.previewUrl}" target="_blank" class="secondary-btn" style="flex: 1; min-width:90px; padding: 9px 12px; font-size: 0.78rem; text-align:center; border-radius: 10px;"><i class="fas fa-external-link-alt"></i> فتح</a>
                         </div>
                     </div>
                 `;
@@ -296,8 +389,14 @@
             // Bind Live Demo Buttons
             grid.querySelectorAll(".btn-demo").forEach(btn => {
                 btn.addEventListener("click", () => {
-                    const tId = btn.getAttribute("data-id");
-                    openDemoModal(tId);
+                    openDemoModal(btn.getAttribute("data-id"));
+                });
+            });
+
+            // Bind ZIP Download Buttons
+            grid.querySelectorAll(".btn-zip").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    downloadTemplateZip(btn.getAttribute("data-id"), btn);
                 });
             });
         }
@@ -323,10 +422,88 @@
 
         if (modalDownloadBtn) {
             modalDownloadBtn.addEventListener("click", () => {
-                if (activeTemplate && activeTemplate.previewUrl) {
-                    window.open(activeTemplate.previewUrl, '_blank');
-                }
+                if (activeTemplate) downloadTemplateZip(activeTemplate.id, modalDownloadBtn);
             });
+        }
+
+        /* ========== ZIP DOWNLOAD ENGINE ========== */
+        async function downloadTemplateZip(id, btnEl) {
+            const t = NOVATRIX_TEMPLATES.find(x => x.id === id);
+            if (!t || !t.pages || !t.folderName) return;
+
+            // Show loading state
+            const origHTML = btnEl.innerHTML;
+            btnEl.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التحميل...';
+            btnEl.classList.add('btn-downloading');
+
+            try {
+                const zip = new JSZip();
+                const folder = zip.folder(t.folderName);
+                const baseUrl = 'templates/' + t.folderName + '/';
+
+                // Fetch all pages + style.css
+                const filesToFetch = [...t.pages, 'style.css'];
+                const results = await Promise.all(
+                    filesToFetch.map(async (file) => {
+                        try {
+                            const resp = await fetch(baseUrl + file);
+                            if (!resp.ok) return null;
+                            const text = await resp.text();
+                            return { name: file, content: text };
+                        } catch (e) { return null; }
+                    })
+                );
+
+                results.forEach(r => {
+                    if (r) folder.file(r.name, r.content);
+                });
+
+                // Add README with instructions
+                folder.file('README.txt',
+`=== ${t.title} ===
+قالب من Novatrix EG — مجاني 100%
+https://dezeleinshams-create.github.io/NEXURAEG/
+
+=== كيفية الاستخدام ===
+1. افتح index.html في المتصفح لمعاينة الموقع.
+2. افتح الملفات في أي محرر نصوص (VS Code, Notepad++).
+3. عدّل النصوص والصور والألوان حسب مشروعك.
+4. عدّل style.css لتغيير الألوان والخطوط.
+5. ارفع الملفات على أي استضافة (Netlify, Vercel, GitHub Pages, أو استضافة عادية).
+
+=== الملفات المتاحة ===
+${filesToFetch.map(f => '- ' + f).join('\n')}
+
+© 2026 Novatrix EG — جميع الحقوق محفوظة.
+`);
+
+                const blob = await zip.generateAsync({ type: 'blob' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = t.folderName + '.zip';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(link.href);
+
+                // Success feedback
+                btnEl.innerHTML = '<i class="fas fa-check"></i> تم التحميل!';
+                setTimeout(() => {
+                    btnEl.innerHTML = origHTML;
+                    btnEl.classList.remove('btn-downloading');
+                }, 2500);
+
+                if (typeof showPointsToast === 'function') {
+                    showPointsToast('🎉 مبروك!', 'تم تحميل القالب بنجاح كـ ZIP — افتح الملف وابدأ في تعديل موقعك!');
+                }
+            } catch (err) {
+                console.error('ZIP download error:', err);
+                btnEl.innerHTML = '<i class="fas fa-exclamation-triangle"></i> خطأ!';
+                setTimeout(() => {
+                    btnEl.innerHTML = origHTML;
+                    btnEl.classList.remove('btn-downloading');
+                }, 2000);
+            }
         }
 
         if (tabsCont) {
