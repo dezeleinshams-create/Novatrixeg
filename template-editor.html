@@ -548,7 +548,7 @@
         await loadPage(0);
     }
 
-    async function loadPage(index) {
+    function loadPage(index) {
         if (!currentTemplate || !currentTemplate.pages) return;
         const page = currentTemplate.pages[index];
         currentPageIndex = index;
@@ -562,36 +562,34 @@
         // Save current page modifications before switching
         saveCurrentPageMods();
 
-        // Check if we have a modified version
-        if (modifiedPages[page]) {
-            showInIframe(modifiedPages[page]);
-        } else {
-            // Fetch fresh
+        noMsg.style.display = 'none';
+        iframe.style.display = 'block';
+
+        // Load via real URL to preserve base paths (CSS, images)
+        iframe.onload = () => {
             try {
-                const resp = await fetch(currentPreviewUrl);
-                const html = await resp.text();
-                originalPages[page] = html;
-                showInIframe(html);
+                if (modifiedPages[page]) {
+                    // Restore modified HTML
+                    iframe.contentDocument.documentElement.innerHTML = modifiedPages[page];
+                } else if (!originalPages[page]) {
+                    // Save initial fresh HTML
+                    originalPages[page] = iframe.contentDocument.documentElement.innerHTML;
+                }
+                
+                if (editMode) enableEditInIframe();
+                applyColorsToIframe();
+                applyFontToIframe();
             } catch(e) {
-                console.error('Failed to load page:', e);
+                console.error("Iframe load error:", e);
             }
-        }
+        };
+        
+        iframe.removeAttribute("srcdoc");
+        iframe.src = currentPreviewUrl;
     }
 
     function switchPage(index) {
         loadPage(index);
-    }
-
-    function showInIframe(html) {
-        noMsg.style.display = 'none';
-        iframe.style.display = 'block';
-        iframe.srcdoc = html;
-
-        iframe.onload = () => {
-            if (editMode) enableEditInIframe();
-            applyColorsToIframe();
-            applyFontToIframe();
-        };
     }
 
     function saveCurrentPageMods() {
@@ -600,7 +598,7 @@
             const doc = iframe.contentDocument;
             if (doc && doc.documentElement) {
                 const page = currentTemplate.pages[currentPageIndex];
-                modifiedPages[page] = '<!DOCTYPE html>\n' + doc.documentElement.outerHTML;
+                modifiedPages[page] = doc.documentElement.innerHTML;
             }
         } catch(e) {}
     }
@@ -776,6 +774,12 @@
                         html = await r.text();
                     } catch(e) { continue; }
                 }
+                
+                // If it's just innerHTML from doc.documentElement, wrap it
+                if (!html.toLowerCase().includes('<!doctype')) {
+                    html = '<!DOCTYPE html>\n<html lang="ar" dir="rtl">\n' + html + '\n</html>';
+                }
+
                 // Update font link in HTML if changed
                 if (font !== 'Cairo') {
                     html = html.replace(/family=Cairo/g, `family=${font.replace(/ /g,'+')}`);
