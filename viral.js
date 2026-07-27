@@ -44,32 +44,6 @@
     }, true);
 })();
 
-/* --- Global Theme Manager (runs on all pages) --- */
-(function initTheme() {
-    // Default = light. Only go dark if user explicitly chose dark.
-    const saved = localStorage.getItem('novatrix-theme');
-    const isDark = saved === 'dark';
-
-    document.addEventListener('DOMContentLoaded', () => {
-        if (!isDark) {
-            document.body.classList.add('light-theme');
-        }
-        _syncThemeIcon(!isDark);
-
-        const btn = document.getElementById('themeToggleBtn');
-        if (!btn) return;
-        btn.addEventListener('click', () => {
-            const isLight = document.body.classList.toggle('light-theme');
-            localStorage.setItem('novatrix-theme', isLight ? 'light' : 'dark');
-            _syncThemeIcon(isLight);
-        });
-    });
-
-    function _syncThemeIcon(isLight) {
-        const icon = document.querySelector('#themeToggleBtn i');
-        if (icon) icon.className = isLight ? 'fas fa-moon' : 'fas fa-sun';
-    }
-})();
 
 /* --- Secret Global Admin Gateway (5 logo clicks or Ctrl+Shift+D on ANY page) --- */
 document.addEventListener("DOMContentLoaded", () => {

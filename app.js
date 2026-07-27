@@ -820,44 +820,6 @@ if (contactForm && submitContactBtn) {
     });
 }
 
-// THEME SWITCHER LOGIC
-const themeToggleBtn = document.getElementById("themeToggleBtn");
-
-function updateThemeIcon(theme) {
-    const icon = themeToggleBtn.querySelector("i");
-    if (theme === "light") {
-        icon.className = "fas fa-moon";
-    } else {
-        icon.className = "fas fa-sun";
-    }
-}
-
-function updateLogoTheme(theme) {
-    const darkSrc  = "assets/logo-dark.svg";
-    const lightSrc = "assets/logo-light.svg";
-
-    // Navbar + hero banner logos (all img.logo-svg)
-    document.querySelectorAll("img.logo-svg").forEach(img => {
-        // Hero logo banner always shows dark SVG for dark mode, light SVG for light mode
-        img.src = theme === "light" ? lightSrc : darkSrc;
-    });
-}
-
-function initTheme() {
-    // Always default to light theme on initial page load
-    document.body.classList.add("light-theme");
-    updateThemeIcon("light");
-    updateLogoTheme("light");
-    
-    themeToggleBtn.addEventListener("click", () => {
-        document.body.classList.toggle("light-theme");
-        const theme = document.body.classList.contains("light-theme") ? "light" : "dark";
-        localStorage.setItem("theme", theme);
-        updateThemeIcon(theme);
-        updateLogoTheme(theme);
-        showToast(theme === "light" ? "تم تفعيل الوضع المضيء ☀️" : "تم تفعيل الوضع الداكن 🌙");
-    });
-}
 
 
 // ==========================================
@@ -1221,7 +1183,7 @@ window.addEventListener("DOMContentLoaded", () => {
         const category = activeTab ? activeTab.getAttribute("data-tab") : "images";
         loadPrompts(category);
         
-        initTheme();
+        // Init theme is handled globally in viral.js
         initProfitHub();
         initHiddenEntrance();
 
