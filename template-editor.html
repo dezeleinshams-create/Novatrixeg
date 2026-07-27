@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <title>محرر القوالب البصري المباشر — عدّل القالب أونلاين مجاناً | Novatrix EG</title>
+    <meta name="description" content="محرر قوالب مواقع بصري مجاني — عدّل النصوص والألوان والخطوط مباشرة في المتصفح وحمّل موقعك كـ ZIP جاهز للنشر.">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=4">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "محرر القوالب البصري المباشر — Novatrix EG",
+      "description": "محرر قوالب مواقع بصري مجاني لتعديل النصوص والألوان والخطوط مباشرة في المتصفح.",
+      "url": "https://dezeleinshams-create.github.io/NEXURAEG/template-editor.html",
+      "applicationCategory": "DesignApplication",
+      "operatingSystem": "Web Browser",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EGP" }
+    }
+    </script>
+    <style>
+        .editor-layout {
+            display: flex;
+            height: calc(100vh - 64px);
+            overflow: hidden;
+        }
+        /* SIDEBAR */
+        .editor-sidebar {
+            width: 300px;
+            min-width: 300px;
+            background: var(--bg-surface);
+            border-left: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            z-index: 10;
+            transition: 0.3s;
+        }
+        .editor-sidebar.collapsed {
+            width: 0;
+            min-width: 0;
+            overflow: hidden;
+            border: none;
+        }
+        .sidebar-header {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .sidebar-header h3 {
+            font-size: 0.95rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .sidebar-section {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .sidebar-section h4 {
+            font-size: 0.82rem;
+            font-weight: 800;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .color-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        .color-row label {
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+        .color-row input[type="color"] {
+            width: 36px;
+            height: 28px;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            background: none;
+            padding: 0;
+        }
+        .font-select {
+            width: 100%;
+            padding: 8px 10px;
+            background: var(--bg-base);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.82rem;
+            margin-bottom: 8px;
+        }
+        .sidebar-btn {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.82rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 8px;
+            transition: 0.3s;
+            font-family: inherit;
+        }
+        .sidebar-btn.primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+        }
+        .sidebar-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px var(--primary-glow);
+        }
+        .sidebar-btn.secondary {
+            background: var(--bg-base);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+        .sidebar-btn.danger {
+            background: rgba(239,68,68,0.12);
+            color: #ef4444;
+            border: 1px solid rgba(239,68,68,0.2);
+        }
+        .sidebar-btn.success {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+        /* TOOLBAR */
+        .editor-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 16px;
+            background: var(--bg-surface);
+            border-bottom: 1px solid var(--border-color);
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .toolbar-group {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .toolbar-btn {
+            padding: 6px 12px;
+            background: var(--bg-base);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-family: inherit;
+        }
+        .toolbar-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .toolbar-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .device-btn { padding: 6px 10px; font-size: 0.9rem; }
+        .template-name-bar {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .template-name-bar i { color: var(--primary); }
+        /* PREVIEW AREA */
+        .editor-preview {
+            flex: 1;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            background: #1a1a2e;
+            overflow: auto;
+            padding: 16px;
+        }
+        .preview-frame {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+            transition: width 0.4s ease, height 0.4s ease;
+            width: 100%;
+            height: 100%;
+        }
+        .preview-frame.tablet { width: 768px; height: 100%; }
+        .preview-frame.mobile { width: 375px; height: 100%; }
+        .preview-frame iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        /* PAGE NAV */
+        .page-tabs {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+        .page-tab {
+            padding: 5px 10px;
+            background: var(--bg-base);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 0.72rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: inherit;
+        }
+        .page-tab:hover { border-color: var(--primary); color: var(--primary); }
+        .page-tab.active { background: var(--primary); color: white; border-color: var(--primary); }
+        /* TOAST */
+        .editor-toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #10b981;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            z-index: 99999;
+            transition: 0.4s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 8px 24px rgba(16,185,129,0.4);
+        }
+        .editor-toast.show { transform: translateX(-50%) translateY(0); }
+        /* NO TEMPLATE */
+        .no-template {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            padding: 40px;
+        }
+        .no-template i { font-size: 3rem; color: var(--primary); margin-bottom: 16px; }
+        .no-template h2 { font-size: 1.4rem; font-weight: 900; margin-bottom: 10px; }
+        .no-template p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px; }
+        /* EDIT INDICATOR */
+        .edit-mode-indicator {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(37,99,235,0.9);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            z-index: 999;
+            display: none;
+            align-items: center;
+            gap: 6px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 16px rgba(37,99,235,0.3);
+        }
+        .edit-mode-indicator.show { display: flex; }
+        /* TOGGLE SIDEBAR BTN */
+        .toggle-sidebar-btn {
+            position: fixed;
+            top: 80px;
+            right: 8px;
+            z-index: 11;
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            display: none;
+        }
+        @media (max-width: 900px) {
+            .editor-sidebar { position: fixed; top: 64px; right: 0; bottom: 0; z-index: 100; }
+            .editor-sidebar.collapsed { width: 0; }
+            .toggle-sidebar-btn { display: flex; align-items: center; justify-content: center; }
+        }
+        @media (max-width: 600px) {
+            .editor-toolbar { padding: 6px 8px; }
+            .toolbar-btn { font-size: 0.7rem; padding: 5px 8px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="cyber-bg">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+    </div>
+
+    <!-- MAIN NAVBAR -->
+    <nav class="main-navbar fade-in" style="position:sticky;top:0;z-index:200">
+        <div class="nav-logo" onclick="window.location.href='index.html'">
+            <img src="assets/logo-light.svg" alt="Novatrix EG Logo" class="logo-svg">
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link"><i class="fas fa-home"></i> الرئيسية</a>
+            <a href="tools.html" class="nav-link"><i class="fas fa-cubes"></i> الأدوات</a>
+            <a href="templates.html" class="nav-link"><i class="fas fa-layer-group"></i> القوالب</a>
+            <a href="template-editor.html" class="nav-link active"><i class="fas fa-pen-ruler"></i> المحرر</a>
+        </div>
+    </nav>
+
+    <!-- EDIT MODE INDICATOR -->
+    <div class="edit-mode-indicator" id="editIndicator">
+        <i class="fas fa-mouse-pointer"></i> وضع التعديل: اضغط على أي نص لتعديله مباشرة
+    </div>
+
+    <!-- TOGGLE SIDEBAR (MOBILE) -->
+    <button class="toggle-sidebar-btn" id="toggleSidebarBtn"><i class="fas fa-sliders"></i></button>
+
+    <!-- EDITOR LAYOUT -->
+    <div class="editor-layout" id="editorLayout">
+
+        <!-- SIDEBAR -->
+        <aside class="editor-sidebar" id="editorSidebar">
+            <div class="sidebar-header">
+                <h3><i class="fas fa-palette" style="color:var(--primary)"></i> أدوات التعديل</h3>
+            </div>
+
+            <!-- TEMPLATE PICKER -->
+            <div class="sidebar-section">
+                <h4><i class="fas fa-layer-group"></i> اختر القالب</h4>
+                <select class="font-select" id="templatePicker">
+                    <option value="">— اختر قالب للتعديل —</option>
+                </select>
+            </div>
+
+            <!-- PAGE NAVIGATION -->
+            <div class="sidebar-section" id="pageNavSection" style="display:none">
+                <h4><i class="fas fa-file-code"></i> صفحات القالب</h4>
+                <div class="page-tabs" id="pageTabs"></div>
+            </div>
+
+            <!-- EDIT MODE -->
+            <div class="sidebar-section" id="editSection" style="display:none">
+                <h4><i class="fas fa-pen"></i> تعديل المحتوى</h4>
+                <button class="sidebar-btn secondary" id="toggleEditBtn" onclick="toggleEditMode()">
+                    <i class="fas fa-mouse-pointer"></i> تفعيل وضع التعديل
+                </button>
+                <p style="font-size:0.72rem;color:var(--text-secondary);margin-top:4px">اضغط على أي نص في المعاينة لتعديله مباشرة.</p>
+            </div>
+
+            <!-- COLORS -->
+            <div class="sidebar-section" id="colorsSection" style="display:none">
+                <h4><i class="fas fa-palette"></i> الألوان الأساسية</h4>
+                <div class="color-row">
+                    <label>اللون الرئيسي</label>
+                    <input type="color" id="colorPrimary" value="#3b82f6">
+                </div>
+                <div class="color-row">
+                    <label>اللون الثانوي</label>
+                    <input type="color" id="colorAccent" value="#06b6d4">
+                </div>
+                <div class="color-row">
+                    <label>لون الخلفية</label>
+                    <input type="color" id="colorBg" value="#0f172a">
+                </div>
+                <div class="color-row">
+                    <label>لون النص</label>
+                    <input type="color" id="colorText" value="#f8fafc">
+                </div>
+            </div>
+
+            <!-- FONTS -->
+            <div class="sidebar-section" id="fontsSection" style="display:none">
+                <h4><i class="fas fa-font"></i> الخط</h4>
+                <select class="font-select" id="fontPicker">
+                    <option value="Cairo">Cairo (افتراضي)</option>
+                    <option value="Tajawal">Tajawal</option>
+                    <option value="Noto Kufi Arabic">Noto Kufi Arabic</option>
+                    <option value="IBM Plex Sans Arabic">IBM Plex Sans Arabic</option>
+                    <option value="Almarai">Almarai</option>
+                    <option value="Inter">Inter (إنجليزي)</option>
+                    <option value="Poppins">Poppins (إنجليزي)</option>
+                    <option value="Roboto">Roboto (إنجليزي)</option>
+                </select>
+            </div>
+
+            <!-- ACTIONS -->
+            <div class="sidebar-section" id="actionsSection" style="display:none">
+                <h4><i class="fas fa-bolt"></i> إجراءات</h4>
+                <button class="sidebar-btn success" onclick="downloadEditedZip()">
+                    <i class="fas fa-download"></i> تنزيل القالب المعدّل ZIP
+                </button>
+                <button class="sidebar-btn danger" onclick="resetTemplate()">
+                    <i class="fas fa-rotate-left"></i> إعادة تعيين التعديلات
+                </button>
+                <button class="sidebar-btn secondary" onclick="window.open(currentPreviewUrl,'_blank')">
+                    <i class="fas fa-external-link-alt"></i> فتح في تاب جديد
+                </button>
+            </div>
+        </aside>
+
+        <!-- MAIN EDITOR AREA -->
+        <div style="flex:1;display:flex;flex-direction:column;overflow:hidden">
+            <!-- TOOLBAR -->
+            <div class="editor-toolbar" id="editorToolbar">
+                <div class="toolbar-group">
+                    <span class="template-name-bar" id="templateNameBar">
+                        <i class="fas fa-pen-ruler"></i> اختر قالب من القائمة لبدء التعديل
+                    </span>
+                </div>
+                <div class="toolbar-group">
+                    <button class="toolbar-btn device-btn active" data-device="desktop" onclick="setDevice('desktop',this)"><i class="fas fa-desktop"></i></button>
+                    <button class="toolbar-btn device-btn" data-device="tablet" onclick="setDevice('tablet',this)"><i class="fas fa-tablet-screen-button"></i></button>
+                    <button class="toolbar-btn device-btn" data-device="mobile" onclick="setDevice('mobile',this)"><i class="fas fa-mobile-screen"></i></button>
+                </div>
+            </div>
+
+            <!-- PREVIEW -->
+            <div class="editor-preview">
+                <div class="preview-frame" id="previewFrame">
+                    <div class="no-template" id="noTemplateMsg">
+                        <i class="fas fa-pen-ruler"></i>
+                        <h2>محرر القوالب البصري</h2>
+                        <p>اختر قالب من القائمة الجانبية لبدء التعديل المباشر على النصوص والألوان والخطوط.</p>
+                        <a href="templates.html" class="toolbar-btn" style="padding:10px 20px;font-size:0.85rem"><i class="fas fa-layer-group"></i> تصفح القوالب</a>
+                    </div>
+                    <iframe id="previewIframe" style="display:none" sandbox="allow-same-origin allow-scripts"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="editor-toast" id="editorToast"><i class="fas fa-check-circle"></i> <span id="toastMsg">تم الحفظ</span></div>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="templates-data.js"></script>
+    <script>
+    // =============================================
+    // VISUAL TEMPLATE EDITOR ENGINE
+    // =============================================
+    let currentTemplate = null;
+    let currentPageIndex = 0;
+    let editMode = false;
+    let currentPreviewUrl = '';
+    let modifiedPages = {}; // { pageFile: modifiedHTML }
+    let originalPages = {}; // { pageFile: originalHTML }
+
+    const picker = document.getElementById('templatePicker');
+    const iframe = document.getElementById('previewIframe');
+    const noMsg = document.getElementById('noTemplateMsg');
+    const frame = document.getElementById('previewFrame');
+    const nameBar = document.getElementById('templateNameBar');
+    const pageTabs = document.getElementById('pageTabs');
+    const editIndicator = document.getElementById('editIndicator');
+    const toggleSidebarBtn = document.getElementById('toggleSidebarBtn');
+    const sidebar = document.getElementById('editorSidebar');
+
+    // Populate template picker
+    NOVATRIX_TEMPLATES.forEach(t => {
+        const opt = document.createElement('option');
+        opt.value = t.id;
+        opt.textContent = t.title;
+        picker.appendChild(opt);
+    });
+
+    // Check URL params for pre-selected template
+    const urlParams = new URLSearchParams(window.location.search);
+    const preselect = urlParams.get('tpl');
+    if (preselect) {
+        picker.value = preselect;
+        loadTemplate(preselect);
+    }
+
+    picker.addEventListener('change', () => {
+        if (picker.value) loadTemplate(picker.value);
+    });
+
+    // Toggle sidebar (mobile)
+    toggleSidebarBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('collapsed');
+    });
+
+    async function loadTemplate(id) {
+        const t = NOVATRIX_TEMPLATES.find(x => x.id === id);
+        if (!t) return;
+        currentTemplate = t;
+        currentPageIndex = 0;
+        editMode = false;
+        modifiedPages = {};
+        originalPages = {};
+
+        // Show sections
+        ['pageNavSection','editSection','colorsSection','fontsSection','actionsSection'].forEach(s => {
+            document.getElementById(s).style.display = '';
+        });
+
+        nameBar.innerHTML = `<i class="fas fa-pen-ruler"></i> ${t.title}`;
+
+        // Build page tabs
+        pageTabs.innerHTML = '';
+        if (t.pages) {
+            t.pages.forEach((page, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'page-tab' + (i === 0 ? ' active' : '');
+                btn.textContent = page.replace('.html', '');
+                btn.onclick = () => switchPage(i);
+                pageTabs.appendChild(btn);
+            });
+        }
+
+        // Detect template colors from CSS
+        try {
+            const cssResp = await fetch('templates/' + t.folderName + '/style.css');
+            const cssText = await cssResp.text();
+            const extractColor = (name) => {
+                const m = cssText.match(new RegExp('--' + name + '\\s*:\\s*([^;]+)'));
+                return m ? m[1].trim() : null;
+            };
+            const pc = extractColor('primary'); if (pc) document.getElementById('colorPrimary').value = toHex(pc);
+            const ac = extractColor('accent'); if (ac) document.getElementById('colorAccent').value = toHex(ac);
+            const bg = extractColor('bg'); if (bg) document.getElementById('colorBg').value = toHex(bg);
+            const tx = extractColor('text'); if (tx) document.getElementById('colorText').value = toHex(tx);
+        } catch(e) {}
+
+        // Load first page
+        await loadPage(0);
+    }
+
+    async function loadPage(index) {
+        if (!currentTemplate || !currentTemplate.pages) return;
+        const page = currentTemplate.pages[index];
+        currentPageIndex = index;
+        currentPreviewUrl = 'templates/' + currentTemplate.folderName + '/' + page;
+
+        // Highlight active tab
+        pageTabs.querySelectorAll('.page-tab').forEach((t, i) => {
+            t.classList.toggle('active', i === index);
+        });
+
+        // Save current page modifications before switching
+        saveCurrentPageMods();
+
+        // Check if we have a modified version
+        if (modifiedPages[page]) {
+            showInIframe(modifiedPages[page]);
+        } else {
+            // Fetch fresh
+            try {
+                const resp = await fetch(currentPreviewUrl);
+                const html = await resp.text();
+                originalPages[page] = html;
+                showInIframe(html);
+            } catch(e) {
+                console.error('Failed to load page:', e);
+            }
+        }
+    }
+
+    function switchPage(index) {
+        loadPage(index);
+    }
+
+    function showInIframe(html) {
+        noMsg.style.display = 'none';
+        iframe.style.display = 'block';
+        iframe.srcdoc = html;
+
+        iframe.onload = () => {
+            if (editMode) enableEditInIframe();
+            applyColorsToIframe();
+            applyFontToIframe();
+        };
+    }
+
+    function saveCurrentPageMods() {
+        if (!currentTemplate) return;
+        try {
+            const doc = iframe.contentDocument;
+            if (doc && doc.documentElement) {
+                const page = currentTemplate.pages[currentPageIndex];
+                modifiedPages[page] = '<!DOCTYPE html>\n' + doc.documentElement.outerHTML;
+            }
+        } catch(e) {}
+    }
+
+    // =============================================
+    // EDIT MODE — contentEditable
+    // =============================================
+    function toggleEditMode() {
+        editMode = !editMode;
+        const btn = document.getElementById('toggleEditBtn');
+        if (editMode) {
+            btn.innerHTML = '<i class="fas fa-check"></i> إيقاف وضع التعديل';
+            btn.classList.add('active');
+            editIndicator.classList.add('show');
+            enableEditInIframe();
+            showToast('وضع التعديل مفعّل — اضغط على أي نص لتعديله');
+        } else {
+            btn.innerHTML = '<i class="fas fa-mouse-pointer"></i> تفعيل وضع التعديل';
+            btn.classList.remove('active');
+            editIndicator.classList.remove('show');
+            disableEditInIframe();
+            saveCurrentPageMods();
+            showToast('تم حفظ التعديلات');
+        }
+    }
+
+    function enableEditInIframe() {
+        try {
+            const doc = iframe.contentDocument;
+            if (!doc) return;
+            const editables = doc.querySelectorAll('h1,h2,h3,h4,h5,h6,p,span,a,li,label,button,td,th,div');
+            editables.forEach(el => {
+                // Skip if element has child block elements
+                if (el.querySelector('h1,h2,h3,h4,h5,h6,div,section,nav,footer,header,main,article,ul,ol')) return;
+                el.setAttribute('contenteditable', 'true');
+                el.style.outline = 'none';
+                el.style.cursor = 'text';
+                el.addEventListener('focus', function() {
+                    this.style.outline = '2px dashed #3b82f6';
+                    this.style.outlineOffset = '2px';
+                });
+                el.addEventListener('blur', function() {
+                    this.style.outline = 'none';
+                });
+            });
+            // Inject edit helper styles
+            if (!doc.getElementById('novatrix-edit-style')) {
+                const style = doc.createElement('style');
+                style.id = 'novatrix-edit-style';
+                style.textContent = '[contenteditable]:hover { outline: 1px dashed rgba(59,130,246,0.4) !important; outline-offset: 2px !important; }';
+                doc.head.appendChild(style);
+            }
+        } catch(e) { console.error('Edit mode error:', e); }
+    }
+
+    function disableEditInIframe() {
+        try {
+            const doc = iframe.contentDocument;
+            if (!doc) return;
+            doc.querySelectorAll('[contenteditable]').forEach(el => {
+                el.removeAttribute('contenteditable');
+                el.style.cursor = '';
+                el.style.outline = '';
+            });
+            const editStyle = doc.getElementById('novatrix-edit-style');
+            if (editStyle) editStyle.remove();
+        } catch(e) {}
+    }
+
+    // =============================================
+    // COLOR CUSTOMIZER
+    // =============================================
+    ['colorPrimary','colorAccent','colorBg','colorText'].forEach(id => {
+        document.getElementById(id).addEventListener('input', applyColorsToIframe);
+    });
+
+    function applyColorsToIframe() {
+        try {
+            const doc = iframe.contentDocument;
+            if (!doc) return;
+            const root = doc.documentElement;
+            root.style.setProperty('--primary', document.getElementById('colorPrimary').value);
+            root.style.setProperty('--accent', document.getElementById('colorAccent').value);
+            root.style.setProperty('--bg', document.getElementById('colorBg').value);
+            root.style.setProperty('--text', document.getElementById('colorText').value);
+            // Also update gradient
+            const p = document.getElementById('colorPrimary').value;
+            const a = document.getElementById('colorAccent').value;
+            root.style.setProperty('--grad', `linear-gradient(135deg, ${p}, ${a})`);
+        } catch(e) {}
+    }
+
+    // =============================================
+    // FONT CUSTOMIZER
+    // =============================================
+    document.getElementById('fontPicker').addEventListener('change', applyFontToIframe);
+
+    function applyFontToIframe() {
+        try {
+            const doc = iframe.contentDocument;
+            if (!doc) return;
+            const font = document.getElementById('fontPicker').value;
+            // Inject Google Font
+            if (!doc.getElementById('novatrix-custom-font')) {
+                const link = doc.createElement('link');
+                link.id = 'novatrix-custom-font';
+                link.rel = 'stylesheet';
+                link.href = `https://fonts.googleapis.com/css2?family=${font.replace(/ /g,'+')}:wght@400;600;700;800;900&display=swap`;
+                doc.head.appendChild(link);
+            } else {
+                doc.getElementById('novatrix-custom-font').href = `https://fonts.googleapis.com/css2?family=${font.replace(/ /g,'+')}:wght@400;600;700;800;900&display=swap`;
+            }
+            doc.body.style.fontFamily = `'${font}', sans-serif`;
+        } catch(e) {}
+    }
+
+    // =============================================
+    // DEVICE SWITCHER
+    // =============================================
+    function setDevice(device, btn) {
+        document.querySelectorAll('.device-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        frame.classList.remove('tablet', 'mobile');
+        if (device !== 'desktop') frame.classList.add(device);
+    }
+
+    // =============================================
+    // DOWNLOAD MODIFIED ZIP
+    // =============================================
+    async function downloadEditedZip() {
+        if (!currentTemplate) return;
+        saveCurrentPageMods();
+
+        showToast('جاري تجهيز ملف ZIP...');
+
+        try {
+            const zip = new JSZip();
+            const folder = zip.folder(currentTemplate.folderName);
+            const baseUrl = 'templates/' + currentTemplate.folderName + '/';
+
+            // Fetch style.css (potentially with color mods)
+            let cssText = '';
+            try {
+                const r = await fetch(baseUrl + 'style.css');
+                cssText = await r.text();
+            } catch(e) {}
+
+            // Apply color modifications to CSS
+            const colorMods = {
+                primary: document.getElementById('colorPrimary').value,
+                accent: document.getElementById('colorAccent').value,
+                bg: document.getElementById('colorBg').value,
+                text: document.getElementById('colorText').value
+            };
+            for (const [key, val] of Object.entries(colorMods)) {
+                cssText = cssText.replace(new RegExp('--' + key + '\\s*:\\s*[^;]+'), '--' + key + ':' + val);
+            }
+
+            // Apply font modification
+            const font = document.getElementById('fontPicker').value;
+            if (font !== 'Cairo') {
+                cssText = cssText.replace(/font-family\s*:\s*'Cairo'/g, `font-family:'${font}'`);
+            }
+
+            folder.file('style.css', cssText);
+
+            // Add all pages
+            for (const page of currentTemplate.pages) {
+                let html = modifiedPages[page] || originalPages[page];
+                if (!html) {
+                    try {
+                        const r = await fetch(baseUrl + page);
+                        html = await r.text();
+                    } catch(e) { continue; }
+                }
+                // Update font link in HTML if changed
+                if (font !== 'Cairo') {
+                    html = html.replace(/family=Cairo/g, `family=${font.replace(/ /g,'+')}`);
+                }
+                folder.file(page, html);
+            }
+
+            // README
+            folder.file('README.txt',
+`=== ${currentTemplate.title} ===
+تم تخصيص هذا القالب عبر محرر Novatrix EG البصري
+https://dezeleinshams-create.github.io/NEXURAEG/
+
+=== كيفية الاستخدام ===
+1. افتح index.html في المتصفح لمعاينة الموقع.
+2. عدّل الملفات بأي محرر نصوص حسب الحاجة.
+3. ارفع الملفات على أي استضافة (Netlify, Vercel, GitHub Pages).
+
+© 2026 Novatrix EG — جميع الحقوق محفوظة.
+`);
+
+            const blob = await zip.generateAsync({ type: 'blob' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = currentTemplate.folderName + '-customized.zip';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(link.href);
+
+            showToast('تم تنزيل القالب المعدّل بنجاح!');
+        } catch(err) {
+            console.error('Download error:', err);
+            showToast('حدث خطأ أثناء التنزيل');
+        }
+    }
+
+    // =============================================
+    // RESET
+    // =============================================
+    function resetTemplate() {
+        if (!currentTemplate) return;
+        modifiedPages = {};
+        loadPage(currentPageIndex);
+        showToast('تم إعادة تعيين جميع التعديلات');
+    }
+
+    // =============================================
+    // HELPERS
+    // =============================================
+    function showToast(msg) {
+        const toast = document.getElementById('editorToast');
+        document.getElementById('toastMsg').textContent = msg;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    function toHex(color) {
+        if (color.startsWith('#')) return color.length === 4 ?
+            '#' + color[1]+color[1]+color[2]+color[2]+color[3]+color[3] : color;
+        const m = color.match(/\d+/g);
+        if (m && m.length >= 3) return '#' + m.slice(0,3).map(x => parseInt(x).toString(16).padStart(2,'0')).join('');
+        // Named colors fallback
+        const canvas = document.createElement('canvas');
+        canvas.width = canvas.height = 1;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = color;
+        ctx.fillRect(0,0,1,1);
+        const [r,g,b] = ctx.getImageData(0,0,1,1).data;
+        return '#' + [r,g,b].map(x => x.toString(16).padStart(2,'0')).join('');
+    }
+    </script>
+</body>
+</html>
