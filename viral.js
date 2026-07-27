@@ -113,6 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Pages
         { title: "الرئيسية", desc: "الصفحة الرئيسية وتطبيقات الهاتف المجانية", url: "index.html", cat: "صفحة", icon: "fas fa-home", kw: ["الرئيسية", "الموقع", "تطبيقات", "هاتف", "home"] },
         { title: "الأدوات المجانية", desc: "12 أداة تفاعلية سريعة مجاناً بدون تسجيل", url: "tools.html", cat: "صفحة", icon: "fas fa-cubes", kw: ["أدوات", "أداة", "tools", "مجانية"] },
+        { title: "قوالب الويب المجانية", desc: "قوالب مواقع وهبوط احترافية HTML5/CSS3 متجاوبة للتحميل والمعاينة", url: "templates.html", cat: "صفحة", icon: "fas fa-layer-group", kw: ["قوالب", "قالب", "مواقف", "templates", "landing page", "html"] },
         { title: "دليل مواقع الذكاء الاصطناعي", desc: "أكبر دليل لـ 100 موقع وأداة ذكاء اصطناعي", url: "ai-sites.html", cat: "صفحة", icon: "fas fa-robot", kw: ["ذكاء اصطناعي", "مواقع", "ai", "chatgpt"] },
         { title: "الشروحات والمدونة", desc: "مقالات الأمن والحماية والحلول التقنية", url: "blog.html", cat: "صفحة", icon: "fas fa-book-open", kw: ["مقالات", "شروحات", "مدونة", "أمان", "blog"] },
         { title: "الجوائز والمكافآت", desc: "نظام النقاط والمكافآت والهدايا الفيرال", url: "rewards.html", cat: "صفحة", icon: "fas fa-gift", kw: ["جوائز", "نقاط", "هدايا", "rewards"] },
