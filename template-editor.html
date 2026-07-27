@@ -310,6 +310,67 @@
         @media (max-width: 600px) {
             .top-bar-nav a { font-size: 0.7rem; padding: 4px 8px; }
         }
+
+        /* ========== LIGHT THEME OVERRIDES ========== */
+        html.light-theme body {
+            background: #f8fafc;
+            color: #1e293b;
+        }
+        html.light-theme .top-bar, html.light-theme .sidebar {
+            background: #ffffff;
+            border-color: #e2e8f0;
+        }
+        html.light-theme .top-bar-nav a {
+            color: #475569;
+        }
+        html.light-theme .top-bar-nav a:hover {
+            color: #0f172a;
+            background: rgba(0,0,0,0.05);
+        }
+        html.light-theme .top-bar-title {
+            color: #0f172a;
+        }
+        html.light-theme .sb-section {
+            border-color: #e2e8f0;
+        }
+        html.light-theme .sb-section h4 {
+            color: #475569;
+        }
+        html.light-theme .sb-select, html.light-theme .page-list-item {
+            background: #f1f5f9;
+            color: #1e293b;
+            border-color: #cbd5e1;
+        }
+        html.light-theme .page-list-item:hover {
+            background: #e2e8f0;
+        }
+        html.light-theme .page-list-item.active {
+            background: #3b82f6;
+            color: #ffffff;
+        }
+        html.light-theme .ctrl-label {
+            color: #475569;
+        }
+        html.light-theme .ctrl-input {
+            background: #ffffff;
+            border-color: #cbd5e1;
+            color: #1e293b;
+        }
+        html.light-theme .ctrl-input:focus {
+            border-color: #3b82f6;
+        }
+        html.light-theme .device-btn {
+            color: #64748b;
+        }
+        html.light-theme .device-btn.active {
+            color: #3b82f6;
+        }
+        html.light-theme .edit-indicator {
+            background: rgba(255, 255, 255, 0.95);
+            color: #334155;
+            border: 1px solid #cbd5e1;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
     </style>
 </head>
 <body>
@@ -318,7 +379,7 @@
     <div class="top-bar">
         <div style="display:flex;align-items:center;gap:16px">
             <div class="top-bar-logo" onclick="location.href='index.html'">
-                <img src="assets/logo-light.svg" alt="Novatrix EG">
+                <img id="topLogo" src="assets/logo-light.svg" alt="Novatrix EG">
             </div>
             <div class="top-bar-nav">
                 <a href="index.html"><i class="fas fa-home"></i> الرئيسية</a>
@@ -690,6 +751,29 @@
         const [r,g,b] = ctx.getImageData(0,0,1,1).data;
         return '#'+[r,g,b].map(x=>x.toString(16).padStart(2,'0')).join('');
     }
+
+    /* THEME SYNC LOGIC */
+    function applyEditorTheme(theme) {
+        if (theme === 'light') {
+            document.documentElement.classList.add('light-theme');
+            document.body.classList.add('light-theme');
+            document.getElementById('topLogo').src = 'assets/logo-light.svg';
+        } else {
+            document.documentElement.classList.remove('light-theme');
+            document.body.classList.remove('light-theme');
+            document.getElementById('topLogo').src = 'assets/logo-dark.svg';
+        }
+    }
+    
+    // Apply on load
+    applyEditorTheme(localStorage.getItem('theme') || 'light');
+    
+    // Listen for tab sync
+    window.addEventListener('storage', (e) => {
+        if (e.key === 'theme') {
+            applyEditorTheme(e.newValue || 'light');
+        }
+    });
     </script>
 </body>
 </html>
