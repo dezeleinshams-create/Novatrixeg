@@ -263,24 +263,29 @@
 
             let html = "";
             filtered.forEach(t => {
+                const pagesCount = t.pages ? t.pages.length : 1;
+                const pagesLabel = t.pages ? t.pages.map(p => p.replace('.html','')).join(' • ') : '';
                 html += `
                     <div class="template-card">
                         <div>
                             <div style="display: flex; justify-content: space-between; align-items: flex-start;">
                                 <div class="template-icon-wrap"><i class="${t.icon}"></i></div>
-                                <span class="search-badge" style="background: rgba(16,185,129,0.18); color: #10b981; font-size: 0.65rem;">مجاني 100%</span>
+                                <div style="display:flex;gap:5px;flex-wrap:wrap">
+                                    <span class="search-badge" style="background: rgba(16,185,129,0.18); color: #10b981; font-size: 0.65rem;">مجاني 100%</span>
+                                    <span class="search-badge" style="background: rgba(59,130,246,0.15); color: #3b82f6; font-size: 0.65rem;">${pagesCount} صفحات</span>
+                                </div>
                             </div>
                             <h3 style="font-size: 1.05rem; font-weight: 800; color: var(--text-primary); margin-bottom: 6px;">${t.title}</h3>
                             <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5;">${t.desc}</p>
-                            
+                            ${pagesLabel ? `<p style="font-size:0.72rem;color:var(--accent);margin-top:6px;font-weight:700"><i class="fas fa-file-code" style="margin-left:4px"></i> ${pagesLabel}</p>` : ''}
                             <div class="template-tags">
                                 ${t.tags.map(tag => `<span class="template-tag">${tag}</span>`).join('')}
                             </div>
                         </div>
 
                         <div class="template-actions">
-                            <button class="secondary-btn btn-demo" data-id="${t.id}" style="flex: 1; padding: 9px 12px; font-size: 0.78rem;"><i class="fas fa-eye"></i> معاينة المباشرة</button>
-                            <button class="primary-btn btn-download" data-id="${t.id}" style="flex: 1; padding: 9px 12px; font-size: 0.78rem; background: linear-gradient(135deg, var(--primary), var(--accent));"><i class="fas fa-download"></i> تنزيل ZIP</button>
+                            <button class="secondary-btn btn-demo" data-id="${t.id}" style="flex: 1; padding: 9px 12px; font-size: 0.78rem;"><i class="fas fa-eye"></i> معاينة مباشرة</button>
+                            <a href="${t.previewUrl}" target="_blank" class="primary-btn" style="flex: 1; padding: 9px 12px; font-size: 0.78rem; background: linear-gradient(135deg, var(--primary), var(--accent)); text-align:center; border-radius: 10px;"><i class="fas fa-external-link-alt"></i> فتح الموقع</a>
                         </div>
                     </div>
                 `;
@@ -295,14 +300,6 @@
                     openDemoModal(tId);
                 });
             });
-
-            // Bind Download Buttons
-            grid.querySelectorAll(".btn-download").forEach(btn => {
-                btn.addEventListener("click", () => {
-                    const tId = btn.getAttribute("data-id");
-                    downloadTemplateCode(tId);
-                });
-            });
         }
 
         function openDemoModal(id) {
@@ -311,39 +308,24 @@
             activeTemplate = t;
             demoTitle.textContent = t.title;
 
-            // Write html content to iframe srcdoc
-            demoIframe.srcdoc = t.code;
+            // Load the real template via URL
+            demoIframe.removeAttribute("srcdoc");
+            demoIframe.src = t.previewUrl;
             demoModal.classList.add("active");
-        }
-
-        function downloadTemplateCode(id) {
-            const t = NOVATRIX_TEMPLATES.find(x => x.id === id);
-            if (!t) return;
-
-            const blob = new Blob([t.code], { type: "text/html;charset=utf-8" });
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = t.downloadName.replace('.zip', '.html');
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(link.href);
-
-            if (typeof showPointsToast === "function") {
-                showPointsToast("🎉 مبروك!", "تم تحميل القالب بنجاح +20 نقطة هدية!");
-            }
         }
 
         if (closeDemoBtn) {
             closeDemoBtn.addEventListener("click", () => {
                 demoModal.classList.remove("active");
-                demoIframe.srcdoc = "about:blank";
+                demoIframe.src = "about:blank";
             });
         }
 
         if (modalDownloadBtn) {
             modalDownloadBtn.addEventListener("click", () => {
-                if (activeTemplate) downloadTemplateCode(activeTemplate.id);
+                if (activeTemplate && activeTemplate.previewUrl) {
+                    window.open(activeTemplate.previewUrl, '_blank');
+                }
             });
         }
 
