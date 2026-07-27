@@ -1360,8 +1360,10 @@ document.addEventListener("DOMContentLoaded", () => {
         // Apply theme from localStorage on page load (default to light)
         const savedTheme = localStorage.getItem("theme") || "light";
         if (savedTheme === "light") {
+            document.documentElement.classList.add("light-theme");
             document.body.classList.add("light-theme");
         } else {
+            document.documentElement.classList.remove("light-theme");
             document.body.classList.remove("light-theme");
         }
         
@@ -1376,13 +1378,22 @@ document.addEventListener("DOMContentLoaded", () => {
             themeToggleBtn.parentNode.replaceChild(newBtn, themeToggleBtn);
             
             newBtn.addEventListener("click", () => {
-                document.body.classList.toggle("light-theme");
-                const currentTheme = document.body.classList.contains("light-theme") ? "light" : "dark";
-                localStorage.setItem("theme", currentTheme);
-                updateThemeIcon(currentTheme);
-                updateLogoTheme(currentTheme);
+                const isLight = document.documentElement.classList.contains("light-theme");
+                const newTheme = isLight ? "dark" : "light";
                 
-                const toastMsg = currentTheme === "light" ? "تم تفعيل الوضع المضيء ☀️" : "تم تفعيل الوضع الداكن 🌙";
+                if (newTheme === "light") {
+                    document.documentElement.classList.add("light-theme");
+                    document.body.classList.add("light-theme");
+                } else {
+                    document.documentElement.classList.remove("light-theme");
+                    document.body.classList.remove("light-theme");
+                }
+                
+                localStorage.setItem("theme", newTheme);
+                updateThemeIcon(newTheme);
+                updateLogoTheme(newTheme);
+                
+                const toastMsg = newTheme === "light" ? "تم تفعيل الوضع المضيء ☀️" : "تم تفعيل الوضع الداكن 🌙";
                 if (typeof window.showToast === "function") {
                     window.showToast(toastMsg);
                 } else if (typeof showPointsToast === "function") {
@@ -1390,6 +1401,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
         }
+
+        // Listen for storage changes to sync theme across tabs instantly
+        window.addEventListener("storage", (e) => {
+            if (e.key === "theme") {
+                const newTheme = e.newValue || "light";
+                if (newTheme === "light") {
+                    document.documentElement.classList.add("light-theme");
+                    document.body.classList.add("light-theme");
+                } else {
+                    document.documentElement.classList.remove("light-theme");
+                    document.body.classList.remove("light-theme");
+                }
+                updateThemeIcon(newTheme);
+                updateLogoTheme(newTheme);
+            }
+        });
     }
 
     // ==========================================

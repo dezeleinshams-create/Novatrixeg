@@ -1001,84 +1001,84 @@ body.has-flash-deal .viral-points-bar + .flash-deal-banner {
 /* ============================================
    12. LIGHT THEME OVERRIDES
    ============================================ */
-body.light-theme .viral-points-bar {
+.light-theme .viral-points-bar {
     background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
     border-bottom: 1px solid #e2e8f0;
 }
 
-body.light-theme .points-item {
+.light-theme .points-item {
     color: #0f172a;
 }
 
-body.light-theme .spin-modal,
-body.light-theme .share-modal,
-body.light-theme .welcome-modal {
+.light-theme .spin-modal,
+.light-theme .share-modal,
+.light-theme .welcome-modal {
     background: linear-gradient(145deg, #ffffff, #f8fafc);
     border-color: #e2e8f0;
 }
 
-body.light-theme .spin-modal h2,
-body.light-theme .share-modal h3,
-body.light-theme .welcome-modal h2 {
+.light-theme .spin-modal h2,
+.light-theme .share-modal h3,
+.light-theme .welcome-modal h2 {
     color: #0f172a;
 }
 
-body.light-theme .spin-modal .spin-subtitle,
-body.light-theme .share-modal .share-subtitle,
-body.light-theme .welcome-modal p {
+.light-theme .spin-modal .spin-subtitle,
+.light-theme .share-modal .share-subtitle,
+.light-theme .welcome-modal p {
     color: #475569;
 }
 
-body.light-theme .spin-result {
+.light-theme .spin-result {
     background: rgba(37, 99, 235, 0.05);
     border-color: rgba(37, 99, 235, 0.15);
 }
 
-body.light-theme .spin-result .result-desc {
+.light-theme .spin-result .result-desc {
     color: #475569;
 }
 
-body.light-theme .spin-close-btn {
+.light-theme .spin-close-btn {
     background: rgba(0, 0, 0, 0.03);
     border-color: #e2e8f0;
     color: #64748b;
 }
 
-body.light-theme .content-locked::before {
+.light-theme .content-locked::before {
     background: rgba(255, 255, 255, 0.8);
 }
 
-body.light-theme .lock-overlay .lock-text {
+.light-theme .lock-overlay .lock-text {
     color: #0f172a;
 }
 
-body.light-theme .referral-card {
+.light-theme .referral-card {
     background: rgba(255, 255, 255, 0.8);
     border-color: #e2e8f0;
 }
 
-body.light-theme .referral-card h3 {
+.light-theme .referral-card h3 {
     color: #0f172a;
 }
 
-body.light-theme .referral-card .referral-desc {
+.light-theme .referral-card .referral-desc {
     color: #475569;
 }
 
-body.light-theme .referral-link-box {
+.light-theme .referral-link-box {
     background: rgba(0, 0, 0, 0.03);
     border-color: #e2e8f0;
 }
 
-body.light-theme .referral-link-box input {
+.light-theme .referral-link-box input {
     color: #475569;
 }
 
-body.light-theme .viral-fab {
+.light-theme .viral-fab {
     border: 2px solid #ffffff;
 }
 
-body.light-theme .flash-deal-banner {
+.light-theme .flash-deal-banner {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -1290,11 +1290,11 @@ body.light-theme .flash-deal-banner {
     box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
 }
 
-body.light-theme .rewarded-ad-modal {
+.light-theme .rewarded-ad-modal {
     background: linear-gradient(145deg, #ffffff, #f8fafc);
     border-color: rgba(168, 85, 247, 0.2);
 }
 
-body.light-theme .ad-timer-countdown {
+.light-theme .ad-timer-countdown {
     color: #0f172a;
 }
