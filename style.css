@@ -4812,3 +4812,35 @@ body:not(.light-theme) .hero-logo-img {
 }
 .watch-video-btn:hover { opacity: 0.9; transform: translateY(-2px); }
 .light-theme .video-thumb-wrapper { background: #f8fafc; }
+
+/* Direct YouTube Watch Button */
+.yt-direct-btn {
+    background: #1e293b;
+    color: #FF0000;
+    border: 1px solid #334155;
+    border-radius: 10px;
+    padding: 9px 14px;
+    font-family: Cairo, sans-serif;
+    font-weight: 700;
+    font-size: 0.82rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: 0.2s;
+    white-space: nowrap;
+}
+.yt-direct-btn:hover {
+    background: #FF0000;
+    color: #fff;
+    border-color: #FF0000;
+}
+.light-theme .yt-direct-btn {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+    color: #FF0000;
+}
+.light-theme .yt-direct-btn:hover {
+    background: #FF0000;
+    color: #fff;
+}

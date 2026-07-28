@@ -1296,7 +1296,7 @@ setInterval(() => {
 }, 2500);
 
 // ====== TECH VIDEO PLAYER MODAL ======
-function playTechVideo(embedUrl, title) {
+function playTechVideo(videoId, title) {
     const modal = document.getElementById("techVideoModal");
     const frame = document.getElementById("techVideoFrame");
     const titleEl = document.getElementById("techVideoTitle");
@@ -1304,10 +1304,12 @@ function playTechVideo(embedUrl, title) {
     if (!modal || !frame) return;
 
     if (titleEl) titleEl.innerHTML = `<i class="fab fa-youtube" style="color:#FF0000;"></i> ${title}`;
-    frame.src = embedUrl;
     
-    // Direct watch link fallback
-    const directUrl = embedUrl.replace("/embed/", "/watch?v=").replace("?autoplay=1", "");
+    // Check if videoId is full URL or ID
+    let embedUrl = videoId.startsWith("http") ? videoId : `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+    let directUrl = videoId.startsWith("http") ? videoId : `https://www.youtube.com/watch?v=${videoId}`;
+    
+    frame.src = embedUrl;
     if (directBtn) directBtn.href = directUrl;
 
     modal.style.display = "flex";
@@ -1319,3 +1321,4 @@ function closeTechVideo() {
     if (frame) frame.src = "";
     if (modal) modal.style.display = "none";
 }
+
