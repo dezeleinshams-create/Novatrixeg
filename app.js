@@ -1294,3 +1294,28 @@ setInterval(() => {
         switchPhoneImg(dots[s25Idx], s25Idx);
     });
 }, 2500);
+
+// ====== TECH VIDEO PLAYER MODAL ======
+function playTechVideo(embedUrl, title) {
+    const modal = document.getElementById("techVideoModal");
+    const frame = document.getElementById("techVideoFrame");
+    const titleEl = document.getElementById("techVideoTitle");
+    const directBtn = document.getElementById("techVideoDirectLink");
+    if (!modal || !frame) return;
+
+    if (titleEl) titleEl.innerHTML = `<i class="fab fa-youtube" style="color:#FF0000;"></i> ${title}`;
+    frame.src = embedUrl;
+    
+    // Direct watch link fallback
+    const directUrl = embedUrl.replace("/embed/", "/watch?v=").replace("?autoplay=1", "");
+    if (directBtn) directBtn.href = directUrl;
+
+    modal.style.display = "flex";
+}
+
+function closeTechVideo() {
+    const modal = document.getElementById("techVideoModal");
+    const frame = document.getElementById("techVideoFrame");
+    if (frame) frame.src = "";
+    if (modal) modal.style.display = "none";
+}
