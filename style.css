@@ -4705,3 +4705,38 @@ body:not(.light-theme) .hero-logo-img {
     .slider-arrow-prev { right: 4px; }
     .slider-arrow-next { left: 4px; }
 }
+
+/* Phone Image Carousel (multi-angle) */
+.phone-img-carousel {
+    position: relative;
+    width: 100%;
+    margin: 0 auto 14px;
+    overflow: hidden;
+    border-radius: 12px;
+}
+.pic-carousel-inner {
+    display: flex;
+}
+.pic-carousel-inner .phone-thumb-img {
+    min-width: 100%;
+    width: 100%;
+    height: 110px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+.pic-dots {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 6px;
+}
+.pic-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #334155;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+.pic-dot.active { background: #3b82f6; transform: scale(1.3); }
+.light-theme .pic-dot { background: #cbd5e1; }

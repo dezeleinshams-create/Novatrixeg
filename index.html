@@ -590,8 +590,17 @@
                     <!-- Samsung Galaxy S25 Ultra -->
                     <div class="phone-card">
                         <div class="phone-badge">جديد 🔥</div>
-                        <div class="phone-img-wrap">
-                            <img src="assets/phones/samsung-s25.png" alt="Samsung Galaxy S25 Ultra" class="phone-thumb-img" onerror="this.style.display='none'">
+                        <div class="phone-img-carousel" id="s25carousel">
+                            <div class="pic-carousel-inner" style="display:flex;transition:transform 0.4s;">
+                                <img src="assets/phones/samsung-s25-front.png" alt="Samsung Galaxy S25 Ultra" class="phone-thumb-img">
+                                <img src="assets/phones/samsung-s25-back.png" alt="Samsung Galaxy S25 Ultra back" class="phone-thumb-img">
+                                <img src="assets/phones/samsung-s25-angle.png" alt="Samsung Galaxy S25 Ultra angle" class="phone-thumb-img">
+                            </div>
+                            <div class="pic-dots">
+                                <span class="pic-dot active" onclick="switchPhoneImg(this,0)"></span>
+                                <span class="pic-dot" onclick="switchPhoneImg(this,1)"></span>
+                                <span class="pic-dot" onclick="switchPhoneImg(this,2)"></span>
+                            </div>
                         </div>
                         <div class="phone-brand">Samsung</div>
                         <div class="phone-name">Galaxy S25 Ultra</div>

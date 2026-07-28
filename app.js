@@ -1272,3 +1272,25 @@ function slidePhones(dir) {
     const cardWidth = 238; // card width + gap
     wrapper.scrollBy({ left: dir * cardWidth, behavior: "smooth" });
 }
+
+// Phone image carousel switcher
+function switchPhoneImg(dot, idx) {
+    const carousel = dot.closest(".phone-img-carousel");
+    const inner = carousel.querySelector(".pic-carousel-inner");
+    inner.style.transform = `translateX(-${idx * 100}%)`;
+    carousel.querySelectorAll(".pic-dot").forEach((d, i) => {
+        d.classList.toggle("active", i === idx);
+    });
+}
+
+// Auto-cycle S25 Ultra carousel
+let s25Idx = 0;
+setInterval(() => {
+    const carousels = document.querySelectorAll(".phone-img-carousel");
+    carousels.forEach(carousel => {
+        const dots = carousel.querySelectorAll(".pic-dot");
+        if (!dots.length) return;
+        s25Idx = (s25Idx + 1) % dots.length;
+        switchPhoneImg(dots[s25Idx], s25Idx);
+    });
+}, 2500);
