@@ -1295,30 +1295,64 @@ setInterval(() => {
     });
 }, 2500);
 
-// ====== TECH VIDEO PLAYER MODAL ======
+// ====== TECH VIDEO PLAYER MODAL WITH AD INTERSTITIAL ======
+let _techPendingEmbedUrl = "";
+let _techAdInterval = null;
+
 function playTechVideo(videoId, title) {
     const modal = document.getElementById("techVideoModal");
     const frame = document.getElementById("techVideoFrame");
     const titleEl = document.getElementById("techVideoTitle");
     const directBtn = document.getElementById("techVideoDirectLink");
+    const overlay = document.getElementById("techAdCountdownOverlay");
+    const timerNum = document.getElementById("techAdTimerNum");
     if (!modal || !frame) return;
 
     if (titleEl) titleEl.innerHTML = `<i class="fab fa-youtube" style="color:#FF0000;"></i> ${title}`;
     
-    // Check if videoId is full URL or ID
-    let embedUrl = videoId.startsWith("http") ? videoId : `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+    _techPendingEmbedUrl = videoId.startsWith("http") ? videoId : `https://www.youtube.com/embed/${videoId}?autoplay=1`;
     let directUrl = videoId.startsWith("http") ? videoId : `https://www.youtube.com/watch?v=${videoId}`;
-    
-    frame.src = embedUrl;
     if (directBtn) directBtn.href = directUrl;
 
+    frame.src = "";
     modal.style.display = "flex";
+
+    if (overlay && timerNum) {
+        overlay.style.display = "flex";
+        let count = 3;
+        timerNum.textContent = count;
+        clearInterval(_techAdInterval);
+        _techAdInterval = setInterval(() => {
+            count--;
+            if (count > 0) {
+                timerNum.textContent = count;
+            } else {
+                clearInterval(_techAdInterval);
+                overlay.style.display = "none";
+                frame.src = _techPendingEmbedUrl;
+            }
+        }, 1000);
+    } else {
+        frame.src = _techPendingEmbedUrl;
+    }
+}
+
+function skipTechAdNow() {
+    clearInterval(_techAdInterval);
+    const overlay = document.getElementById("techAdCountdownOverlay");
+    const frame = document.getElementById("techVideoFrame");
+    if (overlay) overlay.style.display = "none";
+    if (frame && _techPendingEmbedUrl) frame.src = _techPendingEmbedUrl;
 }
 
 function closeTechVideo() {
+    clearInterval(_techAdInterval);
     const modal = document.getElementById("techVideoModal");
     const frame = document.getElementById("techVideoFrame");
+    const overlay = document.getElementById("techAdCountdownOverlay");
     if (frame) frame.src = "";
+    if (overlay) overlay.style.display = "none";
     if (modal) modal.style.display = "none";
 }
+
 
