@@ -1219,3 +1219,42 @@ window.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+
+// ============================================
+// PHONES SECTION: Review filter + Sponsor form
+// ============================================
+function filterPhoneReviews(btn) {
+    const brand = btn.getAttribute("data-brand");
+    document.querySelectorAll(".pr-filter").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    document.querySelectorAll(".review-card").forEach(card => {
+        card.classList.toggle("hidden", brand !== "all" && card.getAttribute("data-brand") !== brand);
+    });
+}
+
+function submitPhoneSponsor(e) {
+    e.preventDefault();
+    const company = document.getElementById("sp_company").value;
+    const phoneName = document.getElementById("sp_phone_name").value;
+    const email = document.getElementById("sp_email").value;
+    const whatsapp = document.getElementById("sp_whatsapp").value;
+    // Send via email link (replace with actual backend if needed)
+    const body = encodeURIComponent(
+        "طلب اعلان جديد:\n\nالشركة: " + company +
+        "\nالمنتج: " + phoneName +
+        "\nالبريد: " + email +
+        "\nواتساب: " + whatsapp
+    );
+    window.open("mailto:contact@novatrixeg.com?subject=طلب+إعلان+موبايل&body=" + body, "_blank");
+    document.getElementById("phoneSponsorModal").style.display = "none";
+    showToast("تم إرسال طلبك! سيتواصل معك فريقنا خلال 24 ساعة.");
+}
+
+// Duplicate phone slider cards for seamless infinite loop
+window.addEventListener("DOMContentLoaded", () => {
+    const track = document.getElementById("phoneSliderTrack");
+    if (track) {
+        const clone = track.innerHTML;
+        track.innerHTML += clone; // duplicate for seamless animation
+    }
+});

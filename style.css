@@ -4457,3 +4457,198 @@ body:not(.light-theme) .hero-logo-img {
     }
 }
 
+
+/* ====================================================
+   PHONES BANNER & REVIEWS SECTION
+   ==================================================== */
+.phones-banner-section {
+    padding: 60px 20px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Sponsor CTA Bar */
+.sponsor-cta-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(139,92,246,0.15));
+    border: 1px solid rgba(59,130,246,0.3);
+    border-radius: 14px;
+    padding: 14px 24px;
+    margin-bottom: 28px;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+.sponsor-cta-bar span {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--text-primary, #e2e8f0);
+}
+.sponsor-btn {
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 22px;
+    font-family: Cairo, sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+}
+.sponsor-btn:hover { opacity: 0.88; transform: translateY(-2px); }
+
+/* Phone Slider */
+.phone-slider-wrapper {
+    overflow: hidden;
+    border-radius: 18px;
+    position: relative;
+}
+.phone-slider-track {
+    display: flex;
+    gap: 18px;
+    animation: phoneScroll 40s linear infinite;
+    width: max-content;
+}
+.phone-slider-wrapper:hover .phone-slider-track { animation-play-state: paused; }
+@keyframes phoneScroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* Phone Card */
+.phone-card {
+    background: var(--surface, #0f1629);
+    border: 1px solid var(--border, #1e293b);
+    border-radius: 18px;
+    padding: 22px 18px;
+    width: 220px;
+    min-width: 220px;
+    text-align: center;
+    position: relative;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: default;
+}
+.phone-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(59,130,246,0.2); }
+.phone-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: linear-gradient(135deg, #f59e0b, #ef4444);
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 800;
+    padding: 3px 9px;
+    border-radius: 20px;
+}
+.phone-icon-wrap {
+    width: 70px; height: 70px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 14px;
+}
+.phone-brand-icon { font-size: 2rem; }
+.phone-brand { font-size: 0.72rem; color: var(--text-muted, #64748b); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+.phone-name { font-size: 1rem; font-weight: 800; color: var(--text-primary, #e2e8f0); margin: 4px 0 10px; }
+.phone-specs { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
+.phone-specs span { font-size: 0.72rem; color: var(--text-muted, #94a3b8); display: flex; align-items: center; justify-content: center; gap: 6px; }
+.phone-specs i { color: #3b82f6; }
+.phone-price { font-size: 0.9rem; font-weight: 800; color: #10b981; margin-bottom: 6px; }
+.phone-rating { font-size: 0.82rem; margin-bottom: 14px; }
+.phone-card-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, #3b82f6, #6366f1);
+    color: #fff;
+    font-family: Cairo, sans-serif;
+    font-weight: 700;
+    font-size: 0.78rem;
+    padding: 8px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+.phone-card-btn:hover { opacity: 0.85; }
+
+/* Review Filters */
+.phone-review-filters {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+}
+.pr-filter {
+    padding: 8px 18px;
+    border-radius: 25px;
+    border: 1px solid var(--border, #1e293b);
+    background: transparent;
+    color: var(--text-muted, #94a3b8);
+    font-family: Cairo, sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.pr-filter:hover, .pr-filter.active {
+    background: var(--primary, #3b82f6);
+    color: #fff;
+    border-color: var(--primary, #3b82f6);
+}
+
+/* Reviews Grid */
+.phone-reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+}
+.review-card {
+    background: var(--surface, #0f1629);
+    border: 1px solid var(--border, #1e293b);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.review-card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,0.25); }
+.review-thumb-wrap { position: relative; width: 100%; aspect-ratio: 16/9; }
+.review-thumb-wrap iframe { width: 100%; height: 100%; border: none; }
+.review-info { padding: 14px 16px; }
+.review-brand-tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.review-brand-tag.samsung { background: rgba(20,40,160,0.2); color: #6080ff; }
+.review-brand-tag.apple   { background: rgba(100,100,100,0.2); color: #aaa; }
+.review-brand-tag.xiaomi  { background: rgba(255,105,0,0.2); color: #FF8C00; }
+.review-brand-tag.oppo    { background: rgba(29,111,164,0.2); color: #5BC8F5; }
+.review-brand-tag.other   { background: rgba(204,0,0,0.2); color: #FF6666; }
+.review-info h4 { font-size: 0.92rem; font-weight: 700; color: var(--text-primary, #e2e8f0); margin-bottom: 8px; line-height: 1.4; }
+.review-meta { font-size: 0.78rem; color: var(--text-muted, #64748b); }
+
+/* Light theme overrides */
+.light-theme .phone-card,
+.light-theme .review-card {
+    background: #fff;
+    border-color: #e2e8f0;
+}
+.light-theme .phone-card:hover { box-shadow: 0 16px 40px rgba(0,0,0,0.1); }
+.light-theme .phone-name { color: #0f172a; }
+.light-theme .review-info h4 { color: #0f172a; }
+.light-theme .phone-specs span { color: #475569; }
+.light-theme .sponsor-cta-bar span { color: #0f172a; }
+.light-theme .pr-filter { color: #475569; border-color: #e2e8f0; background: #f8fafc; }
+.light-theme .phone-icon-wrap { background: rgba(0,0,0,0.04); }
+
+/* Hide filtered cards */
+.review-card.hidden { display: none; }
+
+@media (max-width: 768px) {
+    .sponsor-cta-bar { flex-direction: column; text-align: center; }
+    .phone-reviews-grid { grid-template-columns: 1fr; }
+}
