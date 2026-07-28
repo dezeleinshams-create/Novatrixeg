@@ -1251,3 +1251,24 @@ function submitPhoneSponsor(e) {
 }
 
 // Phone slider duplication handled in HTML directly
+
+// ====== PHONE SLIDER ARROWS ======
+let phoneSliderPaused = false;
+let phoneSliderOffset = 0;
+
+function slidePhones(dir) {
+    const track = document.getElementById("phoneSliderTrack");
+    const wrapper = document.getElementById("phoneSliderWrapper");
+    if (!track || !wrapper) return;
+
+    // Pause auto-scroll temporarily
+    track.style.animationPlayState = "paused";
+    clearTimeout(window._phonePauseTimer);
+    window._phonePauseTimer = setTimeout(() => {
+        track.style.animationPlayState = "running";
+    }, 3000);
+
+    // Manual scroll
+    const cardWidth = 238; // card width + gap
+    wrapper.scrollBy({ left: dir * cardWidth, behavior: "smooth" });
+}

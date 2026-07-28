@@ -582,7 +582,10 @@
             </div>
 
             <!-- Auto-scroll Phone Slider -->
-            <div class="phone-slider-wrapper">
+            <div class="phone-slider-outer">
+                <button class="slider-arrow slider-arrow-prev" id="phonePrev" onclick="slidePhones(-1)" aria-label="السابق"><i class="fas fa-chevron-right"></i></button>
+                <button class="slider-arrow slider-arrow-next" id="phoneNext" onclick="slidePhones(1)" aria-label="التالي"><i class="fas fa-chevron-left"></i></button>
+            <div class="phone-slider-wrapper" id="phoneSliderWrapper">
                 <div class="phone-slider-track" id="phoneSliderTrack">
                     <!-- Samsung Galaxy S25 Ultra -->
                     <div class="phone-card">
@@ -859,6 +862,8 @@
                     </div>
 
                 </div>
+            </div><!-- /phone-slider-wrapper -->
+            </div><!-- /phone-slider-outer -->
 
     <!-- APP DETAILS MODAL -->
     <div class="modal-backdrop" id="detailsModal">
