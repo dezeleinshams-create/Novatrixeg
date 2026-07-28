@@ -1250,11 +1250,4 @@ function submitPhoneSponsor(e) {
     showToast("تم إرسال طلبك! سيتواصل معك فريقنا خلال 24 ساعة.");
 }
 
-// Duplicate phone slider cards for seamless infinite loop
-window.addEventListener("DOMContentLoaded", () => {
-    const track = document.getElementById("phoneSliderTrack");
-    if (track) {
-        const clone = track.innerHTML;
-        track.innerHTML += clone; // duplicate for seamless animation
-    }
-});
+// Phone slider duplication handled in HTML directly
