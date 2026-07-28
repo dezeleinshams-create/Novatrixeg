@@ -1312,6 +1312,7 @@ function playTechVideo(videoId, title) {
     
     _techPendingEmbedUrl = videoId.startsWith("http") ? videoId : `https://www.youtube.com/embed/${videoId}?autoplay=1`;
     let directUrl = videoId.startsWith("http") ? videoId : `https://www.youtube.com/watch?v=${videoId}`;
+    window._activeDirectYtUrl = directUrl;
     if (directBtn) directBtn.href = directUrl;
 
     frame.src = "";
@@ -1354,5 +1355,48 @@ function closeTechVideo() {
     if (overlay) overlay.style.display = "none";
     if (modal) modal.style.display = "none";
 }
+
+// ====== YOUTUBE REDIRECT INTERSTITIAL AD ======
+let _targetYtUrl = "";
+let _ytRedirectInterval = null;
+
+function openYtWithAd() {
+    const targetUrl = window._activeDirectYtUrl;
+    if (!targetUrl) return;
+
+    _targetYtUrl = targetUrl;
+    closeTechVideo();
+
+    const modal = document.getElementById("ytRedirectAdModal");
+    const timerEl = document.getElementById("ytRedirectTimer");
+    if (!modal || !timerEl) {
+        window.open(_targetYtUrl, "_blank");
+        return;
+    }
+
+    modal.style.display = "flex";
+    let count = 3;
+    timerEl.textContent = count;
+    clearInterval(_ytRedirectInterval);
+
+    _ytRedirectInterval = setInterval(() => {
+        count--;
+        if (count > 0) {
+            timerEl.textContent = count;
+        } else {
+            clearInterval(_ytRedirectInterval);
+            modal.style.display = "none";
+            window.open(_targetYtUrl, "_blank");
+        }
+    }, 1000);
+}
+
+function skipYtRedirectNow() {
+    clearInterval(_ytRedirectInterval);
+    const modal = document.getElementById("ytRedirectAdModal");
+    if (modal) modal.style.display = "none";
+    if (_targetYtUrl) window.open(_targetYtUrl, "_blank");
+}
+
 
 
