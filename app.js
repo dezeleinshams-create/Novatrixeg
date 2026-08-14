@@ -1,3 +1,39 @@
+(function(){
+    var allowedHosts = ['www.codexsors.com', 'codexsors.com', 'localhost', '127.0.0.1', 'dezeleinshams-create.github.io'];
+    var currentHost = window.location.hostname;
+    
+    // Domain Lock Protection
+    var isAllowed = false;
+    for(var i=0; i<allowedHosts.length; i++){
+        if(currentHost === allowedHosts[i] || currentHost.endsWith('.github.io')){
+            isAllowed = true;
+            break;
+        }
+    }
+    if(!isAllowed && currentHost !== ''){
+        try {
+            document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;background:#0f172a;color:#fff;font-family:sans-serif;text-align:center;"><div><h1>⚠️ تم حظر هذا النطاق</h1><p>هذا المحتوى محمي بحقوق ملكية فكرية لصالح <b>Codexsors</b>.</p><a href="https://www.codexsors.com" style="color:#38bdf8;">الانتقال للموقع الرسمي</a></div></div>';
+            window.location.href = "https://www.codexsors.com";
+        } catch(e){}
+    }
+
+    // Anti-DevTools & Anti-Copy Protection (In Production)
+    if(currentHost !== 'localhost' && currentHost !== '127.0.0.1'){
+        // Disable Right-Click
+        document.addEventListener('contextmenu', function(e){ e.preventDefault(); }, false);
+        
+        // Disable Shortcut Keys (Ctrl+U, Ctrl+S, F12, Ctrl+Shift+I/J/C)
+        document.addEventListener('keydown', function(e){
+            if(e.keyCode === 123 || 
+              (e.ctrlKey && (e.keyCode === 85 || e.keyCode === 83 || e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) ||
+              (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67))){
+                e.preventDefault();
+                return false;
+            }
+        }, false);
+    }
+})();
+
 // DATABASE FOR APPS & TUTORIALS (Dynamic Fetch)
 let APPS_DATABASE = [];
 let ALTERNATIVES_DATABASE = {};
