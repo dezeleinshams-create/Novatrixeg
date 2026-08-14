@@ -1,4 +1,4 @@
-/* Codexsors PREMIUM HYBRID ZEBRA AESTHETICS */
+﻿/* Codexsors PREMIUM HYBRID ZEBRA AESTHETICS */
 :root {
     /* Global Base Variables */
     --bg-base: #090e1a;
@@ -4860,86 +4860,105 @@ body:not(.light-theme) .hero-logo-img {
     z-index: 3;
 }
 
-
 /* ==========================================================================
-   CODEXSORS — COMPREHENSIVE MOBILE RESPONSIVENESS FIX
-   Ensures pixel-perfect display on all mobile devices (320px–768px)
+   CODEXSORS — COMPREHENSIVE MOBILE RESPONSIVENESS FIX v2
+   Fixes: content shifted right, not full-width, overflow issues
    ========================================================================== */
 
-/* ─── Global Mobile Overrides ─── */
+/* ─── Global Mobile Overrides (≤768px) ─── */
 @media (max-width: 768px) {
 
-    /* Prevent horizontal overflow on all elements */
+    /* Kill ALL horizontal overflow */
     html, body {
         overflow-x: hidden !important;
-        width: 100% !important;
+        width: 100vw !important;
+        max-width: 100vw !important;
     }
 
-    * {
-        max-width: 100%;
-        box-sizing: border-box;
+    *, *::before, *::after {
+        max-width: 100vw;
+        box-sizing: border-box !important;
     }
 
-    /* Main Container */
+    /* Main Container — full width */
     .app-container {
         width: 100% !important;
-        padding: 12px 10px !important;
+        max-width: 100% !important;
+        padding: 8px !important;
+        margin: 0 !important;
     }
 
-    /* Section Wrapper */
+    /* Section Wrapper — full bleed */
     .section-wrapper {
-        padding: 40px 0 !important;
+        padding: 32px 0 !important;
+        width: 100% !important;
     }
 
     .section-inner {
         padding: 0 12px !important;
+        width: 100% !important;
+        max-width: 100% !important;
     }
 
     /* Section Header */
     .section-header {
-        margin-bottom: 24px !important;
+        margin-bottom: 20px !important;
+        text-align: center !important;
     }
 
     .section-header h2 {
-        font-size: 1.35rem !important;
+        font-size: 1.3rem !important;
     }
 
     .section-header p {
         font-size: 0.85rem !important;
+        max-width: 100% !important;
     }
 
-    /* Profile Card */
+    /* Profile Card — FULL WIDTH & CENTERED */
     .profile-card {
-        padding: 20px 14px !important;
-        margin: 10px auto 16px auto !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 16px 12px !important;
+        margin: 8px 0 16px 0 !important;
+        text-align: center !important;
     }
 
     .hero-logo-banner {
-        width: calc(100% + 28px) !important;
-        margin: -20px -14px 18px -14px !important;
-        padding: 16px 0 !important;
+        width: calc(100% + 24px) !important;
+        margin: -16px -12px 16px -12px !important;
+        padding: 14px 0 !important;
+    }
+
+    .hero-logo-img {
+        max-width: 80% !important;
+        margin: 0 auto !important;
     }
 
     .profile-name {
-        font-size: 1.4rem !important;
+        font-size: 1.3rem !important;
         flex-wrap: wrap;
         gap: 6px !important;
+        justify-content: center !important;
     }
 
     .profile-bio {
-        font-size: 0.88rem !important;
-        margin-bottom: 16px !important;
+        font-size: 0.85rem !important;
+        margin-bottom: 14px !important;
+        max-width: 100% !important;
     }
 
-    /* Social Ribbon */
+    /* Social Ribbon — centered icons only */
     .social-ribbon {
         justify-content: center !important;
         gap: 6px !important;
     }
 
     .social-icon {
-        padding: 8px 12px !important;
+        padding: 8px !important;
         font-size: 0.72rem !important;
+        min-width: 38px !important;
+        justify-content: center !important;
     }
 
     .social-icon i {
@@ -4947,83 +4966,121 @@ body:not(.light-theme) .hero-logo-img {
     }
 
     .social-icon span {
-        display: none;
+        display: none !important;
     }
 
-    /* Tool Cards */
+    /* Navbar — full width, wrapped */
+    .main-navbar {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 8px !important;
+        margin-bottom: 12px !important;
+        border-radius: 16px !important;
+        flex-wrap: wrap !important;
+        overflow: visible !important;
+    }
+
+    .nav-logo .logo-svg {
+        height: 28px !important;
+        max-width: 150px !important;
+    }
+
+    .nav-center-controls {
+        order: 3 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 6px 0 2px 0 !important;
+    }
+
+    .nav-links {
+        width: 100% !important;
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        justify-content: space-around !important;
+        gap: 2px !important;
+        overflow: hidden !important;
+    }
+
+    .nav-link {
+        flex: 1 1 0 !important;
+        min-width: 0 !important;
+        justify-content: center !important;
+        padding: 5px 3px !important;
+        font-size: 0.6rem !important;
+        white-space: nowrap !important;
+        text-align: center !important;
+        border-radius: 10px !important;
+        gap: 2px !important;
+    }
+
+    .nav-link i {
+        font-size: 0.65rem !important;
+    }
+
+    /* ALL Cards — full width */
     .tool-card, .app-card, .contact-card,
     .profit-card-header, .campaign-item-card, .sub-tool-card {
-        padding: 18px 14px !important;
+        padding: 16px 12px !important;
+        width: 100% !important;
     }
 
     .tool-header h3 {
-        font-size: 1rem !important;
+        font-size: 0.95rem !important;
     }
 
     .tool-desc {
         font-size: 0.82rem !important;
     }
 
-    /* Interactive Grid */
-    .interactive-tools-grid {
-        gap: 16px !important;
+    /* ALL Grids — single column */
+    .interactive-tools-grid,
+    .apps-grid,
+    .blog-cards-grid,
+    .blog-grid,
+    .tools-grid-half,
+    .features-grid,
+    .form-grid {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+        width: 100% !important;
     }
 
     /* Buttons */
     .primary-btn {
-        padding: 10px 18px !important;
+        padding: 10px 16px !important;
         font-size: 0.82rem !important;
+        width: 100% !important;
     }
 
-    /* Input Fields */
+    /* Input fields */
     .finder-input-container,
     .chat-input-wrapper {
         flex-direction: column !important;
         gap: 8px !important;
+        width: 100% !important;
     }
 
     .finder-input-container input,
     .chat-input-wrapper input {
         font-size: 0.85rem !important;
-        padding: 11px 16px !important;
+        padding: 10px 14px !important;
+        width: 100% !important;
     }
 
-    /* App Grid */
-    .apps-grid {
-        grid-template-columns: 1fr !important;
-        gap: 12px !important;
-    }
-
-    .app-card {
-        padding: 16px 14px !important;
-    }
-
-    /* Blog Cards Grid */
-    .blog-cards-grid,
-    .blog-grid,
-    .tools-grid-half {
-        grid-template-columns: 1fr !important;
-        gap: 14px !important;
-    }
-
-    /* Contact Form */
-    .form-grid {
-        grid-template-columns: 1fr !important;
-    }
-
+    /* Contact Card */
     .contact-card {
-        padding: 20px 14px !important;
+        padding: 16px 12px !important;
     }
 
     /* Prompt Tabs */
     .prompt-tabs {
-        grid-template-columns: 1fr !important;
-        gap: 4px !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 3px !important;
     }
 
     .prompt-tab-btn {
-        font-size: 0.75rem !important;
-        padding: 7px !important;
+        font-size: 0.7rem !important;
+        padding: 6px 4px !important;
     }
 
     /* Security Answers */
@@ -5031,76 +5088,62 @@ body:not(.light-theme) .hero-logo-img {
         grid-template-columns: 1fr !important;
     }
 
-    /* Alt Option Cards */
+    /* Alt Option */
     .alt-option-card {
         flex-direction: column !important;
         text-align: center;
         gap: 8px !important;
     }
 
+    /* Stats Grid */
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 8px !important;
+    }
+
+    .stat-card {
+        padding: 12px 8px !important;
+    }
+
+    .stat-number {
+        font-size: 1.2rem !important;
+    }
+
+    /* Phones */
+    .phones-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 8px !important;
+    }
+
+    .phone-reviews-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .phones-banner-section {
+        padding: 24px 8px 20px !important;
+    }
+
     /* Footer */
     .app-footer {
-        padding: 20px 12px !important;
+        padding: 16px 10px !important;
     }
 
     .footer-content {
         flex-direction: column !important;
-        gap: 16px !important;
+        gap: 12px !important;
         text-align: center !important;
     }
 
     .footer-links {
         flex-direction: column !important;
-        gap: 8px !important;
+        gap: 6px !important;
         align-items: center !important;
     }
 
-    /* Navbar */
-    .main-navbar {
-        padding: 8px 10px !important;
-    }
-
-    .nav-brand img,
-    .nav-brand svg {
-        max-height: 28px !important;
-    }
-
-    .nav-links {
-        gap: 4px !important;
-    }
-
-    .nav-link {
-        font-size: 0.72rem !important;
-        padding: 6px 8px !important;
-    }
-
-    /* Stats Grid */
-    .stats-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 10px !important;
-    }
-
-    .stat-card {
-        padding: 14px 10px !important;
-    }
-
-    .stat-number {
-        font-size: 1.3rem !important;
-    }
-
-    /* Feature Cards Grid */
-    .features-grid {
-        grid-template-columns: 1fr !important;
-    }
-
-    /* Phone Cards & Reviews */
-    .phones-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 10px !important;
-    }
-
-    .phone-reviews-grid {
-        grid-template-columns: 1fr !important;
+    /* Search Results */
+    .global-search-results {
+        width: 100% !important;
+        max-width: calc(100vw - 16px) !important;
     }
 
     /* Tables */
@@ -5111,17 +5154,15 @@ body:not(.light-theme) .hero-logo-img {
         font-size: 0.8rem;
     }
 
-    /* Images */
+    /* Media */
     img, video, iframe, svg {
         max-width: 100% !important;
-        height: auto !important;
     }
 
     iframe {
         width: 100% !important;
     }
 
-    /* Fix horizontal scrolling from oversized elements */
     pre, code {
         white-space: pre-wrap !important;
         word-break: break-all !important;
@@ -5130,15 +5171,11 @@ body:not(.light-theme) .hero-logo-img {
     }
 }
 
-/* ─── Small Mobile Devices (320px-480px) ─── */
+/* ─── Small Mobile (320px-480px) ─── */
 @media (max-width: 480px) {
 
     .app-container {
-        padding: 8px 8px !important;
-    }
-
-    .section-wrapper {
-        padding: 28px 0 !important;
+        padding: 6px !important;
     }
 
     .section-inner {
@@ -5146,28 +5183,20 @@ body:not(.light-theme) .hero-logo-img {
     }
 
     .section-header h2 {
-        font-size: 1.15rem !important;
+        font-size: 1.1rem !important;
     }
 
     .profile-name {
-        font-size: 1.2rem !important;
-    }
-
-    .profile-bio {
-        font-size: 0.82rem !important;
+        font-size: 1.15rem !important;
     }
 
     .profile-card {
-        padding: 16px 10px !important;
+        padding: 12px 8px !important;
     }
 
     .hero-logo-banner {
-        width: calc(100% + 20px) !important;
-        margin: -16px -10px 14px -10px !important;
-    }
-
-    .tool-card, .app-card, .sub-tool-card {
-        padding: 14px 12px !important;
+        width: calc(100% + 16px) !important;
+        margin: -12px -8px 12px -8px !important;
     }
 
     .phones-grid {
@@ -5178,18 +5207,12 @@ body:not(.light-theme) .hero-logo-img {
         grid-template-columns: 1fr !important;
     }
 
-    .prompt-tabs {
-        grid-template-columns: repeat(3, 1fr) !important;
-    }
-
-    .prompt-tab-btn {
-        font-size: 0.68rem !important;
-        padding: 6px 4px !important;
-    }
-
-    /* Navbar compact */
     .nav-link {
-        font-size: 0.65rem !important;
-        padding: 5px 6px !important;
+        font-size: 0.55rem !important;
+        padding: 4px 2px !important;
+    }
+
+    .nav-link i {
+        font-size: 0.6rem !important;
     }
 }
