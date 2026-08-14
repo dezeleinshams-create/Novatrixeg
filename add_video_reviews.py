@@ -142,7 +142,7 @@ reviews_html = '''
                         <iframe id="techVideoFrame" src="" style="width:100%;height:100%;border:none;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
                     <div style="padding:14px 20px;background:#090d16;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
-                        <span style="font-size:0.82rem;color:#94a3b8;"><i class="fas fa-shield-halved" style="color:#10b981;"></i> تم التشغيل بأعلى جودة عبر شريحة Novatrix EG</span>
+                        <span style="font-size:0.82rem;color:#94a3b8;"><i class="fas fa-shield-halved" style="color:#10b981;"></i> تم التشغيل بأعلى جودة عبر شريحة Codexsors</span>
                         <a id="techVideoDirectLink" href="#" target="_blank" class="primary-btn" style="padding:8px 18px;font-size:0.82rem;text-decoration:none;">
                             <i class="fab fa-youtube"></i> فتح مباشرة في تطبيق YouTube
                         </a>

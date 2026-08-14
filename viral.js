@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Novatrix EG - VIRAL GROWTH ENGINE
+   Codexsors - VIRAL GROWTH ENGINE
    Temu-Inspired Viral Mechanics System
    ========================================================================== */
 
@@ -330,9 +330,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // ==========================================
     const CONFIG = {
         SITE_URL: 'https://techs4arab.com/public/',
-        SITE_NAME: 'Novatrix EG',
+        SITE_NAME: 'Codexsors',
         SITE_DESC: 'أقوى منصة عربية للبدائل المجانية وأدوات الذكاء الاصطناعي 🚀',
-        STORAGE_PREFIX: 'novatrix_viral_',
+        STORAGE_PREFIX: 'codexsors_viral_',
         POINTS: {
             DAILY_VISIT: 5,
             SHARE: 20,
@@ -568,11 +568,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Record spin
             Storage.set('last_spin_date', today);
-            localStorage.setItem("novatrix_daily_spin_done", "1");
-            let badges = JSON.parse(localStorage.getItem("novatrix_unlocked_badges") || "[]");
+            localStorage.setItem("codexsors_daily_spin_done", "1");
+            let badges = JSON.parse(localStorage.getItem("codexsors_unlocked_badges") || "[]");
             if (!badges.includes("lucky_spinner")) {
                 badges.push("lucky_spinner");
-                localStorage.setItem("novatrix_unlocked_badges", JSON.stringify(badges));
+                localStorage.setItem("codexsors_unlocked_badges", JSON.stringify(badges));
             }
             Storage.set('spins_today', spinsToday + 1);
 
@@ -681,7 +681,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (title) title.innerHTML = `<i class="fas fa-lock"></i> افتح مكتبة الـ +1000 برومت`;
                     if (subtitle) subtitle.innerHTML = `متبقي لك ${Math.max(0, 3 - currentShares)} مشاركات لفتح المكتبة بالكامل! (تمت المشاركة ${currentShares} من 3)`;
                 } else {
-                    if (title) title.innerHTML = `<i class="fas fa-share-nodes"></i> شارك Novatrix EG`;
+                    if (title) title.innerHTML = `<i class="fas fa-share-nodes"></i> شارك Codexsors`;
                     if (subtitle) subtitle.innerHTML = `شارك الموقع مع أصحابك واكسب 20 نقطة لكل مشاركة!`;
                 }
                 overlay.classList.add('active');
@@ -1136,7 +1136,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const shareHTML = `
             <div class="share-overlay" id="shareOverlay">
                 <div class="share-modal">
-                    <h3><i class="fas fa-share-nodes"></i> شارك Novatrix EG</h3>
+                    <h3><i class="fas fa-share-nodes"></i> شارك Codexsors</h3>
                     <p class="share-subtitle">شارك الموقع مع أصحابك واكسب 20 نقطة لكل مشاركة!</p>
                     <div class="share-buttons-grid">
                         <button class="share-btn whatsapp" onclick="window.ViralEngine.shareWhatsApp()">
@@ -1183,7 +1183,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="welcome-overlay" id="welcomeOverlay">
                 <div class="welcome-modal">
                     <div class="welcome-emoji">🎉</div>
-                    <h2>أهلاً بيك في Novatrix EG!</h2>
+                    <h2>أهلاً بيك في Codexsors!</h2>
                     <p>أقوى منصة عربية للبدائل المجانية وأدوات الذكاء الاصطناعي. اكسب نقاط ومكافآت مع كل تفاعل!</p>
                     <div class="welcome-rewards">
                         <div class="welcome-reward-item">
@@ -1426,7 +1426,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // ═══ BOOKMARKS / FAVORITES SYSTEM ═══
     const BookmarksSystem = {
         getAll() {
-            return JSON.parse(localStorage.getItem('novatrix_bookmarks') || '[]');
+            return JSON.parse(localStorage.getItem('codexsors_bookmarks') || '[]');
         },
         toggle(itemId, itemName) {
             let bm = this.getAll();
@@ -1437,7 +1437,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 bm.push({ id: itemId, name: itemName, date: Date.now() });
                 showPointsToast('⭐ تمت الإضافة للمفضلة!', itemName);
             }
-            localStorage.setItem('novatrix_bookmarks', JSON.stringify(bm));
+            localStorage.setItem('codexsors_bookmarks', JSON.stringify(bm));
             this.updateAllButtons();
         },
         isBookmarked(itemId) {
@@ -1619,7 +1619,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         </div>
                         <div id="chatMessages" style="padding:12px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:8px;max-height:330px;">
                             <div style="background:rgba(37,99,235,0.1);border-radius:12px;padding:10px 12px;font-size:0.74rem;color:var(--text-secondary);line-height:1.6;">
-                                👋 مرحباً! أنا المساعد الذكي لـ Novatrix EG.<br>
+                                👋 مرحباً! أنا المساعد الذكي لـ Codexsors.<br>
                                 اكتب اسم أي <strong>تطبيق</strong>، <strong>أداة</strong>، <strong>بديل</strong>، أو أي سؤال تقني وسأبحث لك فوراً في جميع أقسام الموقع!
                             </div>
                             <div style="display:flex;flex-wrap:wrap;gap:5px;">
@@ -1699,7 +1699,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Chatbot
             ChatbotWidget.init();
 
-            console.log('🚀 Novatrix EG Viral Engine initialized!');
+            console.log('🚀 Codexsors Viral Engine initialized!');
         },
 
 

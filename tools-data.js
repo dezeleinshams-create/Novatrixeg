@@ -1,9 +1,10 @@
 /* ============================================================
-   Novatrix EG — 100 Tools Registry v2.0
+   Codexsors — 100 Tools Registry v2.0
    Complete tool definitions with render() and init()
    ============================================================ */
 
-const NOVATRIX_TOOLS = [
+const CODEXSORS_TOOLS = [
+
 
 { id:"orig-prompt", cat:"design", name:"استوديو برومبتات الصور", desc:"صناعة أوامر صور الذكاء الاصطناعي", icon:"fas fa-wand-magic-sparkles", keywords:["prompt","ai","برومبت","صور","midjourney"],
   render(){ return `
@@ -363,11 +364,11 @@ const NOVATRIX_TOOLS = [
     <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start;">
         <div style="flex:1;min-width:200px;display:flex;flex-direction:column;gap:12px;">
             <label style="font-size:0.8rem;font-weight:700;color:var(--text-secondary);">الرابط أو النص:</label>
-            <textarea id="qr_input" class="form-textarea" placeholder="مثال: https://novatrixeg.com" style="height:100px;resize:none;"></textarea>
+            <textarea id="qr_input" class="form-textarea" placeholder="مثال: https://codexsors.com" style="height:100px;resize:none;"></textarea>
             <button id="qr_gen" class="primary-btn wide-btn" style="background:linear-gradient(135deg,var(--primary),var(--accent));"><i class="fas fa-arrows-rotate"></i> توليد رمز الـ QR</button>
         </div>
         <div style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px;">
-            <img id="qr_img" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=NOVATRIXEG" alt="QR Code" style="border-radius:12px;">
+            <img id="qr_img" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=CODEXSORS" alt="QR Code" style="border-radius:12px;">
             <button id="qr_dl" class="secondary-btn" style="padding:8px 16px;font-size:0.8rem;"><i class="fas fa-download"></i> تحميل (PNG)</button>
         </div>
     </div>`; },
@@ -662,7 +663,7 @@ const NOVATRIX_TOOLS = [
 // ╚═══════════════════════════════════════════════════════════════╝
 
 { id:"dev-json", cat:"dev", name:"منسق JSON", desc:"تنسيق وفحص صحة بيانات JSON", icon:"fas fa-brackets-curly", keywords:["json","format","validate","تنسيق"],
-  render(){ return ToolsEngine.textToolUI("jf","منسق ومحقق JSON","الصق بيانات JSON لتنسيقها والتحقق من صحتها.","{ \"name\": \"Novatrix\", \"version\": 2 }","تنسيق JSON"); },
+  render(){ return ToolsEngine.textToolUI("jf","منسق ومحقق JSON","الصق بيانات JSON لتنسيقها والتحقق من صحتها.","{ \"name\": \"Codexsors\", \"version\": 2 }","تنسيق JSON"); },
   init(){ ToolsEngine.bindTextTool("jf",v=>{try{return JSON.stringify(JSON.parse(v),null,2);}catch(e){return"❌ خطأ في JSON: "+e.message;}}); }
 },
 
@@ -1079,10 +1080,10 @@ const NOVATRIX_TOOLS = [
   render(){ return `
     <div class="tool-header-row"><h3><i class="fas fa-tags text-primary"></i> مولد وسوم الميتا (Meta Tags)</h3><p>أنشئ وسوم HTML Meta Tags احترافية لتحسين ظهور موقعك في جوجل.</p></div>
     <div style="display:flex;flex-direction:column;gap:14px;">
-        ${ToolsEngine.inputField("mt_title","عنوان الصفحة (Title):","text","أدوات تقنية مجانية | Novatrix EG")}
+        ${ToolsEngine.inputField("mt_title","عنوان الصفحة (Title):","text","أدوات تقنية مجانية | Codexsors")}
         <div><label style="font-size:0.78rem;font-weight:700;color:var(--text-secondary);">وصف الصفحة (Description):</label><textarea id="mt_desc" class="form-textarea" style="height:80px;margin-top:4px;" placeholder="وصف مختصر للصفحة (150-160 حرف)"></textarea></div>
         ${ToolsEngine.inputField("mt_keys","الكلمات المفتاحية (Keywords):","text","أدوات, تقنية, مجانية, سيو")}
-        ${ToolsEngine.inputField("mt_author","اسم المؤلف:","text","Novatrix EG")}
+        ${ToolsEngine.inputField("mt_author","اسم المؤلف:","text","Codexsors")}
         <button id="mt_go" class="primary-btn" style="background:linear-gradient(135deg,var(--primary),var(--accent));"><i class="fas fa-code"></i> توليد الكود</button>
         <div id="mt_res" style="display:none;"><textarea id="mt_out" class="form-textarea" style="height:180px;font-family:monospace;font-size:0.75rem;direction:ltr;text-align:left;" readonly></textarea><button id="mt_cp" class="secondary-btn" style="margin-top:8px;"><i class="far fa-copy"></i> نسخ الكود</button></div>
     </div>`; },
@@ -1132,12 +1133,12 @@ const NOVATRIX_TOOLS = [
   render(){ return `
     <div class="tool-header-row"><h3><i class="fab fa-google text-primary"></i> معاينة نتائج جوجل (SERP Preview)</h3><p>شاهد كيف سيظهر رابط صفحتك في نتائج بحث جوجل.</p></div>
     <div style="display:flex;flex-direction:column;gap:14px;">
-        ${ToolsEngine.inputField("sp_title","عنوان الصفحة (Title):","text","أدوات تقنية مجانية | Novatrix EG")}
-        ${ToolsEngine.inputField("sp_url","رابط الصفحة:","text","https://novatrixeg.com/tools")}
+        ${ToolsEngine.inputField("sp_title","عنوان الصفحة (Title):","text","أدوات تقنية مجانية | Codexsors")}
+        ${ToolsEngine.inputField("sp_url","رابط الصفحة:","text","https://codexsors.com/tools")}
         <div><label style="font-size:0.78rem;font-weight:700;color:var(--text-secondary);">وصف الصفحة:</label><textarea id="sp_desc" class="form-textarea" style="height:70px;margin-top:4px;" placeholder="وصف مختصر (150-160 حرف)"></textarea></div>
         <div style="background:white;border-radius:12px;padding:20px;border:1px solid #dfe1e5;direction:ltr;text-align:left;">
-            <div id="sp_ptitle" style="font-size:1.1rem;color:#1a0dab;font-family:Arial;cursor:pointer;">أدوات تقنية مجانية | Novatrix EG</div>
-            <div id="sp_purl" style="font-size:0.82rem;color:#006621;margin-top:2px;font-family:Arial;">https://novatrixeg.com/tools</div>
+            <div id="sp_ptitle" style="font-size:1.1rem;color:#1a0dab;font-family:Arial;cursor:pointer;">أدوات تقنية مجانية | Codexsors</div>
+            <div id="sp_purl" style="font-size:0.82rem;color:#006621;margin-top:2px;font-family:Arial;">https://codexsors.com/tools</div>
             <div id="sp_pdesc" style="font-size:0.85rem;color:#545454;margin-top:4px;font-family:Arial;line-height:1.4;">وصف الصفحة سيظهر هنا...</div>
         </div>
         <div style="font-size:0.72rem;color:var(--text-muted);">عنوان: <span id="sp_tc" style="font-weight:700;">0</span>/60 حرف | وصف: <span id="sp_dc" style="font-weight:700;">0</span>/160 حرف</div>
@@ -1150,7 +1151,7 @@ const NOVATRIX_TOOLS = [
   render(){ return `
     <div class="tool-header-row"><h3><i class="fas fa-bullseye text-primary"></i> منشئ روابط UTM</h3><p>أضف معلمات تتبع UTM لروابطك لتتبع حملاتك التسويقية في Google Analytics.</p></div>
     <div style="display:flex;flex-direction:column;gap:14px;">
-        ${ToolsEngine.inputField("utm_url","رابط الصفحة:","text","https://novatrixeg.com")}
+        ${ToolsEngine.inputField("utm_url","رابط الصفحة:","text","https://codexsors.com")}
         ${ToolsEngine.inputField("utm_src","المصدر (utm_source):","text","facebook")}
         ${ToolsEngine.inputField("utm_med","الوسيط (utm_medium):","text","social")}
         ${ToolsEngine.inputField("utm_camp","الحملة (utm_campaign):","text","summer_sale")}
@@ -1200,7 +1201,7 @@ const NOVATRIX_TOOLS = [
   render(){ return `
     <div class="tool-header-row"><h3><i class="fas fa-user-pen text-primary"></i> مولد البايو الاحترافي</h3><p>أنشئ نص بايو جذاب لحساباتك على السوشيال ميديا.</p></div>
     <div style="display:flex;flex-direction:column;gap:14px;">
-        ${ToolsEngine.inputField("bio_name","اسمك أو اسم علامتك:","text","Novatrix EG")}
+        ${ToolsEngine.inputField("bio_name","اسمك أو اسم علامتك:","text","Codexsors")}
         ${ToolsEngine.inputField("bio_role","مجالك أو تخصصك:","text","تقنية وأمن معلومات")}
         ${ToolsEngine.selectField("bio_style","النمط:",[{val:"pro",label:"احترافي"},{val:"fun",label:"مرح وعفوي"},{val:"min",label:"مختصر"}])}
         <button id="bio_go" class="primary-btn" style="background:linear-gradient(135deg,var(--primary),var(--accent));"><i class="fas fa-wand-magic-sparkles"></i> توليد البايو</button>
@@ -1265,9 +1266,9 @@ const NOVATRIX_TOOLS = [
   render(){ return `
     <div class="tool-header-row"><h3><i class="fas fa-file-shield text-primary"></i> مولد سياسة الخصوصية</h3><p>أنشئ نص سياسة خصوصية مبسطة لموقعك.</p></div>
     <div style="display:flex;flex-direction:column;gap:14px;">
-        ${ToolsEngine.inputField("pp_name","اسم الموقع/الشركة:","text","Novatrix EG")}
-        ${ToolsEngine.inputField("pp_url","رابط الموقع:","text","https://novatrixeg.com")}
-        ${ToolsEngine.inputField("pp_email","بريد التواصل:","text","contact@novatrixeg.com")}
+        ${ToolsEngine.inputField("pp_name","اسم الموقع/الشركة:","text","Codexsors")}
+        ${ToolsEngine.inputField("pp_url","رابط الموقع:","text","https://codexsors.com")}
+        ${ToolsEngine.inputField("pp_email","بريد التواصل:","text","contact@codexsors.com")}
         <button id="pp_go" class="primary-btn" style="background:linear-gradient(135deg,var(--primary),var(--accent));"><i class="fas fa-file-lines"></i> توليد سياسة الخصوصية</button>
         <textarea id="pp_out" class="form-textarea" style="height:250px;font-size:0.8rem;" readonly></textarea>
         <button id="pp_cp" class="secondary-btn"><i class="far fa-copy"></i> نسخ</button>
@@ -2099,10 +2100,10 @@ const NOVATRIX_TOOLS = [
             ToolsEngine.awardPoints(30, "إتمام كويز الثقافة التقنية بنسبة 100%");
             
             // Unlock badge master
-            let badges = JSON.parse(localStorage.getItem("novatrix_unlocked_badges") || "[]");
+            let badges = JSON.parse(localStorage.getItem("codexsors_unlocked_badges") || "[]");
             if (!badges.includes("quiz_master")) {
                 badges.push("quiz_master");
-                localStorage.setItem("novatrix_unlocked_badges", JSON.stringify(badges));
+                localStorage.setItem("codexsors_unlocked_badges", JSON.stringify(badges));
             }
         } else if (score >= 60) {
             rIcon.textContent = "👍";
@@ -2375,7 +2376,7 @@ const NOVATRIX_TOOLS = [
       const wpm=Math.round((correctChars/5));
       document.getElementById("ts_r_wpm").textContent=wpm;
       document.getElementById("ts_r_acc").textContent=acc;
-      if(wpm>=30){document.getElementById("ts_r_icon").textContent="🏆";document.getElementById("ts_r_title").textContent="ممتاز! كاتب سريع 🎉";document.getElementById("ts_r_title").style.color="#10b981";document.getElementById("ts_r_desc").textContent="سرعة احترافية! تم منحك 20 نقطة وشارة الكاتب السريع.";ToolsEngine.awardPoints(20,"اختبار سرعة الكتابة");let b=JSON.parse(localStorage.getItem("novatrix_unlocked_badges")||"[]");if(!b.includes("fast_typer")){b.push("fast_typer");localStorage.setItem("novatrix_unlocked_badges",JSON.stringify(b));}}
+      if(wpm>=30){document.getElementById("ts_r_icon").textContent="🏆";document.getElementById("ts_r_title").textContent="ممتاز! كاتب سريع 🎉";document.getElementById("ts_r_title").style.color="#10b981";document.getElementById("ts_r_desc").textContent="سرعة احترافية! تم منحك 20 نقطة وشارة الكاتب السريع.";ToolsEngine.awardPoints(20,"اختبار سرعة الكتابة");let b=JSON.parse(localStorage.getItem("codexsors_unlocked_badges")||"[]");if(!b.includes("fast_typer")){b.push("fast_typer");localStorage.setItem("codexsors_unlocked_badges",JSON.stringify(b));}}
       else if(wpm>=15){document.getElementById("ts_r_icon").textContent="👍";document.getElementById("ts_r_title").textContent="جيد! سرعة مقبولة";document.getElementById("ts_r_title").style.color="#eab308";document.getElementById("ts_r_desc").textContent=`حققت ${wpm} WPM بدقة ${acc}%. حاول مجدداً للوصول لـ 30+ WPM.`;}
       else{document.getElementById("ts_r_icon").textContent="💪";document.getElementById("ts_r_title").textContent="تحتاج تدريب أكثر!";document.getElementById("ts_r_title").style.color="#ef4444";document.getElementById("ts_r_desc").textContent=`حققت ${wpm} WPM فقط. تدرب أكثر وحاول مجدداً!`;}
     }
@@ -2447,7 +2448,7 @@ const NOVATRIX_TOOLS = [
       const wpm=Math.round((correctChars/5));
       document.getElementById("ts_r_wpm").textContent=wpm;
       document.getElementById("ts_r_acc").textContent=acc;
-      if(wpm>=30){document.getElementById("ts_r_icon").textContent="🏆";document.getElementById("ts_r_title").textContent="ممتاز! كاتب سريع 🎉";document.getElementById("ts_r_title").style.color="#10b981";document.getElementById("ts_r_desc").textContent="سرعة احترافية! تم منحك 20 نقطة وشارة الكاتب السريع.";ToolsEngine.awardPoints(20,"اختبار سرعة الكتابة");let b=JSON.parse(localStorage.getItem("novatrix_unlocked_badges")||"[]");if(!b.includes("fast_typer")){b.push("fast_typer");localStorage.setItem("novatrix_unlocked_badges",JSON.stringify(b));}}
+      if(wpm>=30){document.getElementById("ts_r_icon").textContent="🏆";document.getElementById("ts_r_title").textContent="ممتاز! كاتب سريع 🎉";document.getElementById("ts_r_title").style.color="#10b981";document.getElementById("ts_r_desc").textContent="سرعة احترافية! تم منحك 20 نقطة وشارة الكاتب السريع.";ToolsEngine.awardPoints(20,"اختبار سرعة الكتابة");let b=JSON.parse(localStorage.getItem("codexsors_unlocked_badges")||"[]");if(!b.includes("fast_typer")){b.push("fast_typer");localStorage.setItem("codexsors_unlocked_badges",JSON.stringify(b));}}
       else if(wpm>=15){document.getElementById("ts_r_icon").textContent="👍";document.getElementById("ts_r_title").textContent="جيد! سرعة مقبولة";document.getElementById("ts_r_title").style.color="#eab308";document.getElementById("ts_r_desc").textContent=`حققت ${wpm} WPM بدقة ${acc}%. حاول مجدداً للوصول لـ 30+ WPM.`;}
       else{document.getElementById("ts_r_icon").textContent="💪";document.getElementById("ts_r_title").textContent="تحتاج تدريب أكثر!";document.getElementById("ts_r_title").style.color="#ef4444";document.getElementById("ts_r_desc").textContent=`حققت ${wpm} WPM فقط. تدرب أكثر وحاول مجدداً!`;}
     }
@@ -2471,13 +2472,13 @@ const NOVATRIX_TOOLS = [
         <div id="sg_form_article" class="sg-form-group" style="display:none;flex-direction:column;gap:10px;">
             ${ToolsEngine.inputField("sg_art_title","عنوان المقال:","text","كيفية حماية تطبيق الواتساب")}
             ${ToolsEngine.inputField("sg_art_author","اسم الكاتب:","text","عبدالله")}
-            ${ToolsEngine.inputField("sg_art_pub","الناشر (الموقع):","text","Novatrix EG")}
-            ${ToolsEngine.inputField("sg_art_url","رابط المقال:","url","https://novatrixeg.com/blog/protect-whatsapp.html")}
+            ${ToolsEngine.inputField("sg_art_pub","الناشر (الموقع):","text","Codexsors")}
+            ${ToolsEngine.inputField("sg_art_url","رابط المقال:","url","https://codexsors.com/blog/protect-whatsapp.html")}
         </div>
         
         <div id="sg_form_website" class="sg-form-group" style="display:none;flex-direction:column;gap:10px;">
-            ${ToolsEngine.inputField("sg_web_name","اسم الموقع:","text","Novatrix EG")}
-            ${ToolsEngine.inputField("sg_web_url","رابط الموقع:","url","https://novatrixeg.com")}
+            ${ToolsEngine.inputField("sg_web_name","اسم الموقع:","text","Codexsors")}
+            ${ToolsEngine.inputField("sg_web_url","رابط الموقع:","url","https://codexsors.com")}
         </div>
         
         <button id="sg_go" class="primary-btn" style="background:linear-gradient(135deg,var(--primary),var(--accent));"><i class="fas fa-magic"></i> توليد الكود</button>
@@ -2519,7 +2520,7 @@ const NOVATRIX_TOOLS = [
     <div style="display:flex;flex-direction:column;gap:14px;">
         <textarea id="cs_text" class="form-textarea" placeholder="اكتب اقتباسك أو الصق الكود البرمجي هنا..." style="height:140px;font-family:monospace;font-size:0.82rem;resize:vertical;">// مثال لكتابة كود برمجي
 function greet(user) {
-    console.log(\`مرحباً بك يا \${user} في Novatrix EG!\`);
+    console.log(\`مرحباً بك يا \${user} في Codexsors!\`);
 }</textarea>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
             ${ToolsEngine.selectField("cs_bg","خلفية التدرج:",[{val:"sunset",label:"Sunset (برتقالي وأرجواني)"},{val:"cyber",label:"Cyberpunk (فوشيا وأزرق)"},{val:"emerald",label:"Emerald (أخضر زمردي)"},{val:"darkness",label:"Dark Glass (زجاجي داكن)"}])}
@@ -2569,7 +2570,7 @@ function greet(user) {
         ctx.fillStyle="rgba(255,255,255,0.4)";
         ctx.font="bold 12px 'Outfit', 'Cairo', sans-serif";
         ctx.textAlign="right";
-        ctx.fillText("Novatrix EG", w-pad-25, btnY+4);
+        ctx.fillText("Codexsors", w-pad-25, btnY+4);
         
         ctx.fillStyle="#e2e8f0";
         ctx.font = font.value + "px 'Outfit', 'Courier New', monospace";
@@ -2753,7 +2754,7 @@ function greet(user) {
     dl.onclick=()=>{
         const a=document.createElement("a");
         a.href=canvas.toDataURL("image/png");
-        a.download="novatrix-meme.png";
+        a.download="codexsors-meme.png";
         a.click();
         ToolsEngine.awardPoints(25,"صنع صورة ميمز");
         ToolsEngine.showToast("تم تنزيل الميم وحصلت على +25 نقطة!");
@@ -3345,3 +3346,5 @@ function greet(user) {
 },
 
 ]; // END OF TOOLS ARRAY
+
+const NOVATRIX_TOOLS = CODEXSORS_TOOLS;

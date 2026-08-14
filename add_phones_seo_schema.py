@@ -19,7 +19,7 @@ schema_data = {
                     "item": {
                         "@type": "Product",
                         "name": "Samsung Galaxy S25 Ultra",
-                        "image": "https://dezeleinshams-create.github.io/NEXURAEG/assets/phones/samsung-s25-angle.png",
+                        "image": "https://dezeleinshams-create.github.io/CODEXSORS/assets/phones/samsung-s25-angle.png",
                         "description": "مراجعة مواصفات وسعر هاتف سامسونج جالاكسي S25 الترا في مصر مع معالج Snapdragon 8 Elite وكاميرا 200 ميجابكسل",
                         "brand": {"@type": "Brand", "name": "Samsung"},
                         "offers": {
@@ -42,7 +42,7 @@ schema_data = {
                     "item": {
                         "@type": "Product",
                         "name": "iPhone 16 Pro Max",
-                        "image": "https://dezeleinshams-create.github.io/NEXURAEG/assets/phones/iphone-16.png",
+                        "image": "https://dezeleinshams-create.github.io/CODEXSORS/assets/phones/iphone-16.png",
                         "description": "سعر ومواصفات آيفون 16 برو ماكس في مصر ومراجعة الأداء والكاميرات مع شريحة A18 Pro",
                         "brand": {"@type": "Brand", "name": "Apple"},
                         "offers": {
@@ -64,7 +64,7 @@ schema_data = {
                     "item": {
                         "@type": "Product",
                         "name": "Samsung Galaxy A56 5G",
-                        "image": "https://dezeleinshams-create.github.io/NEXURAEG/assets/phones/samsung-a56.png",
+                        "image": "https://dezeleinshams-create.github.io/CODEXSORS/assets/phones/samsung-a56.png",
                         "description": "سعر ومواصفات سامسونج A56 / A55 في مصر ومراجعة الفئة المتوسطة الأكثر مبيعاً",
                         "brand": {"@type": "Brand", "name": "Samsung"},
                         "offers": {

@@ -27,7 +27,7 @@ yt_redirect_modal = '''</div>
                     <div style="font-size:1.1rem;font-weight:700;color:#e2e8f0;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:8px;">
                         <i class="fab fa-youtube" style="color:#FF0000;font-size:1.4rem;"></i> جاري تحويلك إلى يوتيوب خلال <span id="ytRedirectTimer" style="color:#3b82f6;font-weight:900;font-size:1.3rem;">3</span> ثوانٍ...
                     </div>
-                    <p style="font-size:0.82rem;color:#94a3b8;margin-bottom:20px;">شكراً لزيارتك منصة Novatrix EG — تم تحضير رابط المراجعة بنجاح</p>
+                    <p style="font-size:0.82rem;color:#94a3b8;margin-bottom:20px;">شكراً لزيارتك منصة Codexsors — تم تحضير رابط المراجعة بنجاح</p>
 
                     <!-- Ad Unit Inside Redirect Screen -->
                     <div style="background:#1e293b;border:1px solid rgba(245,158,11,0.4);border-radius:14px;padding:16px;margin-bottom:20px;text-align:center;">

@@ -387,14 +387,14 @@ function performAlternativeLookup() {
     }
 
     // Increment alternative finder searches counter
-    fetch("https://countapi.mileshilliard.com/api/v1/hit/novatrixeg_alternatives").catch(err => console.warn(err));
-    let altCount = parseInt(localStorage.getItem("novatrix_alt_lookup_count") || "0") + 1;
-    localStorage.setItem("novatrix_alt_lookup_count", altCount);
+    fetch("https://countapi.mileshilliard.com/api/v1/hit/codexsors_alternatives").catch(err => console.warn(err));
+    let altCount = parseInt(localStorage.getItem("codexsors_alt_lookup_count") || "0") + 1;
+    localStorage.setItem("codexsors_alt_lookup_count", altCount);
     if (altCount >= 3) {
-        let badges = JSON.parse(localStorage.getItem("novatrix_unlocked_badges") || "[]");
+        let badges = JSON.parse(localStorage.getItem("codexsors_unlocked_badges") || "[]");
         if (!badges.includes("alternative_hunter")) {
             badges.push("alternative_hunter");
-            localStorage.setItem("novatrix_unlocked_badges", JSON.stringify(badges));
+            localStorage.setItem("codexsors_unlocked_badges", JSON.stringify(badges));
         }
     }
     if (window.ViralEngine) window.ViralEngine.onToolUsed();
@@ -483,11 +483,11 @@ function loadSecurityQuestion() {
 
 function showSecurityResults() {
     // Increment security check completions counter
-    fetch("https://countapi.mileshilliard.com/api/v1/hit/novatrixeg_security").catch(err => console.warn(err));
-    let badges = JSON.parse(localStorage.getItem("novatrix_unlocked_badges") || "[]");
+    fetch("https://countapi.mileshilliard.com/api/v1/hit/codexsors_security").catch(err => console.warn(err));
+    let badges = JSON.parse(localStorage.getItem("codexsors_unlocked_badges") || "[]");
     if (!badges.includes("security_inspector")) {
         badges.push("security_inspector");
-        localStorage.setItem("novatrix_unlocked_badges", JSON.stringify(badges));
+        localStorage.setItem("codexsors_unlocked_badges", JSON.stringify(badges));
     }
     if (window.ViralEngine) window.ViralEngine.onToolUsed();
 
@@ -567,13 +567,13 @@ function loadPrompts(tabId) {
             
             navigator.clipboard.writeText(textContent).then(() => {
                 showToast("تم نسخ أمر الذكاء الاصطناعي بنجاح! جاهز للصق.");
-                let pCount = parseInt(localStorage.getItem("novatrix_copy_prompt_count") || "0") + 1;
-                localStorage.setItem("novatrix_copy_prompt_count", pCount);
+                let pCount = parseInt(localStorage.getItem("codexsors_copy_prompt_count") || "0") + 1;
+                localStorage.setItem("codexsors_copy_prompt_count", pCount);
                 if (pCount >= 3) {
-                    let badges = JSON.parse(localStorage.getItem("novatrix_unlocked_badges") || "[]");
+                    let badges = JSON.parse(localStorage.getItem("codexsors_unlocked_badges") || "[]");
                     if (!badges.includes("prompt_writer")) {
                         badges.push("prompt_writer");
-                        localStorage.setItem("novatrix_unlocked_badges", JSON.stringify(badges));
+                        localStorage.setItem("codexsors_unlocked_badges", JSON.stringify(badges));
                     }
                 }
                 if (window.ViralEngine) window.ViralEngine.onPromptCopied();
@@ -632,7 +632,7 @@ function handleUserMessageSubmit() {
     if (text.length === 0) return;
     
     // Increment chatbot interactions counter
-    fetch("https://countapi.mileshilliard.com/api/v1/hit/novatrixeg_chatbot").catch(err => console.warn(err));
+    fetch("https://countapi.mileshilliard.com/api/v1/hit/codexsors_chatbot").catch(err => console.warn(err));
     if (window.ViralEngine) window.ViralEngine.onToolUsed();
     
     appendChatMessage("user", text);
@@ -1203,16 +1203,16 @@ window.addEventListener("DOMContentLoaded", () => {
 
         // Track Visits Analytics (if not localhost)
         if (window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1") {
-            fetch("https://countapi.mileshilliard.com/api/v1/hit/novatrixeg_visits").catch(err => console.warn(err));
+            fetch("https://countapi.mileshilliard.com/api/v1/hit/codexsors_visits").catch(err => console.warn(err));
         }
 
         // Track App Download Analytics when final download button is clicked
         const finalDownloadBtn = document.getElementById("finalDownloadBtn");
         if (finalDownloadBtn) {
             finalDownloadBtn.addEventListener("click", () => {
-                fetch("https://countapi.mileshilliard.com/api/v1/hit/novatrixeg_downloads").catch(err => console.warn(err));
+                fetch("https://countapi.mileshilliard.com/api/v1/hit/codexsors_downloads").catch(err => console.warn(err));
                 if (currentModalAppId) {
-                    fetch(`https://countapi.mileshilliard.com/api/v1/hit/novatrixeg_app_${currentModalAppId}`).catch(err => console.warn(err));
+                    fetch(`https://countapi.mileshilliard.com/api/v1/hit/codexsors_app_${currentModalAppId}`).catch(err => console.warn(err));
                 }
             });
         }
@@ -1245,7 +1245,7 @@ function submitPhoneSponsor(e) {
         "\nالبريد: " + email +
         "\nواتساب: " + whatsapp
     );
-    window.open("mailto:contact@novatrixeg.com?subject=طلب+إعلان+موبايل&body=" + body, "_blank");
+    window.open("mailto:contact@codexsors.com?subject=طلب+إعلان+موبايل&body=" + body, "_blank");
     document.getElementById("phoneSponsorModal").style.display = "none";
     showToast("تم إرسال طلبك! سيتواصل معك فريقنا خلال 24 ساعة.");
 }

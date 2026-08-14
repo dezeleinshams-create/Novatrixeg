@@ -4,7 +4,7 @@
     <script>if(localStorage.getItem('theme') !== 'dark') document.documentElement.classList.add('light-theme');</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محرر القوالب البصري المباشر — عدّل القالب أونلاين مجاناً | Novatrix EG</title>
+    <title>محرر القوالب البصري المباشر — عدّل القالب أونلاين مجاناً | Codexsors</title>
     <meta name="description" content="محرر قوالب مواقع بصري مجاني — عدّل النصوص والألوان والخطوط مباشرة في المتصفح وحمّل موقعك كـ ZIP جاهز للنشر.">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -12,8 +12,8 @@
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "محرر القوالب البصري — Novatrix EG",
-      "url": "https://dezeleinshams-create.github.io/NEXURAEG/template-editor.html",
+      "name": "محرر القوالب البصري — Codexsors",
+      "url": "https://dezeleinshams-create.github.io/CODEXSORS/template-editor.html",
       "applicationCategory": "DesignApplication",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EGP" }
     }
@@ -380,7 +380,7 @@
     <div class="top-bar">
         <div style="display:flex;align-items:center;gap:16px">
             <div class="top-bar-logo" onclick="location.href='index.html'">
-                <img id="topLogo" src="assets/logo-light.svg" alt="Novatrix EG">
+                <img id="topLogo" src="assets/logo-light.svg" alt="Codexsors">
             </div>
             <div class="top-bar-nav">
                 <a href="index.html"><i class="fas fa-home"></i> الرئيسية</a>
@@ -495,7 +495,7 @@
     const indicator = document.getElementById('editIndicator');
 
     // Fill picker
-    NOVATRIX_TEMPLATES.forEach(t => {
+    CODEXSORS_TEMPLATES.forEach(t => {
         const o = document.createElement('option');
         o.value = t.id; o.textContent = t.title;
         picker.appendChild(o);
@@ -510,7 +510,7 @@
     document.getElementById('sidebarToggle').onclick = () => document.getElementById('sidebar').classList.toggle('hidden');
 
     async function loadTpl(id) {
-        tpl = NOVATRIX_TEMPLATES.find(x => x.id === id);
+        tpl = CODEXSORS_TEMPLATES.find(x => x.id === id);
         if (!tpl) return;
         pageIdx = 0; editing = false; mods = {}; originals = {};
 
@@ -714,7 +714,7 @@
                 folder.file(page, html);
             }
 
-            folder.file('README.txt', `=== ${tpl.title} ===\nتم تخصيصه عبر محرر Novatrix EG البصري\nhttps://dezeleinshams-create.github.io/NEXURAEG/\n\n1. افتح index.html في المتصفح\n2. عدّل الملفات بأي محرر نصوص\n3. ارفع على Netlify أو Vercel أو GitHub Pages\n\n© 2026 Novatrix EG`);
+            folder.file('README.txt', `=== ${tpl.title} ===\nتم تخصيصه عبر محرر Codexsors البصري\nhttps://dezeleinshams-create.github.io/CODEXSORS/\n\n1. افتح index.html في المتصفح\n2. عدّل الملفات بأي محرر نصوص\n3. ارفع على Netlify أو Vercel أو GitHub Pages\n\n© 2026 Codexsors`);
 
             const blob = await zip.generateAsync({type:'blob'});
             const a = document.createElement('a');

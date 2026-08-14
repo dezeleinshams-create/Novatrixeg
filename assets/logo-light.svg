@@ -51,7 +51,7 @@
   <polygon points="90,5 80,30 100,30" fill="white" opacity="0.55"/>
   <polygon points="90,5 135,35 170,80 135,125 90,155 45,125 10,80 45,35"
            fill="none" stroke="#1d4ed8" stroke-width="0.8" opacity="0.35"/>
-  <path d="M52,115 L52,45 L128,115 L128,45"
+  <path d="M125,55 C105,40 70,40 55,60 C40,80 40,100 55,120 C70,140 105,140 125,125"
         clip-path="url(#lclip)"
         fill="none" stroke="white" stroke-width="5.5"
         stroke-linecap="round" stroke-linejoin="round" opacity="0.96"/>
@@ -70,7 +70,7 @@
 <text x="196" y="103"
       font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif"
       font-weight="800" font-size="70" letter-spacing="-1">
-  <tspan fill="url(#lShimmer)">Novatrix</tspan><tspan class="eg-text-l" fill="#1d4ed8">EG</tspan>
+  <tspan fill="url(#lShimmer)">Codex</tspan><tspan class="eg-text-l" fill="#1d4ed8">sors</tspan>
 </text>
 
 <!-- Separator line -->
@@ -80,7 +80,7 @@
 <text x="197" y="134"
       font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif"
       font-weight="400" font-size="18" letter-spacing="0.5" fill="#64748b">
-  www.novatrixeg.com
+  www.codexsors.com
 </text>
 
 </svg>

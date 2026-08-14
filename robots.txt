@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin-portal.html
 Disallow: /dashboard.html
 
-Sitemap: https://novatrixeg.com/sitemap.xml
+Sitemap: https://codexsors.com/sitemap.xml

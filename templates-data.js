@@ -1,9 +1,10 @@
 /* ============================================================
-   Novatrix EG — Global Web Templates Registry v2.0
+   Codexsors — Global Web Templates Registry v2.0
    Professional Multi-Page HTML5/CSS3 Responsive Templates
    ============================================================ */
 
-const NOVATRIX_TEMPLATES = [
+const CODEXSORS_TEMPLATES = [
+
     {
         id: "tpl-tech-agency",
         title: "قالب شركة تقنية ووكالة تسويق رقمي (5 صفحات)",
@@ -53,3 +54,5 @@ const NOVATRIX_TEMPLATES = [
         folderName: "ecommerce-store"
     }
 ];
+
+const NOVATRIX_TEMPLATES = CODEXSORS_TEMPLATES;

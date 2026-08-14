@@ -8,7 +8,7 @@ import threading
 PORT = 8080
 DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 
-class NovatrixAutoServer(http.server.SimpleHTTPRequestHandler):
+class CodexsorsAutoServer(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=DIRECTORY, **kwargs)
 
@@ -70,11 +70,11 @@ class NovatrixAutoServer(http.server.SimpleHTTPRequestHandler):
 
 if __name__ == '__main__':
     # Ensure standard simple request handler runs properly
-    handler = NovatrixAutoServer
+    handler = CodexsorsAutoServer
     socketserver.TCPServer.allow_reuse_address = True
     with socketserver.TCPServer(("", PORT), handler) as httpd:
-        print(f"[Novatrix] Auto-Server is running on: http://localhost:{PORT}")
-        print("[Novatrix] Open dashboard.html and save edits to auto-save locally and push to GitHub.")
+        print(f"[Codexsors] Auto-Server is running on: http://localhost:{PORT}")
+        print("[Codexsors] Open dashboard.html and save edits to auto-save locally and push to GitHub.")
         try:
             httpd.serve_forever()
         except KeyboardInterrupt:

@@ -1,4 +1,4 @@
-﻿# دليل السيو (SEO) وكتابة الـ 100 مقالة لمنصة Novatrix EG
+﻿# دليل السيو (SEO) وكتابة الـ 100 مقالة لمنصة Codexsors
 
 هذا الدليل يشرح لك خطوة بخطوة كيف تقوم بإنشاء ونشر المقالات الجديدة حتى تظهر في النتائج الأولى على محرك بحث جوجل (Google).
 
@@ -40,7 +40,7 @@
 بمجرد نشر المقال الجديد، أضف رابط المقال في ملف `sitemap.xml` لتعريف عناكب البحث به فوراً:
 ```xml
 <url>
-   <loc>https://novatrixeg.com/blog/اسم-الملف.html</loc>
+   <loc>https://codexsors.com/blog/اسم-الملف.html</loc>
    <lastmod>2026-07-03</lastmod>
    <changefreq>monthly</changefreq>
    <priority>0.7</priority>

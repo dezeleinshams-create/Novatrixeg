@@ -5,16 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="index, follow">
-    <title>قوالب مواقع ويب مجانية احترافية جاهزة للتحميل 2026 | Novatrix EG</title>
+    <title>قوالب مواقع ويب مجانية احترافية جاهزة للتحميل 2026 | Codexsors</title>
     <meta name="description" content="تحميل قوالب مواقع ويب جاهزة مجاناً 100%، قوالب هبوط HTML5/CSS3 عصرية متجاوبة للشركات، العيادات، البورتفوليو، والمتاجر الإلكترونية مع المعاينة المباشرة.">
     <meta name="keywords" content="قوالب مواقع مجانية, قوالب HTML جاهزة, قالب موقع عيادة, قالب بورتفوليو, قوالب هبوط مجانية, landing page templates, free html templates">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="قوالب مواقع ويب مجانية احترافية جاهزة للتحميل 2026 | Novatrix EG">
+    <meta property="og:title" content="قوالب مواقع ويب مجانية احترافية جاهزة للتحميل 2026 | Codexsors">
     <meta property="og:description" content="تحميل قوالب مواقع ويب جاهزة مجاناً 100%، قوالب هبوط HTML5/CSS3 عصرية متجاوبة مع المعاينة المباشرة.">
-    <meta property="og:url" content="https://dezeleinshams-create.github.io/NEXURAEG/templates.html">
-    <meta property="og:image" content="https://dezeleinshams-create.github.io/NEXURAEG/assets/logo-light.svg">
+    <meta property="og:url" content="https://dezeleinshams-create.github.io/CODEXSORS/templates.html">
+    <meta property="og:image" content="https://dezeleinshams-create.github.io/CODEXSORS/assets/logo-light.svg">
 
     <!-- Stylesheets -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -29,11 +29,11 @@
       "@type": "CollectionPage",
       "name": "قوالب مواقع ويب مجانية احترافية 2026",
       "description": "مكتبة قوالب مواقع ويب مجانية جاهزة للتحميل والمعاينة المباشرة.",
-      "url": "https://dezeleinshams-create.github.io/NEXURAEG/templates.html",
+      "url": "https://dezeleinshams-create.github.io/CODEXSORS/templates.html",
       "publisher": {
         "@type": "Organization",
-        "name": "Novatrix EG",
-        "logo": "https://dezeleinshams-create.github.io/NEXURAEG/assets/logo-light.svg"
+        "name": "Codexsors",
+        "logo": "https://dezeleinshams-create.github.io/CODEXSORS/assets/logo-light.svg"
       }
     }
     </script>
@@ -205,7 +205,7 @@
         <!-- Sticky Main Navbar -->
         <nav class="main-navbar fade-in">
             <div class="nav-logo" onclick="window.location.href='index.html'">
-                <img src="assets/logo-light.svg" alt="Novatrix EG Logo" class="logo-svg">
+                <img src="assets/logo-light.svg" alt="Codexsors Logo" class="logo-svg">
             </div>
 
             <!-- NAVBAR CENTER: SEARCH BOX + THEME TOGGLE -->
@@ -299,7 +299,7 @@
         <!-- FOOTER -->
         <footer class="main-footer fade-in-delayed">
             <div class="footer-info">
-                <p>&copy; 2026 منصة Novatrix EG — جميع الحقوق محفوظة.</p>
+                <p>&copy; 2026 منصة Codexsors — جميع الحقوق محفوظة.</p>
             </div>
         </footer>
 
@@ -344,7 +344,7 @@
             if (!grid) return;
             const query = searchInput ? searchInput.value.trim().toLowerCase() : "";
 
-            let filtered = activeCat === "all" ? NOVATRIX_TEMPLATES : NOVATRIX_TEMPLATES.filter(t => t.cat === activeCat);
+            let filtered = activeCat === "all" ? CODEXSORS_TEMPLATES : CODEXSORS_TEMPLATES.filter(t => t.cat === activeCat);
             if (query) {
                 filtered = filtered.filter(t => t.title.toLowerCase().includes(query) || t.desc.toLowerCase().includes(query) || t.tags.some(tag => tag.toLowerCase().includes(query)));
             }
@@ -406,7 +406,7 @@
         }
 
         function openDemoModal(id) {
-            const t = NOVATRIX_TEMPLATES.find(x => x.id === id);
+            const t = CODEXSORS_TEMPLATES.find(x => x.id === id);
             if (!t) return;
             activeTemplate = t;
             demoTitle.textContent = t.title;
@@ -432,7 +432,7 @@
 
         /* ========== ZIP DOWNLOAD ENGINE ========== */
         async function downloadTemplateZip(id, btnEl) {
-            const t = NOVATRIX_TEMPLATES.find(x => x.id === id);
+            const t = CODEXSORS_TEMPLATES.find(x => x.id === id);
             if (!t || !t.pages || !t.folderName) return;
 
             // Show loading state
@@ -465,8 +465,8 @@
                 // Add README with instructions
                 folder.file('README.txt',
 `=== ${t.title} ===
-قالب من Novatrix EG — مجاني 100%
-https://dezeleinshams-create.github.io/NEXURAEG/
+قالب من Codexsors — مجاني 100%
+https://dezeleinshams-create.github.io/CODEXSORS/
 
 === كيفية الاستخدام ===
 1. افتح index.html في المتصفح لمعاينة الموقع.
@@ -478,7 +478,7 @@ https://dezeleinshams-create.github.io/NEXURAEG/
 === الملفات المتاحة ===
 ${filesToFetch.map(f => '- ' + f).join('\n')}
 
-© 2026 Novatrix EG — جميع الحقوق محفوظة.
+© 2026 Codexsors — جميع الحقوق محفوظة.
 `);
 
                 const blob = await zip.generateAsync({ type: 'blob' });

@@ -212,8 +212,8 @@ function initAuthConfig() {
     
     let storedRepo = localStorage.getItem("git_repo");
     if (!storedRepo || storedRepo === "abdallah-tech") {
-        storedRepo = "NEXURAEG";
-        localStorage.setItem("git_repo", "NEXURAEG");
+        storedRepo = "CODEXSORS";
+        localStorage.setItem("git_repo", "CODEXSORS");
     }
     gitConfig.repo = storedRepo;
     gitConfig.branch = localStorage.getItem("git_branch") || "main";
@@ -772,7 +772,7 @@ async function fetchAnalyticsData() {
     if (statSecurity) statSecurity.textContent = "...";
     
     const baseApiUrl = "https://countapi.mileshilliard.com/api/v1/get";
-    const keys = ["novatrixeg_visits", "novatrixeg_downloads", "novatrixeg_chatbot", "novatrixeg_alternatives", "novatrixeg_security"];
+    const keys = ["codexsors_visits", "codexsors_downloads", "codexsors_chatbot", "codexsors_alternatives", "codexsors_security"];
     
     // 1. Fetch main stats
     const statsPromises = keys.map(key => 
@@ -800,7 +800,7 @@ async function fetchAnalyticsData() {
     // 2. Fetch specific app downloads
     if (localDatabase.apps && localDatabase.apps.length > 0) {
         const appPromises = localDatabase.apps.map(app => 
-            fetch(`${baseApiUrl}/novatrixeg_app_${app.id}`)
+            fetch(`${baseApiUrl}/codexsors_app_${app.id}`)
                 .then(res => {
                     if (!res.ok) return { value: 0 };
                     return res.json();
@@ -912,7 +912,7 @@ function initAnalyticsControls() {
             
             resetVisitsBtn.disabled = true;
             try {
-                const res = await fetch(`${setApiUrl}/novatrixeg_visits?value=0`);
+                const res = await fetch(`${setApiUrl}/codexsors_visits?value=0`);
                 if (res.ok) {
                     showToast("تم تصفير عداد الزيارات بنجاح!");
                     fetchAnalyticsData();
@@ -934,16 +934,16 @@ function initAnalyticsControls() {
             resetDownloadsBtn.disabled = true;
             
             const keysToReset = [
-                "novatrixeg_downloads",
-                "novatrixeg_chatbot",
-                "novatrixeg_alternatives",
-                "novatrixeg_security"
+                "codexsors_downloads",
+                "codexsors_chatbot",
+                "codexsors_alternatives",
+                "codexsors_security"
             ];
             
             // Also reset app download stats in localDatabase.apps
             if (localDatabase.apps) {
                 localDatabase.apps.forEach(app => {
-                    keysToReset.push(`novatrixeg_app_${app.id}`);
+                    keysToReset.push(`codexsors_app_${app.id}`);
                 });
             }
             

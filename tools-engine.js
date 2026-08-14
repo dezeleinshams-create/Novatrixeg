@@ -1,5 +1,5 @@
 /* ============================================================
-   Novatrix EG — Tools Engine v2.0
+   Codexsors — Tools Engine v2.0
    Dynamic Tool Loader, Category Filter, Search
    ============================================================ */
 
