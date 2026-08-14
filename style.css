@@ -4859,3 +4859,337 @@ body:not(.light-theme) .hero-logo-img {
     box-shadow: 0 4px 12px rgba(245,158,11,0.4);
     z-index: 3;
 }
+
+
+/* ==========================================================================
+   CODEXSORS — COMPREHENSIVE MOBILE RESPONSIVENESS FIX
+   Ensures pixel-perfect display on all mobile devices (320px–768px)
+   ========================================================================== */
+
+/* ─── Global Mobile Overrides ─── */
+@media (max-width: 768px) {
+
+    /* Prevent horizontal overflow on all elements */
+    html, body {
+        overflow-x: hidden !important;
+        width: 100% !important;
+    }
+
+    * {
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* Main Container */
+    .app-container {
+        width: 100% !important;
+        padding: 12px 10px !important;
+    }
+
+    /* Section Wrapper */
+    .section-wrapper {
+        padding: 40px 0 !important;
+    }
+
+    .section-inner {
+        padding: 0 12px !important;
+    }
+
+    /* Section Header */
+    .section-header {
+        margin-bottom: 24px !important;
+    }
+
+    .section-header h2 {
+        font-size: 1.35rem !important;
+    }
+
+    .section-header p {
+        font-size: 0.85rem !important;
+    }
+
+    /* Profile Card */
+    .profile-card {
+        padding: 20px 14px !important;
+        margin: 10px auto 16px auto !important;
+    }
+
+    .hero-logo-banner {
+        width: calc(100% + 28px) !important;
+        margin: -20px -14px 18px -14px !important;
+        padding: 16px 0 !important;
+    }
+
+    .profile-name {
+        font-size: 1.4rem !important;
+        flex-wrap: wrap;
+        gap: 6px !important;
+    }
+
+    .profile-bio {
+        font-size: 0.88rem !important;
+        margin-bottom: 16px !important;
+    }
+
+    /* Social Ribbon */
+    .social-ribbon {
+        justify-content: center !important;
+        gap: 6px !important;
+    }
+
+    .social-icon {
+        padding: 8px 12px !important;
+        font-size: 0.72rem !important;
+    }
+
+    .social-icon i {
+        font-size: 1rem !important;
+    }
+
+    .social-icon span {
+        display: none;
+    }
+
+    /* Tool Cards */
+    .tool-card, .app-card, .contact-card,
+    .profit-card-header, .campaign-item-card, .sub-tool-card {
+        padding: 18px 14px !important;
+    }
+
+    .tool-header h3 {
+        font-size: 1rem !important;
+    }
+
+    .tool-desc {
+        font-size: 0.82rem !important;
+    }
+
+    /* Interactive Grid */
+    .interactive-tools-grid {
+        gap: 16px !important;
+    }
+
+    /* Buttons */
+    .primary-btn {
+        padding: 10px 18px !important;
+        font-size: 0.82rem !important;
+    }
+
+    /* Input Fields */
+    .finder-input-container,
+    .chat-input-wrapper {
+        flex-direction: column !important;
+        gap: 8px !important;
+    }
+
+    .finder-input-container input,
+    .chat-input-wrapper input {
+        font-size: 0.85rem !important;
+        padding: 11px 16px !important;
+    }
+
+    /* App Grid */
+    .apps-grid {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
+
+    .app-card {
+        padding: 16px 14px !important;
+    }
+
+    /* Blog Cards Grid */
+    .blog-cards-grid,
+    .blog-grid,
+    .tools-grid-half {
+        grid-template-columns: 1fr !important;
+        gap: 14px !important;
+    }
+
+    /* Contact Form */
+    .form-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .contact-card {
+        padding: 20px 14px !important;
+    }
+
+    /* Prompt Tabs */
+    .prompt-tabs {
+        grid-template-columns: 1fr !important;
+        gap: 4px !important;
+    }
+
+    .prompt-tab-btn {
+        font-size: 0.75rem !important;
+        padding: 7px !important;
+    }
+
+    /* Security Answers */
+    .security-answers {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Alt Option Cards */
+    .alt-option-card {
+        flex-direction: column !important;
+        text-align: center;
+        gap: 8px !important;
+    }
+
+    /* Footer */
+    .app-footer {
+        padding: 20px 12px !important;
+    }
+
+    .footer-content {
+        flex-direction: column !important;
+        gap: 16px !important;
+        text-align: center !important;
+    }
+
+    .footer-links {
+        flex-direction: column !important;
+        gap: 8px !important;
+        align-items: center !important;
+    }
+
+    /* Navbar */
+    .main-navbar {
+        padding: 8px 10px !important;
+    }
+
+    .nav-brand img,
+    .nav-brand svg {
+        max-height: 28px !important;
+    }
+
+    .nav-links {
+        gap: 4px !important;
+    }
+
+    .nav-link {
+        font-size: 0.72rem !important;
+        padding: 6px 8px !important;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px !important;
+    }
+
+    .stat-card {
+        padding: 14px 10px !important;
+    }
+
+    .stat-number {
+        font-size: 1.3rem !important;
+    }
+
+    /* Feature Cards Grid */
+    .features-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Phone Cards & Reviews */
+    .phones-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px !important;
+    }
+
+    .phone-reviews-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Tables */
+    table {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        font-size: 0.8rem;
+    }
+
+    /* Images */
+    img, video, iframe, svg {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+
+    iframe {
+        width: 100% !important;
+    }
+
+    /* Fix horizontal scrolling from oversized elements */
+    pre, code {
+        white-space: pre-wrap !important;
+        word-break: break-all !important;
+        max-width: 100% !important;
+        overflow-x: auto !important;
+    }
+}
+
+/* ─── Small Mobile Devices (320px-480px) ─── */
+@media (max-width: 480px) {
+
+    .app-container {
+        padding: 8px 8px !important;
+    }
+
+    .section-wrapper {
+        padding: 28px 0 !important;
+    }
+
+    .section-inner {
+        padding: 0 8px !important;
+    }
+
+    .section-header h2 {
+        font-size: 1.15rem !important;
+    }
+
+    .profile-name {
+        font-size: 1.2rem !important;
+    }
+
+    .profile-bio {
+        font-size: 0.82rem !important;
+    }
+
+    .profile-card {
+        padding: 16px 10px !important;
+    }
+
+    .hero-logo-banner {
+        width: calc(100% + 20px) !important;
+        margin: -16px -10px 14px -10px !important;
+    }
+
+    .tool-card, .app-card, .sub-tool-card {
+        padding: 14px 12px !important;
+    }
+
+    .phones-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .prompt-tabs {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+
+    .prompt-tab-btn {
+        font-size: 0.68rem !important;
+        padding: 6px 4px !important;
+    }
+
+    /* Navbar compact */
+    .nav-link {
+        font-size: 0.65rem !important;
+        padding: 5px 6px !important;
+    }
+}
