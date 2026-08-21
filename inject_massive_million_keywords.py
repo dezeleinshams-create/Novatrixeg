@@ -1,10 +1,9 @@
-# -*- coding: utf-8 -*-
 import os
 import glob
 import re
 import json
 
-print("🚀 Building Massive Semantic Search Matrix (Thousands of High-Intent Long-tail Keywords & Entities)...")
+print("Building Massive Semantic Search Matrix (Thousands of High-Intent Long-tail Keywords & Entities)...")
 
 # 1. Huge dictionary of Arabic & English search intents, apps, alternatives, and technical queries
 COMMON_MODIFIERS = [
@@ -112,11 +111,11 @@ if 'دليل كودكس سورس لأقوى البدائل' not in idx_content:
 with open('index.html', 'w', encoding='utf-8') as f:
     f.write(idx_content)
 
-print("✅ Updated index.html with Massive Keyword Matrix & 50+ Structured Entity Items!")
+print("Updated index.html with Massive Keyword Matrix & 50+ Structured Entity Items!")
 
 # 4. Update all 100+ Blog Articles with specific high-ranking long-tail keywords
 blog_files = glob.glob('blog/*.html')
-print(f"🔄 Scanning and optimizing {len(blog_files)} blog articles...")
+print(f"Scanning and optimizing {len(blog_files)} blog articles...")
 
 count = 0
 for bfile in blog_files:
@@ -157,7 +156,7 @@ for bfile in blog_files:
     except Exception as e:
         print(f"Error on {bfile}: {e}")
 
-print(f"✅ Enhanced {count} blog articles with targeted high-intent long-tail keywords!")
+print(f"Enhanced {count} blog articles with targeted high-intent long-tail keywords!")
 
 # 5. Update tools.html, ai-sites.html, prompts.html, templates.html
 for page, extra_keys in [
@@ -178,6 +177,6 @@ for page, extra_keys in [
             
         with open(page, 'w', encoding='utf-8') as f:
             f.write(p_text)
-        print(f"✅ Enhanced {page} with specialized keyword cloud!")
+        print(f"Enhanced {page} with specialized keyword cloud!")
 
-print("\n🚀 DONE! Full Massive Multi-Entity Search Matrix Successfully Deployed across all 130+ Pages with ZERO Visual Changes!")
+print("\nDONE! Full Massive Multi-Entity Search Matrix Successfully Deployed across all 130+ Pages with ZERO Visual Changes!")
